@@ -1,0 +1,15 @@
+classifier_id,name,description
+1,_CLASSIFIER,Species
+1,BL,Sycamore
+1,CF,Sitka spruce
+2,_CLASSIFIER,Forest type
+2,L,Legacy
+2,A,Afforestation
+3,_CLASSIFIER,Soil classes
+3,mineral,Mineral
+3,peat,Peat
+4,_CLASSIFIER,Yield classes
+4,YC10,Yield class 10
+4,YC16,Yield class 16
+4,YC20,Yield class 20
+4,YC24,Yield class 24

@@ -1,0 +1,5 @@
+pandas
+numpy <1.24
+seaborn
+matplotlib
+sqlalchemy <2.0

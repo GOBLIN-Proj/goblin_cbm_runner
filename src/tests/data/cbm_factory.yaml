@@ -1,0 +1,143 @@
+Classifiers:
+  baseline:
+    clearfell: 0.02
+    thinning: 0.02
+    
+  classifier_id:
+      1: 
+        name: 
+          - _CLASSIFIER
+          - BL #Broad leaf forest 
+          - CF #Conifer Forest 
+        description:
+          - Species
+          - Sycamore
+          - Sitka spruce
+      2:
+        name:
+          - _CLASSIFIER
+          - L
+          - A
+
+        description:
+          - Forest type
+          - Legacy
+          - Afforestation
+      3:
+        name:
+          - _CLASSIFIER
+          - mineral
+          - peat
+
+        description:
+          - Soil classes
+          - Mineral
+          - Peat
+      4:
+        name: 
+          - _CLASSIFIER
+          - YC10 
+          - YC16 
+          - YC20
+          - YC24
+        description:
+          - Yield classes
+          - Yield class 10
+          - Yield class 16
+          - Yield class 20
+          - Yield class 24
+
+
+  age_classifier:
+    name:  
+      - AGEID0
+      - AGEID1
+      - AGEID2
+      - AGEID3
+      - AGEID4
+      - AGEID5
+      - AGEID6
+      - AGEID7
+      - AGEID8
+
+
+    description:
+      - Age bins
+      - Age 0
+      - Age 10
+      - Age 20
+      - Age 30
+      - Age 40
+      - Age 50
+      - Age 60
+      - Age 70
+      - Age 80
+  
+  age_classes:
+    max_age: 80
+    age_interval: 10
+
+  #Yield class and distribution sourced from NIR
+  yield_class:
+    CF:
+      - YC10: 0.37
+      - YC16: 0.26
+      - YC20: 0.20
+      - YC24: 0.17
+    BL:
+      - YC10: 1 #FGB in NIR, related to sycamore 
+    
+    MF:
+      - YC10: 1
+
+  #disturbances 
+  distubance_type:
+    id:
+      - DISTID1
+      - DISTID2
+      - DISTID3
+      - DISTID4 
+    name:
+      - Clearcut
+      - Thinning
+      - Fire
+      - Afforestation
+
+  historical_disturbance:
+    L:
+      CF: DISTID1
+      BL: DISTID3
+      MF: DISTID1
+    A:
+      CF: DISTID3
+      BL: DISTID3
+      MF: DISTID3
+
+  #Inventory build 
+  inventory:
+    species:
+      - CF:
+          type: 
+            - L
+            - A
+          soil:
+            - peat
+            - mineral
+                
+          yield_class:
+            - YC10
+            - YC16
+            - YC20
+            - YC24
+
+      - BL:
+          type: 
+            - L
+            - A
+
+          soil:
+            - peat
+            - mineral
+
+          yield_class:
+            - YC10
