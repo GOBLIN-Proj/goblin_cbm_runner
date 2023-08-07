@@ -5,7 +5,7 @@ import pandas as pd
 class DataManager:
     def __init__(self, config_file = None, scenario_data = None):
 
-        self.forest_baseline_year = 2007
+        self.forest_baseline_year = 1991
 
         self.species_proportions = { "CF": 0.65,
                                     "BL": 0.35}

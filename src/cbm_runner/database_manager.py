@@ -59,6 +59,9 @@ class DataManager:
         return dataframe
     
     def get_afforesation_species_breakdown(self):
+        #CSO data is from 2007 onward. Addtional data added from NFI from 1998 to 2006. 
+        #Data from 1991 is based on 1998 breakdown.
+        
         table = "cso_afforestation_species_proportion"
         dataframe = pd.read_sql(
             "SELECT * FROM '%s'" % (table),
