@@ -14,17 +14,21 @@ def get_classifier_list(classifiers):
 
 
 def get_age_classifier(classifiers):
+    
+    max_age = classifiers["age_classes"]["max_age"]
+    interval =  classifiers["age_classes"]["age_interval"]
 
+    age_id =[]
     ages = []
 
-    for n in classifiers["age_classifier"]["description"]:
+    for year in range(0, (max_age +1), interval):
 
-        num = re.findall(r"\d+", n)
+        age_id.append("AGEID"+str(year))
+        ages.append(year)
 
-        if num:
-            ages.append(int(num[0]))
 
-    age_dict = dict(zip(classifiers["age_classifier"]["name"], ages))
+    
+    age_dict = dict(zip(age_id, ages))
 
     return age_dict
 
