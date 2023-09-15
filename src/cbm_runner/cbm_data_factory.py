@@ -39,9 +39,20 @@ class DataFactory:
         classifiers, inventory = sit_cbm_factory.initialize_inventory(sit)
 
         return sit, classifiers, inventory
+    
+
+    def set_baseline_input_data_dir(self, path):
+
+        sit_config_path = os.path.join(path, "sit_config.json")
+
+        sit = sit_cbm_factory.load_sit(sit_config_path)
+
+        classifiers, inventory = sit_cbm_factory.initialize_inventory(sit)
+
+        return sit, classifiers, inventory
 
 
-    def make_data_dirs(cls, scenarios, path):
+    def make_data_dirs(self, scenarios, path):
 
         for sc in scenarios:
             os.mkdir(os.path.join(path, str(sc)))
@@ -54,21 +65,35 @@ class DataFactory:
             if not os.path.isfile(d):
                 shutil.rmtree(d)
 
+    def clean_baseline_data_dir(self, path):
+
+        for filename in os.listdir(path):
+            file_path = os.path.join(path, filename)
+            if os.path.isfile(file_path) and filename != "__init__.py":
+                os.remove(file_path)
+
 
     def make_config_json(self, scenario, path):
 
-        dictionary = self.json_creator_class.populate_template()
+        dictionary = self.json_creator_class.populate_template(scenario)
 
         file = "sit_config.json"
 
         # Writing to outfile
-        with open(os.path.join(path, str(scenario), file), "w") as outfile:
-            json.dump(dictionary, outfile, indent=4)
+        if scenario is not None:
+            with open(os.path.join(path, str(scenario), file), "w") as outfile:
+                json.dump(dictionary, outfile, indent=4)
+        else:
+            with open(os.path.join(path, file), "w") as outfile:
+                json.dump(dictionary, outfile, indent=4)
 
 
     def make_classifiers(self, scenario, path):
         
-        classifiers = self.data_manager_class.config_data["Classifiers"]
+        if scenario is not None:
+            classifiers = self.data_manager_class.config_data["Classifiers"]["scenario_forest"]
+        else:
+            classifiers = self.data_manager_class.config_data["Classifiers"]["baseline_forest"]
 
         cols = ["classifier_id", "name", "description"]
         classifier_df = pd.DataFrame(columns=cols)
@@ -84,14 +109,21 @@ class DataFactory:
                 row = pd.DataFrame([dict(zip(cols, [classifier, name, description]))])
                 classifier_df = pd.concat([classifier_df, row])
 
-        classifier_df.to_csv(
-            os.path.join(path, str(scenario), "classifiers.csv"), index=False
-        )
+        if scenario is not None:
+            classifier_df.to_csv(
+                os.path.join(path, str(scenario), "classifiers.csv"), index=False
+            )
+        else:
+            classifier_df.to_csv(
+                os.path.join(path, "classifiers.csv"), index=False
+            )
 
 
     def make_age_classes(self, scenario, path):
 
+
         classifiers = self.data_manager_class.config_data["Classifiers"]
+
 
         age = parser.get_age_classifier(classifiers)
 
@@ -102,21 +134,32 @@ class DataFactory:
         age_classes_df["id"] = age.keys()
         age_classes_df["size"] = age.values()
 
-        age_classes_df.to_csv(
-            os.path.join(path, str(scenario), "age_classes.csv"), index=False
-        )
+        if scenario is not None:
+            age_classes_df.to_csv(
+                os.path.join(path, str(scenario), "age_classes.csv"), index=False
+            )
+        else:
+            age_classes_df.to_csv(
+                os.path.join(path, "age_classes.csv"), index=False
+            )
     
 
     def make_yield_curves(self, scenario, path):
 
-        yield_df = YieldCurves.yield_table_generater_method2()
+        yield_df = YieldCurves.yield_table_generater_method1()
 
-        classifiers = self.data_manager_class.config_data["Classifiers"]
+        shared_classifiers = self.data_manager_class.config_data["Classifiers"]
+
+        if scenario is not None:
+            classifiers = self.data_manager_class.config_data["Classifiers"]["scenario_forest"]
+
+        else:
+            classifiers = self.data_manager_class.config_data["Classifiers"]["baseline_forest"]
 
         name_dict = self.data_manager_class.yield_name_dict
 
-        max_age = classifiers["age_classes"]["max_age"]
-        age_interval = classifiers["age_classes"]["age_interval"]
+        max_age = shared_classifiers["age_classes"]["max_age"]
+        age_interval = shared_classifiers["age_classes"]["age_interval"]
 
         cols = parser.get_classifier_list(classifiers)
 
@@ -176,9 +219,14 @@ class DataFactory:
 
                 count += 1
 
-        growth_df.to_csv(
-            os.path.join(path, str(scenario), "growth.csv"), index=False
-        )
+        if scenario is not None:
+            growth_df.to_csv(
+                os.path.join(path, str(scenario), "growth.csv"), index=False
+            )
+        else:
+            growth_df.to_csv(
+                os.path.join(path, "growth.csv"), index=False
+            )
 
 
     def make_inventory(self, scenario, path):
@@ -186,15 +234,19 @@ class DataFactory:
 
         inventory_df = self.inventory_class.make_inventory_structure(scenario, path)
 
-        legacy_forest_df = self.inventory_class.legacy_forest_inventory()
-
-        inventory_df = self.inventory_class.inventory_iterator(inventory_df)
+        inventory_df = self.inventory_class.inventory_iterator(scenario, inventory_df)
 
         inventory_df = self.inventory_class.afforestation_inventory(scenario, inventory_df)
 
-        inventory_df.to_csv(
-            os.path.join(path, str(scenario), "inventory.csv"), index=False
-        )
+
+        if scenario is not None:
+            inventory_df.to_csv(
+                os.path.join(path, str(scenario), "inventory.csv"), index=False
+            )
+        else: 
+            inventory_df.to_csv(
+                os.path.join(path, "inventory.csv"), index=False
+            )           
 
 
     def make_disturbance_events(self, scenario, path):
@@ -202,14 +254,23 @@ class DataFactory:
 
         disturbance_events = self.disturbance_class.fill_scenario_data(scenario)
 
-        disturbance_events.to_csv(
-            os.path.join(path, str(scenario), "disturbance_events.csv"), index=False
-        )
+        if scenario is not None:
+            disturbance_events.to_csv(
+                os.path.join(path, str(scenario), "disturbance_events.csv"), index=False
+            )
+        else:
+            disturbance_events.to_csv(
+                os.path.join(path, "disturbance_events.csv"), index=False
+            )
 
 
     def make_disturbance_type(self, scenario, path):
 
-        classifiers = self.data_manager_class.config_data["Classifiers"]
+        if scenario is not None:
+            classifiers = self.data_manager_class.config_data["Classifiers"]["scenario_forest"]
+        else:
+            classifiers = self.data_manager_class.config_data["Classifiers"]["baseline_forest"]
+
 
         cols = ["id", "name"]
         disturbance_type_df = pd.DataFrame(columns=cols)
@@ -223,16 +284,27 @@ class DataFactory:
             row = pd.DataFrame([dict(zip(cols, [id, description]))])
             disturbance_type_df = pd.concat([disturbance_type_df, row])
 
-        disturbance_type_df.to_csv(
-            os.path.join(path, str(scenario), "disturbance_types.csv"),
-            index=False,
-        )
+        if scenario is not None:
+            disturbance_type_df.to_csv(
+                os.path.join(path, str(scenario), "disturbance_types.csv"),
+                index=False,
+            )
+        else:
+            disturbance_type_df.to_csv(
+                os.path.join(path, "disturbance_types.csv"),
+                index=False,
+            )
 
 
     def make_transition_rules(self, scenario, path):
 
-        transition_df = self.transition_class.make_transition_rules_structure()
+        transition_df = self.transition_class.make_transition_rules_structure(scenario)
 
-        transition_df.to_csv(
-            os.path.join(path, str(scenario), "transitions.csv"), index=False
+        if scenario is not None:
+            transition_df.to_csv(
+                os.path.join(path, str(scenario), "transitions.csv"), index=False
+            )
+        else:
+            transition_df.to_csv(
+            os.path.join(path, "transitions.csv"), index=False
         )

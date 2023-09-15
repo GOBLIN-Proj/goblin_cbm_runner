@@ -38,10 +38,15 @@ class CreateJSON:
         }
 
 
-    def populate_template(self):
+    def populate_template(self, scenario):
         
         template = copy.deepcopy(self.template)
-        config = self.data_manager_class.config_data["Classifiers"]
+
+        if scenario is not None:
+            config = self.data_manager_class.config_data["Classifiers"]["scenario_forest"]
+        else:
+             config = self.data_manager_class.config_data["Classifiers"]["baseline_forest"]
+
         mapping = self.data_manager_class.mapping
         
         template["mapping_config"]["spatial_units"]["admin_boundary"] = mapping["boundary"]
