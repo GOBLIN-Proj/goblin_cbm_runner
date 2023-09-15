@@ -318,8 +318,9 @@ class Runner:
                     - forest_data.loc[i - 1, "Total Ecosystem"]
                 )
 
-            fluxes.loc[i, "HWP"] = (
-                forest_data.loc[i, "HWP"]
-            )
+                fluxes.loc[i-1, "HWP"] = (
+                    forest_data.loc[i, "HWP"]
+                    - forest_data.loc[i-1, "HWP"]
+                )
 
         return fluxes
