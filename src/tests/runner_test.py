@@ -18,7 +18,10 @@ def main():
 
     runner.generate_input_data()
 
-    runner.run_aggregate_scenarios().to_csv(os.path.join(path, "c_aggregate.csv"))
+    #runner.generate_base_input_data() 
+
+    runner.cbm_baseline_forest()["Structure"].to_csv(os.path.join(path, "baseline_forest.csv"))
+    runner.afforestation_scenarios_structure().to_csv(os.path.join(path, "afforestation_structure.csv"))
 
     runner.run_flux_scenarios().to_csv(os.path.join(path, "c_flux.csv"))
 

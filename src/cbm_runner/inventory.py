@@ -10,8 +10,8 @@ class Inventory:
         self.data_manager_class = DataManager(config_path)
         self.afforestation_data = afforestation_data
         self.age_df = self.loader_class.forest_age_structure()
-        self.classifiers = self.data_manager_class.config_data["Classifiers"]
-
+        self.baseline_forest_classifiers = self.data_manager_class.config_data["Classifiers"]["baseline_forest"]
+        self.scenario_forest_classifiers = self.data_manager_class.config_data["Classifiers"]["scenario_forest"]
 
     def legacy_forest_inventory(self):
 
@@ -38,11 +38,16 @@ class Inventory:
     def make_inventory_structure(self,
     scenario, path, ID="False", delay=0, UNFCCCLC=2
     ):
-        age_df = self.age_df
+        age_df = self.age_df  
 
-        classifiers = self.classifiers
-
-        classifiers_path = os.path.join(path, str(scenario), "classifiers.csv")
+        if scenario is not None:
+            classifiers = self.scenario_forest_classifiers
+            classifiers_path = os.path.join(path, str(scenario), "classifiers.csv")
+            forest_type = ["A"]
+        else:
+            classifiers = self.baseline_forest_classifiers
+            classifiers_path = os.path.join(path, "classifiers.csv")
+            forest_type = ["L"]
 
         classifiers_df = pd.read_csv(classifiers_path)
 
@@ -70,7 +75,7 @@ class Inventory:
 
         for species in parser.get_inventory_species(classifiers):
 
-            for typ in parser.get_inventory_type(classifiers, species):
+            for typ in forest_type:
                 for soil in parser.get_inventory_soil(classifiers, species):
                     for yc in parser.get_inventory_yield_class(classifiers, species):
 
@@ -105,6 +110,7 @@ class Inventory:
     
 
     def fill_inventory(self,
+        scenario,
         inventory_df,
         forest_type,
         species,
@@ -112,7 +118,12 @@ class Inventory:
         yield_class,
         ageID,
     ):
-        classifiers = self.classifiers
+        
+        if scenario is not None:
+            classifiers = self.scenario_forest_classifiers
+        else:
+            classifiers = self.baseline_forest_classifiers
+
         age_df = self.age_df
         data_df = self.legacy_forest_inventory()
 
@@ -126,7 +137,7 @@ class Inventory:
 
         affor_mask = (
             (inventory_df["Classifier1"] == species)
-            & (inventory_df["Classifier2"] == "A")
+            & (inventory_df["Classifier2"] == forest_type)
             & (inventory_df["Classifier3"] == soil)
             & (inventory_df["Classifier4"] == yield_class)
         )
@@ -141,49 +152,68 @@ class Inventory:
             for i, _ in enumerate(yield_list)
         }
 
-        if forest_type == "L":
+        if scenario is None and forest_type == "L":
 
+        
             inventory_df.loc[mask, "Area"] = (
-                data_df.loc[data_mask, soil].values
-                * yield_dict[yield_class]
-                * age_df.loc[age_mask, "aggregate"].values
-            )
+                    data_df.loc[data_mask, soil].values
+                    * yield_dict[yield_class]
+                    * age_df.loc[age_mask, "aggregate"].values
+                )
             inventory_df.loc[mask, "HistDist"] = parser.get_historical_disturbance(
                 classifiers, forest_type, species
-            )  # classifiers["historical_disturbance"][forest_type][species]
+            )  
             inventory_df.loc[mask, "LastDist"] = parser.get_historical_disturbance(
                 classifiers, forest_type, species
             )
-
+        elif scenario is not None and forest_type == "L":
+            pass
         else:
 
             inventory_df.loc[affor_mask, "Area"] = 0
-            inventory_df.loc[affor_mask, "HistDist"] = parser.get_historical_disturbance(
-                classifiers, forest_type, species
-            )
-            inventory_df.loc[affor_mask, "LastDist"] = parser.get_historical_disturbance(
-                classifiers, forest_type, species
-            )
 
+            if forest_type == "A":
+                inventory_df.loc[affor_mask, "HistDist"] = parser.get_historical_disturbance(
+                    classifiers, forest_type, species
+                )
+                inventory_df.loc[affor_mask, "LastDist"] = parser.get_historical_disturbance(
+                    classifiers, forest_type, species
+                )
+
+            else:
+                inventory_df.loc[mask, "HistDist"] = parser.get_historical_disturbance(
+                classifiers, forest_type, species
+                )  
+                inventory_df.loc[mask, "LastDist"] = parser.get_historical_disturbance(
+                    classifiers, forest_type, species
+                )
+                
         return inventory_df
     
 
-    def inventory_iterator(self, inventory_df):
+    def inventory_iterator(self, scenario, inventory_df):
+        
+        if scenario is not None:
+            classifiers = self.scenario_forest_classifiers
 
-        classifiers = self.classifiers
+        else:
+            classifiers = self.baseline_forest_classifiers
+
+
         age_df = self.age_df
 
         for AgeID in age_df["year"]:
             for species in parser.get_inventory_species(classifiers):
-                for forest_type in parser.get_inventory_type(classifiers, species):
+                for forest in parser.get_inventory_type(classifiers, species):
                     for soil in parser.get_inventory_soil(classifiers, species):
                         for yield_class in parser.get_inventory_yield_class(
                             classifiers, species
                         ):
 
                             inventory_df = self.fill_inventory(
+                                scenario,
                                 inventory_df,
-                                forest_type,
+                                forest,
                                 species,
                                 soil,
                                 yield_class,
@@ -197,7 +227,10 @@ class Inventory:
         legacy_afforestation_mineral_dict = self.legacy_afforestation_mineral_soils()
         legacy_afforestation_peat_dict = self.legacy_afforestation_peat_soils()
 
-        classifiers = self.classifiers
+        if scenario is not None:
+            classifiers = self.scenario_forest_classifiers
+        else:
+            classifiers = self.baseline_forest_classifiers
 
         scenario_afforestation_data = self.afforestation_data 
 

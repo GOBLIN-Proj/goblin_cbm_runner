@@ -13,7 +13,8 @@ class Distrubances:
         self.calibration_year = calibration_year
         self.loader_class = Loader()
         self.data_manager_class = DataManager(config_path, scenario_data)
-        self.classifiers = self.data_manager_class.config_data["Classifiers"]
+        self.baseline_forest_classifiers = self.data_manager_class.config_data["Classifiers"]["baseline_forest"]
+        self.scenario_forest_classifiers = self.data_manager_class.config_data["Classifiers"]["scenario_forest"]
         self.afforestation_data = afforestation_data
         self.inventory_class = Inventory(config_path, afforestation_data)
 
@@ -24,8 +25,12 @@ class Distrubances:
 
         result_dict = {}
 
+        if scenario is not None:
+            classifiers = self.scenario_forest_classifiers
+        else:
+            classifiers = self.baseline_forest_classifiers
 
-        for species in parser.get_inventory_species(self.classifiers):
+        for species in parser.get_inventory_species(classifiers):
 
             mask = (self.afforestation_data["species"]== species) & (self.afforestation_data["scenario"] == scenario)
             
@@ -40,7 +45,7 @@ class Distrubances:
 
 
 
-    def legacy_disturbance_afforestation_area(self, years):
+    def legacy_disturbance_afforestation_area(self,scenario, years):
         
         years = list(range(1, years +1))
 
@@ -48,13 +53,18 @@ class Distrubances:
   
         result_dataframe = pd.DataFrame()
 
+        if scenario is not None:
+            classifiers = self.scenario_forest_classifiers
+        else:
+            classifiers = self.baseline_forest_classifiers
+
         afforestation_mineral = self.inventory_class.legacy_afforestation_mineral_soils_annual()
         afforestation_organic = self.inventory_class.legacy_afforestation_peat_soils_annual()
 
         year_count = 1
         index = 0
 
-        for species in parser.get_inventory_species(self.classifiers):
+        for species in parser.get_inventory_species(classifiers):
 
             for i in years:
 
@@ -114,9 +124,13 @@ class Distrubances:
         return disturbance_df
     
 
-    def fill_legacy_data(self):
+    def fill_legacy_data(self, scenario):
 
-        classifiers = self.classifiers
+        if scenario is not None:
+            classifiers = self.scenario_forest_classifiers
+        else:
+            classifiers = self.baseline_forest_classifiers
+
         static_cols = self.data_manager_class.static_disturbance_cols
 
         calibration_year = self.calibration_year
@@ -129,7 +143,7 @@ class Distrubances:
         disturbance_dict = self.data_manager_class.disturbance_dict
         disturbance_age_dict = self.data_manager_class.disturbance_age_dict
 
-        legacy_afforestation_inventory = self.legacy_disturbance_afforestation_area(legacy_years)
+        legacy_afforestation_inventory = self.legacy_disturbance_afforestation_area(scenario, legacy_years)
         legacy_inventory = self.inventory_class.legacy_forest_inventory()
 
         disturbances = ["DISTID1", "DISTID2", "DISTID4"]
@@ -244,20 +258,24 @@ class Distrubances:
 
     def fill_scenario_data(self, scenario):
 
-        afforestation_inventory = self.scenario_afforestation_area(scenario)
-
-        disturbance_df = self.fill_legacy_data()
+        disturbance_df = self.fill_legacy_data(scenario)
 
 
         legacy_end_year = disturbance_df.Year.max()
 
-        classifiers = self.classifiers
+        if scenario is not None:
+            classifiers = self.scenario_forest_classifiers
+            afforestation_inventory = self.scenario_afforestation_area(scenario)
+        else:
+            classifiers = self.baseline_forest_classifiers
+            afforestation_inventory = 0
+
         static_cols = self.data_manager_class.static_disturbance_cols
 
         scenario_years = self.forest_end_year - self.calibration_year
         years = list(range(legacy_end_year, scenario_years +1))
 
-        if scenario < 0:
+        if scenario is None or scenario < 0:
             disturbance_dict = self.data_manager_class.disturbance_dict
         else:
             disturbance_dict = self.data_manager_class.scenario_disturbance_dict[scenario]
@@ -309,7 +327,10 @@ class Distrubances:
 
                             if forest_type == "L":
                                 
-                                afforestation_value = afforestation_inventory[species]["mineral"] * ( yr - legacy_end_year)
+                                if afforestation_inventory != 0:
+                                    afforestation_value = afforestation_inventory[species]["mineral"] * ( yr - legacy_end_year)
+                                else:
+                                    afforestation_value = 0
 
                                 legacy_mask = ((disturbance_df["Year"] == legacy_end_year-1) & (disturbance_df["Classifier1"]== species) & (disturbance_df["Classifier2"]=="L") & (disturbance_df["Classifier3"]== soil) & (disturbance_df["Classifier4"]==yield_class) & (disturbance_df["DistTypeID"]== dist))
                                 try:
@@ -328,7 +349,6 @@ class Distrubances:
                                                 * parser.get_yield_class_proportions(classifiers, species, yield_class)
                                                 * disturbance_dict[dist][species])
                                         
-
                                     disturbance_df.loc[count, "Amount"] = afforest_value + legacy_value
                                         
 
