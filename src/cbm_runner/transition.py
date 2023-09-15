@@ -7,10 +7,15 @@ class Transition():
     def __init__(self, config_path):
 
         self.data_manager_class = DataManager(config_path)
+        self.baseline_forest_classifiers = self.data_manager_class.config_data["Classifiers"]["baseline_forest"]
+        self.scenario_forest_classifiers = self.data_manager_class.config_data["Classifiers"]["scenario_forest"]
 
-    def make_transition_rules_structure(self):
+    def make_transition_rules_structure(self, scenario):
 
-        classifiers = self.data_manager_class.config_data["Classifiers"]
+        if scenario is not None:
+            classifiers = self.scenario_forest_classifiers
+        else:
+            classifiers = self.baseline_forest_classifiers
 
         transition_col_dict = self.data_manager_class.transition_cols
 
