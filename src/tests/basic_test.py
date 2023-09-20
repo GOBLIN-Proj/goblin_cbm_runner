@@ -12,18 +12,19 @@ def main():
     
     config = os.path.join(path, "cbm_factory.yaml")
 
-    sc_data = pd.read_csv(os.path.join(path, "scenario_afforestation.csv"), index_col=0)
+    sc_data = pd.read_csv(os.path.join(path, "scenario_dataframe.csv"))
 
     calibration_year = 2020
     forest_end_year = 2050
 
-    cbm_data_class = DataFactory(config,calibration_year, forest_end_year, afforest_data, sc_data)
+    #cbm_data_class = DataFactory(config,calibration_year, forest_end_year, afforest_data, sc_data)
 
     #print(cbm_data_class.afforestation_data)
     
+    disturbance_class = Distrubances(config,calibration_year, forest_end_year, afforest_data, sc_data)
 
-
-    cbm_data_class.make_classifiers(0, path)
+    print(disturbance_class.fill_baseline_forest())
+    #cbm_data_class.make_classifiers(0, path)
     #cbm_data_class.make_config_json(0, path)
     #cbm_data_class.make_age_classes(0, path)
     #cbm_data_class.make_yield_curves(0, path)
