@@ -1,10 +1,10 @@
 Classifiers:
   baseline:
-    clearfell: 0.05
-    thinning: 0.05
+    clearfell: 0.01
+    thinning: 0.01
     
   age_classes:
-      max_age: 80
+      max_age: 100
       age_interval: 1
   
   scenario_forest:   
@@ -71,22 +71,20 @@ Classifiers:
         - DISTID1
         - DISTID2
         - DISTID3
-        - DISTID4 
+        - DISTID4
+        - DISTID5
       name:
         - Clearcut
         - Thinning
         - Fire
         - Afforestation
+        - Unknown
 
     historical_disturbance:
-      L:
-        CF: DISTID1
-        BL: DISTID3
-        MF: DISTID1
       A:
-        CF: DISTID3
-        BL: DISTID3
-        MF: DISTID3
+        CF: DISTID5
+        BL: DISTID5
+        MF: DISTID5
 
     #Inventory build 
     inventory:
@@ -187,10 +185,6 @@ Classifiers:
 
     historical_disturbance:
       L:
-        CF: DISTID1
-        BL: DISTID3
-        MF: DISTID1
-      A:
         CF: DISTID3
         BL: DISTID3
         MF: DISTID3

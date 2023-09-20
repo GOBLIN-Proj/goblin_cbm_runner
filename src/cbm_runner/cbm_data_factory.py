@@ -251,14 +251,13 @@ class DataFactory:
 
     def make_disturbance_events(self, scenario, path):
 
-
-        disturbance_events = self.disturbance_class.fill_scenario_data(scenario)
-
         if scenario is not None:
+            disturbance_events = self.disturbance_class.fill_scenario_data(scenario)
             disturbance_events.to_csv(
                 os.path.join(path, str(scenario), "disturbance_events.csv"), index=False
             )
         else:
+            disturbance_events = self.disturbance_class.fill_baseline_forest()
             disturbance_events.to_csv(
                 os.path.join(path, "disturbance_events.csv"), index=False
             )

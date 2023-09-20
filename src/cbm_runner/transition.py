@@ -59,7 +59,28 @@ class Transition():
                     after_transition_df.loc[count, "ResetAge"] = 0
                     after_transition_df.loc[count, "Percent"] = 100
 
-                    count += 1
+                else: 
+                    before_transition_df.loc[count, "Classifier1"] = species
+                    before_transition_df.loc[count, "Classifier2"] = "L"
+                    before_transition_df.loc[count, "Classifier3"] = soil
+                    before_transition_df.loc[count, "Classifier4"] = yield_class
+                    before_transition_df.loc[count, "UsingID"] = False
+                    before_transition_df.loc[count, "SWStart"] = 0
+                    before_transition_df.loc[count, "SWEnd"] = 999
+                    before_transition_df.loc[count, "HWDStart"] = 0
+                    before_transition_df.loc[count, "HWEnd"] = 999
+                    before_transition_df.loc[count, "DistType"] = "DISTID1"
+
+                    after_transition_df.loc[count, "Classifier1"] = species
+                    after_transition_df.loc[count, "Classifier2"] = "L"
+                    after_transition_df.loc[count, "Classifier3"] = soil
+                    after_transition_df.loc[count, "Classifier4"] = yield_class
+                    after_transition_df.loc[count, "RegenDelay"] = 0
+                    after_transition_df.loc[count, "ResetAge"] = 0
+                    after_transition_df.loc[count, "Percent"] = 100
+
+
+                count += 1
 
         result = pd.concat([before_transition_df, after_transition_df], axis=1)
 
