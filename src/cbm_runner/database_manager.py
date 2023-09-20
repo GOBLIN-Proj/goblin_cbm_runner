@@ -83,3 +83,14 @@ class DataManager:
         dataframe *= 1000
 
         return dataframe
+    
+
+    def get_forest_harvest_NIR(self):
+        table = "forest_harvest_NIR"
+        dataframe = pd.read_sql(
+            "SELECT * FROM '%s'" % (table),
+            self.engine,
+            index_col =["year"]
+        )
+        
+        return dataframe
