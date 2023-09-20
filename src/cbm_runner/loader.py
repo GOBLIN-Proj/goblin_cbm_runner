@@ -28,3 +28,6 @@ class Loader:
     def afforesation_areas_NIR(self):
         return self.dataframes.get_afforesation_areas_NIR()
 
+
+    def harvest_areas_NIR(self):
+        return self.dataframes.get_forest_harvest_NIR()

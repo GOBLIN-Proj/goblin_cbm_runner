@@ -5,10 +5,11 @@ import pandas as pd
 class DataManager:
     def __init__(self, config_file = None, scenario_data = None):
 
-        self.forest_baseline_year = 1991
+        self.forest_baseline_year = 1970
+        self.afforestation_baseline = 1990
 
-        self.species_proportions = { "CF": 0.65,
-                                    "BL": 0.35}
+        self.species_proportions = { "CF": 0.90,
+                                    "BL": 0.10}
 
         self.config_data = self.get_config_data(config_file) if config_file else None
 
@@ -19,113 +20,132 @@ class DataManager:
                        "BL":0}       
         } if config_file else None
 
+        self.forest_baseline_disturbance_dict = {
+            "DISTID1": {
+                "CF": {
+                    "Spruce_13_16": 50,
+                    "Spruce_17_20": 50,
+                    "Spruce_20_24": 31,
+                    "Spruce_24_30": 31
+                }
+            },
+            "DISTID2": {
+                "CF": {
+                    "YC10": None,
+                    "YC16": None,
+                    "YC20": 0,
+                    "YC24": 0
+                }
+            }
+        }
+
         self.scenario_data = scenario_data if scenario_data is not None else pd.DataFrame()
 
         self.scenario_disturbance_dict = self.gen_scenario_disturbance_dict(scenario_data) if not self.scenario_data.empty else None
 
 
         self.disturbance_age_dict = {
-            "DISTID1":{"CF": {"YC10":{"sw_age_min":"AGEID50",
-                                      "sw_age_max":"AGEID50",
-                                      "hw_age_min":"AGEID50",
-                                      "hw_age_max":"AGEID50"},
-                            "YC16":{"sw_age_min":"AGEID40",
-                                      "sw_age_max":"AGEID50",
-                                      "hw_age_min":"AGEID40",
-                                      "hw_age_max":"AGEID50"},
-                            "YC20":{"sw_age_min":"AGEID40",
-                                      "sw_age_max":"AGEID50",
-                                      "hw_age_min":"AGEID40",
-                                      "hw_age_max":"AGEID50"},
-                            "YC24":{"sw_age_min":"AGEID30",
-                                      "sw_age_max":"AGEID40",
-                                      "hw_age_min":"AGEID30",
-                                      "hw_age_max":"AGEID40"}},
+            "DISTID1":{"CF": {"YC10":{"sw_age_min":50,
+                                      "sw_age_max":50,
+                                      "hw_age_min":50,
+                                      "hw_age_max":50},
+                            "YC16":{"sw_age_min":50,
+                                      "sw_age_max":50,
+                                      "hw_age_min":50,
+                                      "hw_age_max":50},
+                            "YC20":{"sw_age_min":31,
+                                      "sw_age_max":31,
+                                      "hw_age_min":31,
+                                      "hw_age_max":31},
+                            "YC24":{"sw_age_min":31,
+                                      "sw_age_max":31,
+                                      "hw_age_min":31,
+                                      "hw_age_max":31}},
 
-                       "BL":{"YC10":{"sw_age_min":"AGEID50",
-                                      "sw_age_max":"AGEID50",
-                                      "hw_age_min":"AGEID50",
-                                      "hw_age_max":"AGEID50"},
-                            "YC16":{"sw_age_min":"AGEID40",
-                                      "sw_age_max":"AGEID40",
-                                      "hw_age_min":"AGEID40",
-                                      "hw_age_max":"AGEID40"},
-                            "YC20":{"sw_age_min":"AGEID40",
-                                      "sw_age_max":"AGEID40",
-                                      "hw_age_min":"AGEID40",
-                                      "hw_age_max":"AGEID40"},
-                            "YC24":{"sw_age_min":"AGEID30",
-                                      "sw_age_max":"AGEID30",
-                                      "hw_age_min":"AGEID30",
-                                      "hw_age_max":"AGEID30"}}
+                       "BL":{"YC10":{"sw_age_min":65,
+                                      "sw_age_max":65,
+                                      "hw_age_min":65,
+                                      "hw_age_max":65},
+                            "YC16":{"sw_age_min":65,
+                                      "sw_age_max":65,
+                                      "hw_age_min":65,
+                                      "hw_age_max":65},
+                            "YC20":{"sw_age_min":65,
+                                      "sw_age_max":65,
+                                      "hw_age_min":65,
+                                      "hw_age_max":65},
+                            "YC24":{"sw_age_min":65,
+                                      "sw_age_max":65,
+                                      "hw_age_min":65,
+                                      "hw_age_max":65}}
                                       },
-            "DISTID2":{"CF": {"YC10":{"sw_age_min":"AGEID30",
-                                      "sw_age_max":"AGEID35",
-                                      "hw_age_min":"AGEID30",
-                                      "hw_age_max":"AGEID35"},
-                            "YC16":{"sw_age_min":"AGEID20",
-                                      "sw_age_max":"AGEID30",
-                                      "hw_age_min":"AGEID20",
-                                      "hw_age_max":"AGEID30"},
-                            "YC20":{"sw_age_min":"AGEID20",
-                                      "sw_age_max":"AGEID30",
-                                      "hw_age_min":"AGEID20",
-                                      "hw_age_max":"AGEID30"},
-                            "YC24":{"sw_age_min":"AGEID15",
-                                      "sw_age_max":"AGEID20",
-                                      "hw_age_min":"AGEID15",
-                                      "hw_age_max":"AGEID20"}},
+            "DISTID2":{"CF": {"YC10":{"sw_age_min":22,
+                                      "sw_age_max":22,
+                                      "hw_age_min":22,
+                                      "hw_age_max":22},
+                            "YC16":{"sw_age_min":22,
+                                      "sw_age_max":22,
+                                      "hw_age_min":22,
+                                      "hw_age_max":22},
+                            "YC20":{"sw_age_min":20,
+                                      "sw_age_max":20,
+                                      "hw_age_min":20,
+                                      "hw_age_max":20},
+                            "YC24":{"sw_age_min":22,
+                                      "sw_age_max":22,
+                                      "hw_age_min":22,
+                                      "hw_age_max":22}},
                                       
-                       "BL":{"YC10":{"sw_age_min":"AGEID30",
-                                      "sw_age_max":"AGEID30",
-                                      "hw_age_min":"AGEID30",
-                                      "hw_age_max":"AGEID30"},
-                            "YC16":{"sw_age_min":"AGEID30",
-                                      "sw_age_max":"AGEID35",
-                                      "hw_age_min":"AGEID30",
-                                      "hw_age_max":"AGEID35"},
-                            "YC20":{"sw_age_min":"AGEID30",
-                                      "sw_age_max":"AGEID40",
-                                      "hw_age_min":"AGEID30",
-                                      "hw_age_max":"AGEID40"},
-                            "YC24":{"sw_age_min":"AGEID30",
-                                      "sw_age_max":"AGEID40",
-                                      "hw_age_min":"AGEID30",
-                                      "hw_age_max":"AGEID40"}}
+                       "BL":{"YC10":{"sw_age_min":15,
+                                      "sw_age_max":15,
+                                      "hw_age_min":15,
+                                      "hw_age_max":15},
+                            "YC16":{"sw_age_min":15,
+                                      "sw_age_max":15,
+                                      "hw_age_min":15,
+                                      "hw_age_max":15},
+                            "YC20":{"sw_age_min":15,
+                                      "sw_age_max":15,
+                                      "hw_age_min":15,
+                                      "hw_age_max":15},
+                            "YC24":{"sw_age_min":15,
+                                      "sw_age_max":15,
+                                      "hw_age_min":15,
+                                      "hw_age_max":15}}
                                       },
-            "DISTID4":{"CF": {"YC10":{"sw_age_min":"AGEID0",
-                                      "sw_age_max":"AGEID0",
-                                      "hw_age_min":"AGEID0",
-                                      "hw_age_max":"AGEID0"},
-                            "YC16":{"sw_age_min":"AGEID0",
-                                      "sw_age_max":"AGEID0",
-                                      "hw_age_min":"AGEID0",
-                                      "hw_age_max":"AGEID0"},
-                            "YC20":{"sw_age_min":"AGEID0",
-                                      "sw_age_max":"AGEID0",
-                                      "hw_age_min":"AGEID0",
-                                      "hw_age_max":"AGEID0"},
-                            "YC24":{"sw_age_min":"AGEID0",
-                                      "sw_age_max":"AGEID0",
-                                      "hw_age_min":"AGEID0",
-                                      "hw_age_max":"AGEID0"}},
+            "DISTID4":{"CF": {"YC10":{"sw_age_min":0,
+                                      "sw_age_max":0,
+                                      "hw_age_min":0,
+                                      "hw_age_max":0},
+                            "YC16":{"sw_age_min":0,
+                                      "sw_age_max":0,
+                                      "hw_age_min":0,
+                                      "hw_age_max":0},
+                            "YC20":{"sw_age_min":0,
+                                      "sw_age_max":0,
+                                      "hw_age_min":0,
+                                      "hw_age_max":0},
+                            "YC24":{"sw_age_min":0,
+                                      "sw_age_max":0,
+                                      "hw_age_min":0,
+                                      "hw_age_max":0}},
                                       
-                       "BL":{"YC10":{"sw_age_min":"AGEID0",
-                                      "sw_age_max":"AGEID0",
-                                      "hw_age_min":"AGEID0",
-                                      "hw_age_max":"AGEID0"},
-                            "YC16":{"sw_age_min":"AGEID0",
-                                      "sw_age_max":"AGEID0",
-                                      "hw_age_min":"AGEID0",
-                                      "hw_age_max":"AGEID0"},
-                            "YC20":{"sw_age_min":"AGEID0",
-                                      "sw_age_max":"AGEID0",
-                                      "hw_age_min":"AGEID0",
-                                      "hw_age_max":"AGEID0"},
-                            "YC24":{"sw_age_min":"AGEID0",
-                                      "sw_age_max":"AGEID0",
-                                      "hw_age_min":"AGEID0",
-                                      "hw_age_max":"AGEID0"}}
+                       "BL":{"YC10":{"sw_age_min":0,
+                                      "sw_age_max":0,
+                                      "hw_age_min":0,
+                                      "hw_age_max":0},
+                            "YC16":{"sw_age_min":0,
+                                      "sw_age_max":0,
+                                      "hw_age_min":0,
+                                      "hw_age_max":0},
+                            "YC20":{"sw_age_min":0,
+                                      "sw_age_max":0,
+                                      "hw_age_min":0,
+                                      "hw_age_max":0},
+                            "YC24":{"sw_age_min":0,
+                                      "sw_age_max":0,
+                                      "hw_age_min":0,
+                                      "hw_age_max":0}}
                                       }      
         }
         
@@ -154,15 +174,19 @@ class DataManager:
                         "user_dist_type": "Afforestation",
                         "default_dist_type": "Afforestation",
                     },
+                "DISTID5": {
+                        "user_dist_type": "Unknown",
+                        "default_dist_type": "Unknown",
+                    },
             }
         }
 
         self.yield_name_dict = {
             "CF": {
-                "YC10": "Spruce_4_12",
-                "YC16": "Spruce_13_16",
-                "YC20": "Spruce_17_20",
-                "YC24": "Spruce_20_24",
+                "YC10": "Spruce_13_16",
+                "YC16": "Spruce_17_20",
+                "YC20": "Spruce_20_24",
+                "YC24": "Spruce_24_30",
             },
             "BL": "SGB",
             "MF": "CB_mix",

@@ -200,7 +200,7 @@ class Runner:
         structure_df =  pd.concat([age, area], axis=1)
 
 
-        return {"Stock": annual_carbon_stocks, "Structure":structure_df}
+        return {"Stock": annual_carbon_stocks, "Structure":structure_df, "Raw":pi}
 
 
 
@@ -296,7 +296,7 @@ class Runner:
 
         structure_df =  pd.concat([age, area], axis=1)
 
-        return {"Stock": annual_carbon_stocks, "Structure":structure_df}
+        return {"Stock": annual_carbon_stocks, "Structure":structure_df, "Raw":pi}
     
     
     def cbm_scenario_fluxes(self, forest_data):
