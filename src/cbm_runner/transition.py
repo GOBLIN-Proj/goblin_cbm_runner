@@ -2,16 +2,19 @@ from cbm_runner.cbm_runner_data_manager import DataManager
 import cbm_runner.parser as parser
 import pandas as pd
 import itertools
-    
-class Transition():
-    def __init__(self, config_path):
 
+
+class Transition:
+    def __init__(self, config_path):
         self.data_manager_class = DataManager(config_path)
-        self.baseline_forest_classifiers = self.data_manager_class.config_data["Classifiers"]["baseline_forest"]
-        self.scenario_forest_classifiers = self.data_manager_class.config_data["Classifiers"]["scenario_forest"]
+        self.baseline_forest_classifiers = self.data_manager_class.classifiers[
+            "Baseline"
+        ]
+        self.scenario_forest_classifiers = self.data_manager_class.classifiers[
+            "Scenario"
+        ]
 
     def make_transition_rules_structure(self, scenario):
-
         if scenario is not None:
             classifiers = self.scenario_forest_classifiers
         else:
@@ -25,13 +28,15 @@ class Transition():
 
         count = 0
 
-        for species in parser.get_inventory_species(classifiers):
+        non_forest_dict = self.data_manager_class.non_forest_dict
 
-            classifier_combo = [
-                *[parser.get_inventory_type(classifiers, species)],
-                *[parser.get_inventory_soil(classifiers, species)],
-                *[parser.get_inventory_yield_class(classifiers, species)]
-            ]
+        species_keys = list(non_forest_dict.keys())
+        forest_keys = list(classifiers["Forest type"].keys())
+        soil_keys = list(classifiers["Soil classes"].keys())
+        yield_keys = list(classifiers["Yield classes"].keys())
+
+        for species in species_keys:
+            classifier_combo = [forest_keys, soil_keys, yield_keys]
 
             combinations = itertools.product(*classifier_combo)
 
@@ -39,8 +44,9 @@ class Transition():
                 forest_type, soil, yield_class = combination
 
                 if forest_type == "A":
-
-                    before_transition_df.loc[count, "Classifier1"] = species
+                    before_transition_df.loc[count, "Classifier1"] = non_forest_dict[
+                        species
+                    ][soil]
                     before_transition_df.loc[count, "Classifier2"] = "A"
                     before_transition_df.loc[count, "Classifier3"] = soil
                     before_transition_df.loc[count, "Classifier4"] = yield_class
@@ -59,7 +65,7 @@ class Transition():
                     after_transition_df.loc[count, "ResetAge"] = 0
                     after_transition_df.loc[count, "Percent"] = 100
 
-                else: 
+                else:
                     before_transition_df.loc[count, "Classifier1"] = species
                     before_transition_df.loc[count, "Classifier2"] = "L"
                     before_transition_df.loc[count, "Classifier3"] = soil
@@ -78,7 +84,6 @@ class Transition():
                     after_transition_df.loc[count, "RegenDelay"] = 0
                     after_transition_df.loc[count, "ResetAge"] = 0
                     after_transition_df.loc[count, "Percent"] = 100
-
 
                 count += 1
 
