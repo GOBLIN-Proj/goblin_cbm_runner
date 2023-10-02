@@ -16,8 +16,6 @@ class DataManager:
         engine_url = f"sqlite:///{database_path}"
 
         return sqa.create_engine(engine_url)
-    
-    
 
     def get_forest_inventory_age_strucuture(self):
         table = "national_forest_inventory_2017"
@@ -25,7 +23,7 @@ class DataManager:
             "SELECT * FROM '%s'" % (table),
             self.engine,
         )
-        
+
         return dataframe
 
     def get_forest_cbm_yields(self):
@@ -34,63 +32,95 @@ class DataManager:
             "SELECT * FROM '%s'" % (table),
             self.engine,
         )
-        
+
         return dataframe
-    
+
     def get_forest_kb_yields(self):
         table = "NIR_KB_YIELD_Parameters"
         dataframe = pd.read_sql(
             "SELECT * FROM '%s'" % (table),
             self.engine,
         )
-        
+
         return dataframe
-    
+
     def get_NIR_forest_data_ha(self):
         table = "forest_data"
         dataframe = pd.read_sql(
-            "SELECT * FROM '%s'" % (table),
-            self.engine,
-            index_col =["year"]
+            "SELECT * FROM '%s'" % (table), self.engine, index_col=["year"]
         )
-        
+
         dataframe *= 1000
 
         return dataframe
-    
-    def get_afforesation_species_breakdown(self):
-        #CSO data is from 2007 onward. Addtional data added from NFI from 1998 to 2006. 
-        #Data from 1991 is based on 1998 breakdown.
-        
+
+    def get_cso_species_breakdown(self):
+        # CSO data is from 2007 onward. Addtional data added from NFI from 1998 to 2006.
+        # Data from 1991 is based on 1998 breakdown.
+
         table = "cso_afforestation_species_proportion"
         dataframe = pd.read_sql(
-            "SELECT * FROM '%s'" % (table),
-            self.engine,
-            index_col =["year"]
+            "SELECT * FROM '%s'" % (table), self.engine, index_col=["year"]
         )
-        
-        return dataframe
 
+        return dataframe
 
     def get_afforesation_areas_NIR(self):
         table = "afforestation_NIR"
         dataframe = pd.read_sql(
-            "SELECT * FROM '%s'" % (table),
-            self.engine,
-            index_col =["year"]
+            "SELECT * FROM '%s'" % (table), self.engine, index_col=["year"]
         )
-        
+
         dataframe *= 1000
 
         return dataframe
-    
+
+    def get_afforesation_areas_KB(self):
+        table = "KB_Afforestation_Area"
+        dataframe = pd.read_sql(
+            "SELECT * FROM '%s'" % (table), self.engine, index_col=["year"]
+        )
+
+        return dataframe
 
     def get_forest_harvest_NIR(self):
         table = "forest_harvest_NIR"
         dataframe = pd.read_sql(
+            "SELECT * FROM '%s'" % (table), self.engine, index_col=["year"]
+        )
+
+        return dataframe
+
+    def get_kb_yield_curves(self):
+        table = "KB_yield_curves"
+        dataframe = pd.read_sql(
+            "SELECT * FROM '%s'" % (table), self.engine, index_col=["Cohort"]
+        )
+
+        return dataframe
+
+    def get_disturbance_types(self):
+        table = "Disturbances"
+        dataframe = pd.read_sql(
             "SELECT * FROM '%s'" % (table),
             self.engine,
-            index_col =["year"]
         )
-        
+
+        return dataframe
+
+    def get_disturbance_times(self):
+        table = "Disturbance_timing"
+        dataframe = pd.read_sql(
+            "SELECT * FROM '%s'" % (table), self.engine, index_col=["Cohort"]
+        )
+
+        return dataframe
+
+    def get_disturbance_data(self):
+        table = "KB_Disturbance_data"
+        dataframe = pd.read_sql(
+            "SELECT * FROM '%s'" % (table),
+            self.engine,
+        )
+
         return dataframe
