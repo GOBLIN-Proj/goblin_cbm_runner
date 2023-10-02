@@ -2,12 +2,10 @@ from cbm_runner.loader import Loader
 import math
 import pandas as pd
 
+
 class YieldCurves:
-
-
     @classmethod
     def yield_table_generater_method1(cls):
-
         # KB pg 444, NIR
 
         loader_class = Loader()
@@ -36,10 +34,8 @@ class YieldCurves:
 
         return yield_df
 
-
     @classmethod
     def yield_table_generater_method2(cls):
-
         # CBM pg 444, NIR
         loader_class = Loader()
         parameters_df = loader_class.forest_cbm_yields()
@@ -58,5 +54,14 @@ class YieldCurves:
                 c = parameters_df.loc[param_mask, "c"].values[0]
 
                 yield_df.loc[species, year] = a * (1 - math.exp(-b * year)) ** c
+
+        return yield_df
+
+    @classmethod
+    def yield_table_generater_method3(cls):
+        loader_class = Loader()
+        yield_df = loader_class.kb_yield_curves()
+
+        yield_df.columns = yield_df.columns.astype(int)
 
         return yield_df

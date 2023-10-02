@@ -8,11 +8,21 @@ from libcbm.input.sit import sit_cbm_factory
 
 import pandas as pd
 
+
 class Runner:
-    def __init__(self, config_path, calibration_year, forest_end_year, afforest_data, scenario_data):
+    def __init__(
+        self,
+        config_path,
+        calibration_year,
+        forest_end_year,
+        afforest_data,
+        scenario_data,
+    ):
         self.path = input_data_path.get_local_dir()
         self.baseline_conf_path = baseline_conf_path.get_local_dir()
-        self.cbm_data_class = DataFactory(config_path,calibration_year,forest_end_year, afforest_data, scenario_data)
+        self.cbm_data_class = DataFactory(
+            config_path, calibration_year, forest_end_year, afforest_data, scenario_data
+        )
         self.data_manager_class = DataManager(config_path)
 
         self.INDEX = [int(i) for i in afforest_data.scenario.unique()]
@@ -21,9 +31,7 @@ class Runner:
         self.generate_base_input_data()
         self.forest_baseline_dataframe = self.cbm_baseline_forest()
 
-
     def generate_base_input_data(self):
-
         path = self.baseline_conf_path
 
         self.cbm_data_class.clean_baseline_data_dir(path)
@@ -37,9 +45,7 @@ class Runner:
         self.cbm_data_class.make_disturbance_type(None, path)
         self.cbm_data_class.make_transition_rules(None, path)
 
-
     def generate_input_data(self):
-
         path = self.path
 
         self.cbm_data_class.clean_data_dir(path)
@@ -55,60 +61,59 @@ class Runner:
             self.cbm_data_class.make_disturbance_type(i, path)
             self.cbm_data_class.make_transition_rules(i, path)
 
-
     def run_aggregate_scenarios(self):
-
         forest_data = pd.DataFrame()
         aggregate_forest_data = pd.DataFrame()
-        
+
         for i in self.INDEX:
             forest_data = self.cbm_aggregate_scenario(i)["Stock"]
-            forest_data[["Biomass", "DOM", "Total Ecosystem", "HWP"]] = forest_data[["Biomass", "DOM", "Total Ecosystem", "HWP"]] + self.forest_baseline_dataframe["Stock"][["Biomass", "DOM", "Total Ecosystem", "HWP"]] 
-
+            forest_data[["Biomass", "DOM", "Total Ecosystem", "HWP"]] = (
+                forest_data[["Biomass", "DOM", "Total Ecosystem", "HWP"]]
+                + self.forest_baseline_dataframe["Stock"][
+                    ["Biomass", "DOM", "Total Ecosystem", "HWP"]
+                ]
+            )
 
             forest_data_copy = forest_data.copy(deep=True)
 
-
             aggregate_forest_data = pd.concat(
-            [aggregate_forest_data, forest_data_copy], ignore_index=True
+                [aggregate_forest_data, forest_data_copy], ignore_index=True
             )
 
         return aggregate_forest_data
-    
-    
-    def run_flux_scenarios(self):
 
+    def run_flux_scenarios(self):
         forest_data = pd.DataFrame()
         fluxes_data = pd.DataFrame()
         fluxes_forest_data = pd.DataFrame()
-        
+
         for i in self.INDEX:
             forest_data = self.cbm_aggregate_scenario(i)["Stock"]
-            forest_data[["Biomass", "DOM", "Total Ecosystem", "HWP"]] = forest_data[["Biomass", "DOM", "Total Ecosystem", "HWP"]] + self.forest_baseline_dataframe["Stock"][["Biomass", "DOM", "Total Ecosystem", "HWP"]] 
+            forest_data[["Biomass", "DOM", "Total Ecosystem", "HWP"]] = (
+                forest_data[["Biomass", "DOM", "Total Ecosystem", "HWP"]]
+                + self.forest_baseline_dataframe["Stock"][
+                    ["Biomass", "DOM", "Total Ecosystem", "HWP"]
+                ]
+            )
             fluxes_data = self.cbm_scenario_fluxes(forest_data)
 
             fluxes_forest_data = pd.concat(
-            [fluxes_forest_data, fluxes_data], ignore_index=True
+                [fluxes_forest_data, fluxes_data], ignore_index=True
             )
 
         return fluxes_forest_data
-    
 
     def afforestation_scenarios_structure(self):
-
         forest_data = pd.DataFrame()
         structure_data = pd.DataFrame()
-        
+
         for i in self.INDEX:
             forest_data = self.cbm_aggregate_scenario(i)["Structure"]
-            forest_data["Scenario"] = i 
+            forest_data["Scenario"] = i
 
-            structure_data = pd.concat(
-            [structure_data, forest_data], ignore_index=True
-            )
+            structure_data = pd.concat([structure_data, forest_data], ignore_index=True)
 
         return structure_data
-    
 
     def cbm_baseline_forest(self):
         forest_baseline_year = self.data_manager_class.forest_baseline_year
@@ -121,7 +126,9 @@ class Runner:
             year + 1 for year in range(forest_baseline_year - 1, forestry_end_year)
         ]
 
-        sit, classifiers, inventory = self.cbm_data_class.set_baseline_input_data_dir(path)
+        sit, classifiers, inventory = self.cbm_data_class.set_baseline_input_data_dir(
+            path
+        )
 
         classifier_config = sit_cbm_factory.get_classifiers(
             sit.sit_data.classifiers, sit.sit_data.classifier_values
@@ -184,7 +191,7 @@ class Runner:
                 "Biomass": pi[biomass_pools].sum(axis=1) * -1,
                 "DOM": pi[dom_pools].sum(axis=1) * -1,
                 "Total Ecosystem": pi[biomass_pools + dom_pools].sum(axis=1) * -1,
-                "HWP":pi["Products"]
+                "HWP": pi["Products"],
             }
         )
 
@@ -194,18 +201,16 @@ class Runner:
 
         annual_carbon_stocks["Year"] = year_range
 
-        age = results.state.merge(results.classifiers)[['age', 'time_since_last_disturbance', 'last_disturbance_type']]
+        age = results.state.merge(results.classifiers)[
+            ["age", "time_since_last_disturbance", "last_disturbance_type"]
+        ]
         area = results.area.merge(results.classifiers)
 
-        structure_df =  pd.concat([age, area], axis=1)
+        structure_df = pd.concat([age, area], axis=1)
 
-
-        return {"Stock": annual_carbon_stocks, "Structure":structure_df, "Raw":pi}
-
-
+        return {"Stock": annual_carbon_stocks, "Structure": structure_df, "Raw": pi}
 
     def cbm_aggregate_scenario(self, sc):
-
         forest_baseline_year = self.data_manager_class.forest_baseline_year
         forestry_end_year = self.forest_end_year
         path = self.path
@@ -245,6 +250,8 @@ class Runner:
             )
 
         pi = results.pools.merge(results.classifiers)
+        # mask = ((pi["Species"] == "NFCF_mineral") | (pi["Species"] == "NFCF_peat") |(pi["Species"] == "NFBL_mineral") | (pi["Species"] == "NFBL_peat"))
+        # pi.loc[mask , "BelowGroundSlowSoil"] = 0
 
         biomass_pools = [
             "SoftwoodMerch",
@@ -279,7 +286,7 @@ class Runner:
                 "Biomass": pi[biomass_pools].sum(axis=1) * -1,
                 "DOM": pi[dom_pools].sum(axis=1) * -1,
                 "Total Ecosystem": pi[biomass_pools + dom_pools].sum(axis=1) * -1,
-                "HWP":pi["Products"]
+                "HWP": pi["Products"],
             }
         )
 
@@ -290,17 +297,16 @@ class Runner:
         annual_carbon_stocks["Year"] = year_range
         annual_carbon_stocks["Scenario"] = sc
 
-
-        age = results.state.merge(results.classifiers)[['age', 'time_since_last_disturbance', 'last_disturbance_type']]
+        age = results.state.merge(results.classifiers)[
+            ["age", "time_since_last_disturbance", "last_disturbance_type"]
+        ]
         area = results.area.merge(results.classifiers)
 
-        structure_df =  pd.concat([age, area], axis=1)
+        structure_df = pd.concat([age, area], axis=1)
 
-        return {"Stock": annual_carbon_stocks, "Structure":structure_df, "Raw":pi}
-    
-    
+        return {"Stock": annual_carbon_stocks, "Structure": structure_df, "Raw": pi}
+
     def cbm_scenario_fluxes(self, forest_data):
-
         fluxes = pd.DataFrame(columns=forest_data.columns)
 
         for i in forest_data.index:
@@ -318,9 +324,8 @@ class Runner:
                     - forest_data.loc[i - 1, "Total Ecosystem"]
                 )
 
-                fluxes.loc[i-1, "HWP"] = (
-                    forest_data.loc[i, "HWP"]
-                    - forest_data.loc[i-1, "HWP"]
+                fluxes.loc[i - 1, "HWP"] = (
+                    forest_data.loc[i, "HWP"] - forest_data.loc[i - 1, "HWP"]
                 )
 
         return fluxes
