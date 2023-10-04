@@ -7,9 +7,9 @@ from cbm_runner.cbm_runner_data_manager import DataManager
 
 
 class Inventory:
-    def __init__(self, config_path, afforestation_data):
+    def __init__(self, calibration_year, config_path, afforestation_data):
         self.loader_class = Loader()
-        self.data_manager_class = DataManager(config_path)
+        self.data_manager_class = DataManager(calibration_year, config_path)
         self.afforestation_data = afforestation_data
         self.age_df = self.loader_class.forest_age_structure()
         self.baseline_forest_classifiers = self.data_manager_class.classifiers[
@@ -24,7 +24,8 @@ class Inventory:
 
         species_proportion = self.loader_class.cso_species_breakdown()
 
-        legacy_year = self.data_manager_class.forest_baseline_year
+        #legacy_year = self.data_manager_class.forest_baseline_year
+        legacy_year = self.data_manager_class.afforestation_baseline
 
         species = {"Sitka": "conifer", "SGB": "broadleaf"}
 
@@ -301,10 +302,10 @@ class Inventory:
 
     def legacy_afforestation(self):
         legacy_afforestation_data = self.loader_class.afforesation_areas_KB()
-        grouped_legacy_afforestation_data = legacy_afforestation_data.groupby("year")
 
         soils_dict = self.data_manager_class.soils_dict
-        legacy_year = self.data_manager_class.forest_baseline_year
+        #legacy_year = self.data_manager_class.forest_baseline_year
+        legacy_year = self.data_manager_class.afforestation_baseline
 
         names_dict = self.data_manager_class.species_name_dict
 
@@ -378,7 +379,8 @@ class Inventory:
     def legacy_afforestation_annual(self):
         legacy_afforestation_data = self.loader_class.afforesation_areas_KB()
         soils_dict = self.data_manager_class.soils_dict
-        legacy_year = self.data_manager_class.forest_baseline_year
+        #legacy_year = self.data_manager_class.forest_baseline_year
+        legacy_year = self.data_manager_class.afforestation_baseline
 
         names_dict = self.data_manager_class.species_name_dict
 
