@@ -19,15 +19,15 @@ def main():
 
     runner = Runner(config, calibration_year, forest_end_year, afforest_data, sc_data)
 
-    runner.generate_input_data()
+    #runner.generate_input_data()
 
     # runner.cbm_baseline_forest()["Stock"].to_csv(os.path.join(path, "baseline_forest.csv"))
     # runner.cbm_aggregate_scenario(0)["Raw"].to_csv(os.path.join(path, "scenario_raw_forest.csv"))
     # runner.afforestation_scenarios_structure().to_csv(os.path.join(path, "afforestation_structure.csv"))
 
-    runner.cbm_aggregate_scenario(0)["Stock"].to_csv(
-        os.path.join(path, "0_aggregate.csv")
-    )
+    #runner.cbm_aggregate_scenario(0)["Stock"].to_csv(
+        #os.path.join(path, "0_aggregate.csv")
+    #)
 
     runner.run_flux_scenarios().to_csv(os.path.join(path, "c_flux.csv"))
 

@@ -20,7 +20,7 @@ class Distrubances:
         self.forest_end_year = forest_end_year
         self.calibration_year = calibration_year
         self.loader_class = Loader()
-        self.data_manager_class = DataManager(config_path, scenario_data)
+        self.data_manager_class = DataManager(calibration_year, config_path, scenario_data)
         self.baseline_forest_classifiers = self.data_manager_class.classifiers[
             "Baseline"
         ]
@@ -28,8 +28,8 @@ class Distrubances:
             "Scenario"
         ]
         self.afforestation_data = afforestation_data
-        self.inventory_class = Inventory(config_path, afforestation_data)
-        self.harvest_class = Harvest(config_path)
+        self.inventory_class = Inventory(calibration_year, config_path, afforestation_data)
+        #self.harvest_class = Harvest(config_path)
 
     def scenario_afforestation_area(self, scenario):
         scenario_years = self.forest_end_year - self.calibration_year
@@ -138,12 +138,13 @@ class Distrubances:
         disturbance_df = pd.DataFrame(columns=columns)
 
         return disturbance_df
+    
 
     def fill_legacy_data(self, scenario):
         classifiers = self.scenario_forest_classifiers
         disturbances = self.data_manager_class.disturbances_config[
             "Scenario"
-        ]  # ["DISTID4"]
+        ] 
 
         forest_baseline_year = self.data_manager_class.afforestation_baseline
 
@@ -358,6 +359,7 @@ class Distrubances:
         disturbance_df = disturbance_df[disturbance_df["Amount"] != 0]
 
         return disturbance_df
+
 
     def fill_baseline_forest(self):
         forest_baseline_year = self.data_manager_class.forest_baseline_year
