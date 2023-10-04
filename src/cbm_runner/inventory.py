@@ -24,7 +24,7 @@ class Inventory:
 
         species_proportion = self.loader_class.cso_species_breakdown()
 
-        #legacy_year = self.data_manager_class.forest_baseline_year
+        # legacy_year = self.data_manager_class.forest_baseline_year
         legacy_year = self.data_manager_class.afforestation_baseline
 
         species = {"Sitka": "conifer", "SGB": "broadleaf"}
@@ -304,7 +304,7 @@ class Inventory:
         legacy_afforestation_data = self.loader_class.afforesation_areas_KB()
 
         soils_dict = self.data_manager_class.soils_dict
-        #legacy_year = self.data_manager_class.forest_baseline_year
+        # legacy_year = self.data_manager_class.forest_baseline_year
         legacy_year = self.data_manager_class.afforestation_baseline
 
         names_dict = self.data_manager_class.species_name_dict
@@ -379,7 +379,7 @@ class Inventory:
     def legacy_afforestation_annual(self):
         legacy_afforestation_data = self.loader_class.afforesation_areas_KB()
         soils_dict = self.data_manager_class.soils_dict
-        #legacy_year = self.data_manager_class.forest_baseline_year
+        # legacy_year = self.data_manager_class.forest_baseline_year
         legacy_year = self.data_manager_class.afforestation_baseline
 
         names_dict = self.data_manager_class.species_name_dict
