@@ -7,7 +7,7 @@ from cbm_runner.cbm_runner_data_manager import DataManager
 class CreateJSON:
     def __init__(self, config_path):
         self.loader_class = Loader()
-        self.data_manager_class = DataManager(config_path)
+        self.data_manager_class = DataManager(None, config_path, None)
 
         self.template = {
             "import_config": {

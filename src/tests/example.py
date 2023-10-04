@@ -4,31 +4,34 @@ import os
 
 
 def main():
+    # path to data
     path = "./data"
 
+    # afforestation data for each scenario
     afforest_data = pd.read_csv(
         os.path.join(path, "scenario_afforestation.csv"), index_col=0
     )
 
+    # basic configuration file
     config = os.path.join(path, "cbm_factory.yaml")
 
+    # scenario_data
     sc_data = pd.read_csv(os.path.join(path, "scenario_dataframe.csv"))
 
+    # calibration and end point
     calibration_year = 2020
     forest_end_year = 2050
 
+    # instance of the Runner class
     runner = Runner(config, calibration_year, forest_end_year, afforest_data, sc_data)
 
-    # runner.generate_input_data()
+    # generation of data for each of the scenarios
+    runner.generate_input_data()
 
-    # runner.cbm_baseline_forest()["Stock"].to_csv(os.path.join(path, "baseline_forest.csv"))
-    # runner.cbm_aggregate_scenario(0)["Raw"].to_csv(os.path.join(path, "scenario_raw_forest.csv"))
-    # runner.afforestation_scenarios_structure().to_csv(os.path.join(path, "afforestation_structure.csv"))
+    # generation of aggregated results
+    runner.run_aggregate_scenarios().to_csv(os.path.join(path, "c_aggregate.csv"))
 
-    # runner.cbm_aggregate_scenario(0)["Stock"].to_csv(
-    # os.path.join(path, "0_aggregate.csv")
-    # )
-
+    # generation of annual flux results
     runner.run_flux_scenarios().to_csv(os.path.join(path, "c_flux.csv"))
 
 
