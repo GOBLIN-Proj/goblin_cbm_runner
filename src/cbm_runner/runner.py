@@ -31,7 +31,6 @@ class Runner:
         self.generate_base_input_data()
         self.forest_baseline_dataframe = self.cbm_baseline_forest()
 
-
     def generate_base_input_data(self):
         path = self.baseline_conf_path
 
@@ -70,15 +69,23 @@ class Runner:
             forest_data = self.cbm_aggregate_scenario(i)["Stock"]
 
             # Assuming 'year' is the common column
-            merged_data = pd.merge(forest_data, self.forest_baseline_dataframe["Stock"], on='Year', how='inner', suffixes=('', '_baseline'))
+            merged_data = pd.merge(
+                forest_data,
+                self.forest_baseline_dataframe["Stock"],
+                on="Year",
+                how="inner",
+                suffixes=("", "_baseline"),
+            )
 
             # Add the values for selected columns where 'year' matches
             columns_to_add = ["Biomass", "DOM", "Total Ecosystem", "HWP"]
             for col in columns_to_add:
-                merged_data[col] = merged_data[col] + merged_data[col + '_baseline']
+                merged_data[col] = merged_data[col] + merged_data[col + "_baseline"]
 
             # Drop the duplicate columns (columns with '_baseline' suffix)
-            merged_data.drop(columns=[col + '_baseline' for col in columns_to_add], inplace=True)
+            merged_data.drop(
+                columns=[col + "_baseline" for col in columns_to_add], inplace=True
+            )
 
             # Update the original 'forest_data' DataFrame with the merged and added data
             forest_data = merged_data
@@ -100,15 +107,23 @@ class Runner:
             forest_data = self.cbm_aggregate_scenario(i)["Stock"]
 
             # Assuming 'year' is the common column
-            merged_data = pd.merge(forest_data, self.forest_baseline_dataframe["Stock"], on='Year', how='inner', suffixes=('', '_baseline'))
+            merged_data = pd.merge(
+                forest_data,
+                self.forest_baseline_dataframe["Stock"],
+                on="Year",
+                how="inner",
+                suffixes=("", "_baseline"),
+            )
 
             # Add the values for selected columns where 'year' matches
             columns_to_add = ["Biomass", "DOM", "Total Ecosystem", "HWP"]
             for col in columns_to_add:
-                merged_data[col] = merged_data[col] + merged_data[col + '_baseline']
+                merged_data[col] = merged_data[col] + merged_data[col + "_baseline"]
 
             # Drop the duplicate columns (columns with '_baseline' suffix)
-            merged_data.drop(columns=[col + '_baseline' for col in columns_to_add], inplace=True)
+            merged_data.drop(
+                columns=[col + "_baseline" for col in columns_to_add], inplace=True
+            )
 
             # Update the original 'forest_data' DataFrame with the merged and added data
             forest_data = merged_data

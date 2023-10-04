@@ -30,7 +30,9 @@ class DataFactory:
         self.loader_class = Loader()
         self.data_manager_class = DataManager(calibration_year, config_path)
         self.json_creator_class = CreateJSON(config_path)
-        self.inventory_class = Inventory(calibration_year, config_path, afforestation_data)
+        self.inventory_class = Inventory(
+            calibration_year, config_path, afforestation_data
+        )
         self.disturbance_class = Distrubances(
             config_path,
             calibration_year,
