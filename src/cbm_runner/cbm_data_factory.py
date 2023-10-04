@@ -28,9 +28,11 @@ class DataFactory:
         scenario_data,
     ):
         self.loader_class = Loader()
-        self.data_manager_class = DataManager(config_path)
+        self.data_manager_class = DataManager(calibration_year, config_path)
         self.json_creator_class = CreateJSON(config_path)
-        self.inventory_class = Inventory(config_path, afforestation_data)
+        self.inventory_class = Inventory(
+            calibration_year, config_path, afforestation_data
+        )
         self.disturbance_class = Distrubances(
             config_path,
             calibration_year,
@@ -38,7 +40,7 @@ class DataFactory:
             afforestation_data,
             scenario_data,
         )
-        self.transition_class = Transition(config_path)
+        self.transition_class = Transition(calibration_year, config_path)
         self.afforestation_data = afforestation_data
 
     def set_input_data_dir(self, sc, path):

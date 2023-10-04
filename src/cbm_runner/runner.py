@@ -23,7 +23,7 @@ class Runner:
         self.cbm_data_class = DataFactory(
             config_path, calibration_year, forest_end_year, afforest_data, scenario_data
         )
-        self.data_manager_class = DataManager(config_path)
+        self.data_manager_class = DataManager(calibration_year, config_path)
 
         self.INDEX = [int(i) for i in afforest_data.scenario.unique()]
         self.forest_end_year = forest_end_year
@@ -67,12 +67,28 @@ class Runner:
 
         for i in self.INDEX:
             forest_data = self.cbm_aggregate_scenario(i)["Stock"]
-            forest_data[["Biomass", "DOM", "Total Ecosystem", "HWP"]] = (
-                forest_data[["Biomass", "DOM", "Total Ecosystem", "HWP"]]
-                + self.forest_baseline_dataframe["Stock"][
-                    ["Biomass", "DOM", "Total Ecosystem", "HWP"]
-                ]
+
+            # Assuming 'year' is the common column
+            merged_data = pd.merge(
+                forest_data,
+                self.forest_baseline_dataframe["Stock"],
+                on="Year",
+                how="inner",
+                suffixes=("", "_baseline"),
             )
+
+            # Add the values for selected columns where 'year' matches
+            columns_to_add = ["Biomass", "DOM", "Total Ecosystem", "HWP"]
+            for col in columns_to_add:
+                merged_data[col] = merged_data[col] + merged_data[col + "_baseline"]
+
+            # Drop the duplicate columns (columns with '_baseline' suffix)
+            merged_data.drop(
+                columns=[col + "_baseline" for col in columns_to_add], inplace=True
+            )
+
+            # Update the original 'forest_data' DataFrame with the merged and added data
+            forest_data = merged_data
 
             forest_data_copy = forest_data.copy(deep=True)
 
@@ -89,12 +105,29 @@ class Runner:
 
         for i in self.INDEX:
             forest_data = self.cbm_aggregate_scenario(i)["Stock"]
-            forest_data[["Biomass", "DOM", "Total Ecosystem", "HWP"]] = (
-                forest_data[["Biomass", "DOM", "Total Ecosystem", "HWP"]]
-                + self.forest_baseline_dataframe["Stock"][
-                    ["Biomass", "DOM", "Total Ecosystem", "HWP"]
-                ]
+
+            # Assuming 'year' is the common column
+            merged_data = pd.merge(
+                forest_data,
+                self.forest_baseline_dataframe["Stock"],
+                on="Year",
+                how="inner",
+                suffixes=("", "_baseline"),
             )
+
+            # Add the values for selected columns where 'year' matches
+            columns_to_add = ["Biomass", "DOM", "Total Ecosystem", "HWP"]
+            for col in columns_to_add:
+                merged_data[col] = merged_data[col] + merged_data[col + "_baseline"]
+
+            # Drop the duplicate columns (columns with '_baseline' suffix)
+            merged_data.drop(
+                columns=[col + "_baseline" for col in columns_to_add], inplace=True
+            )
+
+            # Update the original 'forest_data' DataFrame with the merged and added data
+            forest_data = merged_data
+
             fluxes_data = self.cbm_scenario_fluxes(forest_data)
 
             fluxes_forest_data = pd.concat(
@@ -211,7 +244,7 @@ class Runner:
         return {"Stock": annual_carbon_stocks, "Structure": structure_df, "Raw": pi}
 
     def cbm_aggregate_scenario(self, sc):
-        forest_baseline_year = self.data_manager_class.forest_baseline_year
+        forest_baseline_year = self.data_manager_class.afforestation_baseline
         forestry_end_year = self.forest_end_year
         path = self.path
 

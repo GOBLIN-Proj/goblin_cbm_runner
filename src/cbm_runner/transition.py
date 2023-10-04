@@ -5,8 +5,8 @@ import itertools
 
 
 class Transition:
-    def __init__(self, config_path):
-        self.data_manager_class = DataManager(config_path)
+    def __init__(self, calibration_year, config_path):
+        self.data_manager_class = DataManager(calibration_year, config_path)
         self.baseline_forest_classifiers = self.data_manager_class.classifiers[
             "Baseline"
         ]

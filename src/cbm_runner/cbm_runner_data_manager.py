@@ -4,10 +4,13 @@ import pandas as pd
 
 
 class DataManager:
-    def __init__(self, config_file=None, scenario_data=None):
+    def __init__(self, calibration_year=None, config_file=None, scenario_data=None):
         self.config_data = self.get_config_data(config_file) if config_file else None
 
-        self.forest_baseline_year = 1990
+        self.forest_baseline_year = (
+            (int(calibration_year) - 1) if calibration_year is not None else None
+        )
+
         self.afforestation_baseline = 1990
 
         self.non_forest_dict = {
