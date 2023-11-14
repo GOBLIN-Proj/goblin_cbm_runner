@@ -2,7 +2,6 @@ import cbm_runner.parser as parser
 from cbm_runner.cbm_runner_data_manager import DataManager
 from cbm_runner.loader import Loader
 from cbm_runner.inventory import Inventory
-from icecream import ic
 import pandas as pd
 import itertools
 from cbm_runner.harvest import AfforestationTracker
