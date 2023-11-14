@@ -1,5 +1,4 @@
 import copy
-
 from cbm_runner.loader import Loader
 from cbm_runner.cbm_runner_data_manager import DataManager
 
@@ -41,13 +40,13 @@ class CreateJSON:
         template = copy.deepcopy(self.template)
 
         if scenario is not None:
-            config = self.data_manager_class.classifiers["Scenario"]
-            disturbance = self.data_manager_class.disturbances_config["Scenario"]
+            config = self.data_manager_class.get_classifiers()["Scenario"]
+            disturbance = self.data_manager_class.get_disturbances_config()["Scenario"]
         else:
-            config = self.data_manager_class.classifiers["Baseline"]
-            disturbance = self.data_manager_class.disturbances_config["Baseline"]
+            config = self.data_manager_class.get_classifiers()["Baseline"]
+            disturbance = self.data_manager_class.get_disturbances_config()["Baseline"]
 
-        mapping = self.data_manager_class.mapping
+        mapping = self.data_manager_class.get_mapping()
 
         template["mapping_config"]["spatial_units"]["admin_boundary"] = mapping[
             "boundary"

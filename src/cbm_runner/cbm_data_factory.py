@@ -92,9 +92,9 @@ class DataFactory:
 
     def make_classifiers(self, scenario, path):
         if scenario is not None:
-            classifiers = self.data_manager_class.classifiers["Scenario"]
+            classifiers = self.data_manager_class.get_classifiers()["Scenario"]
         else:
-            classifiers = self.data_manager_class.classifiers["Baseline"]
+            classifiers = self.data_manager_class.get_classifiers()["Baseline"]
 
         cols = ["classifier_id", "name", "description"]
         classifier_df = pd.DataFrame(columns=cols)
@@ -144,14 +144,14 @@ class DataFactory:
         shared_classifiers = self.data_manager_class.config_data["Classifiers"]
 
         if scenario is not None:
-            classifiers = self.data_manager_class.classifiers["Scenario"]
+            classifiers = self.data_manager_class.get_classifiers()["Scenario"]
 
         else:
-            classifiers = self.data_manager_class.classifiers["Baseline"]
+            classifiers = self.data_manager_class.get_classifiers()["Baseline"]
 
-        name_dict = self.data_manager_class.yield_name_dict
+        name_dict = self.data_manager_class.get_yield_name_dict()
         afforestation_yield_name_dict = (
-            self.data_manager_class.afforestation_yield_name_dict
+            self.data_manager_class.get_afforestation_yield_name_dict()
         )
 
         max_age = shared_classifiers["age_classes"]["max_age"]
@@ -250,9 +250,9 @@ class DataFactory:
 
     def make_disturbance_type(self, scenario, path):
         if scenario != None:
-            classifiers = self.data_manager_class.disturbances_config["Scenario"]
+            classifiers = self.data_manager_class.get_disturbances_config()["Scenario"]
         else:
-            classifiers = self.data_manager_class.disturbances_config["Baseline"]
+            classifiers = self.data_manager_class.get_disturbances_config()["Baseline"]
 
         cols = ["id", "name"]
         disturbance_type_df = pd.DataFrame(columns=cols)

@@ -1,92 +1,150 @@
-import pandas as pd
-import os
-import cbm_runner.parser as parser
 from cbm_runner.loader import Loader
 from cbm_runner.cbm_runner_data_manager import DataManager
-from cbm_runner.yield_curves import YieldCurves
+import pandas as pd
+
+class ForestStand:
+    """Represents a single forest stand."""
+    
+    def __init__(self, species, yield_class, soil, area):
+        self.species = species
+        self.yield_class = yield_class
+        self.soil = soil
+        self.area = area
+        self.age = 0
+        self.since_last_dist = None
 
 
-class Harvest:
-    def __init__(self, config_path):
+    def age_stand(self):
+        """Increases the age of the stand by one year."""
+        self.age += 1
+
+    def disturb(self):
+        """Increases time since last disturbance by one year."""
+        if self.since_last_dist is None:
+            self.since_last_dist = 0
+        else:
+            self.since_last_dist += 1
+
+    def reset_dist(self):
+        """Resets time since last disturbance to zero."""
+     
+        self.since_last_dist = 0
+
+class DisturbedForestStand:
+    """Represents a single forest stand."""
+    
+    def __init__(self, year, species, yield_class, soil):
+        self.species = species
+        self.yield_class = yield_class
+        self.soil = soil
+        self.dist = None
+        self.area = None
+        self.year = year
+
+
+class AfforestationTracker:
+    """Tracks afforestation efforts over time."""
+    
+    def __init__(self):
         self.loader_class = Loader()
-        self.data_manager_class = DataManager(config_path)
-        self.baseline_forest_classifiers = self.data_manager_class.classifiers[
-            "Baseline"
-        ]
+        self.data_manager_class = DataManager()
+        self.disturbance_timing = self.loader_class.disturbance_time()
+        self.stands = []
+        self.disturbed_stands = []
 
-    def get_harvest_areas(self):
-        forest_harvest = self.loader_class.harvest_areas_NIR()
+    
+    def afforest(self, area, species, yield_class, soil):
+        """Add an afforestation event to the tracker."""
+        stand = ForestStand(species, yield_class, soil, area)
+        self.stands.append(stand)
 
-        yield_dict = self.make_yields()
 
-        yield_proportions_list = self.baseline_forest_classifiers["Yield_class"]["CF"]
-        yield_proportions_dict = {
-            list(yield_proportions_list[i].keys())[0]: list(
-                yield_proportions_list[i].values()
-            )[0]
-            for i, _ in enumerate(yield_proportions_list)
-        }
+    def move_to_next_age(self):
+        """Age all stands by one year."""
+        for stand in self.stands:
+            stand.age_stand()
 
-        soils_proprotions = self.generate_soil_proportions()
 
-        cols = ["year", "yield_class", "mineral", "peat"]
+    def forest_disturbance(self, year, species, yield_class, soil, proportion):
+        """Add a disturbance event to the tracker."""
+        disturbance_types = self.disturbance_timing["disturbance_id"].unique()
+        yield_name = self.data_manager_class.get_yield_name_dict()
 
-        harvest_area = pd.DataFrame(columns=cols)
+        for stand in self.stands:
+            for dist in disturbance_types:
+                disturbed_area = 0
 
-        count = 0
-        for year in forest_harvest.index:
-            for yc in yield_dict.keys():
-                proportion = yield_proportions_dict[yc]
-                volumn = forest_harvest.at[year, "production_m3"]
-                yield_volumns = yield_dict[yc]
+                if stand.yield_class == yield_class and stand.species == species and stand.soil == soil:
 
-                harvest_area.at[count, "year"] = year
-                harvest_area.at[count, "yield_class"] = yc
-                harvest_area.at[count, "mineral"] = (
-                    self.calculate_area(proportion, volumn, yield_volumns)
-                    * soils_proprotions.at[year, "mineral"]
-                )
-                harvest_area.at[count, "peat"] = (
-                    self.calculate_area(proportion, volumn, yield_volumns)
-                    * soils_proprotions.at[year, "organic"]
-                )
+                    try:
+                        yc = yield_name[species][yield_class]
+                    except KeyError:
+                        yc = None
 
-                count += 1
+                    if yc is not None:
+                        mask = ((self.disturbance_timing.index == yc) & (self.disturbance_timing["disturbance_id"] == dist))
+                        if not self.disturbance_timing.loc[mask].empty:
+                            if stand.age >= self.disturbance_timing.loc[mask, "sw_age_min"].item() and stand.age <= self.disturbance_timing.loc[mask,"sw_age_max"].item():
+                                dist_stand = DisturbedForestStand(year,species, yield_class, soil)
+                                
+                                if dist == "DISTID1":
+                                    disturbed_area = stand.area * proportion[dist]
+                                    replant = ForestStand(species, yield_class, soil, disturbed_area)
+                                    self.stands.append(replant)
+                                    stand.area = stand.area * (1 - proportion[dist])
 
-        return harvest_area
+                                    dist_stand.dist = dist
+                                    dist_stand.area = disturbed_area
+                                    dist_stand.species = species
+                                    dist_stand.yield_class = yield_class
+                                    dist_stand.soil = soil
+                                    self.disturbed_stands.append(dist_stand)
 
-    def calculate_area(self, proportion, harvest_volumn, yield_volumns):
-        return (harvest_volumn * proportion) / yield_volumns
+                                elif stand.since_last_dist is None or stand.since_last_dist >= self.disturbance_timing.loc[mask, "min years since dist"].item():
+                                    disturbed_area = stand.area * proportion[dist]
+                                    stand.disturb()
 
-    def generate_soil_proportions(self):
-        forest_inventory = self.loader_class.NIR_forest_data_ha()
+                                    dist_stand.dist = dist
+                                    dist_stand.area = disturbed_area
+                                    dist_stand.species = species
+                                    dist_stand.yield_class = yield_class
+                                    dist_stand.soil = soil
+                                    self.disturbed_stands.append(dist_stand)
 
-        cols = ["mineral", "organic"]
-        soils_proportion = pd.DataFrame(index=forest_inventory.index, columns=cols)
+                                elif stand.since_last_dist < self.disturbance_timing.loc[mask, "min years since dist"].item():
+                                        
+                                    stand.reset_dist()
+           
+                    
 
-        soils_proportion["mineral"] = (
-            forest_inventory["mineral_kha"] / forest_inventory["total_kha"]
-        )
-        soils_proportion["organic"] = (
-            forest_inventory["organic_kha"] / forest_inventory["total_kha"]
-        )
+    def get_stand_data_for_year(self):
+        """Returns a list of tuples containing stand data for the current year."""
+        return [(stand.species, stand.yield_class, stand.soil, stand.area, stand.age, stand.since_last_dist) for stand in self.stands]
+    
+    def get_disturbance_data_for_year(self):
+        """Returns a list of tuples containing disturbance data for the current year."""
+        return [(stand.species, stand.yield_class, stand.soil, stand.area, stand.year, stand.dist) for stand in self.disturbed_stands]
+    
+    def get_stand_data_by_age(self):
+        """Returns a nested dictionary with areas grouped by age, species, and yield class."""
+        age_dict = {}
 
-        return soils_proportion
+        for stand in self.stands:
+            if stand.age not in age_dict:
+                age_dict[stand.age] = {}
 
-    def make_yields(self):
-        yield_table = YieldCurves.yield_table_generater_method1()
-        harvest_dict = self.data_manager_class.forest_baseline_disturbance_dict
+            age_species = age_dict[stand.age]
 
-        yield_names = self.data_manager_class.yield_name_dict
+            if stand.species not in age_species:
+                age_species[stand.species] = {}
 
-        volumes = {}
+            age_species_yield_class = age_species[stand.species]
 
-        for yield_name in yield_names["Sitka"].keys():
-            mask = yield_table.index == yield_names["Sitka"][yield_name]
+            if stand.yield_class not in age_species_yield_class:
+                age_species_yield_class[stand.yield_class] = stand.area
+            else:
+                age_species_yield_class[stand.yield_class] += stand.area
 
-            col = harvest_dict["DISTID1"]["Sitka"][yield_names["Sitka"][yield_name]]
+        return age_dict
+    
 
-            if col is not None:
-                volumes[yield_name] = yield_table.loc[mask, col].item()
-
-        return volumes
