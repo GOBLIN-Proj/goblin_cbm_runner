@@ -1,8 +1,8 @@
 index,scenario,species,total_area
 0,-1,Sitka,0
 1,-1,SGB,0
-0,0,Sitka,1
-1,0,SGB,2
+0,0,Sitka,500000
+1,0,SGB,500000
 0,1,Sitka,3
 1,1,SGB,4
 0,2,Sitka,5
