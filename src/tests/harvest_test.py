@@ -2,8 +2,6 @@ import pandas as pd
 import os
 from cbm_runner.harvest import AfforestationTracker
 import unittest
-from icecream import ic
-
 
 
 class TestAfforestationTracker(unittest.TestCase):
