@@ -1,7 +1,6 @@
 import pandas as pd
 import os
 import itertools
-import cbm_runner.parser as parser
 from cbm_runner.loader import Loader
 from cbm_runner.cbm_runner_data_manager import DataManager
 
@@ -12,20 +11,21 @@ class Inventory:
         self.data_manager_class = DataManager(calibration_year, config_path)
         self.afforestation_data = afforestation_data
         self.age_df = self.loader_class.forest_age_structure()
-        self.baseline_forest_classifiers = self.data_manager_class.classifiers[
+        self.baseline_forest_classifiers = self.data_manager_class.get_classifiers()[
             "Baseline"
         ]
-        self.scenario_forest_classifiers = self.data_manager_class.classifiers[
+        self.scenario_forest_classifiers = self.data_manager_class.get_classifiers()[
             "Scenario"
         ]
+        self.legacy_year = self.data_manager_class.get_afforestation_baseline()
+        self.soils_dict = self.data_manager_class.get_soils_dict()
 
     def legacy_forest_inventory(self):
         legacy_data = self.loader_class.NIR_forest_data_ha()
 
         species_proportion = self.loader_class.cso_species_breakdown()
 
-        # legacy_year = self.data_manager_class.forest_baseline_year
-        legacy_year = self.data_manager_class.afforestation_baseline
+        legacy_year =  self.legacy_year
 
         species = {"Sitka": "conifer", "SGB": "broadleaf"}
 
@@ -52,18 +52,18 @@ class Inventory:
         if scenario is not None:
             classifiers = self.scenario_forest_classifiers
             classifiers_path = os.path.join(path, str(scenario), "classifiers.csv")
-            forest_keys = self.data_manager_class.forest_type_keys["afforestation"]
+            forest_keys = self.data_manager_class.get_forest_type_keys()["afforestation"]
 
         else:
             classifiers = self.baseline_forest_classifiers
             classifiers_path = os.path.join(path, "classifiers.csv")
-            forest_keys = self.data_manager_class.forest_type_keys["legacy"]
+            forest_keys = self.data_manager_class.get_forest_type_keys()["legacy"]
 
-        yield_name_dict = self.data_manager_class.yield_name_dict
+        yield_name_dict = self.data_manager_class.get_yield_name_dict()
         afforestation_yield_name_dict = (
-            self.data_manager_class.afforestation_yield_name_dict
+            self.data_manager_class.get_afforestation_yield_name_dict()
         )
-        non_forest_soils = self.data_manager_class.non_forest_soils
+        non_forest_soils = self.data_manager_class.get_non_forest_soils()
 
         classifiers_df = pd.read_csv(classifiers_path)
 
@@ -160,8 +160,8 @@ class Inventory:
 
         age_mask = age_df["year"] == ageID
 
-        if species in self.data_manager_class.yield_basline_dict:
-            yield_dict = self.data_manager_class.yield_basline_dict[species]
+        if species in self.data_manager_class.get_yield_basline_dict():
+            yield_dict = self.data_manager_class.get_yield_basline_dict()[species]
         else:
             yield_dict = None
 
@@ -228,7 +228,7 @@ class Inventory:
             "peat_afforestation"
         ]
 
-        non_forest_dict = self.data_manager_class.non_forest_dict
+        non_forest_dict = self.data_manager_class.get_non_forest_dict()
 
         for yield_class in classifiers["Yield classes"].keys():
             for species in mineral_areas_dicts[yield_class].keys():
@@ -243,11 +243,11 @@ class Inventory:
                     if soil == "peat":
                         inventory_df.loc[
                             inventory_mask, "Area"
-                        ] = legacy_afforestation_peat_dict[yield_class][species]
+                        ] = legacy_afforestation_peat_dict[yield_class][species] + 10000
                     else:
                         inventory_df.loc[inventory_mask, "Area"] = mineral_areas_dicts[
                             yield_class
-                        ][species]
+                        ][species] + 10000
 
         inventory_df["HistDist"] = "DISTID3"
 
@@ -256,7 +256,7 @@ class Inventory:
         return inventory_df
 
     def scenario_afforesation_dict(self, scenario_afforestation_areas):
-        yield_basline_dict = self.data_manager_class.yield_basline_dict
+        yield_basline_dict = self.data_manager_class.get_yield_basline_dict()
 
         scenario_areas_dicts = dict(
             zip(
@@ -303,11 +303,10 @@ class Inventory:
     def legacy_afforestation(self):
         legacy_afforestation_data = self.loader_class.afforesation_areas_KB()
 
-        soils_dict = self.data_manager_class.soils_dict
-        # legacy_year = self.data_manager_class.forest_baseline_year
-        legacy_year = self.data_manager_class.afforestation_baseline
+        soils_dict = self.soils_dict
+        legacy_year =  self.legacy_year 
 
-        names_dict = self.data_manager_class.species_name_dict
+        names_dict = self.data_manager_class.get_species_name_dict()
 
         index = legacy_afforestation_data.index.unique()
 
@@ -378,11 +377,10 @@ class Inventory:
 
     def legacy_afforestation_annual(self):
         legacy_afforestation_data = self.loader_class.afforesation_areas_KB()
-        soils_dict = self.data_manager_class.soils_dict
-        # legacy_year = self.data_manager_class.forest_baseline_year
-        legacy_year = self.data_manager_class.afforestation_baseline
+        soils_dict = self.soils_dict
+        legacy_year =  self.legacy_year
 
-        names_dict = self.data_manager_class.species_name_dict
+        names_dict = self.data_manager_class.get_species_name_dict()
 
         index = legacy_afforestation_data.index.unique()
 
@@ -427,7 +425,7 @@ class Inventory:
 
         mineral_afforestation = self.afforestation_annual_dict(mineral_afforestation)
         peat_afforestation = self.afforestation_annual_dict(peat_afforestation)
-
+        
         return {
             "peat_afforestation": peat_afforestation,
             "mineral_afforestation": mineral_afforestation,

@@ -2,10 +2,11 @@ import cbm_runner.parser as parser
 from cbm_runner.cbm_runner_data_manager import DataManager
 from cbm_runner.loader import Loader
 from cbm_runner.inventory import Inventory
-from cbm_runner.harvest import Harvest
+from icecream import ic
 import pandas as pd
 import itertools
-from collections import defaultdict
+from cbm_runner.harvest import AfforestationTracker
+import json
 
 
 class Distrubances:
@@ -23,17 +24,22 @@ class Distrubances:
         self.data_manager_class = DataManager(
             calibration_year, config_path, scenario_data
         )
-        self.baseline_forest_classifiers = self.data_manager_class.classifiers[
+        self.baseline_forest_classifiers = self.data_manager_class.get_classifiers()[
             "Baseline"
         ]
-        self.scenario_forest_classifiers = self.data_manager_class.classifiers[
+        self.scenario_forest_classifiers = self.data_manager_class.get_classifiers()[
             "Scenario"
         ]
         self.afforestation_data = afforestation_data
         self.inventory_class = Inventory(
             calibration_year, config_path, afforestation_data
         )
-        # self.harvest_class = Harvest(config_path)
+
+        self.disturbance_timing = self.loader_class.disturbance_time()
+        self.disturbance_dataframe = self.loader_class.disturbance_data()
+        self.scenario_disturbance_dict = self.data_manager_class.scenario_disturbance_dict
+        self.legacy_disturbance_dict = self.data_manager_class.get_legacy_disturbance_dict()
+
 
     def scenario_afforestation_area(self, scenario):
         scenario_years = self.forest_end_year - self.calibration_year
@@ -54,13 +60,13 @@ class Distrubances:
 
         return result_dict
 
-    def legacy_disturbance_afforestation_area(self, scenario, years):
+    def legacy_disturbance_afforestation_area(self, years):
         years = list(range(1, years + 1))
 
         result_dataframe = pd.DataFrame()
 
         classifiers = self.scenario_forest_classifiers
-        year_index = self.data_manager_class.afforestation_baseline - 1
+        year_index = self.data_manager_class.get_afforestation_baseline()
 
         afforestation_mineral = self.inventory_class.legacy_afforestation_annual()[
             "mineral_afforestation"
@@ -69,9 +75,10 @@ class Distrubances:
             "peat_afforestation"
         ]
 
-        yield_dict = self.data_manager_class.yield_basline_dict
 
-        year_count = 1
+        yield_dict = self.data_manager_class.get_yield_basline_dict()
+
+        year_count = 0
         index = 0
 
         for species in classifiers["Species"].keys():
@@ -105,269 +112,78 @@ class Distrubances:
                             index += 1
                             year_count += 1
 
-                        year_count = 1
+                        year_count = 0
 
         return result_dataframe
 
-    def legacy_disturbance_calculation(
-        self, legacy_value, yield_class, age_ids, disturbance_proprtion
-    ):
-        age_df = self.loader_class.forest_age_structure()
-        classifiers = self.classifiers
-
-        result = 0
-
-        yield_list = parser.get_yield_class(classifiers, "CF")
-        yield_dict = {
-            list(yield_list[i].keys())[0]: list(yield_list[i].values())[0]
-            for i, _ in enumerate(yield_list)
-        }
-
-        age = parser.get_age_classifier(classifiers)
-
-        for ID in age_ids:
-            age_mask = age_df["year"] == age[ID]
-
-            result += (
-                legacy_value
-                * yield_dict[yield_class]
-                * age_df.loc[age_mask, "aggregate"].values
-                * disturbance_proprtion
-            )
-
-        return result[0]
 
     def disturbance_structure(self):
-        columns = self.data_manager_class.disturbance_cols
+        columns = self.data_manager_class.get_disturbance_cols()
         disturbance_df = pd.DataFrame(columns=columns)
 
         return disturbance_df
 
-    def fill_legacy_data(self, scenario):
-        classifiers = self.scenario_forest_classifiers
-        disturbances = self.data_manager_class.disturbances_config["Scenario"]
+    def fill_legacy_data(self):
 
-        forest_baseline_year = self.data_manager_class.afforestation_baseline
+        disturbances = self.data_manager_class.get_disturbances_config()["Scenario"]
 
-        yield_name_dict = self.data_manager_class.yield_name_dict
+        forest_baseline_year = self.data_manager_class.get_afforestation_baseline()
 
-        static_cols = self.data_manager_class.static_disturbance_cols
+        yield_name_dict = self.data_manager_class.get_yield_name_dict()
 
         calibration_year = self.calibration_year
 
         disturbance_df = self.disturbance_structure()
-        disturbance_dataframe = self.loader_class.disturbance_data()
 
-        legacy_years = calibration_year - forest_baseline_year
+        legacy_years = (calibration_year - forest_baseline_year) +1
 
-        legacy_afforestation_inventory = self.legacy_disturbance_afforestation_area(
-            scenario, legacy_years
-        )
+        legacy_afforestation_inventory = self.legacy_disturbance_afforestation_area(legacy_years)
+        disturbance_dataframe = self.disturbance_dataframe
 
-        non_forest_dict = self.data_manager_class.non_forest_dict
-
-        yield_name = self.data_manager_class.yield_name_dict
-
-        disturbance_timing = self.loader_class.disturbance_time()
-
-        forest_keys = list(classifiers["Forest type"].keys())
-        soil_keys = list(classifiers["Soil classes"].keys())
-        yield_keys = list(classifiers["Yield classes"].keys())
-
-        static_defaults = {col: -1 for col in static_cols}
+        disturbance_timing = self.disturbance_timing
 
         data = []
 
-        for yr in range(1, (legacy_years + 1)):
+        for yr in range(0, (legacy_years + 1)):
             for dist in disturbances:
                 for species in yield_name_dict.keys():
-                    classifier_combo = itertools.product(
-                        forest_keys, soil_keys, yield_keys
-                    )
+                    classifier_combo = self._get_classifier_combinations()
 
                     for combination in classifier_combo:
                         forest_type, soil, yield_class = combination
 
-                        row_data = {
-                            "Classifier1": species,
-                            "Classifier2": forest_type,
-                            "Classifier3": soil,
-                            "Classifier4": yield_class,
-                            "UsingID": False,
-                            "sw_age_min": 0,
-                            "sw_age_max": 210,
-                            "hw_age_min": 0,
-                            "hw_age_max": 210,
-                            "MinYearsSinceDist": -1,
-                            **static_defaults,
-                            "Efficiency": 1,
-                            "SortType": 3,
-                            "MeasureType": "A",
-                            "Amount": 0,
-                            "DistTypeID": dist,
-                            "Year": yr,
+                        row_data = self._generate_row(species, forest_type, soil, yield_class, dist, yr+1)
+
+                        context = {"forest_type":forest_type, 
+                                   "species":species, 
+                                   "soil":soil, 
+                                   "yield_class":yield_class, 
+                                   "dist":dist, 
+                                   "year":yr,
+                                    "forest_baseline_year":forest_baseline_year,
                         }
 
-                        if (
-                            species in yield_name.keys()
-                            and yield_class in yield_name[species].keys()
-                        ):
-                            try:
-                                sw_min = disturbance_timing.loc[
-                                    (
-                                        (
-                                            disturbance_timing.index
-                                            == yield_name[species][yield_class]
-                                        )
-                                        & (disturbance_timing["disturbance_id"] == dist)
-                                    ),
-                                    "sw_age_min",
-                                ].item()
-                                sw_max = disturbance_timing.loc[
-                                    (
-                                        (
-                                            disturbance_timing.index
-                                            == yield_name[species][yield_class]
-                                        )
-                                        & (disturbance_timing["disturbance_id"] == dist)
-                                    ),
-                                    "sw_age_max",
-                                ].item()
-                                hw_min = disturbance_timing.loc[
-                                    (
-                                        (
-                                            disturbance_timing.index
-                                            == yield_name[species][yield_class]
-                                        )
-                                        & (disturbance_timing["disturbance_id"] == dist)
-                                    ),
-                                    "hw_age_min",
-                                ].item()
-                                hw_max = disturbance_timing.loc[
-                                    (
-                                        (
-                                            disturbance_timing.index
-                                            == yield_name[species][yield_class]
-                                        )
-                                        & (disturbance_timing["disturbance_id"] == dist)
-                                    ),
-                                    "hw_age_max",
-                                ].item()
-                                min_years = disturbance_timing.loc[
-                                    (
-                                        (
-                                            disturbance_timing.index
-                                            == yield_name[species][yield_class]
-                                        )
-                                        & (disturbance_timing["disturbance_id"] == dist)
-                                    ),
-                                    "min years since dist",
-                                ].item()
+                        dataframes = {"legacy_afforestation_inventory":legacy_afforestation_inventory,
+                                        "disturbance_dataframe":disturbance_dataframe,
+                                        "disturbance_timing":disturbance_timing,
+                            }
 
-                                row_data["sw_age_min"] = int(sw_min)
-                                row_data["sw_age_max"] = int(sw_max)
-                                row_data["hw_age_min"] = int(hw_min)
-                                row_data["hw_age_max"] = int(hw_max)
-                                row_data["MinYearsSinceDist"] = int(min_years)
-
-                            except ValueError:
-                                sw_min = 0
-                                sw_max = 210
-                                hw_min = 0
-                                hw_max = 210
-                                min_years = -1
-
-                                row_data["sw_age_min"] = int(sw_min)
-                                row_data["sw_age_max"] = int(sw_max)
-                                row_data["hw_age_min"] = int(hw_min)
-                                row_data["hw_age_max"] = int(hw_max)
-                                row_data["MinYearsSinceDist"] = int(min_years)
-
-                        if forest_type == "A" and dist == "DISTID4":
-                            mask = (
-                                (legacy_afforestation_inventory["species"] == species)
-                                & (
-                                    legacy_afforestation_inventory["yield_class"]
-                                    == yield_class
-                                )
-                                & (legacy_afforestation_inventory["year"] == yr)
-                                & (legacy_afforestation_inventory["soil"] == soil)
-                            )
-                            row_data["Classifier1"] = non_forest_dict[species][soil]
-                            try:
-                                row_data["Amount"] = legacy_afforestation_inventory.loc[
-                                    mask, "area_ha"
-                                ].item()
-
-                            except ValueError:
-                                row_data["Amount"] = 0
-
-                        elif forest_type == "L" and dist == "DISTID3":
-                            mask = (
-                                (disturbance_dataframe["Species"] == "?")
-                                & (disturbance_dataframe["Yield_class"] == "?")
-                                & (
-                                    disturbance_dataframe["Year"]
-                                    == (forest_baseline_year + yr)
-                                )
-                                & (disturbance_dataframe["Disturbance_id"] == dist)
-                            )
-
-                            try:
-                                row_data["Amount"] = disturbance_dataframe.loc[
-                                    mask, "Amount"
-                                ].item()
-                                row_data["MeasureType"] = disturbance_dataframe.loc[
-                                    mask, "M_type"
-                                ].item()
-
-                            except ValueError:
-                                row_data["Amount"] = 0
-
-                        elif (
-                            forest_type == "L"
-                            and dist != "DISTID4"
-                            or dist != "DISTID3"
-                        ):
-                            mask = (
-                                (disturbance_dataframe["Species"] == species)
-                                & (disturbance_dataframe["Yield_class"] == yield_class)
-                                & (
-                                    disturbance_dataframe["Year"]
-                                    == (forest_baseline_year + yr)
-                                )
-                                & (disturbance_dataframe["Disturbance_id"] == dist)
-                            )
-                            row_data["Classifier1"] = species
-                            try:
-                                row_data["Amount"] = disturbance_dataframe.loc[
-                                    mask, "Amount"
-                                ].item()
-                                row_data["MeasureType"] = disturbance_dataframe.loc[
-                                    mask, "M_type"
-                                ].item()
-
-                            except ValueError:
-                                row_data["Amount"] = 0
-
-                        else:
-                            row_data["Classifier1"] = species
-                            row_data["Amount"] = 0
-
+                        self._process_row_data(row_data,context, dataframes)
+                        
                         data.append(row_data)
 
+
         disturbance_df = pd.DataFrame(data)
-        disturbance_df = disturbance_df[disturbance_df["Amount"] != 0]
+        disturbance_df = self._drop_zero_area_rows(disturbance_df)
 
         return disturbance_df
+    
 
     def fill_baseline_forest(self):
-        forest_baseline_year = self.data_manager_class.forest_baseline_year
+        forest_baseline_year = self.data_manager_class.get_forest_baseline_year()
         classifiers = self.baseline_forest_classifiers
-
+        disturbance_dataframe = self.disturbance_dataframe
         disturbances = ["DISTID1", "DISTID2"]
-
-        static_cols = self.data_manager_class.static_disturbance_cols
 
         calibration_year = self.calibration_year
 
@@ -375,259 +191,397 @@ class Distrubances:
 
         legacy_years = calibration_year - forest_baseline_year
 
-        yield_name = self.data_manager_class.yield_name_dict
-
-        disturbance_timing = self.loader_class.disturbance_time()
+        disturbance_timing = self.disturbance_timing 
 
         species_keys = list(classifiers["Species"].keys())
-        forest_keys = list(classifiers["Forest type"].keys())
-        soil_keys = list(classifiers["Soil classes"].keys())
-        yield_keys = list(classifiers["Yield classes"].keys())
 
-        count = 0
-        for yr in range(1, (legacy_years + 1)):
+        data = []
+        for yr in range(0, (legacy_years + 1)):
             for dist in disturbances:
                 for species in species_keys:
-                    for forest_type, soil, yield_class in itertools.product(
-                        forest_keys, soil_keys, yield_keys
-                    ):
-                        if (
-                            species in yield_name.keys()
-                            and yield_class in yield_name[species].keys()
-                        ):
-                            try:
-                                sw_min = disturbance_timing.loc[
-                                    (
-                                        (
-                                            disturbance_timing.index
-                                            == yield_name[species][yield_class]
-                                        )
-                                        & (disturbance_timing["disturbance_id"] == dist)
-                                    ),
-                                    "sw_age_min",
-                                ].item()
-                                sw_max = disturbance_timing.loc[
-                                    (
-                                        (
-                                            disturbance_timing.index
-                                            == yield_name[species][yield_class]
-                                        )
-                                        & (disturbance_timing["disturbance_id"] == dist)
-                                    ),
-                                    "sw_age_max",
-                                ].item()
-                                hw_min = disturbance_timing.loc[
-                                    (
-                                        (
-                                            disturbance_timing.index
-                                            == yield_name[species][yield_class]
-                                        )
-                                        & (disturbance_timing["disturbance_id"] == dist)
-                                    ),
-                                    "hw_age_min",
-                                ].item()
-                                hw_max = disturbance_timing.loc[
-                                    (
-                                        (
-                                            disturbance_timing.index
-                                            == yield_name[species][yield_class]
-                                        )
-                                        & (disturbance_timing["disturbance_id"] == dist)
-                                    ),
-                                    "hw_age_max",
-                                ].item()
-                                min_years = disturbance_timing.loc[
-                                    (
-                                        (
-                                            disturbance_timing.index
-                                            == yield_name[species][yield_class]
-                                        )
-                                        & (disturbance_timing["disturbance_id"] == dist)
-                                    ),
-                                    "min years since dist",
-                                ].item()
-                            except ValueError:
-                                sw_min = None
-                                sw_max = None
-                                hw_min = None
-                                hw_max = None
-                                min_years = None
+                    classifier_combo = self._get_legacy_classifier_combinations()
+                    for combination in classifier_combo:
+                        forest_type, soil, yield_class = combination
 
-                            if (
-                                sw_min is not None
-                                and sw_max is not None
-                                and hw_min is not None
-                                and hw_max is not None
-                                and min_years is not None
-                            ):
-                                disturbance_df.at[count, "Classifier1"] = species
-                                disturbance_df.at[count, "Classifier2"] = forest_type
-                                disturbance_df.at[count, "Classifier3"] = soil
-                                disturbance_df.at[count, "Classifier4"] = yield_class
+                    row_data = self._generate_row(species, forest_type, soil, yield_class, dist, yr+1)
+                    
+                    context = {"forest_type":forest_type, 
+                                   "species":species, 
+                                   "soil":soil, 
+                                   "yield_class":yield_class, 
+                                   "dist":dist, 
+                                   "year":yr,
+                                    "forest_baseline_year":forest_baseline_year,
+                        }
 
-                                disturbance_df.at[count, "UsingID"] = False
-                                disturbance_df.at[count, "Year"] = yr
-                                disturbance_df.at[count, "DistTypeID"] = dist
-                                disturbance_df.at[count, "MeasureType"] = "A"
-                                disturbance_df.at[count, "SortType"] = 3
-                                disturbance_df.at[count, "Efficiency"] = 1
+                    dataframes = {"disturbance_dataframe":disturbance_dataframe,
+                        "disturbance_timing":disturbance_timing}
 
-                                sw_min = disturbance_timing.loc[
-                                    (
-                                        (
-                                            disturbance_timing.index
-                                            == yield_name[species][yield_class]
-                                        )
-                                        & (disturbance_timing["disturbance_id"] == dist)
-                                    ),
-                                    "sw_age_min",
-                                ].item()
-                                sw_max = disturbance_timing.loc[
-                                    (
-                                        (
-                                            disturbance_timing.index
-                                            == yield_name[species][yield_class]
-                                        )
-                                        & (disturbance_timing["disturbance_id"] == dist)
-                                    ),
-                                    "sw_age_max",
-                                ].item()
-                                hw_min = disturbance_timing.loc[
-                                    (
-                                        (
-                                            disturbance_timing.index
-                                            == yield_name[species][yield_class]
-                                        )
-                                        & (disturbance_timing["disturbance_id"] == dist)
-                                    ),
-                                    "hw_age_min",
-                                ].item()
-                                hw_max = disturbance_timing.loc[
-                                    (
-                                        (
-                                            disturbance_timing.index
-                                            == yield_name[species][yield_class]
-                                        )
-                                        & (disturbance_timing["disturbance_id"] == dist)
-                                    ),
-                                    "hw_age_max",
-                                ].item()
-                                min_years = disturbance_timing.loc[
-                                    (
-                                        (
-                                            disturbance_timing.index
-                                            == yield_name[species][yield_class]
-                                        )
-                                        & (disturbance_timing["disturbance_id"] == dist)
-                                    ),
-                                    "min years since dist",
-                                ].item()
+                    self._process_row_data(row_data,context, dataframes)
+                    
+                    #force row to 0 
+                    row_data["Amount"] = 0
 
-                                disturbance_df.at[count, "sw_age_min"] = sw_min
-                                disturbance_df.at[count, "sw_age_max"] = sw_max
-                                disturbance_df.at[count, "hw_age_min"] = hw_min
-                                disturbance_df.at[count, "hw_age_max"] = hw_max
-                                disturbance_df.at[
-                                    count, "MinYearsSinceDist"
-                                ] = min_years
+                    data.append(row_data)
 
-                                disturbance_df.loc[count, static_cols] = -1
-
-                                disturbance_df.loc[count, "Amount"] = 0
-                                count += 1
-
-        zero_area_mask = disturbance_df["Amount"] == 0
-        disturbance_df.drop(disturbance_df.loc[zero_area_mask].index, inplace=True)
+        disturbance_df = pd.DataFrame(data)
+        disturbance_df = self._drop_zero_area_rows(disturbance_df)
 
         return disturbance_df
 
+
     def fill_scenario_data(self, scenario):
-        classifiers = self.scenario_forest_classifiers
+
         configuration_classifiers = self.data_manager_class.config_data
 
         afforestation_inventory = self.scenario_afforestation_area(scenario)
 
-        disturbance_df = self.fill_legacy_data(scenario)
+        disturbance_timing = self.disturbance_timing 
+
+        disturbance_df = self.fill_legacy_data()
 
         legacy_end_year = disturbance_df.Year.max()
-
-        static_cols = self.data_manager_class.static_disturbance_cols
 
         scenario_years = self.forest_end_year - self.calibration_year
         years = list(
             range((legacy_end_year + 1), (legacy_end_year + (scenario_years + 1)))
         )
 
-        non_forest_dict = self.data_manager_class.non_forest_dict
+        non_forest_dict = self.data_manager_class.get_non_forest_dict()
 
-        forest_keys = list(classifiers["Forest type"].keys())
-        soil_keys = list(classifiers["Soil classes"].keys())
-        yield_keys = list(classifiers["Yield classes"].keys())
+        disturbances = ["DISTID4", "DISTID1", "DISTID2"]
 
-        disturbances = ["DISTID4"]
-
-        static_defaults = {col: -1 for col in static_cols}
+        tracker = AfforestationTracker()
 
         data = []
 
         for yr in years:
             for dist in disturbances:
-                for species in parser.get_inventory_species(configuration_classifiers):
-                    combinations = itertools.product(forest_keys, soil_keys, yield_keys)
+                if dist == "DISTID4":
+                    for species in parser.get_inventory_species(configuration_classifiers):
+                        combinations = self._get_scenario_classifier_combinations()
 
-                    for combination in combinations:
-                        forest_type, soil, yield_class = combination
+                        for combination in combinations:
+                            forest_type, soil, yield_class = combination
 
-                        row_data = {
-                            "Classifier1": species,
-                            "Classifier2": forest_type,
-                            "Classifier3": soil,
-                            "Classifier4": yield_class,
-                            "UsingID": False,
-                            "sw_age_min": 0,
-                            "sw_age_max": 210,
-                            "hw_age_min": 0,
-                            "hw_age_max": 210,
-                            "MinYearsSinceDist": -1,
-                            **static_defaults,
-                            "Efficiency": 1,
-                            "SortType": 3,
-                            "MeasureType": "A",
-                            "Amount": 0,
-                            "DistTypeID": dist,
-                            "Year": yr,
-                        }
-                        if forest_type == "A":
-                            row_data["Classifier1"] = non_forest_dict[species][soil]
-                            afforestation_value = afforestation_inventory[species][
-                                "mineral"
-                            ]
+                            row_data = self._generate_row(species, forest_type, soil, yield_class, dist, yr)
 
-                            if row_data["Classifier3"] == "mineral":
-                                try:
-                                    row_data["Amount"] = (
-                                        afforestation_value
-                                        * parser.get_yield_class_proportions(
-                                            configuration_classifiers,
-                                            species,
-                                            yield_class,
-                                        )
-                                    )
-                                except TypeError:
-                                    row_data["Amount"] = 0
+                            context = {"forest_type":forest_type, 
+                                        "species":species, 
+                                        "soil":soil, 
+                                        "yield_class":yield_class, 
+                                        "dist":dist, 
+                                        "year":yr,
+                                        "configuration_classifiers":configuration_classifiers,
+                                        "non_forest_dict":non_forest_dict,
+                                        "harvest_proportion": self.scenario_disturbance_dict[scenario][species],
+                                }
 
-                            else:
-                                row_data["Amount"] = 0
-                        else:
-                            row_data["Amount"] = 0
-                            row_data["Classifier1"] = species
+                            dataframes = {"afforestation_inventory":afforestation_inventory}
 
-                        data.append(row_data)
+                            self._process_scenario_row_data(row_data,context, dataframes)
+
+                            self._process_scenario_harvest_data(tracker, row_data, context)
+
+                            data.append(row_data)
+            tracker.move_to_next_age()
+
+        for yr in years:
+            for stand in tracker.disturbed_stands:
+                if stand.year == yr:
+                    
+                    row_data = self._generate_row(stand.species, "L", stand.soil, stand.yield_class, stand.dist, yr)
+
+                    context = {"forest_type":"L",
+                                "species":stand.species,
+                                "yield_class":stand.yield_class,
+                                "area":stand.area,
+                                "dist":stand.dist,}
+                    dataframes = {"disturbance_timing":disturbance_timing}
+
+                    self._process_scenario_row_data(row_data,context, dataframes)
+
+                    data.append(row_data)
 
         scenario_disturbance_df = pd.DataFrame(data)
         disturbance_df = pd.concat(
             [disturbance_df, scenario_disturbance_df], axis=0, ignore_index=True
         )
-        disturbance_df = disturbance_df[disturbance_df["Amount"] != 0]
+        disturbance_df = self._drop_zero_area_rows(disturbance_df)
 
         return disturbance_df
+
+
+    def _process_scenario_harvest_data(self, tracker, row_data, context):
+        dist = context["dist"]
+        area = row_data["Amount"]
+        if dist == "DISTID4" and area != 0:
+            self._track_scenario_harvest(tracker, row_data, context)
+
+
+    def _track_scenario_harvest(self, tracker, row_data, context):
+        
+        area = row_data["Amount"]
+        species = context["species"]
+        yield_class = context["yield_class"]
+        soil = context["soil"]
+        time = context["year"]
+        factor = context["harvest_proportion"]
+        
+        tracker.afforest(area, species, yield_class, soil)
+        tracker.forest_disturbance(time, species, yield_class, soil, factor)
+
+
+    def _drop_zero_area_rows(self, disturbance_df):
+        disturbance_df = disturbance_df[disturbance_df["Amount"] != 0]
+        disturbance_df = disturbance_df.reset_index(drop=True)
+
+        disturbance_df = disturbance_df.sort_values(by=["Year"], ascending=True)
+
+        return disturbance_df
+
+    def _get_legacy_classifier_combinations(self):
+        classifiers = self.scenario_forest_classifiers
+        forest_keys = ["L"]
+        soil_keys = list(classifiers["Soil classes"].keys())
+        yield_keys = list(classifiers["Yield classes"].keys())
+        return itertools.product(forest_keys, soil_keys, yield_keys)
+    
+    def _get_scenario_classifier_combinations(self):
+        classifiers = self.scenario_forest_classifiers
+        forest_keys = ["A"]
+        soil_keys = ["mineral"]
+        yield_keys = list(classifiers["Yield classes"].keys())
+        return itertools.product(forest_keys, soil_keys, yield_keys)
+
+    def _get_classifier_combinations(self):
+        classifiers = self.scenario_forest_classifiers
+        forest_keys = list(classifiers["Forest type"].keys())
+        soil_keys = list(classifiers["Soil classes"].keys())
+        yield_keys = list(classifiers["Yield classes"].keys())
+        return itertools.product(forest_keys, soil_keys, yield_keys)
+    
+
+    def _get_static_defaults(self):
+        static_cols = self.data_manager_class.get_static_disturbance_cols()
+        return {col: -1 for col in static_cols}
+
+    def _generate_row(self, species, forest_type, soil, yield_class, dist, yr):
+        static_defaults = self._get_static_defaults()
+        row_data = {
+                    "Classifier1": species,
+                    "Classifier2": forest_type,
+                    "Classifier3": soil,
+                    "Classifier4": yield_class,
+                    "UsingID": False,
+                    "sw_age_min": 0,
+                    "sw_age_max": 210,
+                    "hw_age_min": 0,
+                    "hw_age_max": 210,
+                    "MinYearsSinceDist": -1,
+                    **static_defaults,
+                    "Efficiency": 1,
+                    "SortType": 3,
+                    "MeasureType": "A",
+                    "Amount": 0,
+                    "DistTypeID": dist,
+                    "Year": yr,
+                        }
+        return row_data
+    
+    def _process_scenario_row_data(self, row_data, context, dataframes):
+        forest_type = context["forest_type"]
+        dist = context["dist"]
+
+        if forest_type == "A" and dist == "DISTID4":
+            self._handle_scenario_afforestation(row_data, context, dataframes)
+        elif forest_type == "L":
+            self._handle_legacy_scenario_forest(row_data, context, dataframes)
+
+
+    def _process_row_data(self, row_data, context, dataframes):
+        forest_type = context["forest_type"]
+        dist = context["dist"]
+
+        if forest_type == "A" and dist == "DISTID4":
+            self._handle_legacy_afforestation(row_data, context, dataframes)
+        elif forest_type == "L":
+            self._handle_legacy_forest(row_data, context, dataframes)
+
+
+    def _handle_legacy_scenario_forest(self, row_data, context, dataframes):
+        
+        if context["dist"] == "DISTID4":
+            row_data["Amount"] = 0
+        else:
+            self._update_disturbance_timing(row_data, context, dataframes)
+            area = context["area"]
+
+            row_data["Amount"] = area
+
+
+    def _handle_scenario_afforestation(self, row_data, context, dataframes):
+
+        afforestation_inventory = dataframes["afforestation_inventory"]
+        non_forest_dict = context["non_forest_dict"]
+        species = context["species"]
+        yield_class = context["yield_class"]
+        soil = context["soil"]
+        configuration_classifiers = context["configuration_classifiers"]
+
+        row_data["Classifier1"] = non_forest_dict[species][soil]
+        afforestation_value = afforestation_inventory[species][
+                                soil
+                            ]
+
+        if row_data["Classifier3"] == soil:
+            try:
+                row_data["Amount"] = (
+                    afforestation_value
+                    * parser.get_yield_class_proportions(
+                        configuration_classifiers,
+                        species,
+                        yield_class,
+                    )
+                )
+            except TypeError:
+                row_data["Amount"] = 0
+
+        else:
+            row_data["Amount"] = 0
+
+
+
+    def _handle_legacy_afforestation(self, row_data, context, dataframes):
+
+        non_forest_dict = self.data_manager_class.get_non_forest_dict()
+        legacy_afforestation_inventory = dataframes["legacy_afforestation_inventory"]
+        species = context["species"]
+        yield_class = context["yield_class"]
+        yr = context["year"]
+        soil = context["soil"]
+
+        
+        mask = (
+                    (legacy_afforestation_inventory["species"] == species)
+                    & (
+                        legacy_afforestation_inventory["yield_class"]
+                        == yield_class
+                    )
+                    & (legacy_afforestation_inventory["year"] == yr)
+                    & (legacy_afforestation_inventory["soil"] == soil)
+                )
+        row_data["Classifier1"] = non_forest_dict[species][soil]
+        try:
+            row_data["Amount"] = legacy_afforestation_inventory.loc[
+                mask, "area_ha"
+            ].item()
+
+            #tracker.afforest(row_data["Amount"], species, yield_class)
+            #tracker.move_to_next_age()
+
+        except ValueError:
+                
+            row_data["Amount"] = 0
+      
+
+
+    def _handle_legacy_forest(self, row_data, context, dataframes):
+        # ... logic for legacy forest ...
+        # This includes your logic for DISTID3, DISTID1, DISTID2, and the else block
+
+        dist = context["dist"]
+        disturbance_dataframe = dataframes["disturbance_dataframe"]
+        species = context["species"]
+        yield_class = context["yield_class"]
+        yr = context["year"]
+        forest_baseline_year = context["forest_baseline_year"]
+
+
+        self._update_disturbance_timing(row_data, context, dataframes)
+
+        if dist == "DISTID3":
+            mask = (
+                (disturbance_dataframe["Species"] == "?")
+                & (disturbance_dataframe["Yield_class"] == "?")
+                & (
+                    disturbance_dataframe["Year"]
+                    == (forest_baseline_year + yr)
+                )
+                & (disturbance_dataframe["Disturbance_id"] == dist)
+            )
+
+            try:
+                row_data["Amount"] = disturbance_dataframe.loc[
+                    mask, "Amount"
+                ].item()
+                row_data["MeasureType"] = disturbance_dataframe.loc[
+                    mask, "M_type"
+                ].item()
+
+            except ValueError:
+                row_data["Amount"] = 0
+
+
+        elif (
+                dist == "DISTID1" or dist == "DISTID2"
+            ):
+            mask = (
+                    (disturbance_dataframe["Species"] == species)
+                    & (disturbance_dataframe["Yield_class"] == yield_class)
+                    & (
+                        disturbance_dataframe["Year"]
+                        == (forest_baseline_year + yr)
+                    )
+                    & (disturbance_dataframe["Disturbance_id"] == dist)
+                )
+            row_data["Classifier1"] = species
+            try:
+                row_data["Amount"] = disturbance_dataframe.loc[
+                    mask, "Amount"
+                ].item()
+                row_data["MeasureType"] = disturbance_dataframe.loc[
+                    mask, "M_type"
+                ].item()
+
+            except ValueError:
+                row_data["Amount"] = 0
+
+        else:
+            row_data["Classifier1"] = species
+            row_data["Amount"] = 0
+
+    
+    def _update_disturbance_timing(self, row_data, context, dataframes):
+        """Retrieve disturbance timing information from the disturbance_timing DataFrame."""
+
+        yield_name = self.data_manager_class.get_yield_name_dict()
+        species = context["species"]
+        yield_class = context["yield_class"]
+        dist = context["dist"]
+        disturbance_timing = dataframes["disturbance_timing"]
+
+        try:
+            timing_info = disturbance_timing.loc[
+                (disturbance_timing.index == yield_name[species][yield_class])
+                & (disturbance_timing["disturbance_id"] == dist)
+            ]
+           
+            row_data['sw_age_min'] = int(timing_info['sw_age_min'].item())
+            row_data['sw_age_max'] = int(timing_info['sw_age_max'].item())
+            row_data['hw_age_min'] = int(timing_info['hw_age_min'].item())
+            row_data['hw_age_max'] = int(timing_info['hw_age_max'].item())
+            row_data['MinYearsSinceDist'] = int(timing_info['min years since dist'].item())
+          
+        except (ValueError, KeyError):
+            # Default values if any of the above operations fail
+            
+            row_data['sw_age_min'] = 0
+            row_data['sw_age_max'] = 210
+            row_data['hw_age_min'] = 0
+            row_data['hw_age_max'] = 210
+            row_data['MinYearsSinceDist'] = -1
+           
+
+
+
