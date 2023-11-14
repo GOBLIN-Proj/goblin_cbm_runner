@@ -1,5 +1,4 @@
 from cbm_runner.cbm_runner_data_manager import DataManager
-import cbm_runner.parser as parser
 import pandas as pd
 import itertools
 
@@ -7,10 +6,10 @@ import itertools
 class Transition:
     def __init__(self, calibration_year, config_path):
         self.data_manager_class = DataManager(calibration_year, config_path)
-        self.baseline_forest_classifiers = self.data_manager_class.classifiers[
+        self.baseline_forest_classifiers = self.data_manager_class.get_classifiers()[
             "Baseline"
         ]
-        self.scenario_forest_classifiers = self.data_manager_class.classifiers[
+        self.scenario_forest_classifiers = self.data_manager_class.get_classifiers()[
             "Scenario"
         ]
 
@@ -20,7 +19,7 @@ class Transition:
         else:
             classifiers = self.baseline_forest_classifiers
 
-        transition_col_dict = self.data_manager_class.transition_cols
+        transition_col_dict = self.data_manager_class.get_transition_cols()
 
         before_transition_df = pd.DataFrame(columns=transition_col_dict["before_cols"])
 
@@ -28,7 +27,7 @@ class Transition:
 
         count = 0
 
-        non_forest_dict = self.data_manager_class.non_forest_dict
+        non_forest_dict = self.data_manager_class.get_non_forest_dict()
 
         species_keys = list(non_forest_dict.keys())
         forest_keys = list(classifiers["Forest type"].keys())

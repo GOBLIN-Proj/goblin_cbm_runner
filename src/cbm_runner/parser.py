@@ -22,7 +22,10 @@ def get_age_classifier(classifiers):
 
     for year in range(0, (max_age + 1), interval):
         age_id.append("AGEID" + str(year))
-        ages.append(year)
+        if year == 0:
+            ages.append(0)
+        else:
+            ages.append(interval)
 
     age_dict = dict(zip(age_id, ages))
 
@@ -56,8 +59,8 @@ def get_disturbance_type(classifiers):
 
 
 def get_clearfell_baseline(classifiers):
-    return classifiers["Classifiers"]["baseline"]["clearfell"]
+    return classifiers["Classifiers"]["harvest"]["clearfell"]
 
 
 def get_thinning_baseline(classifiers):
-    return classifiers["Classifiers"]["baseline"]["thinning"]
+    return classifiers["Classifiers"]["harvest"]["thinning"]
