@@ -5,12 +5,12 @@ import pandas as pd
 class ForestStand:
     """Represents a single forest stand."""
     
-    def __init__(self, species, yield_class, soil, area):
+    def __init__(self, species, yield_class, soil, area, age=0):
         self.species = species
         self.yield_class = yield_class
         self.soil = soil
         self.area = area
-        self.age = 0
+        self.age = age
         self.since_last_dist = None
 
 
@@ -53,9 +53,9 @@ class AfforestationTracker:
         self.disturbed_stands = []
 
     
-    def afforest(self, area, species, yield_class, soil):
+    def afforest(self, area, species, yield_class, soil, age=0):
         """Add an afforestation event to the tracker."""
-        stand = ForestStand(species, yield_class, soil, area)
+        stand = ForestStand(species, yield_class, soil, area, age)
         self.stands.append(stand)
 
 

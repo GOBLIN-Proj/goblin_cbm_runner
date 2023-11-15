@@ -198,11 +198,11 @@ afforestation_yield_name_dict:
 
 yield_basline_dict:
   Sitka:
-    YC4_12: 0
-    YC13_16: 0.37
-    YC17_20: 0.26
-    YC20_24: 0.20
-    YC24_30: 0.17
+    YC4_12: 0.37
+    YC13_16: 0.26
+    YC17_20: 0.20
+    YC20_24: 0.17
+    YC24_30: 0.0
   Pine:
     YC4_12: 0
     YC12_20: 1

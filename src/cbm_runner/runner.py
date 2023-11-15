@@ -117,8 +117,6 @@ class Runner:
         for i in self.INDEX:
             forest_data = self.cbm_aggregate_scenario(i)["Stock"]
 
-            forest_data.to_csv("forest_data.csv")
-
             # Assuming 'year' is the common column
             merged_data = pd.merge(
                 forest_data,
