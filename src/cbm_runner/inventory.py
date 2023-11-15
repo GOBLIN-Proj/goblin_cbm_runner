@@ -174,7 +174,7 @@ class Inventory:
                 )
                 inventory_df.loc[mask, "HistDist"] = "DISTID3"
 
-                inventory_df.loc[mask, "LastDist"] = "DISTID5"
+                inventory_df.loc[mask, "LastDist"] = "DISTID3"
         else:
             inventory_df.loc[mask, "Area"] = 0
 
@@ -243,13 +243,13 @@ class Inventory:
                     if soil == "peat":
                         inventory_df.loc[
                             inventory_mask, "Area"
-                        ] = legacy_afforestation_peat_dict[yield_class][species] + 10000
+                        ] = legacy_afforestation_peat_dict[yield_class][species] * 2
                     else:
                         inventory_df.loc[inventory_mask, "Area"] = mineral_areas_dicts[
                             yield_class
-                        ][species] + 10000
+                        ][species] * 2
 
-        inventory_df["HistDist"] = "DISTID3"
+        inventory_df["HistDist"] = "DISTID5"
 
         inventory_df["LastDist"] = "DISTID5"
 
