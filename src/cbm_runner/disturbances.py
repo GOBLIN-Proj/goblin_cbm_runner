@@ -5,7 +5,7 @@ from cbm_runner.inventory import Inventory
 import pandas as pd
 import itertools
 from cbm_runner.harvest import AfforestationTracker
-import json
+
 
 
 class Distrubances:
@@ -38,6 +38,7 @@ class Distrubances:
         self.disturbance_dataframe = self.loader_class.disturbance_data()
         self.scenario_disturbance_dict = self.data_manager_class.scenario_disturbance_dict
         self.legacy_disturbance_dict = self.data_manager_class.get_legacy_disturbance_dict()
+        self.yield_name_dict = self.data_manager_class.get_yield_name_dict()
 
 
     def scenario_afforestation_area(self, scenario):
@@ -112,7 +113,7 @@ class Distrubances:
                             year_count += 1
 
                         year_count = 0
-
+        
         return result_dataframe
 
 
@@ -128,7 +129,7 @@ class Distrubances:
 
         forest_baseline_year = self.data_manager_class.get_afforestation_baseline()
 
-        yield_name_dict = self.data_manager_class.get_yield_name_dict()
+        yield_name_dict = self.yield_name_dict
 
         calibration_year = self.calibration_year
 
@@ -137,6 +138,8 @@ class Distrubances:
         legacy_years = (calibration_year - forest_baseline_year) +1
 
         legacy_afforestation_inventory = self.legacy_disturbance_afforestation_area(legacy_years)
+
+
         disturbance_dataframe = self.disturbance_dataframe
 
         disturbance_timing = self.disturbance_timing
@@ -180,46 +183,37 @@ class Distrubances:
 
     def fill_baseline_forest(self):
         forest_baseline_year = self.data_manager_class.get_forest_baseline_year()
-        classifiers = self.baseline_forest_classifiers
-        disturbance_dataframe = self.disturbance_dataframe
-        disturbances = ["DISTID1", "DISTID2"]
-
-        calibration_year = self.calibration_year
 
         disturbance_df = self.disturbance_structure()
 
-        legacy_years = calibration_year - forest_baseline_year
+        legacy_years = self.forest_end_year  - forest_baseline_year
+
+        years = list(
+            range(1, (legacy_years + 1))
+        )
 
         disturbance_timing = self.disturbance_timing 
 
-        species_keys = list(classifiers["Species"].keys())
-
         data = []
-        for yr in range(0, (legacy_years + 1)):
-            for dist in disturbances:
-                for species in species_keys:
-                    classifier_combo = self._get_legacy_classifier_combinations()
-                    for combination in classifier_combo:
-                        forest_type, soil, yield_class = combination
 
-                    row_data = self._generate_row(species, forest_type, soil, yield_class, dist, yr+1)
+        tracker = AfforestationTracker()
+
+        self.legacy_disturbance_tracker(tracker, years)
+
+        for yr in years:
+            for stand in tracker.disturbed_stands:
+                if stand.year == yr:
                     
-                    context = {"forest_type":forest_type, 
-                                   "species":species, 
-                                   "soil":soil, 
-                                   "yield_class":yield_class, 
-                                   "dist":dist, 
-                                   "year":yr,
-                                    "forest_baseline_year":forest_baseline_year,
-                        }
+                    row_data = self._generate_row(stand.species, "L", stand.soil, stand.yield_class, stand.dist, yr)
 
-                    dataframes = {"disturbance_dataframe":disturbance_dataframe,
-                        "disturbance_timing":disturbance_timing}
+                    context = {"forest_type":"L",
+                                "species":stand.species,
+                                "yield_class":stand.yield_class,
+                                "area":stand.area,
+                                "dist":stand.dist,}
+                    dataframes = {"disturbance_timing":disturbance_timing}
 
-                    self._process_row_data(row_data,context, dataframes)
-                    
-                    #force row to 0 
-                    row_data["Amount"] = 0
+                    self._process_scenario_row_data(row_data,context, dataframes)
 
                     data.append(row_data)
 
@@ -274,6 +268,7 @@ class Distrubances:
                                         "configuration_classifiers":configuration_classifiers,
                                         "non_forest_dict":non_forest_dict,
                                         "harvest_proportion": self.scenario_disturbance_dict[scenario][species],
+                                        "age": 0
                                 }
 
                             dataframes = {"afforestation_inventory":afforestation_inventory}
@@ -326,8 +321,9 @@ class Distrubances:
         soil = context["soil"]
         time = context["year"]
         factor = context["harvest_proportion"]
+        age = context["age"]
         
-        tracker.afforest(area, species, yield_class, soil)
+        tracker.afforest(area, species, yield_class, soil, age)
         tracker.forest_disturbance(time, species, yield_class, soil, factor)
 
 
@@ -554,7 +550,7 @@ class Distrubances:
     def _update_disturbance_timing(self, row_data, context, dataframes):
         """Retrieve disturbance timing information from the disturbance_timing DataFrame."""
 
-        yield_name = self.data_manager_class.get_yield_name_dict()
+        yield_name = self.yield_name_dict
         species = context["species"]
         yield_class = context["yield_class"]
         dist = context["dist"]
@@ -582,5 +578,53 @@ class Distrubances:
             row_data['MinYearsSinceDist'] = -1
            
 
+    def get_legacy_forest_area_breakdown(self):
+        age_df = self.loader_class.forest_age_structure()
+        data_df = self.inventory_class.legacy_forest_inventory()
+        yield_dict = self.data_manager_class.get_yield_basline_dict()
 
+        data = []
+        for species in data_df["species"].unique():
+            for soil in ["mineral", "peat"]:
+                for yc in yield_dict[species].keys():
+                    for age in age_df["year"].unique():
+        
+                        data_mask = data_df["species"] == species
+
+                        age_mask = age_df["year"] == age
+                        
+                        row_data = {
+                            "species":species,
+                            "yield_class":yc,
+                            "soil": soil,
+                            "age":age,
+                            "area":data_df.loc[data_mask, soil].item() * yield_dict[species][yc] * age_df.loc[age_mask, "aggregate"].item()
+                        }
+                        data.append(row_data)
+            
+        return pd.DataFrame(data)
+    
+
+    def legacy_disturbance_tracker(self, tracker, years):
+        data_df = self.get_legacy_forest_area_breakdown()
+        yield_name_dict = self.yield_name_dict
+
+        for i in data_df.index:
+            species = data_df.at[i, "species"]
+            yield_class = data_df.at[i, "yield_class"]
+            soil = data_df.at[i, "soil"]
+            area = data_df.at[i, "area"]
+            age = data_df.at[i, "age"]
+
+            tracker.afforest(area, species, yield_class, soil, age)
+
+        for year in years:
+            for species in data_df["species"].unique():
+                if species != "SGB":
+                    for soil in data_df["soil"].unique():
+                        for yc in yield_name_dict[species].keys():
+                            dist =self.legacy_disturbance_dict
+                            tracker.forest_disturbance(year, species, yc, soil, dist)
+            tracker.move_to_next_age()
+            
 
