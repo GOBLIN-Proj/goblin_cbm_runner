@@ -196,7 +196,7 @@ afforestation_yield_name_dict:
   NFOC_peat: "YC10"
 
 
-yield_basline_dict:
+yield_baseline_dict:
   Sitka:
     YC4_12: 0.37
     YC13_16: 0.26
@@ -354,6 +354,7 @@ mapping:
       user_species: "NonForestOCPeat"
       default_species: "Missing value - Genus type"
   boundary: "Ireland"
+  
   disturbance_types:
     DISTID1:
       user_dist_type: "Clearcut"

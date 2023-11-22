@@ -1,0 +1,27 @@
+:py:mod:`cbm_runner.config_data`
+================================
+
+.. py:module:: cbm_runner.config_data
+
+
+Package Contents
+----------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   cbm_runner.config_data.get_local_dir
+
+
+
+.. py:function:: get_local_dir()
+
+   Gets the directory containing this script
+
+   :returns: full path to the the script's directory
+   :rtype: str
+
+
