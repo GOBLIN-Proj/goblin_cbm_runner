@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cbm_runner.cbm_runner_data_manager &mdash; CBM_runner 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            CBM_runner
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../autoapi/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../example.html">Example Usage</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">CBM_runner</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">cbm_runner.cbm_runner_data_manager</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for cbm_runner.cbm_runner_data_manager</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">yaml</span>
+<span class="kn">import</span> <span class="nn">cbm_runner.parser</span> <span class="k">as</span> <span class="nn">parser</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">cbm_runner.config_data</span> <span class="kn">import</span> <span class="n">get_local_dir</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<div class="viewcode-block" id="DataManager"><a class="viewcode-back" href="../../autoapi/cbm_runner/cbm_runner_data_manager/index.html#cbm_runner.cbm_runner_data_manager.DataManager">[docs]</a><span class="k">class</span> <span class="nc">DataManager</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Manages data for CBM Runner.</span>
+
+<span class="sd">    This class provides methods to access and manipulate data relevant to the CBM Runner, </span>
+<span class="sd">    including configurations, disturbance data, and scenario information.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        config_data (dict): Configuration data from a YAML file.</span>
+<span class="sd">        forest_baseline_year (int): The baseline (calibration) year for forest data.</span>
+<span class="sd">        afforestation_baseline (int): The baseline year for afforestation.</span>
+<span class="sd">        cbm_default_config (dict): The default CBM configuration.</span>
+<span class="sd">        non_forest_dict (dict): Non-forest dictionary for afforestation types.</span>
+<span class="sd">        non_forest_soils (dict): Non-forest soils types, split between mineral and peat.</span>
+<span class="sd">        forest_type_keys (dict): Forest type keys from CBM default configuration (Legacy and Afforestation classifiers).</span>
+<span class="sd">        soils_dict (dict): Soils dictionary from CBM default configuration, afforestation pre types (for initial SOC).</span>
+<span class="sd">        classifiers (dict): Classifiers from CBM default configuration.</span>
+<span class="sd">        disturbances_config (dict): Disturbances configuration for scenario and baseline from CBM default configuration.</span>
+<span class="sd">        yield_name_dict (dict): Species yield name dictionary relating species to growth curves from CBM default configuration.</span>
+<span class="sd">        species_name_dict (dict): Species name dictionary from CBM default configuration.</span>
+<span class="sd">        afforestation_yield_name_dict (dict): Afforestation yield name dictionary from CBM default configuration.</span>
+<span class="sd">        yield_baseline_dict (dict): Yield baseline dictionary relating the proprotional split, nationally, of yields by species from CBM default configuration.</span>
+<span class="sd">        disturbance_cols (dict): Disturbance columns from CBM default configuration.</span>
+<span class="sd">        static_disturbance_cols (dict): Static disturbance columns from CBM default configuration.</span>
+<span class="sd">        transition_cols (dict): Transition columns from CBM default configuration.</span>
+<span class="sd">        mapping (dict): AIDB mapping from CBM default configuration.</span>
+<span class="sd">        scenario_data (DataFrame): Scenario data.</span>
+<span class="sd">        scenario_disturbance_dict (dict): Scenario disturbance dictionary.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        calibration_year (int, optional): The year used for calibration. Defaults to None.</span>
+<span class="sd">        config_file (str, optional): Path to the configuration file. Defaults to None.</span>
+<span class="sd">        scenario_data (DataFrame, optional): Dataframe containing scenario data. Defaults to None.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calibration_year</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">config_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scenario_data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_config_data</span><span class="p">(</span><span class="n">config_file</span><span class="p">)</span> <span class="k">if</span> <span class="n">config_file</span> <span class="k">else</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">forest_baseline_year</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">calibration_year</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">calibration_year</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">afforestation_baseline</span> <span class="o">=</span> <span class="mi">1990</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">cbm_default_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_config_data</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">get_local_dir</span><span class="p">(),</span> <span class="s2">&quot;config.yaml&quot;</span><span class="p">))</span>
+    
+        <span class="bp">self</span><span class="o">.</span><span class="n">non_forest_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbm_default_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;non_forest_dict&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">non_forest_soils</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbm_default_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;non_forest_soils&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">forest_type_keys</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbm_default_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;forest_type_keys&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">soils_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbm_default_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;soils_dict&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">classifiers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbm_default_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;classifiers&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">disturbances_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbm_default_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;disturbances&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">yield_name_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbm_default_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;yield_name_dict&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">species_name_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbm_default_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;species_name_dict&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">afforestation_yield_name_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbm_default_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;afforestation_yield_name_dict&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">yield_baseline_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbm_default_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;yield_baseline_dict&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">disturbance_cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbm_default_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;disturbance_cols&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">static_disturbance_cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbm_default_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;static_disturbance_cols&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transition_cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbm_default_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;transition_cols&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mapping</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbm_default_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;mapping&quot;</span><span class="p">,</span> <span class="p">{})</span>
+
+
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">scenario_data</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">scenario_data</span> <span class="k">if</span> <span class="n">scenario_data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">scenario_disturbance_dict</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gen_scenario_disturbance_dict</span><span class="p">(</span><span class="n">scenario_data</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenario_data</span><span class="o">.</span><span class="n">empty</span>
+            <span class="k">else</span> <span class="kc">None</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="DataManager.get_non_forest_dict"><a class="viewcode-back" href="../../autoapi/cbm_runner/cbm_runner_data_manager/index.html#cbm_runner.cbm_runner_data_manager.DataManager.get_non_forest_dict">[docs]</a>    <span class="k">def</span> <span class="nf">get_non_forest_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the non-forest dictionary.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: The non-forest dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">non_forest_dict</span></div>
+    
+
+<div class="viewcode-block" id="DataManager.get_non_forest_soils"><a class="viewcode-back" href="../../autoapi/cbm_runner/cbm_runner_data_manager/index.html#cbm_runner.cbm_runner_data_manager.DataManager.get_non_forest_soils">[docs]</a>    <span class="k">def</span> <span class="nf">get_non_forest_soils</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the non-forest soils dictionary.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: The non-forest soils dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">non_forest_soils</span></div>
+    
+<div class="viewcode-block" id="DataManager.get_forest_type_keys"><a class="viewcode-back" href="../../autoapi/cbm_runner/cbm_runner_data_manager/index.html#cbm_runner.cbm_runner_data_manager.DataManager.get_forest_type_keys">[docs]</a>    <span class="k">def</span> <span class="nf">get_forest_type_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the forest type dictionary.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: The forest type dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">forest_type_keys</span></div>
+    
+<div class="viewcode-block" id="DataManager.get_soils_dict"><a class="viewcode-back" href="../../autoapi/cbm_runner/cbm_runner_data_manager/index.html#cbm_runner.cbm_runner_data_manager.DataManager.get_soils_dict">[docs]</a>    <span class="k">def</span> <span class="nf">get_soils_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the soils dictionary.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: The soils dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">soils_dict</span></div>
+    
+<div class="viewcode-block" id="DataManager.get_classifiers"><a class="viewcode-back" href="../../autoapi/cbm_runner/cbm_runner_data_manager/index.html#cbm_runner.cbm_runner_data_manager.DataManager.get_classifiers">[docs]</a>    <span class="k">def</span> <span class="nf">get_classifiers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the classifiers dictionary.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: The classifiers dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">classifiers</span></div>
+    
+<div class="viewcode-block" id="DataManager.get_disturbances_config"><a class="viewcode-back" href="../../autoapi/cbm_runner/cbm_runner_data_manager/index.html#cbm_runner.cbm_runner_data_manager.DataManager.get_disturbances_config">[docs]</a>    <span class="k">def</span> <span class="nf">get_disturbances_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the disturbance ID dictionary for scenarios and baseline.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: The disturbance ID dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">disturbances_config</span></div>
+    
+<div class="viewcode-block" id="DataManager.get_yield_name_dict"><a class="viewcode-back" href="../../autoapi/cbm_runner/cbm_runner_data_manager/index.html#cbm_runner.cbm_runner_data_manager.DataManager.get_yield_name_dict">[docs]</a>    <span class="k">def</span> <span class="nf">get_yield_name_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the disturbance ID dictionary for scenarios and baseline.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: The disturbance ID dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>  
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">yield_name_dict</span></div>
+    
+<div class="viewcode-block" id="DataManager.get_species_name_dict"><a class="viewcode-back" href="../../autoapi/cbm_runner/cbm_runner_data_manager/index.html#cbm_runner.cbm_runner_data_manager.DataManager.get_species_name_dict">[docs]</a>    <span class="k">def</span> <span class="nf">get_species_name_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the dictionary mapping species IDs to their names.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary where the keys are species growth curve IDs and the values are species names.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">species_name_dict</span></div>
+    
+<div class="viewcode-block" id="DataManager.get_afforestation_yield_name_dict"><a class="viewcode-back" href="../../autoapi/cbm_runner/cbm_runner_data_manager/index.html#cbm_runner.cbm_runner_data_manager.DataManager.get_afforestation_yield_name_dict">[docs]</a>    <span class="k">def</span> <span class="nf">get_afforestation_yield_name_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the dictionary containing the names of afforestation yield classes.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary containing the names of afforestation yield classes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">afforestation_yield_name_dict</span></div>
+    
+<div class="viewcode-block" id="DataManager.get_yield_baseline_dict"><a class="viewcode-back" href="../../autoapi/cbm_runner/cbm_runner_data_manager/index.html#cbm_runner.cbm_runner_data_manager.DataManager.get_yield_baseline_dict">[docs]</a>    <span class="k">def</span> <span class="nf">get_yield_baseline_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the yield baseline dictionary.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: The yield baseline dictionary where keys are yield classes and values are the proportions of that yield class nationally.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">yield_baseline_dict</span></div>
+    
+<div class="viewcode-block" id="DataManager.get_disturbance_cols"><a class="viewcode-back" href="../../autoapi/cbm_runner/cbm_runner_data_manager/index.html#cbm_runner.cbm_runner_data_manager.DataManager.get_disturbance_cols">[docs]</a>    <span class="k">def</span> <span class="nf">get_disturbance_cols</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the disturbance columns used in the disturbance dataframe generator.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: A list of disturbance columns.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">disturbance_cols</span></div>
+    
+<div class="viewcode-block" id="DataManager.get_static_disturbance_cols"><a class="viewcode-back" href="../../autoapi/cbm_runner/cbm_runner_data_manager/index.html#cbm_runner.cbm_runner_data_manager.DataManager.get_static_disturbance_cols">[docs]</a>    <span class="k">def</span> <span class="nf">get_static_disturbance_cols</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the static disturbance columns used in the disturbance dataframe generator.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: A list of static disturbance columns.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">static_disturbance_cols</span></div>
+    
+<div class="viewcode-block" id="DataManager.get_transition_cols"><a class="viewcode-back" href="../../autoapi/cbm_runner/cbm_runner_data_manager/index.html#cbm_runner.cbm_runner_data_manager.DataManager.get_transition_cols">[docs]</a>    <span class="k">def</span> <span class="nf">get_transition_cols</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the transition columns used in the transition dataframe generator.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: A list of transition columns.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transition_cols</span></div>
+    
+<div class="viewcode-block" id="DataManager.get_mapping"><a class="viewcode-back" href="../../autoapi/cbm_runner/cbm_runner_data_manager/index.html#cbm_runner.cbm_runner_data_manager.DataManager.get_mapping">[docs]</a>    <span class="k">def</span> <span class="nf">get_mapping</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the mapping used by the data manager to mapping parameters to the CBM AIDB.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: The mapping used by the data manager.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapping</span></div>
+    
+<div class="viewcode-block" id="DataManager.get_forest_baseline_year"><a class="viewcode-back" href="../../autoapi/cbm_runner/cbm_runner_data_manager/index.html#cbm_runner.cbm_runner_data_manager.DataManager.get_forest_baseline_year">[docs]</a>    <span class="k">def</span> <span class="nf">get_forest_baseline_year</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the forest baseline year, which is equal to the calibration year.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int: The forest baseline year.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">forest_baseline_year</span></div>
+    
+<div class="viewcode-block" id="DataManager.get_afforestation_baseline"><a class="viewcode-back" href="../../autoapi/cbm_runner/cbm_runner_data_manager/index.html#cbm_runner.cbm_runner_data_manager.DataManager.get_afforestation_baseline">[docs]</a>    <span class="k">def</span> <span class="nf">get_afforestation_baseline</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the afforestation baseline, default is 1990.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The afforestation baseline (1990).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">afforestation_baseline</span></div>
+    
+<div class="viewcode-block" id="DataManager.get_scenario_data"><a class="viewcode-back" href="../../autoapi/cbm_runner/cbm_runner_data_manager/index.html#cbm_runner.cbm_runner_data_manager.DataManager.get_scenario_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_scenario_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the goblin scenario data, used to retrieve the harvest and thinning proportions for scenarios.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: The scenario data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenario_data</span></div>
+
+<div class="viewcode-block" id="DataManager.get_scenario_disturbance_dict"><a class="viewcode-back" href="../../autoapi/cbm_runner/cbm_runner_data_manager/index.html#cbm_runner.cbm_runner_data_manager.DataManager.get_scenario_disturbance_dict">[docs]</a>    <span class="k">def</span> <span class="nf">get_scenario_disturbance_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the scenario and baseline disturbance ID dictionary.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: The scenario and baseline disturbance ID dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenario_disturbance_dict</span></div>
+
+
+<div class="viewcode-block" id="DataManager.get_config_data"><a class="viewcode-back" href="../../autoapi/cbm_runner/cbm_runner_data_manager/index.html#cbm_runner.cbm_runner_data_manager.DataManager.get_config_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_config_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_file</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Load and return the configuration data from the specified file.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            config_file (str): The path to the configuration file.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: The configuration data loaded from the file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">config_file</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">config_data</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">config_data</span></div>
+
+
+<div class="viewcode-block" id="DataManager.gen_scenario_disturbance_dict"><a class="viewcode-back" href="../../autoapi/cbm_runner/cbm_runner_data_manager/index.html#cbm_runner.cbm_runner_data_manager.DataManager.gen_scenario_disturbance_dict">[docs]</a>    <span class="k">def</span> <span class="nf">gen_scenario_disturbance_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scenario_data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate a dictionary of disturbance data for each scenario.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            scenario_data (DataFrame): The input scenario data.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary containing disturbance data for each scenario.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">grouped_data</span> <span class="o">=</span> <span class="n">scenario_data</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span>
+            <span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Scenarios&quot;</span><span class="p">,</span> <span class="s2">&quot;Conifer harvest&quot;</span><span class="p">,</span> <span class="s2">&quot;Conifer thinned&quot;</span><span class="p">]</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">scenario_disturbance_dict</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">sc</span> <span class="ow">in</span> <span class="n">grouped_data</span><span class="o">.</span><span class="n">Scenarios</span><span class="p">:</span>
+            <span class="n">scenario</span> <span class="o">=</span> <span class="n">sc</span>
+            <span class="n">mask</span> <span class="o">=</span> <span class="n">grouped_data</span><span class="o">.</span><span class="n">Scenarios</span> <span class="o">==</span> <span class="n">sc</span>
+
+            <span class="n">scenario_disturbance_dict</span><span class="p">[</span><span class="n">scenario</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">scenario_disturbance_dict</span><span class="p">[</span><span class="n">scenario</span><span class="p">][</span><span class="s2">&quot;Sitka&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">scenario_disturbance_dict</span><span class="p">[</span><span class="n">scenario</span><span class="p">][</span><span class="s2">&quot;SGB&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+            <span class="n">scenario_disturbance_dict</span><span class="p">[</span><span class="n">scenario</span><span class="p">][</span><span class="s2">&quot;Sitka&quot;</span><span class="p">][</span><span class="s2">&quot;DISTID1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">grouped_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+                <span class="n">mask</span><span class="p">,</span> <span class="s2">&quot;Conifer harvest&quot;</span>
+            <span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+            <span class="n">scenario_disturbance_dict</span><span class="p">[</span><span class="n">scenario</span><span class="p">][</span><span class="s2">&quot;SGB&quot;</span><span class="p">][</span><span class="s2">&quot;DISTID1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+            <span class="n">scenario_disturbance_dict</span><span class="p">[</span><span class="n">scenario</span><span class="p">][</span><span class="s2">&quot;Sitka&quot;</span><span class="p">][</span><span class="s2">&quot;DISTID2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">grouped_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+                <span class="n">mask</span><span class="p">,</span> <span class="s2">&quot;Conifer thinned&quot;</span>
+            <span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+            <span class="n">scenario_disturbance_dict</span><span class="p">[</span><span class="n">scenario</span><span class="p">][</span><span class="s2">&quot;SGB&quot;</span><span class="p">][</span><span class="s2">&quot;DISTID2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">scenario_disturbance_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_baseline_disturbance_dict</span><span class="p">(</span>
+            <span class="n">scenario_disturbance_dict</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">scenario_disturbance_dict</span></div>
+    
+
+<div class="viewcode-block" id="DataManager.get_baseline_disturbance_dict"><a class="viewcode-back" href="../../autoapi/cbm_runner/cbm_runner_data_manager/index.html#cbm_runner.cbm_runner_data_manager.DataManager.get_baseline_disturbance_dict">[docs]</a>    <span class="k">def</span> <span class="nf">get_baseline_disturbance_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scenario_dist</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the baseline disturbance dictionary. This is added to the scenario disturbance dictionary.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            scenario_dist (dict): The scenario disturbance dictionary.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: The updated scenario disturbance dictionary with baseline disturbances.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">clearfell</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">get_clearfell_baseline</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config_data</span><span class="p">)</span>
+        <span class="n">thinning</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">get_thinning_baseline</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config_data</span><span class="p">)</span>
+
+        <span class="n">scenario_dist</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">scenario_dist</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;Sitka&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">scenario_dist</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;SGB&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">scenario_dist</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;Sitka&quot;</span><span class="p">][</span><span class="s2">&quot;DISTID1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">clearfell</span>
+        <span class="n">scenario_dist</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;SGB&quot;</span><span class="p">][</span><span class="s2">&quot;DISTID1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">scenario_dist</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;Sitka&quot;</span><span class="p">][</span><span class="s2">&quot;DISTID2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">thinning</span>
+
+        <span class="k">return</span> <span class="n">scenario_dist</span></div>
+    
+<div class="viewcode-block" id="DataManager.get_legacy_disturbance_dict"><a class="viewcode-back" href="../../autoapi/cbm_runner/cbm_runner_data_manager/index.html#cbm_runner.cbm_runner_data_manager.DataManager.get_legacy_disturbance_dict">[docs]</a>    <span class="k">def</span> <span class="nf">get_legacy_disturbance_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the legacy disturbance dictionary.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: The legacy disturbance dictionary containing clearfell and thinning data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">clearfell</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">get_clearfell_baseline</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config_data</span><span class="p">)</span>
+        <span class="n">thinning</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">get_thinning_baseline</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config_data</span><span class="p">)</span>
+
+        <span class="n">legacy_dist</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">legacy_dist</span><span class="p">[</span><span class="s2">&quot;DISTID1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">clearfell</span>
+        <span class="n">legacy_dist</span><span class="p">[</span><span class="s2">&quot;DISTID2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">thinning</span>
+
+        <span class="k">return</span> <span class="n">legacy_dist</span></div></div>
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Colm Duffy.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

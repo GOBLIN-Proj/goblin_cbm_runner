@@ -1,0 +1,62 @@
+:py:mod:`cbm_runner.create_json`
+================================
+
+.. py:module:: cbm_runner.create_json
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   cbm_runner.create_json.CreateJSON
+
+
+
+
+.. py:class:: CreateJSON(config_path)
+
+
+   This class is responsible for creating the mapping configuration JSON for the CBM AIDB.
+
+   :param config_path: The path to the configuration file.
+   :type config_path: str
+
+   .. attribute:: loader_class
+
+      An instance of the Loader class.
+
+      :type: Loader
+
+   .. attribute:: data_manager_class
+
+      An instance of the DataManager class.
+
+      :type: DataManager
+
+   .. attribute:: template
+
+      The template JSON structure for the mapping configuration.
+
+      :type: dict
+
+   .. method:: populate_template
+
+      Populates the template JSON with data based on the given scenario.
+      
+
+   .. py:method:: populate_template(scenario)
+
+      Populates the template JSON with data based on the given scenario.
+
+      :param scenario: The scenario for which the mapping is being created.
+      :type scenario: str
+
+      :returns: The populated template JSON.
+      :rtype: dict
+
+
+

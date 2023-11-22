@@ -4,8 +4,29 @@ import pandas as pd
 
 
 class YieldCurves:
+    """
+    A class for generating yield tables using different methods.
+
+    This class provides functionalities to generate yield tables based on various calculation methods. Yield tables are crucial in forest modeling to estimate the growth of forest stands over time.
+
+    Methods:
+        yield_table_generater_method1(): Generates a yield table using the first method based on parameters from a 'forest_kb_yields' dataset.
+        yield_table_generater_method2(): Generates a yield table using the second method based on parameters from a 'forest_cbm_yields' dataset.
+        yield_table_generater_method3(): Generates a yield table using the third method directly from 'kb_yield_curves' dataset.
+
+    The generated yield tables are crucial for modeling forest growth and can be used in various simulation scenarios. Each method applies different mathematical models and parameters to estimate the yield over time for different forest cohorts.
+    """
+
     @classmethod
     def yield_table_generater_method1(cls):
+        """
+        Generates a yield table using the first method.
+
+        This method uses parameters from the 'forest_kb_yields' dataset and applies a specific growth formula to calculate yield for each year up to 100 years.
+
+        Returns:
+            DataFrame: A pandas DataFrame containing the yield for each species across 100 years.
+        """
         # KB pg 444, NIR
 
         loader_class = Loader()
@@ -36,6 +57,14 @@ class YieldCurves:
 
     @classmethod
     def yield_table_generater_method2(cls):
+        """
+        Generates a yield table using the second method.
+
+        This method uses parameters from the 'forest_cbm_yields' dataset and a different growth formula to calculate yield for each year up to 100 years.
+
+        Returns:
+            DataFrame: A pandas DataFrame containing the yield for each species across 100 years.
+        """
         # CBM pg 444, NIR
         loader_class = Loader()
         parameters_df = loader_class.forest_cbm_yields()
@@ -59,6 +88,14 @@ class YieldCurves:
 
     @classmethod
     def yield_table_generater_method3(cls):
+        """
+        Generates a yield table using the third method.
+
+        This method directly uses the 'kb_yield_curves' dataset to provide yield data for various species across different years.
+
+        Returns:
+            DataFrame: A pandas DataFrame containing the yield data as per the kb_yield_curves dataset.
+        """
         loader_class = Loader()
         yield_df = loader_class.kb_yield_curves()
 

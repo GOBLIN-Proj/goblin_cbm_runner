@@ -3,7 +3,23 @@ from cbm_runner.cbm_runner_data_manager import DataManager
 import pandas as pd
 
 class ForestStand:
-    """Represents a single forest stand."""
+    """
+    Represents a single forest stand.
+
+    Attributes:
+        species (str): The species of the forest stand.
+        yield_class (int): The yield class of the forest stand, indicating its productivity.
+        soil (str): The type of soil in the forest stand, affecting growth conditions.
+        area (float): The area of the forest stand in hectares.
+        age (int, optional): The age of the forest stand in years, starting at 0.
+        since_last_dist (int, optional): The number of years since the last disturbance, initially None.
+
+    Methods:
+        __init__(self, species, yield_class, soil, area, age=0): Initializes a new instance of the ForestStand class.
+        age_stand(self): Increments the age of the forest stand by one year.
+        disturb(self): Records a disturbance event by setting or incrementing the 'since_last_dist' attribute.
+        reset_dist(self): Resets the time since the last disturbance to zero.
+    """
     
     def __init__(self, species, yield_class, soil, area, age=0):
         self.species = species
@@ -31,8 +47,18 @@ class ForestStand:
         self.since_last_dist = 0
 
 class DisturbedForestStand:
-    """Represents a single forest stand."""
-    
+    """
+    Represents a disturbed forest stand.
+
+    Attributes:
+        year (int): The year of the stand.
+        species (str): The species of the stand.
+        yield_class (str): The yield class of the stand.
+        soil (str): The soil type of the stand.
+        dist (None): The disturbance of the stand (default is None).
+        area (None): The area of the stand (default is None).
+    """
+
     def __init__(self, year, species, yield_class, soil):
         self.species = species
         self.yield_class = yield_class
@@ -43,7 +69,30 @@ class DisturbedForestStand:
 
 
 class AfforestationTracker:
-    """Tracks afforestation efforts over time."""
+    """
+    A tracker for managing afforestation and forest disturbance events.
+
+    This class is used to track and manage forest stands and disturbances over time in 
+    a forest simulation context. It keeps track of various stands of forest, their characteristics, 
+    and disturbances that occur. 
+
+    It also resets the forest age when a harvest event has taken place.
+
+    Attributes:
+        loader_class (Loader): An instance of the Loader class.
+        data_manager_class (DataManager): An instance of the DataManager class.
+        disturbance_timing (DataFrame): A DataFrame containing disturbance timing information.
+        stands (list): A list of ForestStand objects representing current forest stands.
+        disturbed_stands (list): A list of DisturbedForestStand objects representing disturbed forest stands.
+
+    Methods:
+        afforest(area, species, yield_class, soil, age=0): Adds a new afforestation event.
+        move_to_next_age(): Ages all stands by one year.
+        forest_disturbance(year, species, yield_class, soil, proportion): Adds a disturbance event.
+        get_stand_data_for_year(): Returns data for current stands.
+        get_disturbance_data_for_year(): Returns data for disturbed stands.
+        get_stand_data_by_age(): Returns a nested dictionary with stand areas grouped by age, species, and yield class.
+    """
     
     def __init__(self):
         self.loader_class = Loader()

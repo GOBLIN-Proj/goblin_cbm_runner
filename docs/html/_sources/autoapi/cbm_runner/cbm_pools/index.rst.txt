@@ -1,0 +1,137 @@
+:py:mod:`cbm_runner.cbm_pools`
+==============================
+
+.. py:module:: cbm_runner.cbm_pools
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   cbm_runner.cbm_pools.Pools
+
+
+
+
+.. py:class:: Pools
+
+
+   Class representing the pools in a CBM model.
+
+   This class encapsulates various types of pools relevant in the context of Carbon Budget Modeling (CBM),
+   such as biomass pools, deadwood, litter, and soil organic matter. It also manages annual process fluxes.
+
+   .. method:: get_above_ground_biomass_pools()
+
+      Retrieves above ground biomass pools.
+
+   .. method:: get_below_ground_biomass_pools()
+
+      Retrieves below ground biomass pools.
+
+   .. method:: get_deadwood_pools()
+
+      Retrieves deadwood pools.
+
+   .. method:: get_litter_pools()
+
+      Retrieves litter pools.
+
+   .. method:: get_soil_organic_matter_pools()
+
+      Retrieves soil organic matter pools.
+
+   .. method:: get_annual_process_fluxes()
+
+      Retrieves annual process fluxes.
+      
+
+   .. attribute:: above_ground_biomass_pools
+
+      List of above ground biomass pools.
+
+      :type: list
+
+   .. attribute:: below_ground_biomass_pools
+
+      List of below ground biomass pools.
+
+      :type: list
+
+   .. attribute:: deadwood
+
+      List of deadwood pools.
+
+      :type: list
+
+   .. attribute:: litter
+
+      List of litter pools.
+
+      :type: list
+
+   .. attribute:: soil_organic_matter
+
+      List of soil organic matter pools.
+
+      :type: list
+
+   .. attribute:: annual_process_fluxes
+
+      List of annual process fluxes.
+
+      :type: list
+
+   .. py:method:: get_above_ground_biomass_pools()
+
+      Returns the above ground biomass pools.
+
+      :returns: List of above ground biomass pools.
+      :rtype: list
+
+
+   .. py:method:: get_below_ground_biomass_pools()
+
+      Returns the below ground biomass pools.
+
+      :returns: List of below ground biomass pools.
+      :rtype: list
+
+
+   .. py:method:: get_deadwood_pools()
+
+      Returns the deadwood pools.
+
+      :returns: List of deadwood pools.
+      :rtype: list
+
+
+   .. py:method:: get_litter_pools()
+
+      Returns the litter pools.
+
+      :returns: List of litter pools.
+      :rtype: list
+
+
+   .. py:method:: get_soil_organic_matter_pools()
+
+      Returns the soil organic matter pools.
+
+      :returns: List of soil organic matter pools.
+      :rtype: list
+
+
+   .. py:method:: get_annual_process_fluxes()
+
+      Returns the annual process fluxes.
+
+      :returns: List of annual process fluxes.
+      :rtype: list
+
+
+

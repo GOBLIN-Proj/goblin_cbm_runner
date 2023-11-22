@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cbm_runner.database_manager &mdash; CBM_runner 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            CBM_runner
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../autoapi/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../example.html">Example Usage</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">CBM_runner</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">cbm_runner.database_manager</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for cbm_runner.database_manager</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">sqlalchemy</span> <span class="k">as</span> <span class="nn">sqa</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">cbm_runner.database</span> <span class="kn">import</span> <span class="n">get_local_dir</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+
+<div class="viewcode-block" id="DataManager"><a class="viewcode-back" href="../../autoapi/cbm_runner/database_manager/index.html#cbm_runner.database_manager.DataManager">[docs]</a><span class="k">class</span> <span class="nc">DataManager</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class that manages the database for the CBM Runner application.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        database_dir (str): The directory where the database is located.</span>
+<span class="sd">        engine (sqlalchemy.engine.Engine): The SQLAlchemy engine used to connect to the database.</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">        data_engine_creater: Creates and returns the SQLAlchemy engine for connecting to the database.</span>
+<span class="sd">        get_forest_inventory_age_strucuture: Retrieves the forest inventory age structure data from the database.</span>
+<span class="sd">        get_forest_cbm_yields: Retrieves the forest CBM yields data from the database.</span>
+<span class="sd">        get_forest_kb_yields: Retrieves the forest KB yields data from the database.</span>
+<span class="sd">        get_NIR_forest_data_ha: Retrieves the NIR forest data in hectares from the database.</span>
+<span class="sd">        get_cso_species_breakdown: Retrieves the CSO species breakdown data from the database.</span>
+<span class="sd">        get_afforestation_areas_NIR: Retrieves the afforestation areas in NIR from the database.</span>
+<span class="sd">        get_afforestation_areas_KB: Retrieves the afforestation areas in KB from the database.</span>
+<span class="sd">        get_forest_harvest_NIR: Retrieves the forest harvest data in NIR from the database.</span>
+<span class="sd">        get_kb_yield_curves: Retrieves the KB yield curves data from the database.</span>
+<span class="sd">        get_disturbance_types: Retrieves the disturbance types data from the database.</span>
+<span class="sd">        get_disturbance_times: Retrieves the disturbance times data from the database.</span>
+<span class="sd">        get_disturbance_data: Retrieves the disturbance data from the database.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">database_dir</span> <span class="o">=</span> <span class="n">get_local_dir</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_engine_creater</span><span class="p">()</span>
+
+<div class="viewcode-block" id="DataManager.data_engine_creater"><a class="viewcode-back" href="../../autoapi/cbm_runner/database_manager/index.html#cbm_runner.database_manager.DataManager.data_engine_creater">[docs]</a>    <span class="k">def</span> <span class="nf">data_engine_creater</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates and returns a SQLAlchemy engine for the CBM Runner database.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            sqlalchemy.engine.Engine: The SQLAlchemy engine object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">database_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">database_dir</span><span class="p">,</span> <span class="s2">&quot;cbm_runner_database.db&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">engine_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;sqlite:///</span><span class="si">{</span><span class="n">database_path</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="k">return</span> <span class="n">sqa</span><span class="o">.</span><span class="n">create_engine</span><span class="p">(</span><span class="n">engine_url</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataManager.get_forest_inventory_age_strucuture"><a class="viewcode-back" href="../../autoapi/cbm_runner/database_manager/index.html#cbm_runner.database_manager.DataManager.get_forest_inventory_age_strucuture">[docs]</a>    <span class="k">def</span> <span class="nf">get_forest_inventory_age_strucuture</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the age structure of the national forest inventory from the database.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame: A DataFrame containing the age structure data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="s2">&quot;national_forest_inventory_2017&quot;</span>
+        <span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span>
+            <span class="s2">&quot;SELECT * FROM &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span></div>
+
+<div class="viewcode-block" id="DataManager.get_forest_cbm_yields"><a class="viewcode-back" href="../../autoapi/cbm_runner/database_manager/index.html#cbm_runner.database_manager.DataManager.get_forest_cbm_yields">[docs]</a>    <span class="k">def</span> <span class="nf">get_forest_cbm_yields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves forest CBM yields from the database.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame: A DataFrame containing the forest CBM yields.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="s2">&quot;NIR_CBM_YIELD_Parameters&quot;</span>
+        <span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span>
+            <span class="s2">&quot;SELECT * FROM &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span></div>
+
+<div class="viewcode-block" id="DataManager.get_forest_kb_yields"><a class="viewcode-back" href="../../autoapi/cbm_runner/database_manager/index.html#cbm_runner.database_manager.DataManager.get_forest_kb_yields">[docs]</a>    <span class="k">def</span> <span class="nf">get_forest_kb_yields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the forest Firs yield parameters from the database.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame: A DataFrame containing the yield parameters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="s2">&quot;NIR_KB_YIELD_Parameters&quot;</span>
+        <span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span>
+            <span class="s2">&quot;SELECT * FROM &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span></div>
+
+<div class="viewcode-block" id="DataManager.get_NIR_forest_data_ha"><a class="viewcode-back" href="../../autoapi/cbm_runner/database_manager/index.html#cbm_runner.database_manager.DataManager.get_NIR_forest_data_ha">[docs]</a>    <span class="k">def</span> <span class="nf">get_NIR_forest_data_ha</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves NIR (National Inventory Report) forest data in hectares from the database.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame: The NIR forest data in hectares.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="n">table</span> <span class="o">=</span> <span class="s2">&quot;forest_data&quot;</span>
+        <span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span>
+            <span class="s2">&quot;SELECT * FROM &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="n">dataframe</span> <span class="o">*=</span> <span class="mi">1000</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span></div>
+
+<div class="viewcode-block" id="DataManager.get_cso_species_breakdown"><a class="viewcode-back" href="../../autoapi/cbm_runner/database_manager/index.html#cbm_runner.database_manager.DataManager.get_cso_species_breakdown">[docs]</a>    <span class="k">def</span> <span class="nf">get_cso_species_breakdown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the CSO species breakdown data from the database.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame: The CSO species breakdown data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># CSO data is from 2007 onward. Additional data added from NFI from 1998 to 2006.</span>
+        <span class="c1"># Data from 1991 is based on 1998 breakdown.</span>
+
+        <span class="n">table</span> <span class="o">=</span> <span class="s2">&quot;cso_afforestation_species_proportion&quot;</span>
+        <span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span>
+            <span class="s2">&quot;SELECT * FROM &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span></div>
+
+<div class="viewcode-block" id="DataManager.get_afforestation_areas_NIR"><a class="viewcode-back" href="../../autoapi/cbm_runner/database_manager/index.html#cbm_runner.database_manager.DataManager.get_afforestation_areas_NIR">[docs]</a>    <span class="k">def</span> <span class="nf">get_afforestation_areas_NIR</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves afforestation areas data from the (National Inventory Report)&#39;afforestation_NIR&#39; table in the database.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame: The afforestation areas data with the year as the index.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="n">table</span> <span class="o">=</span> <span class="s2">&quot;afforestation_NIR&quot;</span>
+        <span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span>
+            <span class="s2">&quot;SELECT * FROM &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="n">dataframe</span> <span class="o">*=</span> <span class="mi">1000</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span></div>
+
+<div class="viewcode-block" id="DataManager.get_afforestation_areas_KB"><a class="viewcode-back" href="../../autoapi/cbm_runner/database_manager/index.html#cbm_runner.database_manager.DataManager.get_afforestation_areas_KB">[docs]</a>    <span class="k">def</span> <span class="nf">get_afforestation_areas_KB</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the afforestation areas from the (Firs) KB_Afforestation_Area table in the database.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame: A DataFrame containing the afforestation areas, with the year as the index.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="s2">&quot;KB_Afforestation_Area&quot;</span>
+        <span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span>
+            <span class="s2">&quot;SELECT * FROM &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span></div>
+
+<div class="viewcode-block" id="DataManager.get_forest_harvest_NIR"><a class="viewcode-back" href="../../autoapi/cbm_runner/database_manager/index.html#cbm_runner.database_manager.DataManager.get_forest_harvest_NIR">[docs]</a>    <span class="k">def</span> <span class="nf">get_forest_harvest_NIR</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the forest harvest National Invetory Report data from the database.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame: The forest harvest NIR data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="s2">&quot;forest_harvest_NIR&quot;</span>
+        <span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span>
+            <span class="s2">&quot;SELECT * FROM &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span></div>
+
+<div class="viewcode-block" id="DataManager.get_kb_yield_curves"><a class="viewcode-back" href="../../autoapi/cbm_runner/database_manager/index.html#cbm_runner.database_manager.DataManager.get_kb_yield_curves">[docs]</a>    <span class="k">def</span> <span class="nf">get_kb_yield_curves</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve the Firs yield curves from the database.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame: A DataFrame containing the Firs yield curves data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="s2">&quot;KB_yield_curves&quot;</span>
+        <span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span>
+            <span class="s2">&quot;SELECT * FROM &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Cohort&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span></div>
+
+<div class="viewcode-block" id="DataManager.get_disturbance_types"><a class="viewcode-back" href="../../autoapi/cbm_runner/database_manager/index.html#cbm_runner.database_manager.DataManager.get_disturbance_types">[docs]</a>    <span class="k">def</span> <span class="nf">get_disturbance_types</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves all disturbance types from the &#39;Disturbances&#39; table in the database.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame: A DataFrame containing all disturbance types.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="s2">&quot;Disturbances&quot;</span>
+        <span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span>
+            <span class="s2">&quot;SELECT * FROM &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span></div>
+
+<div class="viewcode-block" id="DataManager.get_disturbance_times"><a class="viewcode-back" href="../../autoapi/cbm_runner/database_manager/index.html#cbm_runner.database_manager.DataManager.get_disturbance_times">[docs]</a>    <span class="k">def</span> <span class="nf">get_disturbance_times</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves disturbance timing data from the database.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame: A DataFrame containing disturbance timing data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="s2">&quot;Disturbance_timing&quot;</span>
+        <span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span>
+            <span class="s2">&quot;SELECT * FROM &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Cohort&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span></div>
+
+<div class="viewcode-block" id="DataManager.get_disturbance_data"><a class="viewcode-back" href="../../autoapi/cbm_runner/database_manager/index.html#cbm_runner.database_manager.DataManager.get_disturbance_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_disturbance_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the Firs disturbance data from the database.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame: A DataFrame containing the disturbance data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="s2">&quot;KB_Disturbance_data&quot;</span>
+        <span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span>
+            <span class="s2">&quot;SELECT * FROM &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Colm Duffy.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

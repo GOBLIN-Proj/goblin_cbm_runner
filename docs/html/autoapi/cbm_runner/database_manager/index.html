@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cbm_runner.database_manager &mdash; CBM_runner 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="cbm_runner.disturbances" href="../disturbances/index.html" />
+    <link rel="prev" title="cbm_runner.create_json" href="../create_json/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            CBM_runner
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cbm_runner</span></code></a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../index.html#subpackages">Subpackages</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../cbm_data_factory/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cbm_runner.cbm_data_factory</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cbm_pools/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cbm_runner.cbm_pools</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cbm_runner_data_manager/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cbm_runner.cbm_runner_data_manager</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../create_json/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cbm_runner.create_json</span></code></a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cbm_runner.database_manager</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../disturbances/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cbm_runner.disturbances</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../forestsim_disturbances/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cbm_runner.forestsim_disturbances</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../forestsim_factory/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cbm_runner.forestsim_factory</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../forestsim_runner/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cbm_runner.forestsim_runner</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../harvest/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cbm_runner.harvest</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../inventory/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cbm_runner.inventory</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../loader/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cbm_runner.loader</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../parser/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cbm_runner.parser</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../runner/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cbm_runner.runner</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../transition/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cbm_runner.transition</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../yield_curves/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cbm_runner.yield_curves</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../example.html">Example Usage</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">CBM_runner</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cbm_runner</span></code></a></li>
+      <li class="breadcrumb-item active"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cbm_runner.database_manager</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/autoapi/cbm_runner/database_manager/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-cbm_runner.database_manager">
+<span id="cbm-runner-database-manager"></span><h1><a class="reference internal" href="#module-cbm_runner.database_manager" title="cbm_runner.database_manager"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cbm_runner.database_manager</span></code></a><a class="headerlink" href="#module-cbm_runner.database_manager" title="Permalink to this heading"></a></h1>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading"></a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cbm_runner.database_manager.DataManager" title="cbm_runner.database_manager.DataManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataManager</span></code></a></p></td>
+<td><p>A class that manages the database for the CBM Runner application.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="cbm_runner.database_manager.DataManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cbm_runner.database_manager.</span></span><span class="sig-name descname"><span class="pre">DataManager</span></span><a class="reference internal" href="../../../_modules/cbm_runner/database_manager.html#DataManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cbm_runner.database_manager.DataManager" title="Permalink to this definition"></a></dt>
+<dd><p>A class that manages the database for the CBM Runner application.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cbm_runner.database_manager.DataManager.database_dir">
+<span class="sig-name descname"><span class="pre">database_dir</span></span><a class="headerlink" href="#cbm_runner.database_manager.DataManager.database_dir" title="Permalink to this definition"></a></dt>
+<dd><p>The directory where the database is located.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cbm_runner.database_manager.DataManager.engine">
+<span class="sig-name descname"><span class="pre">engine</span></span><a class="headerlink" href="#cbm_runner.database_manager.DataManager.engine" title="Permalink to this definition"></a></dt>
+<dd><p>The SQLAlchemy engine used to connect to the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>sqlalchemy.engine.Engine</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cbm_runner.database_manager.DataManager.data_engine_creater">
+<span class="sig-name descname"><span class="pre">data_engine_creater</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/cbm_runner/database_manager.html#DataManager.data_engine_creater"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cbm_runner.database_manager.DataManager.data_engine_creater" title="Permalink to this definition"></a></dt>
+<dd><p>Creates and returns the SQLAlchemy engine for connecting to the database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cbm_runner.database_manager.DataManager.get_forest_inventory_age_strucuture">
+<span class="sig-name descname"><span class="pre">get_forest_inventory_age_strucuture</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/cbm_runner/database_manager.html#DataManager.get_forest_inventory_age_strucuture"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cbm_runner.database_manager.DataManager.get_forest_inventory_age_strucuture" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the forest inventory age structure data from the database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cbm_runner.database_manager.DataManager.get_forest_cbm_yields">
+<span class="sig-name descname"><span class="pre">get_forest_cbm_yields</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/cbm_runner/database_manager.html#DataManager.get_forest_cbm_yields"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cbm_runner.database_manager.DataManager.get_forest_cbm_yields" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the forest CBM yields data from the database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cbm_runner.database_manager.DataManager.get_forest_kb_yields">
+<span class="sig-name descname"><span class="pre">get_forest_kb_yields</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/cbm_runner/database_manager.html#DataManager.get_forest_kb_yields"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cbm_runner.database_manager.DataManager.get_forest_kb_yields" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the forest KB yields data from the database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cbm_runner.database_manager.DataManager.get_NIR_forest_data_ha">
+<span class="sig-name descname"><span class="pre">get_NIR_forest_data_ha</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/cbm_runner/database_manager.html#DataManager.get_NIR_forest_data_ha"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cbm_runner.database_manager.DataManager.get_NIR_forest_data_ha" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the NIR forest data in hectares from the database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cbm_runner.database_manager.DataManager.get_cso_species_breakdown">
+<span class="sig-name descname"><span class="pre">get_cso_species_breakdown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/cbm_runner/database_manager.html#DataManager.get_cso_species_breakdown"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cbm_runner.database_manager.DataManager.get_cso_species_breakdown" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the CSO species breakdown data from the database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cbm_runner.database_manager.DataManager.get_afforestation_areas_NIR">
+<span class="sig-name descname"><span class="pre">get_afforestation_areas_NIR</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/cbm_runner/database_manager.html#DataManager.get_afforestation_areas_NIR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cbm_runner.database_manager.DataManager.get_afforestation_areas_NIR" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the afforestation areas in NIR from the database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cbm_runner.database_manager.DataManager.get_afforestation_areas_KB">
+<span class="sig-name descname"><span class="pre">get_afforestation_areas_KB</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/cbm_runner/database_manager.html#DataManager.get_afforestation_areas_KB"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cbm_runner.database_manager.DataManager.get_afforestation_areas_KB" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the afforestation areas in KB from the database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cbm_runner.database_manager.DataManager.get_forest_harvest_NIR">
+<span class="sig-name descname"><span class="pre">get_forest_harvest_NIR</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/cbm_runner/database_manager.html#DataManager.get_forest_harvest_NIR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cbm_runner.database_manager.DataManager.get_forest_harvest_NIR" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the forest harvest data in NIR from the database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cbm_runner.database_manager.DataManager.get_kb_yield_curves">
+<span class="sig-name descname"><span class="pre">get_kb_yield_curves</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/cbm_runner/database_manager.html#DataManager.get_kb_yield_curves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cbm_runner.database_manager.DataManager.get_kb_yield_curves" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the KB yield curves data from the database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cbm_runner.database_manager.DataManager.get_disturbance_types">
+<span class="sig-name descname"><span class="pre">get_disturbance_types</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/cbm_runner/database_manager.html#DataManager.get_disturbance_types"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cbm_runner.database_manager.DataManager.get_disturbance_types" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the disturbance types data from the database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cbm_runner.database_manager.DataManager.get_disturbance_times">
+<span class="sig-name descname"><span class="pre">get_disturbance_times</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/cbm_runner/database_manager.html#DataManager.get_disturbance_times"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cbm_runner.database_manager.DataManager.get_disturbance_times" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the disturbance times data from the database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cbm_runner.database_manager.DataManager.get_disturbance_data">
+<span class="sig-name descname"><span class="pre">get_disturbance_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/cbm_runner/database_manager.html#DataManager.get_disturbance_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cbm_runner.database_manager.DataManager.get_disturbance_data" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the disturbance data from the database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">data_engine_creater</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/cbm_runner/database_manager.html#DataManager.data_engine_creater"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Permalink to this definition"></a></dt>
+<dd><p>Creates and returns a SQLAlchemy engine for the CBM Runner database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The SQLAlchemy engine object.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>sqlalchemy.engine.Engine</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">get_forest_inventory_age_strucuture</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/cbm_runner/database_manager.html#DataManager.get_forest_inventory_age_strucuture"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the age structure of the national forest inventory from the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A DataFrame containing the age structure data.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">get_forest_cbm_yields</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/cbm_runner/database_manager.html#DataManager.get_forest_cbm_yields"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id2" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves forest CBM yields from the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A DataFrame containing the forest CBM yields.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">get_forest_kb_yields</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/cbm_runner/database_manager.html#DataManager.get_forest_kb_yields"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id3" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the forest Firs yield parameters from the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A DataFrame containing the yield parameters.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">get_NIR_forest_data_ha</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/cbm_runner/database_manager.html#DataManager.get_NIR_forest_data_ha"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id4" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves NIR (National Inventory Report) forest data in hectares from the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The NIR forest data in hectares.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">get_cso_species_breakdown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/cbm_runner/database_manager.html#DataManager.get_cso_species_breakdown"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id5" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the CSO species breakdown data from the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The CSO species breakdown data.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id6">
+<span class="sig-name descname"><span class="pre">get_afforestation_areas_NIR</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/cbm_runner/database_manager.html#DataManager.get_afforestation_areas_NIR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id6" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves afforestation areas data from the (National Inventory Report)’afforestation_NIR’ table in the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The afforestation areas data with the year as the index.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id7">
+<span class="sig-name descname"><span class="pre">get_afforestation_areas_KB</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/cbm_runner/database_manager.html#DataManager.get_afforestation_areas_KB"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id7" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the afforestation areas from the (Firs) KB_Afforestation_Area table in the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A DataFrame containing the afforestation areas, with the year as the index.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id8">
+<span class="sig-name descname"><span class="pre">get_forest_harvest_NIR</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/cbm_runner/database_manager.html#DataManager.get_forest_harvest_NIR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id8" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the forest harvest National Invetory Report data from the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The forest harvest NIR data.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id9">
+<span class="sig-name descname"><span class="pre">get_kb_yield_curves</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/cbm_runner/database_manager.html#DataManager.get_kb_yield_curves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id9" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieve the Firs yield curves from the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A DataFrame containing the Firs yield curves data.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id10">
+<span class="sig-name descname"><span class="pre">get_disturbance_types</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/cbm_runner/database_manager.html#DataManager.get_disturbance_types"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id10" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves all disturbance types from the ‘Disturbances’ table in the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A DataFrame containing all disturbance types.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id11">
+<span class="sig-name descname"><span class="pre">get_disturbance_times</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/cbm_runner/database_manager.html#DataManager.get_disturbance_times"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id11" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves disturbance timing data from the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A DataFrame containing disturbance timing data.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id12">
+<span class="sig-name descname"><span class="pre">get_disturbance_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/cbm_runner/database_manager.html#DataManager.get_disturbance_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id12" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the Firs disturbance data from the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A DataFrame containing the disturbance data.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../create_json/index.html" class="btn btn-neutral float-left" title="cbm_runner.create_json" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../disturbances/index.html" class="btn btn-neutral float-right" title="cbm_runner.disturbances" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Colm Duffy.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

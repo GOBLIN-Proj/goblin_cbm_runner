@@ -4,6 +4,21 @@ from cbm_runner.cbm_runner_data_manager import DataManager
 
 
 class CreateJSON:
+    """
+    This class is responsible for creating the mapping configuration JSON for the CBM AIDB.
+
+    Args:
+        config_path (str): The path to the configuration file.
+
+    Attributes:
+        loader_class (Loader): An instance of the Loader class.
+        data_manager_class (DataManager): An instance of the DataManager class.
+        template (dict): The template JSON structure for the mapping configuration.
+
+    Methods:
+        populate_template: Populates the template JSON with data based on the given scenario.
+    """
+
     def __init__(self, config_path):
         self.loader_class = Loader()
         self.data_manager_class = DataManager(None, config_path, None)
@@ -37,6 +52,15 @@ class CreateJSON:
         }
 
     def populate_template(self, scenario):
+        """
+        Populates the template JSON with data based on the given scenario.
+
+        Args:
+            scenario (str): The scenario for which the mapping is being created.
+
+        Returns:
+            dict: The populated template JSON.
+        """
         template = copy.deepcopy(self.template)
 
         if scenario is not None:
@@ -57,7 +81,7 @@ class CreateJSON:
 
         for key in config[
             "Species"
-        ].keys():  # mapping["species"].keys():#config["classifier_id"][1]["name"]:
+        ].keys(): 
             try:
                 template["mapping_config"]["species"]["species_mapping"].append(
                     mapping["species"][key]

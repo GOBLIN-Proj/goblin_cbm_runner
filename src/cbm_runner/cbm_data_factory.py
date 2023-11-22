@@ -10,7 +10,7 @@ from cbm_runner.cbm_runner_data_manager import DataManager
 from cbm_runner.create_json import CreateJSON
 from cbm_runner.yield_curves import YieldCurves
 from cbm_runner.inventory import Inventory
-from cbm_runner.disturbances import Distrubances
+from cbm_runner.disturbances import Disturbances
 from cbm_runner.transition import Transition
 import cbm_runner.parser as parser
 
@@ -19,6 +19,45 @@ from libcbm.input.sit import sit_cbm_factory
 
 
 class DataFactory:
+    """
+    A class that represents a data factory for creating and managing input data for CBM simulations.
+
+    This class facilitates the generation and organization of various input files required for running 
+    Carbon Budget Model (CBM) simulations. It handles the creation of directories, configuration files, 
+    classifiers, age classes, yield curves, inventories, disturbance events, disturbance types, 
+    and transition rules for different scenarios.
+
+    Args:
+        config_path (str): The path to the configuration file.
+        calibration_year (int): The calibration year.
+        forest_end_year (int): The forest end year.
+        afforestation_data (dict): The afforestation data.
+        scenario_data (dict): The scenario data.
+
+    Attributes:
+        loader_class (Loader): An instance of the Loader class.
+        data_manager_class (DataManager): An instance of the DataManager class.
+        json_creator_class (CreateJSON): An instance of the CreateJSON class.
+        inventory_class (Inventory): An instance of the Inventory class.
+        disturbance_class (Disturbances): An instance of the Disturbances class.
+        transition_class (Transition): An instance of the Transition class.
+        afforestation_data (dict): The afforestation data.
+
+    Methods:
+        set_input_data_dir(sc, path): Sets the input data directory for a scenario.
+        set_baseline_input_data_dir(path): Sets the baseline input data directory.
+        make_data_dirs(scenarios, path): Creates data directories for the specified scenarios.
+        clean_data_dir(path): Cleans the specified data directory.
+        clean_baseline_data_dir(path): Cleans the baseline data directory.
+        make_config_json(scenario, path): Creates the configuration JSON file for a scenario.
+        make_classifiers(scenario, path): Creates the classifiers CSV file for a scenario.
+        make_age_classes(scenario, path): Creates the age classes CSV file for a scenario.
+        make_yield_curves(scenario, path): Creates the yield curves CSV file for a scenario.
+        make_inventory(scenario, path): Creates the inventory CSV file for a scenario.
+        make_disturbance_events(scenario, path): Creates the disturbance events CSV file for a scenario.
+        make_disturbance_type(scenario, path): Creates the disturbance type CSV file for a scenario.
+        make_transition_rules(scenario, path): Creates the transition rules CSV file for a scenario.
+    """
     def __init__(
         self,
         config_path,
@@ -33,7 +72,7 @@ class DataFactory:
         self.inventory_class = Inventory(
             calibration_year, config_path, afforestation_data
         )
-        self.disturbance_class = Distrubances(
+        self.disturbance_class = Disturbances(
             config_path,
             calibration_year,
             forest_end_year,
@@ -44,6 +83,16 @@ class DataFactory:
         self.afforestation_data = afforestation_data
 
     def set_input_data_dir(self, sc, path):
+        """
+        Sets the input data directory.
+
+        Args:
+            sc (int): The scenario number.
+            path (str): The path to the input data directory.
+
+        Returns:
+            tuple: A tuple containing the SIT object, classifiers, and inventory.
+        """
         sit_config_path = os.path.join(path, str(sc), "sit_config.json")
 
         sit = sit_cbm_factory.load_sit(sit_config_path)
@@ -53,6 +102,15 @@ class DataFactory:
         return sit, classifiers, inventory
 
     def set_baseline_input_data_dir(self, path):
+        """
+        Sets the baseline input data directory.
+
+        Args:
+            path (str): The path to the baseline input data directory.
+
+        Returns:
+            tuple: A tuple containing the SIT object, classifiers, and inventory.
+        """
         sit_config_path = os.path.join(path, "sit_config.json")
 
         sit = sit_cbm_factory.load_sit(sit_config_path)
@@ -62,22 +120,49 @@ class DataFactory:
         return sit, classifiers, inventory
 
     def make_data_dirs(self, scenarios, path):
+        """
+        Creates data directories.
+
+        Args:
+            scenarios (list): A list of scenario numbers.
+            path (str): The path to the data directory.
+        """
         for sc in scenarios:
             os.mkdir(os.path.join(path, str(sc)))
 
     def clean_data_dir(self, path):
+        """
+        Cleans the data directory.
+
+        Args:
+            path (str): The path to the data directory.
+        """
         for directory in os.listdir(path):
             d = os.path.join(path, directory)
             if not os.path.isfile(d):
                 shutil.rmtree(d)
 
     def clean_baseline_data_dir(self, path):
+        """
+        Cleans the baseline data directory.
+
+        Args:
+            path (str): The path to the baseline data directory.
+        """
         for filename in os.listdir(path):
             file_path = os.path.join(path, filename)
             if os.path.isfile(file_path) and filename != "__init__.py":
                 os.remove(file_path)
 
+
     def make_config_json(self, scenario, path):
+        """
+        Creates the configuration JSON file.
+
+        Args:
+            scenario (int): The scenario number.
+            path (str): The path to the output directory.
+        """
         dictionary = self.json_creator_class.populate_template(scenario)
 
         file = "sit_config.json"
@@ -90,7 +175,19 @@ class DataFactory:
             with open(os.path.join(path, file), "w") as outfile:
                 json.dump(dictionary, outfile, indent=4)
 
+
     def make_classifiers(self, scenario, path):
+        """
+        Generates a dataframe of classifiers and saves it as a CSV file.
+
+        Parameters:
+        - scenario (str): The scenario name. If provided, classifiers for the scenario will be generated.
+        - path (str): The path where the CSV file will be saved.
+
+        Returns:
+        None
+        """
+        
         if scenario is not None:
             classifiers = self.data_manager_class.get_classifiers()["Scenario"]
         else:
@@ -120,6 +217,17 @@ class DataFactory:
             classifier_df.to_csv(os.path.join(path, "classifiers.csv"), index=False)
 
     def make_age_classes(self, scenario, path):
+        """
+        Creates age classes DataFrame and saves it as a CSV file.
+
+        Args:
+            scenario (str): The scenario name. If provided, the CSV file will be saved in a subdirectory with the scenario name.
+            path (str): The path where the CSV file will be saved.
+
+        Returns:
+            None
+        """
+        
         classifiers = self.data_manager_class.config_data["Classifiers"]
 
         age = parser.get_age_classifier(classifiers)
@@ -138,7 +246,18 @@ class DataFactory:
         else:
             age_classes_df.to_csv(os.path.join(path, "age_classes.csv"), index=False)
 
+
     def make_yield_curves(self, scenario, path):
+        """
+        Creates the yield curves CSV file.
+
+        Args:
+            scenario (int): The scenario number.
+            path (str): The path to the output directory.
+
+        Returns:
+            None
+        """
         yield_df = YieldCurves.yield_table_generater_method3()
 
         shared_classifiers = self.data_manager_class.config_data["Classifiers"]
@@ -221,6 +340,20 @@ class DataFactory:
             growth_df.to_csv(os.path.join(path, "growth.csv"), index=False)
 
     def make_inventory(self, scenario, path):
+        """
+        Create an inventory DataFrame based on the given scenario and path.
+
+        Args:
+            scenario (str): The scenario for which the inventory is created.
+            path (str): The path where the inventory file will be saved.
+
+        Returns:
+            pandas.DataFrame: The created inventory DataFrame.
+
+        Raises:
+            None
+
+        """
         inventory_df = self.inventory_class.make_inventory_structure(scenario, path)
 
         if scenario is not None:
@@ -237,6 +370,16 @@ class DataFactory:
             inventory_df.to_csv(os.path.join(path, "inventory.csv"), index=False)
 
     def make_disturbance_events(self, scenario, path):
+        """
+        Generate disturbance events data and save it as a CSV file.
+
+        Args:
+            scenario (str or None): The scenario name. If None, baseline forest data will be generated.
+            path (str): The path to save the disturbance events CSV file.
+
+        Returns:
+            None
+        """
         if scenario is not None:
             disturbance_events = self.disturbance_class.fill_scenario_data(scenario)
             disturbance_events.to_csv(
@@ -249,6 +392,17 @@ class DataFactory:
             )
 
     def make_disturbance_type(self, scenario, path):
+        """
+        Creates a disturbance type CSV file based on the given scenario and saves it to the specified path.
+
+        Parameters:
+        - scenario (str): The scenario for which the disturbance type CSV file is created. If None, the baseline disturbance types are used.
+        - path (str): The path where the disturbance type CSV file is saved.
+
+        Returns:
+        None
+        """
+        
         if scenario != None:
             classifiers = self.data_manager_class.get_disturbances_config()["Scenario"]
         else:
@@ -280,6 +434,17 @@ class DataFactory:
             )
 
     def make_transition_rules(self, scenario, path):
+        """
+        Generate transition rules based on the given scenario and save them to a CSV file.
+
+        Args:
+            scenario (str or None): The scenario for which the transition rules are generated.
+                If None, the transition rules are generated for all scenarios.
+            path (str): The path where the CSV file should be saved.
+
+        Returns:
+            None
+        """
         transition_df = self.transition_class.make_transition_rules_structure(scenario)
 
         if scenario is not None:

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cbm_runner.forestsim_factory &mdash; CBM_runner 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            CBM_runner
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../autoapi/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../example.html">Example Usage</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">CBM_runner</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">cbm_runner.forestsim_factory</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for cbm_runner.forestsim_factory</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">cbm_runner.cbm_data_factory</span> <span class="kn">import</span> <span class="n">DataFactory</span>
+<span class="kn">from</span> <span class="nn">cbm_runner.forestsim_disturbances</span> <span class="kn">import</span> <span class="n">ForestSimDistrubances</span>
+<span class="kn">import</span> <span class="nn">os</span> 
+
+<div class="viewcode-block" id="ForestSimFactory"><a class="viewcode-back" href="../../autoapi/cbm_runner/forestsim_factory/index.html#cbm_runner.forestsim_factory.ForestSimFactory">[docs]</a><span class="k">class</span> <span class="nc">ForestSimFactory</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A factory class for creating and managing forest simulation data in a CBM context.</span>
+
+<span class="sd">    This class is used when annual afforesation has been specified for each year. </span>
+
+<span class="sd">    This class serves as a central point for managing the creation and organization of various data files </span>
+<span class="sd">    necessary for running forest simulations, including configuration files, classifiers, age classes, </span>
+<span class="sd">    yield curves, disturbance types, transition rules, inventory, and disturbance events.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        config_path (str): The path to the configuration file.</span>
+<span class="sd">        calibration_year (int): The year used for calibration.</span>
+<span class="sd">        forest_end_year (int): The final year of the forest simulation.</span>
+<span class="sd">        afforestation_data (pd.DataFrame): The afforestation data.</span>
+<span class="sd">        afforest_data_annual (pd.DataFrame): The annual afforestation data.</span>
+<span class="sd">        scenario_data (pd.DataFrame): The scenario data.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        DataFactory (DataFactory): An instance of the DataFactory class.</span>
+<span class="sd">        disturbance_class (ForestSimDistrubances): An instance of the ForestSimDistrubances class.</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">        set_input_data_dir(sc, path): Set the input data directory for a specific scenario.</span>
+<span class="sd">        set_baseline_input_data_dir(path): Set the input data directory for the baseline scenario.</span>
+<span class="sd">        make_data_dirs(scenarios, path): Create data directories for specified scenarios.</span>
+<span class="sd">        clean_data_dir(path): Clean the data directory.</span>
+<span class="sd">        clean_baseline_data_dir(path): Clean the baseline data directory.</span>
+<span class="sd">        make_config_json(scenario, path): Create configuration JSON for a specific scenario.</span>
+<span class="sd">        make_classifiers(scenario, path): Create classifiers file for a specific scenario.</span>
+<span class="sd">        make_age_classes(scenario, path): Create age classes file for a specific scenario.</span>
+<span class="sd">        make_yield_curves(scenario, path): Create yield curves file for a specific scenario.</span>
+<span class="sd">        make_disturbance_type(scenario, path): Create disturbance type file for a specific scenario.</span>
+<span class="sd">        make_transition_rules(scenario, path): Create transition rules file for a specific scenario.</span>
+<span class="sd">        make_inventory(scenario, path): Create inventory file for a specific scenario.</span>
+<span class="sd">        make_disturbance_events(scenario, path): Create disturbance events file for a specific scenario.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_path</span><span class="p">,</span> <span class="n">calibration_year</span><span class="p">,</span> <span class="n">forest_end_year</span><span class="p">,</span> <span class="n">afforestation_data</span><span class="p">,</span> <span class="n">afforest_data_annual</span><span class="p">,</span> <span class="n">scenario_data</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DataFactory</span> <span class="o">=</span> <span class="n">DataFactory</span><span class="p">(</span><span class="n">config_path</span><span class="p">,</span> <span class="n">calibration_year</span><span class="p">,</span> <span class="n">forest_end_year</span><span class="p">,</span> <span class="n">afforestation_data</span><span class="p">,</span> <span class="n">scenario_data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">disturbance_class</span> <span class="o">=</span> <span class="n">ForestSimDistrubances</span><span class="p">(</span><span class="n">config_path</span><span class="p">,</span> <span class="n">calibration_year</span><span class="p">,</span> <span class="n">forest_end_year</span><span class="p">,</span> <span class="n">afforestation_data</span><span class="p">,</span> <span class="n">afforest_data_annual</span><span class="p">,</span> <span class="n">scenario_data</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ForestSimFactory.set_input_data_dir"><a class="viewcode-back" href="../../autoapi/cbm_runner/forestsim_factory/index.html#cbm_runner.forestsim_factory.ForestSimFactory.set_input_data_dir">[docs]</a>    <span class="k">def</span> <span class="nf">set_input_data_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sc</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the input data directory for a specific scenario.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            sc (str): The scenario identifier.</span>
+<span class="sd">            path (str): The path to the input data directory.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DataFactory</span><span class="o">.</span><span class="n">set_input_data_dir</span><span class="p">(</span><span class="n">sc</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ForestSimFactory.set_baseline_input_data_dir"><a class="viewcode-back" href="../../autoapi/cbm_runner/forestsim_factory/index.html#cbm_runner.forestsim_factory.ForestSimFactory.set_baseline_input_data_dir">[docs]</a>    <span class="k">def</span> <span class="nf">set_baseline_input_data_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the input data directory for the baseline scenario.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            path (str): The path to the input data directory.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DataFactory</span><span class="o">.</span><span class="n">set_baseline_input_data_dir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ForestSimFactory.make_data_dirs"><a class="viewcode-back" href="../../autoapi/cbm_runner/forestsim_factory/index.html#cbm_runner.forestsim_factory.ForestSimFactory.make_data_dirs">[docs]</a>    <span class="k">def</span> <span class="nf">make_data_dirs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scenarios</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create data directories for the specified scenarios.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            scenarios (list): A list of scenario identifiers.</span>
+<span class="sd">            path (str): The path to the data directories.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DataFactory</span><span class="o">.</span><span class="n">make_data_dirs</span><span class="p">(</span><span class="n">scenarios</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ForestSimFactory.clean_data_dir"><a class="viewcode-back" href="../../autoapi/cbm_runner/forestsim_factory/index.html#cbm_runner.forestsim_factory.ForestSimFactory.clean_data_dir">[docs]</a>    <span class="k">def</span> <span class="nf">clean_data_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Clean the data directory.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            path (str): The path to the data directory.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DataFactory</span><span class="o">.</span><span class="n">clean_data_dir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ForestSimFactory.clean_baseline_data_dir"><a class="viewcode-back" href="../../autoapi/cbm_runner/forestsim_factory/index.html#cbm_runner.forestsim_factory.ForestSimFactory.clean_baseline_data_dir">[docs]</a>    <span class="k">def</span> <span class="nf">clean_baseline_data_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Clean the baseline data directory.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            path (str): The path to the baseline data directory.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DataFactory</span><span class="o">.</span><span class="n">clean_baseline_data_dir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ForestSimFactory.make_config_json"><a class="viewcode-back" href="../../autoapi/cbm_runner/forestsim_factory/index.html#cbm_runner.forestsim_factory.ForestSimFactory.make_config_json">[docs]</a>    <span class="k">def</span> <span class="nf">make_config_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scenario</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create the configuration JSON file for a specific scenario.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            scenario (str): The scenario identifier.</span>
+<span class="sd">            path (str): The path to save the configuration JSON file.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DataFactory</span><span class="o">.</span><span class="n">make_config_json</span><span class="p">(</span><span class="n">scenario</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ForestSimFactory.make_classifiers"><a class="viewcode-back" href="../../autoapi/cbm_runner/forestsim_factory/index.html#cbm_runner.forestsim_factory.ForestSimFactory.make_classifiers">[docs]</a>    <span class="k">def</span> <span class="nf">make_classifiers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scenario</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create the classifiers file for a specific scenario.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            scenario (str): The scenario identifier.</span>
+<span class="sd">            path (str): The path to save the classifiers file.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DataFactory</span><span class="o">.</span><span class="n">make_classifiers</span><span class="p">(</span><span class="n">scenario</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ForestSimFactory.make_age_classes"><a class="viewcode-back" href="../../autoapi/cbm_runner/forestsim_factory/index.html#cbm_runner.forestsim_factory.ForestSimFactory.make_age_classes">[docs]</a>    <span class="k">def</span> <span class="nf">make_age_classes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scenario</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create the age classes file for a specific scenario.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            scenario (str): The scenario identifier.</span>
+<span class="sd">            path (str): The path to save the age classes file.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DataFactory</span><span class="o">.</span><span class="n">make_age_classes</span><span class="p">(</span><span class="n">scenario</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ForestSimFactory.make_yield_curves"><a class="viewcode-back" href="../../autoapi/cbm_runner/forestsim_factory/index.html#cbm_runner.forestsim_factory.ForestSimFactory.make_yield_curves">[docs]</a>    <span class="k">def</span> <span class="nf">make_yield_curves</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scenario</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create the yield curves file for a specific scenario.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            scenario (str): The scenario identifier.</span>
+<span class="sd">            path (str): The path to save the yield curves file.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DataFactory</span><span class="o">.</span><span class="n">make_yield_curves</span><span class="p">(</span><span class="n">scenario</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ForestSimFactory.make_disturbance_type"><a class="viewcode-back" href="../../autoapi/cbm_runner/forestsim_factory/index.html#cbm_runner.forestsim_factory.ForestSimFactory.make_disturbance_type">[docs]</a>    <span class="k">def</span> <span class="nf">make_disturbance_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scenario</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create the disturbance type file for a specific scenario.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            scenario (str): The scenario identifier.</span>
+<span class="sd">            path (str): The path to save the disturbance type file.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DataFactory</span><span class="o">.</span><span class="n">make_disturbance_type</span><span class="p">(</span><span class="n">scenario</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ForestSimFactory.make_transition_rules"><a class="viewcode-back" href="../../autoapi/cbm_runner/forestsim_factory/index.html#cbm_runner.forestsim_factory.ForestSimFactory.make_transition_rules">[docs]</a>    <span class="k">def</span> <span class="nf">make_transition_rules</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scenario</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create the transition rules file for a specific scenario.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            scenario (str): The scenario identifier.</span>
+<span class="sd">            path (str): The path to save the transition rules file.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DataFactory</span><span class="o">.</span><span class="n">make_transition_rules</span><span class="p">(</span><span class="n">scenario</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ForestSimFactory.make_inventory"><a class="viewcode-back" href="../../autoapi/cbm_runner/forestsim_factory/index.html#cbm_runner.forestsim_factory.ForestSimFactory.make_inventory">[docs]</a>    <span class="k">def</span> <span class="nf">make_inventory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scenario</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create the inventory file for a specific scenario.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            scenario (str): The scenario identifier.</span>
+<span class="sd">            path (str): The path to save the inventory file.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DataFactory</span><span class="o">.</span><span class="n">make_inventory</span><span class="p">(</span><span class="n">scenario</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ForestSimFactory.make_disturbance_events"><a class="viewcode-back" href="../../autoapi/cbm_runner/forestsim_factory/index.html#cbm_runner.forestsim_factory.ForestSimFactory.make_disturbance_events">[docs]</a>    <span class="k">def</span> <span class="nf">make_disturbance_events</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scenario</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create the disturbance events file for a specific scenario.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            scenario (str): The scenario identifier.</span>
+<span class="sd">            path (str): The path to save the disturbance events file.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">scenario</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">disturbance_events</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">disturbance_class</span><span class="o">.</span><span class="n">fill_scenario_data</span><span class="p">(</span><span class="n">scenario</span><span class="p">)</span>
+            <span class="n">disturbance_events</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">scenario</span><span class="p">),</span> <span class="s2">&quot;disturbance_events.csv&quot;</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">disturbance_events</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">disturbance_class</span><span class="o">.</span><span class="n">fill_baseline_forest</span><span class="p">()</span>
+            <span class="n">disturbance_events</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;disturbance_events.csv&quot;</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div></div>
+    
+
+    
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Colm Duffy.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
