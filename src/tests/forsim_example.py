@@ -5,7 +5,8 @@ import os
 
 def main():
     # path to data
-    path = "./data"
+    path = "./data/forsim_input"
+    results_path = "./data/forsim_results"
 
     # afforestation data for each scenario
     afforest_data = pd.read_csv(
@@ -33,10 +34,10 @@ def main():
     runner.generate_input_data()
 
     # generation of aggregated results
-    runner.run_aggregate_scenarios().to_csv(os.path.join(path, "forsim_c_aggregate.csv"))
+    runner.run_aggregate_scenarios().to_csv(os.path.join(results_path, "forsim_c_aggregate.csv"))
 
     # generation of annual flux results
-    runner.run_flux_scenarios().to_csv(os.path.join(path, "forsim_c_flux.csv"))
+    runner.run_flux_scenarios().to_csv(os.path.join(results_path, "forsim_c_flux.csv"))
 
 
 if __name__ == "__main__":
