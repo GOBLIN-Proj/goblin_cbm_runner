@@ -682,7 +682,7 @@ class Disturbances:
 
         self._update_disturbance_timing(row_data, context, dataframes)
 
-        if dist == "DISTID3":
+        if dist == "DISTID3" and yield_class in self.yield_name_dict[species]:
             mask = (
                 (disturbance_dataframe["Species"] == "?")
                 & (disturbance_dataframe["Yield_class"] == "?")

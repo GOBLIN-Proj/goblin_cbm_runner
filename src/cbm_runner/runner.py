@@ -45,6 +45,7 @@ class Runner:
         forest_end_year,
         afforest_data,
         scenario_data,
+        gen_baseline = True
     ):
         self.path = input_data_path.get_local_dir()
         self.baseline_conf_path = baseline_conf_path.get_local_dir()
@@ -64,8 +65,9 @@ class Runner:
         self.soil = self.pools.get_soil_organic_matter_pools()
         self.flux_pools = self.pools.get_annual_process_fluxes()
 
-        self.generate_base_input_data()
-        self.forest_baseline_dataframe = self.cbm_baseline_forest()
+        if gen_baseline:
+            self.generate_base_input_data()
+            self.forest_baseline_dataframe = self.cbm_baseline_forest()
 
 
 
