@@ -7,7 +7,8 @@ from cbm_runner.disturbances import Distrubances
 
 
 def main():
-    path = "./data"
+    path = "./data/runner_input"
+    results_path = "./data/runner_results"
 
     afforest_data = pd.read_csv(
         os.path.join(path, "scenario_afforestation.csv"), index_col=0
@@ -27,10 +28,10 @@ def main():
     disturbance_class = Inventory(config, afforest_data)
 
     disturbance_class.legacy_afforestation()["mineral_afforestation"].to_csv(
-        os.path.join(path, "mineral_afforest.csv")
+        os.path.join(results_path, "mineral_afforest.csv")
     )
     disturbance_class.legacy_afforestation()["peat_afforestation"].to_csv(
-        os.path.join(path, "peat_afforest.csv")
+        os.path.join(results_path, "peat_afforest.csv")
     )
     # cbm_data_class.make_classifiers(0, path)
     # cbm_data_class.make_config_json(0, path)

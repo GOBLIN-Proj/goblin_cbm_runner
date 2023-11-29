@@ -4,7 +4,8 @@ import os
 
 
 def main():
-    path = "./data"
+    path = "./data/runner_input"
+    results_path = "./data/runner_results"
 
     afforest_data = pd.read_csv(
         os.path.join(path, "scenario_afforestation.csv"), index_col=0
@@ -29,7 +30,7 @@ def main():
     # os.path.join(path, "0_aggregate.csv")
     # )
 
-    runner.run_flux_scenarios().to_csv(os.path.join(path, "c_flux.csv"))
+    runner.run_flux_scenarios().to_csv(os.path.join(results_path, "c_flux.csv"))
 
 
 if __name__ == "__main__":

@@ -4,7 +4,7 @@ import os
 
 
 def main():
-    path = "./data"
+    path = "./data/runner_input"
 
     scenario_data = pd.read_csv(os.path.join(path, "scenario_dataframe.csv"))
 
