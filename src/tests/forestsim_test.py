@@ -4,7 +4,7 @@ from cbm_runner.forestsim_factory import ForestSimFactory
 
 
 def main():
-    path = "./data"
+    path = "./data/forsim_input"
 
     afforest_data = pd.read_csv(
         os.path.join(path, "scenario_afforestation.csv"), index_col=0
