@@ -20,7 +20,7 @@ def main():
     sc_data = pd.read_csv(os.path.join(path, "scenario_dataframe.csv"))
 
     # calibration and end point
-    calibration_year = 2021
+    calibration_year = 2022
     forest_end_year = 2050
 
     # instance of the Runner class
@@ -35,6 +35,11 @@ def main():
     # generation of annual flux results
     runner.run_flux_scenarios().to_csv(os.path.join(results_path, "historic_c_flux.csv"))
 
+    #generate structure data
+    runner.cbm_aggregate_scenario(-1)["Structure"].to_csv(os.path.join(results_path, "historic_structure.csv"))
+
+    #generate raw results
+    runner.cbm_aggregate_scenario(-1)["Raw"].to_csv(os.path.join(results_path, "historic_raw.csv"))
     
     print("done")
 

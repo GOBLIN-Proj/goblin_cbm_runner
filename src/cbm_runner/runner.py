@@ -403,7 +403,10 @@ class Runner:
         ]
         area = results.area.merge(results.classifiers)
 
-        structure_df = pd.concat([age, area], axis=1)
+        params = results.parameters.merge(results.classifiers)
+
+
+        structure_df = pd.concat([age, area, params], axis=1)
 
         return {"Stock": annual_carbon_stocks, "Structure": structure_df, "Raw": pi}
 

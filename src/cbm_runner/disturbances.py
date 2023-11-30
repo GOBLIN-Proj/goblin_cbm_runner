@@ -196,16 +196,14 @@ class Disturbances:
         data = []
         for yr in range(0, (legacy_years + 1)):
             for dist in disturbances:
-                for species in yield_name_dict.keys():
-                    classifier_combo = self._get_classifier_combinations()
-                    for combination in classifier_combo:
-                        forest_type, soil, yield_class = combination
+                if dist == "DISTID3":
+                        species, forest_type, soil, yield_class = "?", "L", "?", "?"
                         row_data = self._generate_row(species, forest_type, soil, yield_class, dist, yr+1)
                         context = {
-                            "forest_type": forest_type,
-                            "species": species,
-                            "soil": soil,
-                            "yield_class": yield_class,
+                            "forest_type": "L",
+                            "species": "?",
+                            "soil": "?",
+                            "yield_class": "?",
                             "dist": dist,
                             "year": yr,
                             "forest_baseline_year": forest_baseline_year,
@@ -217,6 +215,28 @@ class Disturbances:
                         }
                         self._process_row_data(row_data, context, dataframes)
                         data.append(row_data)
+                else:    
+                    for species in yield_name_dict.keys():
+                        classifier_combo = self._get_classifier_combinations(species, dist)
+                        for combination in classifier_combo:
+                            forest_type, soil, yield_class = combination
+                            row_data = self._generate_row(species, forest_type, soil, yield_class, dist, yr+1)
+                            context = {
+                                "forest_type": forest_type,
+                                "species": species,
+                                "soil": soil,
+                                "yield_class": yield_class,
+                                "dist": dist,
+                                "year": yr,
+                                "forest_baseline_year": forest_baseline_year,
+                            }
+                            dataframes = {
+                                "legacy_afforestation_inventory": legacy_afforestation_inventory,
+                                "disturbance_dataframe": disturbance_dataframe,
+                                "disturbance_timing": disturbance_timing,
+                            }
+                            self._process_row_data(row_data, context, dataframes)
+                            data.append(row_data)
         disturbance_df = pd.DataFrame(data)
         disturbance_df = self._drop_zero_area_rows(disturbance_df)
         return disturbance_df
@@ -452,18 +472,26 @@ class Disturbances:
         return itertools.product(forest_keys, soil_keys, yield_keys)
 
 
-    def _get_classifier_combinations(self):
+    def _get_classifier_combinations(self, species, disturbance=None):
         """
         Generates all possible combinations of forest types, soil classes, and yield classes.
 
         Returns:
             A generator that yields tuples representing the combinations of forest types, soil classes, and yield classes.
         """
+
         classifiers = self.scenario_forest_classifiers
-        forest_keys = list(classifiers["Forest type"].keys())
-        soil_keys = list(classifiers["Soil classes"].keys())
-        yield_keys = list(classifiers["Yield classes"].keys())
-        return itertools.product(forest_keys, soil_keys, yield_keys)
+
+        if disturbance == "DISTID1" or disturbance == "DISTID2":
+            forest_keys = ["L"]
+            soil_keys = ["?"]
+            yield_keys = list(self.yield_name_dict[species].keys())
+            return itertools.product(forest_keys, soil_keys, yield_keys)
+        else:
+            forest_keys = list(classifiers["Forest type"].keys())
+            soil_keys = list(classifiers["Soil classes"].keys())
+            yield_keys = list(self.yield_name_dict[species].keys())
+            return itertools.product(forest_keys, soil_keys, yield_keys)
     
 
     def _get_static_defaults(self):
@@ -682,7 +710,7 @@ class Disturbances:
 
         self._update_disturbance_timing(row_data, context, dataframes)
 
-        if dist == "DISTID3" and yield_class in self.yield_name_dict[species]:
+        if dist == "DISTID3":
             mask = (
                 (disturbance_dataframe["Species"] == "?")
                 & (disturbance_dataframe["Yield_class"] == "?")

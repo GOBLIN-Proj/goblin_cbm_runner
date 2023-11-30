@@ -153,3 +153,20 @@ class HistoricAfforRunner:
             )
 
         return aggregate_forest_data
+
+
+    def cbm_aggregate_scenario(self, scenario):
+        """
+        Runs aggregate scenarios for forest data.
+
+        This method iterates over a set of scenarios and generates carbon stock data for each scenario.
+        It merges the forest data with a baseline forest data, adds selected columns, and drops duplicate columns.
+        The carbon stock data for all scenarios is then concatenated into a single DataFrame.
+
+        Args:
+            scenario (int): The scenario number.
+
+        Returns:
+            pd.DataFrame: The carbon stock data for all scenarios.
+        """
+        return self.runner_class.cbm_aggregate_scenario(scenario)
