@@ -68,6 +68,8 @@ class ForestSimDistrubances:
             calibration_year, config_path, scenario_data
         )
 
+        self.forest_baseline_year = self.data_manager_class.get_forest_baseline_year()
+
         self.baseline_forest_classifiers = self.data_manager_class.get_classifiers()[
             "Baseline"
         ]
@@ -181,7 +183,7 @@ class ForestSimDistrubances:
 
         disturbance_df = self.fill_legacy_data()
 
-        legacy_end_year = disturbance_df.Year.max()
+        legacy_end_year = self.calibration_year - self.forest_baseline_year
 
         scenario_years = self.forest_end_year - self.calibration_year
         years = list(
