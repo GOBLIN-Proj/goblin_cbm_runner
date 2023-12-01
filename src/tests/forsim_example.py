@@ -10,7 +10,7 @@ def main():
 
     # afforestation data for each scenario
     afforest_data = pd.read_csv(
-        os.path.join(path, "scenario_afforestation.csv"), index_col=0
+        os.path.join(path, "scenario_afforestation_calculated.csv"), index_col=0
     )
 
     afforest_data_annual = pd.read_csv(
@@ -21,7 +21,7 @@ def main():
     config = os.path.join(path, "cbm_factory.yaml")
 
     # scenario_data
-    sc_data = pd.read_csv(os.path.join(path, "scenario_dataframe.csv"))
+    sc_data = pd.read_csv(os.path.join(path, "scenario_input_dataframe.csv"))
 
     # calibration and end point
     calibration_year = 2020
