@@ -1,12 +1,12 @@
 Classifier1,Classifier2,Classifier3,Classifier4,UsingID,Age,Area,Delay,UNFCCCLC,HistDist,LastDist
 NFPine_mineral,A,mineral,YC12_20,False,0,6004,0,2,DISTID5,DISTID5
 NFPine_mineral,A,mineral,YC4_12,False,0,0,0,2,DISTID5,DISTID5
-NFSitka_mineral,A,mineral,YC4_12,False,0,240046,0,2,DISTID5,DISTID5
-NFSitka_mineral,A,mineral,YC13_16,False,0,170248,0,2,DISTID5,DISTID5
-NFSitka_mineral,A,mineral,YC17_20,False,0,144094,0,2,DISTID5,DISTID5
-NFSitka_mineral,A,mineral,YC20_24,False,0,166556,0,2,DISTID5,DISTID5
+NFSitka_mineral,A,mineral,YC4_12,False,0,77246,0,2,DISTID5,DISTID5
+NFSitka_mineral,A,mineral,YC13_16,False,0,55848,0,2,DISTID5,DISTID5
+NFSitka_mineral,A,mineral,YC17_20,False,0,56094,0,2,DISTID5,DISTID5
+NFSitka_mineral,A,mineral,YC20_24,False,0,91756,0,2,DISTID5,DISTID5
 NFSitka_mineral,A,mineral,YC24_30,False,0,87826,0,2,DISTID5,DISTID5
-NFSGB_mineral,A,mineral,YC6,False,0,647418,0,2,DISTID5,DISTID5
+NFSGB_mineral,A,mineral,YC6,False,0,207418,0,2,DISTID5,DISTID5
 NFFGB_mineral,A,mineral,YC6,False,0,22388,0,2,DISTID5,DISTID5
 NFCBmix_mineral,A,mineral,YC10,False,0,18398,0,2,DISTID5,DISTID5
 NFOC_mineral,A,mineral,YC10,False,0,36300,0,2,DISTID5,DISTID5
