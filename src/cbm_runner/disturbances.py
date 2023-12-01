@@ -188,13 +188,18 @@ class Disturbances:
         forest_baseline_year = self.data_manager_class.get_afforestation_baseline()
         yield_name_dict = self.yield_name_dict
         calibration_year = self.calibration_year
+        target_year = self.forest_end_year
         disturbance_df = self.disturbance_structure()
+
         legacy_years = (calibration_year - forest_baseline_year) + 1
+        loop_years = (target_year - forest_baseline_year) + 1
+
         legacy_afforestation_inventory = self.legacy_disturbance_afforestation_area(legacy_years)
         disturbance_dataframe = self.disturbance_dataframe
         disturbance_timing = self.disturbance_timing
         data = []
-        for yr in range(0, (legacy_years + 1)):
+        for yr in range(0, (loop_years + 1)):
+
             for dist in disturbances:
                 if dist == "DISTID3":
                         species, forest_type, soil, yield_class = "?", "L", "?", "?"
@@ -728,9 +733,13 @@ class Disturbances:
                 row_data["MeasureType"] = disturbance_dataframe.loc[
                     mask, "M_type"
                 ].item()
-
+                row_data["SortType"] = disturbance_dataframe.loc[
+                    mask, "SortType"
+                ].item()
             except ValueError:
                 row_data["Amount"] = 0
+
+            
 
 
         elif (
@@ -753,7 +762,10 @@ class Disturbances:
                 row_data["MeasureType"] = disturbance_dataframe.loc[
                     mask, "M_type"
                 ].item()
-
+                row_data["SortType"] = disturbance_dataframe.loc[
+                    mask, "SortType"
+                ].item()
+                
             except ValueError:
                 row_data["Amount"] = 0
 
