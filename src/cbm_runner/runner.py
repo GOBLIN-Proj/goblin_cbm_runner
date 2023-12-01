@@ -250,10 +250,10 @@ class Runner:
             forestry_end_year = self.forest_end_year
             path = self.baseline_conf_path
 
-            years = forestry_end_year - forest_baseline_year
+            years = (forestry_end_year +1) - forest_baseline_year 
 
             year_range = [
-                year for year in range(forest_baseline_year -1, forestry_end_year)
+                year for year in range(forest_baseline_year -1, forestry_end_year +1)
             ]
 
 
@@ -339,10 +339,10 @@ class Runner:
         forestry_end_year = self.forest_end_year
         path = self.path
 
-        years = forestry_end_year - forest_baseline_year
+        years = (forestry_end_year +1) - forest_baseline_year
 
         year_range = [
-            year for year in range(forest_baseline_year - 1, forestry_end_year)
+            year for year in range(forest_baseline_year -1, forestry_end_year +1)
         ]
 
         sit, classifiers, inventory = self.cbm_data_class.set_input_data_dir(sc, path)
