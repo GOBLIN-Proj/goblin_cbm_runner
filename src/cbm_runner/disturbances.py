@@ -49,10 +49,13 @@ class Disturbances:
     ):
         self.forest_end_year = forest_end_year
         self.calibration_year = calibration_year
+        
         self.loader_class = Loader()
         self.data_manager_class = DataManager(
             calibration_year, config_path, scenario_data
         )
+        self.forest_baseline_year = self.data_manager_class.get_afforestation_baseline()
+
         self.baseline_forest_classifiers = self.data_manager_class.get_classifiers()[
             "Baseline"
         ]
@@ -254,11 +257,10 @@ class Disturbances:
         Returns:
             pandas.DataFrame: DataFrame containing disturbance data.
         """
-        forest_baseline_year = self.data_manager_class.get_forest_baseline_year()
 
         disturbance_df = self.disturbance_structure()
 
-        legacy_years = self.forest_end_year  - forest_baseline_year
+        legacy_years = self.forest_end_year  - self.forest_baseline_year
 
         years = list(
             range(1, (legacy_years + 1))
@@ -314,7 +316,7 @@ class Disturbances:
 
         disturbance_df = self.fill_legacy_data()
 
-        legacy_end_year = disturbance_df.Year.max()
+        legacy_end_year = self.calibration_year - self.forest_baseline_year
 
         scenario_years = self.forest_end_year - self.calibration_year
         years = list(
@@ -580,10 +582,15 @@ class Disturbances:
         Returns:
             None
         """
+
+        legacy_afforestation_end_year = self.calibration_year - self.forest_baseline_year
         forest_type = context["forest_type"]
         dist = context["dist"]
+        year = context["year"]
 
-        if forest_type == "A" and dist == "DISTID4":
+
+        if forest_type == "A" and dist == "DISTID4" and year < legacy_afforestation_end_year:
+            print(legacy_afforestation_end_year)
             self._handle_legacy_afforestation(row_data, context, dataframes)
         elif forest_type == "L":
             self._handle_legacy_forest(row_data, context, dataframes)
