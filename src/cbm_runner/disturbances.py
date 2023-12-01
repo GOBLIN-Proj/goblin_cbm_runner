@@ -590,7 +590,6 @@ class Disturbances:
 
 
         if forest_type == "A" and dist == "DISTID4" and year < legacy_afforestation_end_year:
-            print(legacy_afforestation_end_year)
             self._handle_legacy_afforestation(row_data, context, dataframes)
         elif forest_type == "L":
             self._handle_legacy_forest(row_data, context, dataframes)
