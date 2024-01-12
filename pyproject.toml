@@ -8,10 +8,11 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.9"
-pandas = "^1.3.0"
-numpy = "^1.21.0"
+pandas = "^2.1.4"
+numpy = "^1.25.0"
 sqlalchemy = "^1.4.0"
-libcbm  = {git = "https://github.com/colmduff/libcbm_py.git", branch = "main"}
+pyyaml = "*"
+libcbm  = {git = "https://github.com/colmduff/libcbm_py.git", branch = "pandas_updated"}
 
 
 [build-system]

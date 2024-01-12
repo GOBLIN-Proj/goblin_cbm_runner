@@ -171,7 +171,7 @@ class Inventory:
 
                         count += 1
 
-            inventory_df["Area"] = 0
+            inventory_df["Area"] = 0.0
             inventory_df["UsingID"] = ID
             inventory_df["Delay"] = delay
 
@@ -241,7 +241,7 @@ class Inventory:
 
                 inventory_df.loc[mask, "LastDist"] = "DISTID3"
         else:
-            inventory_df.loc[mask, "Area"] = 0
+            inventory_df.loc[mask, "Area"] = 0.0
 
         return inventory_df
 
@@ -335,7 +335,7 @@ class Inventory:
                     else:
                         inventory_df.loc[inventory_mask, "Area"] = mineral_areas_dicts[
                             yield_class
-                        ][species] * 2
+                        ][species] * 1e3
 
         inventory_df["HistDist"] = "DISTID5"
 
