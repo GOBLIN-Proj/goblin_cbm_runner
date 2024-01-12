@@ -87,7 +87,7 @@ class Transition:
                     after_transition_df.loc[count, "Classifier3"] = soil
                     after_transition_df.loc[count, "Classifier4"] = yield_class
                     after_transition_df.loc[count, "RegenDelay"] = 0
-                    after_transition_df.loc[count, "ResetAge"] = 0
+                    after_transition_df.loc[count, "ResetAge"] = 1
                     after_transition_df.loc[count, "Percent"] = 100
 
                 else:
@@ -107,7 +107,7 @@ class Transition:
                     after_transition_df.loc[count, "Classifier3"] = soil
                     after_transition_df.loc[count, "Classifier4"] = yield_class
                     after_transition_df.loc[count, "RegenDelay"] = 0
-                    after_transition_df.loc[count, "ResetAge"] = 0
+                    after_transition_df.loc[count, "ResetAge"] = 1
                     after_transition_df.loc[count, "Percent"] = 100
 
                 count += 1

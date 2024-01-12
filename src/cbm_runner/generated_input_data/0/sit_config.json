@@ -134,7 +134,7 @@
             },
             {
                 "user_dist_type": "Thinning",
-                "default_dist_type": "15% commercial thinning"
+                "default_dist_type": "20% commercial thinning"
             },
             {
                 "user_dist_type": "Fire",
