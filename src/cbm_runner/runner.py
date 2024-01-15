@@ -3,7 +3,7 @@ import cbm_runner.baseline_input_conf as baseline_conf_path
 from cbm_runner.cbm_data_factory import DataFactory
 from cbm_runner.cbm_runner_data_manager import DataManager
 from cbm_runner.cbm_pools import Pools
-
+from cbm_runner.validation import ValidationData
 from libcbm.model.cbm import cbm_simulator
 from libcbm.input.sit import sit_cbm_factory
 
@@ -68,6 +68,8 @@ class Runner:
         if gen_baseline:
             self.generate_base_input_data()
             self.forest_baseline_dataframe = self.cbm_baseline_forest()
+
+        ValidationData.clear_validation_folder()
 
 
 
@@ -373,20 +375,24 @@ class Runner:
                 reporting_func=reporting_func,
             )
 
+        ValidationData.get_disturbance_statistics(rule_based_processor, years, sc)
+        ValidationData.get_age_classes(sit, sc)
+        ValidationData.get_sit_events(rule_based_processor, sc)
+
         pi = results.pools.merge(results.classifiers)
         annual_carbon_stocks = pd.DataFrame(
             {
                 "Year": pi["timestep"],
-                "AGB": pi[self.AGB].sum(axis=1) * -1,
-                "BGB": pi[self.BGB].sum(axis=1) * -1,
-                "Deadwood": pi[self.deadwood].sum(axis=1) * -1,
-                "Litter": pi[self.litter].sum(axis=1) * -1,
-                "Soil": pi[self.soil].sum(axis=1) * -1,
+                "AGB": pi[self.AGB].sum(axis=1),
+                "BGB": pi[self.BGB].sum(axis=1),
+                "Deadwood": pi[self.deadwood].sum(axis=1),
+                "Litter": pi[self.litter].sum(axis=1),
+                "Soil": pi[self.soil].sum(axis=1),
                 "Total Ecosystem": pi[self.AGB
                                       + self.BGB
                                       + self.deadwood
                                       + self.litter
-                                      + self.soil].sum(axis=1) * -1,
+                                      + self.soil].sum(axis=1),
 
             }
         )
