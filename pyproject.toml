@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "cbm_runner"
-version = "0.1.0"
+version = "0.2.0"
 description = "An interface between the CBM CFS3, libcbm_py, model and the GOBLIN model."
 authors = ["Colm Duffy"]
 license = "MIT"
