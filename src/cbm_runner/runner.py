@@ -70,6 +70,7 @@ class Runner:
             self.forest_baseline_dataframe = self.cbm_baseline_forest()
 
         ValidationData.clear_validation_folder()
+        ValidationData.get_baseline_forest(self.forest_baseline_dataframe["Stock"])
 
 
 
@@ -295,16 +296,16 @@ class Runner:
             annual_carbon_stocks = pd.DataFrame(
                 {
                     "Year": pi["timestep"],
-                    "AGB": pi[self.AGB].sum(axis=1) *-1,
-                    "BGB": pi[self.BGB].sum(axis=1) *-1,
-                    "Deadwood": pi[self.deadwood].sum(axis=1) *-1,
-                    "Litter": pi[self.litter].sum(axis=1) *-1,
-                    "Soil": pi[self.soil].sum(axis=1) *-1,
+                    "AGB": pi[self.AGB].sum(axis=1),
+                    "BGB": pi[self.BGB].sum(axis=1),
+                    "Deadwood": pi[self.deadwood].sum(axis=1),
+                    "Litter": pi[self.litter].sum(axis=1),
+                    "Soil": pi[self.soil].sum(axis=1),
                     "Total Ecosystem": pi[self.AGB
                                           + self.BGB
                                           + self.deadwood
                                           + self.litter
-                                          + self.soil].sum(axis=1) *-1,
+                                          + self.soil].sum(axis=1),
 
                 }
             )
