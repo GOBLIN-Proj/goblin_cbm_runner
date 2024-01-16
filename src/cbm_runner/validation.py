@@ -45,3 +45,10 @@ class ValidationData:
         data = object.sit_events
 
         data.to_csv(os.path.join(path, "scenario_" + str(sc) +"_sit_events.csv"))
+
+
+    @staticmethod
+    def get_baseline_forest(data):
+        path = output_data_path.get_local_dir()
+
+        data.to_csv(os.path.join(path, "scenario_baseline_forest.csv"))
