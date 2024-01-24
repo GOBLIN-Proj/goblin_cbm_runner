@@ -65,12 +65,15 @@ class Runner:
         self.soil = self.pools.get_soil_organic_matter_pools()
         self.flux_pools = self.pools.get_annual_process_fluxes()
 
+        ValidationData.clear_validation_folder()
+
         if gen_baseline:
             self.generate_base_input_data()
             self.forest_baseline_dataframe = self.cbm_baseline_forest()
+            ValidationData.get_baseline_forest(self.forest_baseline_dataframe["Stock"])
 
-        ValidationData.clear_validation_folder()
-        ValidationData.get_baseline_forest(self.forest_baseline_dataframe["Stock"])
+        
+        
 
 
 
@@ -379,6 +382,7 @@ class Runner:
         ValidationData.get_disturbance_statistics(rule_based_processor, years, sc)
         ValidationData.get_age_classes(sit, sc)
         ValidationData.get_sit_events(rule_based_processor, sc)
+        ValidationData.merge_events(sc)
 
         pi = results.pools.merge(results.classifiers)
         annual_carbon_stocks = pd.DataFrame(
