@@ -52,3 +52,33 @@ class ValidationData:
         path = output_data_path.get_local_dir()
 
         data.to_csv(os.path.join(path, "scenario_baseline_forest.csv"))
+
+
+    @staticmethod
+    def merge_events(sc):
+        path = output_data_path.get_local_dir()
+
+        events_names = pd.read_csv(os.path.join(path, "scenario_" + str(sc) +"_sit_events.csv"), index_col=0)
+        events_data = pd.read_csv(os.path.join(path, "scenario_" + str(sc) +"_sit_event_stats_by_timestep.csv"),index_col=7)
+
+        data_merge =[]
+
+        for i in events_data.index:
+            row = {"Species": events_names.at[i, "Species"],
+                   "Forest type": events_names.at[i, "Forest type"],
+                   "Soil classes": events_names.at[i, "Soil classes"],
+                   "Yield classes": events_names.at[i, "Yield classes"],
+                   "Year": events_names.at[i, "time_step"],
+                   "Target volume type": events_names.at[i, "target_type"],
+                   "Target volume": events_names.at[i, "target"],
+                   "Total eligible volume": events_data.at[i,"total_eligible_value"],
+                   "Total volume achieved": events_data.at[i,"total_achieved"],
+                   "Shortfall": events_data.at[i,"shortfall"],
+                   "Shortfall bool": True if events_data.loc[i,"shortfall"] > 0 else False}
+            data_merge.append(row)
+
+
+        data = pd.DataFrame(data_merge)
+
+        data.to_csv(os.path.join(path, "scenario_"+str(sc)+"_linked_events.csv"))
+
