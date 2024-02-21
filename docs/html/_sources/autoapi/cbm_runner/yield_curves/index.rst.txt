@@ -3,6 +3,13 @@
 
 .. py:module:: cbm_runner.yield_curves
 
+.. autoapi-nested-parse::
+
+   Yield Curves Module
+   ===================
+   This module is responsible for generating yield tables using different methods.
+
+
 
 Module Contents
 ---------------

@@ -3,6 +3,14 @@
 
 .. py:module:: cbm_runner.runner
 
+.. autoapi-nested-parse::
+
+   Runner Module
+   =============
+   This module is responsible for orchestrating the execution of Carbon Budget Model (CBM) simulations for various scenarios,
+   including baseline and afforestation projects.
+
+
 
 Module Contents
 ---------------
@@ -17,18 +25,22 @@ Classes
 
 
 
-.. py:class:: Runner(config_path, calibration_year, forest_end_year, afforest_data, scenario_data)
+.. py:class:: Runner(config_path, calibration_year, afforest_data, scenario_data, gen_baseline=True, gen_validation=False, validation_path=None)
 
 
-   Orchestrates the running of CBM (Carbon Budget Model) simulations for various scenarios including baseline and afforestation.
+   The Runner class orchestrates the execution of Carbon Budget Model (CBM) simulations
+   for various scenarios, including baseline and afforestation projects. It utilizes
+   annualized afforestation data to give an estimation of carbon stock or flux over a number of
+   specified years (from the calibration year to the target year).
 
-   Uses annualised scenario afforestation data, where the total area available for afforestation is divided equally over the number of years specified (target year - calibration year).
-
-   This class utilizes data factories and managers to set up and execute CBM simulations, generating outputs such as carbon stocks and fluxes for different scenarios. It also manages the creation of input data for these simulations.
+   This class leverages various data factories and managers to prepare input data, set up,
+   and execute CBM simulations, ultimately generating outputs such as carbon stocks and fluxes
+   across different scenarios. It manages the creation and organization of simulation input data
+   using specified directory paths and configuration files.
 
    .. attribute:: path
 
-      Directory path for input data.
+      Directory path where input data is stored.
 
       :type: str
 
@@ -40,69 +52,92 @@ Classes
 
    .. attribute:: cbm_data_class
 
-      Instance of the DataFactory class for CBM data preparation.
+      Instance of DataFactory for preparing CBM data.
 
       :type: DataFactory
 
    .. attribute:: data_manager_class
 
-      Instance of the DataManager class for managing data and configurations.
+      Instance of DataManager for managing simulation data and configurations.
 
       :type: DataManager
 
    .. attribute:: INDEX
 
-      List of unique scenario identifiers.
+      List of unique identifiers for each simulation scenario.
 
       :type: list
 
    .. attribute:: forest_end_year
 
-      The end year of the forest simulation.
+      The final year of the forest simulation period.
 
       :type: int
 
    .. attribute:: pools
 
-      Instance of the Pools class for managing CBM pools.
+      Instance of the Pools class for managing CBM carbon pools.
 
       :type: Pools
 
    .. attribute:: AGB, BGB, deadwood, litter, soil, flux_pools
 
-      Different pool types for CBM simulations.
+      Instances representing different carbon pool types used in CBM simulations.
+
+      :type: various
 
    .. method:: generate_base_input_data()
 
-      Generates the baseline input data required for CBM simulations.
+      
+      Prepares baseline input data required for CBM simulations by cleaning the baseline data directory and generating essential input files.
+      
 
    .. method:: generate_input_data()
 
-      Generates input data for various afforestation scenarios.
+      
+      Generates input data for various afforestation scenarios by cleaning the data directory, creating necessary subdirectories, and preparing scenario-specific input files.
+      
 
    .. method:: run_aggregate_scenarios()
 
-      Runs and generates carbon stocks data from different CBM simulation scenarios.
+      
+      Executes CBM simulations for a set of scenarios, generating and aggregating carbon stock data across these scenarios.
+      
 
    .. method:: run_flux_scenarios()
 
-      Runs CBM simulations and calculates carbon flux data for different scenarios.
+      
+      Conducts CBM simulations to calculate carbon flux data for various scenarios, merging and aggregating results.
+      
 
    .. method:: afforestation_scenarios_structure()
 
-      Retrieves the structure data for each afforestation scenario.
+      
+      Retrieves structural data for each afforestation scenario, facilitating analysis of scenario-specific forest dynamics.
+      
 
    .. method:: cbm_baseline_forest()
 
-      Runs the CBM simulation for the baseline forest and returns various data structures.
+      
+      Executes the CBM simulation for the baseline forest scenario, generating stock, structural, and raw simulation data.
+      
 
    .. method:: cbm_aggregate_scenario(sc)
 
-      Runs the CBM simulation for a specific scenario and generates carbon stock data.
+      
+      Runs a CBM simulation for a specified scenario (sc), generating aggregated carbon stock and raw data.
+      
 
    .. method:: cbm_scenario_fluxes(forest_data)
 
-      Calculates carbon fluxes based on CBM simulation outputs.
+      
+      Calculates carbon fluxes based on CBM simulation outputs for given forest data, aiding in the analysis of carbon dynamics across scenarios.
+      
+
+   .. method:: libcbm_scenario_fluxes(sc)
+
+      
+      Generates carbon flux data using the Libcbm method directly for a specified scenario (sc), contributing to the comprehensive analysis of carbon budget impacts under different land management strategies.
       
 
    .. py:method:: generate_base_input_data()
@@ -118,7 +153,7 @@ Classes
       :returns: None
 
 
-   .. py:method:: generate_input_data()
+   .. py:method:: generate_input_data(path=None)
 
       Generates input data for the CBM runner.
 
@@ -171,7 +206,7 @@ Classes
       :rtype: dict
 
 
-   .. py:method:: cbm_aggregate_scenario(sc)
+   .. py:method:: cbm_aggregate_scenario(sc, path=None)
 
       Generate carbon stocks for the CBM (Carbon Budget Model) scenario data.
 
@@ -183,6 +218,21 @@ Classes
                 A dictionary containing the aggregated data.
                     - "Stock": DataFrame containing annual carbon stocks.
                     - "Structure": DataFrame containing age and area information.
+                    - "Raw": DataFrame containing raw data.
+      :rtype: dict
+
+
+   .. py:method:: libcbm_scenario_fluxes(sc, path=None)
+
+      Generate carbon Fluxes using the Libcbm method for the CBM (Carbon Budget Model) scenario data.
+
+      :param sc: The scenario name.
+      :type sc: str
+
+      :returns:
+
+                A dictionary containing the aggregated data.
+                    - "Stock": DataFrame containing annual carbon stocks.
                     - "Raw": DataFrame containing raw data.
       :rtype: dict
 

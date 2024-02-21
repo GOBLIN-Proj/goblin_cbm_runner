@@ -1,23 +1,24 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>cbm_runner.inventory &mdash; CBM_runner 0.1.0 documentation</title>
-      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <title>cbm_runner.inventory &mdash; CBM_runner 0.3.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=eafc0fe6" />
+
+  
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=e259d695"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -45,6 +46,7 @@
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../autoapi/index.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../example.html">Example Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../example.html#plot-fluxes-for-baseline">Plot Fluxes for Baseline</a></li>
 </ul>
 
         </div>
@@ -72,14 +74,22 @@
            <div itemprop="articleBody">
              
   <h1>Source code for cbm_runner.inventory</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Inventory Module </span>
+<span class="sd">================</span>
+<span class="sd">This module is responsible for managing inventory data for forest simulation in a CBM (Carbon Budget Modeling) context.</span>
+<span class="sd">It handles the creation and structuring of inventory data for both baseline and scenario-based simulations.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">itertools</span>
-<span class="kn">from</span> <span class="nn">cbm_runner.loader</span> <span class="kn">import</span> <span class="n">Loader</span>
-<span class="kn">from</span> <span class="nn">cbm_runner.cbm_runner_data_manager</span> <span class="kn">import</span> <span class="n">DataManager</span>
+<span class="kn">from</span> <span class="nn">resource_manager.loader</span> <span class="kn">import</span> <span class="n">Loader</span>
+<span class="kn">from</span> <span class="nn">resource_manager.cbm_runner_data_manager</span> <span class="kn">import</span> <span class="n">DataManager</span>
 
 
-<div class="viewcode-block" id="Inventory"><a class="viewcode-back" href="../../autoapi/cbm_runner/inventory/index.html#cbm_runner.inventory.Inventory">[docs]</a><span class="k">class</span> <span class="nc">Inventory</span><span class="p">:</span>
+<div class="viewcode-block" id="Inventory">
+<a class="viewcode-back" href="../../autoapi/cbm_runner/inventory/index.html#cbm_runner.inventory.Inventory">[docs]</a>
+<span class="k">class</span> <span class="nc">Inventory</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Manages the inventory data for forest simulation in a CBM (Carbon Budget Modeling) context.</span>
 
@@ -110,7 +120,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calibration_year</span><span class="p">,</span> <span class="n">config_path</span><span class="p">,</span> <span class="n">afforestation_data</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">loader_class</span> <span class="o">=</span> <span class="n">Loader</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span> <span class="o">=</span> <span class="n">DataManager</span><span class="p">(</span><span class="n">calibration_year</span><span class="p">,</span> <span class="n">config_path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span> <span class="o">=</span> <span class="n">DataManager</span><span class="p">(</span><span class="n">calibration_year</span><span class="o">=</span><span class="n">calibration_year</span><span class="p">,</span> <span class="n">config_file</span><span class="o">=</span><span class="n">config_path</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">afforestation_data</span> <span class="o">=</span> <span class="n">afforestation_data</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">age_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loader_class</span><span class="o">.</span><span class="n">forest_age_structure</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">baseline_forest_classifiers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_classifiers</span><span class="p">()[</span>
@@ -124,7 +134,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">yield_baseline_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_yield_baseline_dict</span><span class="p">()</span>
 
 
-<div class="viewcode-block" id="Inventory.legacy_forest_inventory"><a class="viewcode-back" href="../../autoapi/cbm_runner/inventory/index.html#cbm_runner.inventory.Inventory.legacy_forest_inventory">[docs]</a>    <span class="k">def</span> <span class="nf">legacy_forest_inventory</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Inventory.legacy_forest_inventory">
+<a class="viewcode-back" href="../../autoapi/cbm_runner/inventory/index.html#cbm_runner.inventory.Inventory.legacy_forest_inventory">[docs]</a>
+    <span class="k">def</span> <span class="nf">legacy_forest_inventory</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the legacy forest inventory data based on National Inventory Report forest data and Central Statistics Office species proportion.</span>
 
@@ -156,7 +168,10 @@
 
         <span class="k">return</span> <span class="n">data</span></div>
 
-<div class="viewcode-block" id="Inventory.make_inventory_structure"><a class="viewcode-back" href="../../autoapi/cbm_runner/inventory/index.html#cbm_runner.inventory.Inventory.make_inventory_structure">[docs]</a>    <span class="k">def</span> <span class="nf">make_inventory_structure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scenario</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">ID</span><span class="o">=</span><span class="s2">&quot;False&quot;</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">UNFCCCLC</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Inventory.make_inventory_structure">
+<a class="viewcode-back" href="../../autoapi/cbm_runner/inventory/index.html#cbm_runner.inventory.Inventory.make_inventory_structure">[docs]</a>
+    <span class="k">def</span> <span class="nf">make_inventory_structure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scenario</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">ID</span><span class="o">=</span><span class="s2">&quot;False&quot;</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">UNFCCCLC</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates an inventory structure based on the given scenario and parameters.</span>
 
@@ -245,7 +260,7 @@
 
                         <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
 
-            <span class="n">inventory_df</span><span class="p">[</span><span class="s2">&quot;Area&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">inventory_df</span><span class="p">[</span><span class="s2">&quot;Area&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
             <span class="n">inventory_df</span><span class="p">[</span><span class="s2">&quot;UsingID&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ID</span>
             <span class="n">inventory_df</span><span class="p">[</span><span class="s2">&quot;Delay&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">delay</span>
 
@@ -256,7 +271,10 @@
 
         <span class="k">return</span> <span class="n">inventory_df</span></div>
 
-<div class="viewcode-block" id="Inventory.fill_baseline_inventory"><a class="viewcode-back" href="../../autoapi/cbm_runner/inventory/index.html#cbm_runner.inventory.Inventory.fill_baseline_inventory">[docs]</a>    <span class="k">def</span> <span class="nf">fill_baseline_inventory</span><span class="p">(</span>
+
+<div class="viewcode-block" id="Inventory.fill_baseline_inventory">
+<a class="viewcode-back" href="../../autoapi/cbm_runner/inventory/index.html#cbm_runner.inventory.Inventory.fill_baseline_inventory">[docs]</a>
+    <span class="k">def</span> <span class="nf">fill_baseline_inventory</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">scenario</span><span class="p">,</span>
         <span class="n">inventory_df</span><span class="p">,</span>
@@ -315,11 +333,14 @@
 
                 <span class="n">inventory_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="s2">&quot;LastDist&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;DISTID3&quot;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">inventory_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="s2">&quot;Area&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">inventory_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="s2">&quot;Area&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
 
         <span class="k">return</span> <span class="n">inventory_df</span></div>
 
-<div class="viewcode-block" id="Inventory.inventory_iterator"><a class="viewcode-back" href="../../autoapi/cbm_runner/inventory/index.html#cbm_runner.inventory.Inventory.inventory_iterator">[docs]</a>    <span class="k">def</span> <span class="nf">inventory_iterator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scenario</span><span class="p">,</span> <span class="n">inventory_df</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Inventory.inventory_iterator">
+<a class="viewcode-back" href="../../autoapi/cbm_runner/inventory/index.html#cbm_runner.inventory.Inventory.inventory_iterator">[docs]</a>
+    <span class="k">def</span> <span class="nf">inventory_iterator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scenario</span><span class="p">,</span> <span class="n">inventory_df</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Iterates over different combinations of age, species, forest type, soil class, and yield class</span>
 <span class="sd">        to fill the baseline inventory dataframe for a given scenario.</span>
@@ -362,7 +383,10 @@
         <span class="k">return</span> <span class="n">inventory_df</span></div>
 
 
-<div class="viewcode-block" id="Inventory.afforestation_inventory"><a class="viewcode-back" href="../../autoapi/cbm_runner/inventory/index.html#cbm_runner.inventory.Inventory.afforestation_inventory">[docs]</a>    <span class="k">def</span> <span class="nf">afforestation_inventory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scenario</span><span class="p">,</span> <span class="n">inventory_df</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Inventory.afforestation_inventory">
+<a class="viewcode-back" href="../../autoapi/cbm_runner/inventory/index.html#cbm_runner.inventory.Inventory.afforestation_inventory">[docs]</a>
+    <span class="k">def</span> <span class="nf">afforestation_inventory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scenario</span><span class="p">,</span> <span class="n">inventory_df</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the afforestation inventory based on the given scenario and inventory dataframe.</span>
 
@@ -409,7 +433,7 @@
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">inventory_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">inventory_mask</span><span class="p">,</span> <span class="s2">&quot;Area&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mineral_areas_dicts</span><span class="p">[</span>
                             <span class="n">yield_class</span>
-                        <span class="p">][</span><span class="n">species</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span>
+                        <span class="p">][</span><span class="n">species</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1e3</span>
 
         <span class="n">inventory_df</span><span class="p">[</span><span class="s2">&quot;HistDist&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;DISTID5&quot;</span>
 
@@ -417,7 +441,10 @@
 
         <span class="k">return</span> <span class="n">inventory_df</span></div>
 
-<div class="viewcode-block" id="Inventory.scenario_afforesation_dict"><a class="viewcode-back" href="../../autoapi/cbm_runner/inventory/index.html#cbm_runner.inventory.Inventory.scenario_afforesation_dict">[docs]</a>    <span class="k">def</span> <span class="nf">scenario_afforesation_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scenario_afforestation_areas</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Inventory.scenario_afforesation_dict">
+<a class="viewcode-back" href="../../autoapi/cbm_runner/inventory/index.html#cbm_runner.inventory.Inventory.scenario_afforesation_dict">[docs]</a>
+    <span class="k">def</span> <span class="nf">scenario_afforesation_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scenario_afforestation_areas</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the areas of afforestation for each yield class and species based on the scenario afforestation areas.</span>
 
@@ -427,28 +454,22 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            dict: A dictionary containing the areas of afforestation for each yield class and species.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">scenario_areas_dicts</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
-            <span class="nb">zip</span><span class="p">(</span>
-                <span class="n">scenario_afforestation_areas</span><span class="o">.</span><span class="n">species</span><span class="p">,</span>
-                <span class="n">scenario_afforestation_areas</span><span class="o">.</span><span class="n">total_area</span><span class="p">,</span>
-            <span class="p">)</span>
-        <span class="p">)</span>
+        <span class="n">areas_dict</span> <span class="o">=</span><span class="p">{}</span>
 
-        <span class="n">areas_dict</span> <span class="o">=</span> <span class="p">{}</span>
-
-        <span class="k">for</span> <span class="n">species</span> <span class="ow">in</span> <span class="n">scenario_areas_dicts</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="k">for</span> <span class="n">yield_class</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">yield_baseline_dict</span><span class="p">[</span><span class="n">species</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                <span class="k">if</span> <span class="n">yield_class</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">areas_dict</span><span class="p">:</span>
-                    <span class="n">areas_dict</span><span class="p">[</span><span class="n">yield_class</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-
-                <span class="n">areas_dict</span><span class="p">[</span><span class="n">yield_class</span><span class="p">][</span><span class="n">species</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="n">scenario_areas_dicts</span><span class="p">[</span><span class="n">species</span><span class="p">]</span>
-                    <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">yield_baseline_dict</span><span class="p">[</span><span class="n">species</span><span class="p">][</span><span class="n">yield_class</span><span class="p">]</span>
-                <span class="p">)</span>
+        <span class="k">for</span> <span class="n">yield_class</span><span class="p">,</span> <span class="n">species</span><span class="p">,</span> <span class="n">total_area</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">scenario_afforestation_areas</span><span class="o">.</span><span class="n">yield_class</span><span class="p">,</span> <span class="n">scenario_afforestation_areas</span><span class="o">.</span><span class="n">species</span><span class="p">,</span> <span class="n">scenario_afforestation_areas</span><span class="o">.</span><span class="n">total_area</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">yield_class</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">areas_dict</span><span class="p">:</span>
+                <span class="n">areas_dict</span><span class="p">[</span><span class="n">yield_class</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">if</span> <span class="n">species</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">areas_dict</span><span class="p">[</span><span class="n">yield_class</span><span class="p">]:</span>
+                <span class="n">areas_dict</span><span class="p">[</span><span class="n">yield_class</span><span class="p">][</span><span class="n">species</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">areas_dict</span><span class="p">[</span><span class="n">yield_class</span><span class="p">][</span><span class="n">species</span><span class="p">]</span> <span class="o">+=</span> <span class="n">total_area</span>
 
         <span class="k">return</span> <span class="n">areas_dict</span></div>
 
-<div class="viewcode-block" id="Inventory.combined_mineral_afforestation_dict"><a class="viewcode-back" href="../../autoapi/cbm_runner/inventory/index.html#cbm_runner.inventory.Inventory.combined_mineral_afforestation_dict">[docs]</a>    <span class="k">def</span> <span class="nf">combined_mineral_afforestation_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scenario_afforestation_areas</span><span class="p">):</span>
+    
+
+<div class="viewcode-block" id="Inventory.combined_mineral_afforestation_dict">
+<a class="viewcode-back" href="../../autoapi/cbm_runner/inventory/index.html#cbm_runner.inventory.Inventory.combined_mineral_afforestation_dict">[docs]</a>
+    <span class="k">def</span> <span class="nf">combined_mineral_afforestation_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scenario_afforestation_areas</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Combines the afforestation areas from the scenario afforestation dictionary</span>
 <span class="sd">        with the legacy afforestation areas for mineral afforestation.</span>
@@ -481,7 +502,10 @@
 
         <span class="k">return</span> <span class="n">areas_dicts</span></div>
 
-<div class="viewcode-block" id="Inventory.legacy_afforestation"><a class="viewcode-back" href="../../autoapi/cbm_runner/inventory/index.html#cbm_runner.inventory.Inventory.legacy_afforestation">[docs]</a>    <span class="k">def</span> <span class="nf">legacy_afforestation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Inventory.legacy_afforestation">
+<a class="viewcode-back" href="../../autoapi/cbm_runner/inventory/index.html#cbm_runner.inventory.Inventory.legacy_afforestation">[docs]</a>
+    <span class="k">def</span> <span class="nf">legacy_afforestation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the afforestation areas for legacy years.</span>
 
@@ -583,7 +607,10 @@
             <span class="s2">&quot;mineral_afforestation&quot;</span><span class="p">:</span> <span class="n">mineral_column_sums_dict</span><span class="p">,</span>
         <span class="p">}</span></div>
 
-<div class="viewcode-block" id="Inventory.legacy_afforestation_annual"><a class="viewcode-back" href="../../autoapi/cbm_runner/inventory/index.html#cbm_runner.inventory.Inventory.legacy_afforestation_annual">[docs]</a>    <span class="k">def</span> <span class="nf">legacy_afforestation_annual</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Inventory.legacy_afforestation_annual">
+<a class="viewcode-back" href="../../autoapi/cbm_runner/inventory/index.html#cbm_runner.inventory.Inventory.legacy_afforestation_annual">[docs]</a>
+    <span class="k">def</span> <span class="nf">legacy_afforestation_annual</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the annual afforestation for legacy years.</span>
 
@@ -649,7 +676,10 @@
         <span class="p">}</span></div>
 
 
-<div class="viewcode-block" id="Inventory.afforestation_annual_dict"><a class="viewcode-back" href="../../autoapi/cbm_runner/inventory/index.html#cbm_runner.inventory.Inventory.afforestation_annual_dict">[docs]</a>    <span class="k">def</span> <span class="nf">afforestation_annual_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">afforestation_df</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Inventory.afforestation_annual_dict">
+<a class="viewcode-back" href="../../autoapi/cbm_runner/inventory/index.html#cbm_runner.inventory.Inventory.afforestation_annual_dict">[docs]</a>
+    <span class="k">def</span> <span class="nf">afforestation_annual_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">afforestation_df</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generate a dictionary containing annual afforestation data.</span>
 
@@ -694,7 +724,9 @@
 
                     <span class="n">result_dict</span><span class="p">[</span><span class="n">year</span><span class="p">][</span><span class="n">species</span><span class="p">][</span><span class="n">yield_class</span><span class="p">]</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="n">species</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 
-        <span class="k">return</span> <span class="n">result_dict</span></div></div>
+        <span class="k">return</span> <span class="n">result_dict</span></div>
+</div>
+
 </pre></div>
 
            </div>

@@ -1,23 +1,24 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>cbm_runner.runner &mdash; CBM_runner 0.1.0 documentation</title>
-      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <title>cbm_runner.runner &mdash; CBM_runner 0.3.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=eafc0fe6" />
+
+  
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=e259d695"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -45,6 +46,7 @@
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../autoapi/index.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../example.html">Example Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../example.html#plot-fluxes-for-baseline">Plot Fluxes for Baseline</a></li>
 </ul>
 
         </div>
@@ -72,78 +74,124 @@
            <div itemprop="articleBody">
              
   <h1>Source code for cbm_runner.runner</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">cbm_runner.generated_input_data</span> <span class="k">as</span> <span class="nn">input_data_path</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Runner Module</span>
+<span class="sd">=============</span>
+<span class="sd">This module is responsible for orchestrating the execution of Carbon Budget Model (CBM) simulations for various scenarios,</span>
+<span class="sd">including baseline and afforestation projects. </span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">cbm_runner.generated_input_data</span> <span class="k">as</span> <span class="nn">input_data_path</span>
 <span class="kn">import</span> <span class="nn">cbm_runner.baseline_input_conf</span> <span class="k">as</span> <span class="nn">baseline_conf_path</span>
 <span class="kn">from</span> <span class="nn">cbm_runner.cbm_data_factory</span> <span class="kn">import</span> <span class="n">DataFactory</span>
-<span class="kn">from</span> <span class="nn">cbm_runner.cbm_runner_data_manager</span> <span class="kn">import</span> <span class="n">DataManager</span>
-<span class="kn">from</span> <span class="nn">cbm_runner.cbm_pools</span> <span class="kn">import</span> <span class="n">Pools</span>
-
+<span class="kn">from</span> <span class="nn">resource_manager.cbm_runner_data_manager</span> <span class="kn">import</span> <span class="n">DataManager</span>
+<span class="kn">from</span> <span class="nn">resource_manager.cbm_pools</span> <span class="kn">import</span> <span class="n">Pools</span>
+<span class="kn">from</span> <span class="nn">resource_manager.flux_manager</span> <span class="kn">import</span> <span class="n">FluxManager</span>
+<span class="kn">from</span> <span class="nn">resource_manager.scenario_data_fetcher</span> <span class="kn">import</span> <span class="n">ScenarioDataFetcher</span>
+<span class="kn">from</span> <span class="nn">cbm_validation.validation</span> <span class="kn">import</span> <span class="n">ValidationData</span>
 <span class="kn">from</span> <span class="nn">libcbm.model.cbm</span> <span class="kn">import</span> <span class="n">cbm_simulator</span>
 <span class="kn">from</span> <span class="nn">libcbm.input.sit</span> <span class="kn">import</span> <span class="n">sit_cbm_factory</span>
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-
-<div class="viewcode-block" id="Runner"><a class="viewcode-back" href="../../autoapi/cbm_runner/runner/index.html#cbm_runner.runner.Runner">[docs]</a><span class="k">class</span> <span class="nc">Runner</span><span class="p">:</span>
+<div class="viewcode-block" id="Runner">
+<a class="viewcode-back" href="../../autoapi/cbm_runner/runner/index.html#cbm_runner.runner.Runner">[docs]</a>
+<span class="k">class</span> <span class="nc">Runner</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Orchestrates the running of CBM (Carbon Budget Model) simulations for various scenarios including baseline and afforestation.</span>
+<span class="sd">    The Runner class orchestrates the execution of Carbon Budget Model (CBM) simulations </span>
+<span class="sd">    for various scenarios, including baseline and afforestation projects. It utilizes </span>
+<span class="sd">    annualized afforestation data to give an estimation of carbon stock or flux over a number of </span>
+<span class="sd">    specified years (from the calibration year to the target year).</span>
 
-<span class="sd">    Uses annualised scenario afforestation data, where the total area available for afforestation is divided equally over the number of years specified (target year - calibration year).</span>
-
-<span class="sd">    This class utilizes data factories and managers to set up and execute CBM simulations, generating outputs such as carbon stocks and fluxes for different scenarios. It also manages the creation of input data for these simulations.</span>
+<span class="sd">    This class leverages various data factories and managers to prepare input data, set up, </span>
+<span class="sd">    and execute CBM simulations, ultimately generating outputs such as carbon stocks and fluxes </span>
+<span class="sd">    across different scenarios. It manages the creation and organization of simulation input data </span>
+<span class="sd">    using specified directory paths and configuration files.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        path (str): Directory path for input data.</span>
+<span class="sd">        path (str): Directory path where input data is stored.</span>
 <span class="sd">        baseline_conf_path (str): Directory path for baseline configuration data.</span>
-<span class="sd">        cbm_data_class (DataFactory): Instance of the DataFactory class for CBM data preparation.</span>
-<span class="sd">        data_manager_class (DataManager): Instance of the DataManager class for managing data and configurations.</span>
-<span class="sd">        INDEX (list): List of unique scenario identifiers.</span>
-<span class="sd">        forest_end_year (int): The end year of the forest simulation.</span>
-<span class="sd">        pools (Pools): Instance of the Pools class for managing CBM pools.</span>
-<span class="sd">        AGB, BGB, deadwood, litter, soil, flux_pools: Different pool types for CBM simulations.</span>
+<span class="sd">        cbm_data_class (DataFactory): Instance of DataFactory for preparing CBM data.</span>
+<span class="sd">        data_manager_class (DataManager): Instance of DataManager for managing simulation data and configurations.</span>
+<span class="sd">        INDEX (list): List of unique identifiers for each simulation scenario.</span>
+<span class="sd">        forest_end_year (int): The final year of the forest simulation period.</span>
+<span class="sd">        pools (Pools): Instance of the Pools class for managing CBM carbon pools.</span>
+<span class="sd">        AGB, BGB, deadwood, litter, soil, flux_pools (various): Instances representing different carbon pool types used in CBM simulations.</span>
 
 <span class="sd">    Methods:</span>
-<span class="sd">        generate_base_input_data(): Generates the baseline input data required for CBM simulations.</span>
-<span class="sd">        generate_input_data(): Generates input data for various afforestation scenarios.</span>
-<span class="sd">        run_aggregate_scenarios(): Runs and generates carbon stocks data from different CBM simulation scenarios.</span>
-<span class="sd">        run_flux_scenarios(): Runs CBM simulations and calculates carbon flux data for different scenarios.</span>
-<span class="sd">        afforestation_scenarios_structure(): Retrieves the structure data for each afforestation scenario.</span>
-<span class="sd">        cbm_baseline_forest(): Runs the CBM simulation for the baseline forest and returns various data structures.</span>
-<span class="sd">        cbm_aggregate_scenario(sc): Runs the CBM simulation for a specific scenario and generates carbon stock data.</span>
-<span class="sd">        cbm_scenario_fluxes(forest_data): Calculates carbon fluxes based on CBM simulation outputs.</span>
+<span class="sd">        generate_base_input_data():</span>
+<span class="sd">            Prepares baseline input data required for CBM simulations by cleaning the baseline data directory and generating essential input files.</span>
+
+<span class="sd">        generate_input_data():</span>
+<span class="sd">            Generates input data for various afforestation scenarios by cleaning the data directory, creating necessary subdirectories, and preparing scenario-specific input files.</span>
+
+<span class="sd">        run_aggregate_scenarios():</span>
+<span class="sd">            Executes CBM simulations for a set of scenarios, generating and aggregating carbon stock data across these scenarios.</span>
+
+<span class="sd">        run_flux_scenarios():</span>
+<span class="sd">            Conducts CBM simulations to calculate carbon flux data for various scenarios, merging and aggregating results.</span>
+
+<span class="sd">        afforestation_scenarios_structure():</span>
+<span class="sd">            Retrieves structural data for each afforestation scenario, facilitating analysis of scenario-specific forest dynamics.</span>
+
+<span class="sd">        cbm_baseline_forest():</span>
+<span class="sd">            Executes the CBM simulation for the baseline forest scenario, generating stock, structural, and raw simulation data.</span>
+
+<span class="sd">        cbm_aggregate_scenario(sc):</span>
+<span class="sd">            Runs a CBM simulation for a specified scenario (sc), generating aggregated carbon stock and raw data.</span>
+
+<span class="sd">        cbm_scenario_fluxes(forest_data):</span>
+<span class="sd">            Calculates carbon fluxes based on CBM simulation outputs for given forest data, aiding in the analysis of carbon dynamics across scenarios.</span>
+
+<span class="sd">        libcbm_scenario_fluxes(sc):</span>
+<span class="sd">            Generates carbon flux data using the Libcbm method directly for a specified scenario (sc), contributing to the comprehensive analysis of carbon budget impacts under different land management strategies.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">config_path</span><span class="p">,</span>
         <span class="n">calibration_year</span><span class="p">,</span>
-        <span class="n">forest_end_year</span><span class="p">,</span>
         <span class="n">afforest_data</span><span class="p">,</span>
         <span class="n">scenario_data</span><span class="p">,</span>
+        <span class="n">gen_baseline</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">gen_validation</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">validation_path</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gen_validation</span> <span class="o">=</span> <span class="n">gen_validation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">validation_path</span> <span class="o">=</span> <span class="n">validation_path</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">input_data_path</span><span class="o">.</span><span class="n">get_local_dir</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">baseline_conf_path</span> <span class="o">=</span> <span class="n">baseline_conf_path</span><span class="o">.</span><span class="n">get_local_dir</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span> <span class="o">=</span> <span class="n">DataFactory</span><span class="p">(</span>
-            <span class="n">config_path</span><span class="p">,</span> <span class="n">calibration_year</span><span class="p">,</span> <span class="n">forest_end_year</span><span class="p">,</span> <span class="n">afforest_data</span><span class="p">,</span> <span class="n">scenario_data</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span> <span class="o">=</span> <span class="n">DataManager</span><span class="p">(</span><span class="n">calibration_year</span><span class="p">,</span> <span class="n">config_path</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">sc_fetcher</span> <span class="o">=</span> <span class="n">ScenarioDataFetcher</span><span class="p">(</span><span class="n">scenario_data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">forest_end_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sc_fetcher</span><span class="o">.</span><span class="n">get_afforestation_end_year</span><span class="p">()</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">INDEX</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">afforest_data</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">unique</span><span class="p">()]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">forest_end_year</span> <span class="o">=</span> <span class="n">forest_end_year</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span> <span class="o">=</span> <span class="n">DataFactory</span><span class="p">(</span>
+            <span class="n">config_path</span><span class="p">,</span> <span class="n">calibration_year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">forest_end_year</span><span class="p">,</span> <span class="n">afforest_data</span><span class="p">,</span> <span class="n">scenario_data</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span> <span class="o">=</span> <span class="n">DataManager</span><span class="p">(</span><span class="n">calibration_year</span><span class="o">=</span><span class="n">calibration_year</span><span class="p">,</span> <span class="n">config_file</span><span class="o">=</span><span class="n">config_path</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">INDEX</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sc_fetcher</span><span class="o">.</span><span class="n">get_afforest_scenario_index</span><span class="p">()</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">pools</span> <span class="o">=</span> <span class="n">Pools</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Flux_class</span> <span class="o">=</span> <span class="n">FluxManager</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">AGB</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pools</span><span class="o">.</span><span class="n">get_above_ground_biomass_pools</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">BGB</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pools</span><span class="o">.</span><span class="n">get_below_ground_biomass_pools</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">deadwood</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pools</span><span class="o">.</span><span class="n">get_deadwood_pools</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">litter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pools</span><span class="o">.</span><span class="n">get_litter_pools</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">soil</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pools</span><span class="o">.</span><span class="n">get_soil_organic_matter_pools</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">flux_pools</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pools</span><span class="o">.</span><span class="n">get_annual_process_fluxes</span><span class="p">()</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">generate_base_input_data</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">forest_baseline_dataframe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbm_baseline_forest</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">validation_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">gen_validation</span><span class="p">:</span>
+            <span class="n">ValidationData</span><span class="o">.</span><span class="n">clear_validation_folder</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validation_path</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">gen_baseline</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">generate_base_input_data</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">forest_baseline_dataframe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbm_baseline_forest</span><span class="p">()</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gen_validation</span><span class="p">:</span>
+                <span class="n">ValidationData</span><span class="o">.</span><span class="n">get_baseline_forest</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validation_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">forest_baseline_dataframe</span><span class="p">[</span><span class="s2">&quot;Stock&quot;</span><span class="p">])</span>
 
 
-
-<div class="viewcode-block" id="Runner.generate_base_input_data"><a class="viewcode-back" href="../../autoapi/cbm_runner/runner/index.html#cbm_runner.runner.Runner.generate_base_input_data">[docs]</a>    <span class="k">def</span> <span class="nf">generate_base_input_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Runner.generate_base_input_data">
+<a class="viewcode-back" href="../../autoapi/cbm_runner/runner/index.html#cbm_runner.runner.Runner.generate_base_input_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">generate_base_input_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generates the base input data for the CBM runner.</span>
 
@@ -170,7 +218,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">make_disturbance_type</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">make_transition_rules</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Runner.generate_input_data"><a class="viewcode-back" href="../../autoapi/cbm_runner/runner/index.html#cbm_runner.runner.Runner.generate_input_data">[docs]</a>    <span class="k">def</span> <span class="nf">generate_input_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+
+<div class="viewcode-block" id="Runner.generate_input_data">
+<a class="viewcode-back" href="../../autoapi/cbm_runner/runner/index.html#cbm_runner.runner.Runner.generate_input_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">generate_input_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generates input data for the CBM runner.</span>
 
@@ -183,7 +235,8 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span>
+        <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">clean_data_dir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">make_data_dirs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">INDEX</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
@@ -198,7 +251,10 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">make_disturbance_type</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">make_transition_rules</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Runner.run_aggregate_scenarios"><a class="viewcode-back" href="../../autoapi/cbm_runner/runner/index.html#cbm_runner.runner.Runner.run_aggregate_scenarios">[docs]</a>    <span class="k">def</span> <span class="nf">run_aggregate_scenarios</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Runner.run_aggregate_scenarios">
+<a class="viewcode-back" href="../../autoapi/cbm_runner/runner/index.html#cbm_runner.runner.Runner.run_aggregate_scenarios">[docs]</a>
+    <span class="k">def</span> <span class="nf">run_aggregate_scenarios</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Runs aggregate scenarios for forest data.</span>
 
@@ -245,7 +301,10 @@
 
         <span class="k">return</span> <span class="n">aggregate_forest_data</span></div>
 
-<div class="viewcode-block" id="Runner.run_flux_scenarios"><a class="viewcode-back" href="../../autoapi/cbm_runner/runner/index.html#cbm_runner.runner.Runner.run_flux_scenarios">[docs]</a>    <span class="k">def</span> <span class="nf">run_flux_scenarios</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Runner.run_flux_scenarios">
+<a class="viewcode-back" href="../../autoapi/cbm_runner/runner/index.html#cbm_runner.runner.Runner.run_flux_scenarios">[docs]</a>
+    <span class="k">def</span> <span class="nf">run_flux_scenarios</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Runs carbon flux scenarios for each index in self.INDEX.</span>
 
@@ -289,7 +348,10 @@
 
         <span class="k">return</span> <span class="n">fluxes_forest_data</span></div>
 
-<div class="viewcode-block" id="Runner.afforestation_scenarios_structure"><a class="viewcode-back" href="../../autoapi/cbm_runner/runner/index.html#cbm_runner.runner.Runner.afforestation_scenarios_structure">[docs]</a>    <span class="k">def</span> <span class="nf">afforestation_scenarios_structure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Runner.afforestation_scenarios_structure">
+<a class="viewcode-back" href="../../autoapi/cbm_runner/runner/index.html#cbm_runner.runner.Runner.afforestation_scenarios_structure">[docs]</a>
+    <span class="k">def</span> <span class="nf">afforestation_scenarios_structure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieves the structure data for each afforestation scenario.</span>
 
@@ -307,7 +369,11 @@
 
         <span class="k">return</span> <span class="n">structure_data</span></div>
 
-<div class="viewcode-block" id="Runner.cbm_baseline_forest"><a class="viewcode-back" href="../../autoapi/cbm_runner/runner/index.html#cbm_runner.runner.Runner.cbm_baseline_forest">[docs]</a>    <span class="k">def</span> <span class="nf">cbm_baseline_forest</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+
+<div class="viewcode-block" id="Runner.cbm_baseline_forest">
+<a class="viewcode-back" href="../../autoapi/cbm_runner/runner/index.html#cbm_runner.runner.Runner.cbm_baseline_forest">[docs]</a>
+    <span class="k">def</span> <span class="nf">cbm_baseline_forest</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Runs a baseline forest simulation using the CBM model.</span>
 
@@ -322,10 +388,10 @@
             <span class="n">forestry_end_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forest_end_year</span>
             <span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">baseline_conf_path</span>
 
-            <span class="n">years</span> <span class="o">=</span> <span class="n">forestry_end_year</span> <span class="o">-</span> <span class="n">forest_baseline_year</span>
+            <span class="n">years</span> <span class="o">=</span> <span class="p">(</span><span class="n">forestry_end_year</span> <span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">forest_baseline_year</span> 
 
             <span class="n">year_range</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="n">year</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">forest_baseline_year</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">forestry_end_year</span><span class="p">)</span>
+                <span class="n">year</span> <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">forest_baseline_year</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">forestry_end_year</span> <span class="o">+</span><span class="mi">1</span><span class="p">)</span>
             <span class="p">]</span>
 
 
@@ -365,16 +431,16 @@
             <span class="n">annual_carbon_stocks</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
                 <span class="p">{</span>
                     <span class="s2">&quot;Year&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="s2">&quot;timestep&quot;</span><span class="p">],</span>
-                    <span class="s2">&quot;AGB&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">AGB</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*-</span><span class="mi">1</span><span class="p">,</span>
-                    <span class="s2">&quot;BGB&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">BGB</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*-</span><span class="mi">1</span><span class="p">,</span>
-                    <span class="s2">&quot;Deadwood&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">deadwood</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*-</span><span class="mi">1</span><span class="p">,</span>
-                    <span class="s2">&quot;Litter&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">litter</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*-</span><span class="mi">1</span><span class="p">,</span>
-                    <span class="s2">&quot;Soil&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">soil</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*-</span><span class="mi">1</span><span class="p">,</span>
+                    <span class="s2">&quot;AGB&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">AGB</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                    <span class="s2">&quot;BGB&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">BGB</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                    <span class="s2">&quot;Deadwood&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">deadwood</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                    <span class="s2">&quot;Litter&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">litter</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                    <span class="s2">&quot;Soil&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">soil</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
                     <span class="s2">&quot;Total Ecosystem&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">AGB</span>
                                           <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">BGB</span>
                                           <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">deadwood</span>
                                           <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">litter</span>
-                                          <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">soil</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*-</span><span class="mi">1</span><span class="p">,</span>
+                                          <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">soil</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
 
                 <span class="p">}</span>
             <span class="p">)</span>
@@ -385,16 +451,13 @@
 
             <span class="n">annual_carbon_stocks</span><span class="p">[</span><span class="s2">&quot;Year&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">year_range</span>
 
-            <span class="n">age</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">classifiers</span><span class="p">)[</span>
-                <span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">,</span> <span class="s2">&quot;time_since_last_disturbance&quot;</span><span class="p">,</span> <span class="s2">&quot;last_disturbance_type&quot;</span><span class="p">]</span>
-            <span class="p">]</span>
-            <span class="n">area</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">area</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">classifiers</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;Stock&quot;</span><span class="p">:</span> <span class="n">annual_carbon_stocks</span><span class="p">,</span> <span class="s2">&quot;Raw&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">}</span></div>
 
-            <span class="n">structure_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">age</span><span class="p">,</span> <span class="n">area</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
-            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;Stock&quot;</span><span class="p">:</span> <span class="n">annual_carbon_stocks</span><span class="p">,</span> <span class="s2">&quot;Structure&quot;</span><span class="p">:</span> <span class="n">structure_df</span><span class="p">,</span> <span class="s2">&quot;Raw&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">}</span></div>
 
-<div class="viewcode-block" id="Runner.cbm_aggregate_scenario"><a class="viewcode-back" href="../../autoapi/cbm_runner/runner/index.html#cbm_runner.runner.Runner.cbm_aggregate_scenario">[docs]</a>    <span class="k">def</span> <span class="nf">cbm_aggregate_scenario</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sc</span><span class="p">):</span>
+<div class="viewcode-block" id="Runner.cbm_aggregate_scenario">
+<a class="viewcode-back" href="../../autoapi/cbm_runner/runner/index.html#cbm_runner.runner.Runner.cbm_aggregate_scenario">[docs]</a>
+    <span class="k">def</span> <span class="nf">cbm_aggregate_scenario</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sc</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generate carbon stocks for the CBM (Carbon Budget Model) scenario data.</span>
 
@@ -407,14 +470,17 @@
 <span class="sd">                - &quot;Structure&quot;: DataFrame containing age and area information.</span>
 <span class="sd">                - &quot;Raw&quot;: DataFrame containing raw data.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        
         <span class="n">forest_baseline_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_afforestation_baseline</span><span class="p">()</span>
         <span class="n">forestry_end_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forest_end_year</span>
-        <span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span>
+
+        <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span>
 
         <span class="n">years</span> <span class="o">=</span> <span class="n">forestry_end_year</span> <span class="o">-</span> <span class="n">forest_baseline_year</span>
 
         <span class="n">year_range</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">year</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">forest_baseline_year</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">forestry_end_year</span><span class="p">)</span>
+            <span class="n">year</span> <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">forest_baseline_year</span><span class="p">,</span> <span class="n">forestry_end_year</span> <span class="o">+</span><span class="mi">1</span><span class="p">)</span>
         <span class="p">]</span>
 
         <span class="n">sit</span><span class="p">,</span> <span class="n">classifiers</span><span class="p">,</span> <span class="n">inventory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">set_input_data_dir</span><span class="p">(</span><span class="n">sc</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
@@ -445,20 +511,26 @@
                 <span class="n">reporting_func</span><span class="o">=</span><span class="n">reporting_func</span><span class="p">,</span>
             <span class="p">)</span>
 
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gen_validation</span><span class="p">:</span>
+            <span class="n">ValidationData</span><span class="o">.</span><span class="n">get_disturbance_statistics</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validation_path</span><span class="p">,</span> <span class="n">rule_based_processor</span><span class="p">,</span> <span class="n">years</span><span class="p">,</span> <span class="n">sc</span><span class="p">)</span>
+            <span class="n">ValidationData</span><span class="o">.</span><span class="n">get_age_classes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validation_path</span><span class="p">,</span> <span class="n">sit</span><span class="p">,</span> <span class="n">sc</span><span class="p">)</span>
+            <span class="n">ValidationData</span><span class="o">.</span><span class="n">get_sit_events</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validation_path</span><span class="p">,</span> <span class="n">rule_based_processor</span><span class="p">,</span> <span class="n">sc</span><span class="p">)</span>
+            <span class="n">ValidationData</span><span class="o">.</span><span class="n">merge_events</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validation_path</span><span class="p">,</span> <span class="n">sc</span><span class="p">)</span>
+
         <span class="n">pi</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">pools</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">classifiers</span><span class="p">)</span>
         <span class="n">annual_carbon_stocks</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
             <span class="p">{</span>
                 <span class="s2">&quot;Year&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="s2">&quot;timestep&quot;</span><span class="p">],</span>
-                <span class="s2">&quot;AGB&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">AGB</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
-                <span class="s2">&quot;BGB&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">BGB</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
-                <span class="s2">&quot;Deadwood&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">deadwood</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
-                <span class="s2">&quot;Litter&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">litter</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
-                <span class="s2">&quot;Soil&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">soil</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+                <span class="s2">&quot;AGB&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">AGB</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                <span class="s2">&quot;BGB&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">BGB</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                <span class="s2">&quot;Deadwood&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">deadwood</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                <span class="s2">&quot;Litter&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">litter</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                <span class="s2">&quot;Soil&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">soil</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
                 <span class="s2">&quot;Total Ecosystem&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">AGB</span>
                                       <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">BGB</span>
                                       <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">deadwood</span>
                                       <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">litter</span>
-                                      <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">soil</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+                                      <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">soil</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
 
             <span class="p">}</span>
         <span class="p">)</span>
@@ -470,17 +542,94 @@
         <span class="n">annual_carbon_stocks</span><span class="p">[</span><span class="s2">&quot;Year&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">year_range</span>
         <span class="n">annual_carbon_stocks</span><span class="p">[</span><span class="s2">&quot;Scenario&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sc</span>
 
-        <span class="n">age</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">classifiers</span><span class="p">)[</span>
-            <span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">,</span> <span class="s2">&quot;time_since_last_disturbance&quot;</span><span class="p">,</span> <span class="s2">&quot;last_disturbance_type&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;Stock&quot;</span><span class="p">:</span> <span class="n">annual_carbon_stocks</span><span class="p">,</span> <span class="s2">&quot;Raw&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="Runner.libcbm_scenario_fluxes">
+<a class="viewcode-back" href="../../autoapi/cbm_runner/runner/index.html#cbm_runner.runner.Runner.libcbm_scenario_fluxes">[docs]</a>
+    <span class="k">def</span> <span class="nf">libcbm_scenario_fluxes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sc</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate carbon Fluxes using the Libcbm method for the CBM (Carbon Budget Model) scenario data.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            sc (str): The scenario name.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary containing the aggregated data.</span>
+<span class="sd">                - &quot;Stock&quot;: DataFrame containing annual carbon stocks.</span>
+<span class="sd">                - &quot;Raw&quot;: DataFrame containing raw data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">forest_baseline_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_afforestation_baseline</span><span class="p">()</span>
+        <span class="n">forestry_end_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forest_end_year</span>
+
+        <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span>
+
+        <span class="n">years</span> <span class="o">=</span> <span class="n">forestry_end_year</span> <span class="o">-</span> <span class="n">forest_baseline_year</span>
+
+        <span class="n">year_range</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">year</span> <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">forest_baseline_year</span><span class="p">,</span> <span class="n">forestry_end_year</span> <span class="o">+</span><span class="mi">1</span><span class="p">)</span>
         <span class="p">]</span>
-        <span class="n">area</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">area</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">classifiers</span><span class="p">)</span>
 
-        <span class="n">structure_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">age</span><span class="p">,</span> <span class="n">area</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">sit</span><span class="p">,</span> <span class="n">classifiers</span><span class="p">,</span> <span class="n">inventory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">set_input_data_dir</span><span class="p">(</span><span class="n">sc</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;Stock&quot;</span><span class="p">:</span> <span class="n">annual_carbon_stocks</span><span class="p">,</span> <span class="s2">&quot;Structure&quot;</span><span class="p">:</span> <span class="n">structure_df</span><span class="p">,</span> <span class="s2">&quot;Raw&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">}</span></div>
+        <span class="n">classifier_config</span> <span class="o">=</span> <span class="n">sit_cbm_factory</span><span class="o">.</span><span class="n">get_classifiers</span><span class="p">(</span>
+            <span class="n">sit</span><span class="o">.</span><span class="n">sit_data</span><span class="o">.</span><span class="n">classifiers</span><span class="p">,</span> <span class="n">sit</span><span class="o">.</span><span class="n">sit_data</span><span class="o">.</span><span class="n">classifier_values</span>
+        <span class="p">)</span>
+
+        <span class="n">results</span><span class="p">,</span> <span class="n">reporting_func</span> <span class="o">=</span> <span class="n">cbm_simulator</span><span class="o">.</span><span class="n">create_in_memory_reporting_func</span><span class="p">(</span>
+            <span class="n">classifier_map</span><span class="o">=</span><span class="p">{</span>
+                <span class="n">x</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]:</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">classifier_config</span><span class="p">[</span><span class="s2">&quot;classifier_values&quot;</span><span class="p">]</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Simulation</span>
+        <span class="k">with</span> <span class="n">sit_cbm_factory</span><span class="o">.</span><span class="n">initialize_cbm</span><span class="p">(</span><span class="n">sit</span><span class="p">)</span> <span class="k">as</span> <span class="n">cbm</span><span class="p">:</span>
+            <span class="c1"># Create a function to apply rule based disturbance events and transition rules based on the SIT input</span>
+            <span class="n">rule_based_processor</span> <span class="o">=</span> <span class="n">sit_cbm_factory</span><span class="o">.</span><span class="n">create_sit_rule_based_processor</span><span class="p">(</span>
+                <span class="n">sit</span><span class="p">,</span> <span class="n">cbm</span>
+            <span class="p">)</span>
+            <span class="c1"># The following line of code spins up the CBM inventory and runs it through 200 timesteps.</span>
+            <span class="n">cbm_simulator</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span>
+                <span class="n">cbm</span><span class="p">,</span>
+                <span class="n">n_steps</span><span class="o">=</span><span class="n">years</span><span class="p">,</span>
+                <span class="n">classifiers</span><span class="o">=</span><span class="n">classifiers</span><span class="p">,</span>
+                <span class="n">inventory</span><span class="o">=</span><span class="n">inventory</span><span class="p">,</span>
+                <span class="n">pre_dynamics_func</span><span class="o">=</span><span class="n">rule_based_processor</span><span class="o">.</span><span class="n">pre_dynamics_func</span><span class="p">,</span>
+                <span class="n">reporting_func</span><span class="o">=</span><span class="n">reporting_func</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gen_validation</span><span class="p">:</span>
+            <span class="n">ValidationData</span><span class="o">.</span><span class="n">get_disturbance_statistics</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validation_path</span><span class="p">,</span> <span class="n">rule_based_processor</span><span class="p">,</span> <span class="n">years</span><span class="p">,</span> <span class="n">sc</span><span class="p">)</span>
+            <span class="n">ValidationData</span><span class="o">.</span><span class="n">get_age_classes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validation_path</span><span class="p">,</span> <span class="n">sit</span><span class="p">,</span> <span class="n">sc</span><span class="p">)</span>
+            <span class="n">ValidationData</span><span class="o">.</span><span class="n">get_sit_events</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validation_path</span><span class="p">,</span> <span class="n">rule_based_processor</span><span class="p">,</span> <span class="n">sc</span><span class="p">)</span>
+            <span class="n">ValidationData</span><span class="o">.</span><span class="n">merge_events</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validation_path</span><span class="p">,</span> <span class="n">sc</span><span class="p">)</span>
+            <span class="n">ValidationData</span><span class="o">.</span><span class="n">results_contents</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validation_path</span><span class="p">,</span> <span class="n">results</span><span class="p">,</span> <span class="n">sc</span><span class="p">)</span>
+
+        <span class="n">flux_results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Flux_class</span><span class="o">.</span><span class="n">concatenated_fluxes_data</span><span class="p">(</span><span class="n">results</span><span class="p">)</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;TimeStep&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+        <span class="n">annual_process_fluxes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;Scenario&quot;</span><span class="p">:</span> <span class="n">sc</span><span class="p">,</span>
+                <span class="s2">&quot;Timestep&quot;</span><span class="p">:</span><span class="n">flux_results</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+                <span class="s2">&quot;Year&quot;</span><span class="p">:</span> <span class="n">year_range</span><span class="p">,</span>
+                <span class="s2">&quot;AGB_delta&quot;</span><span class="p">:</span> <span class="n">flux_results</span><span class="p">[</span><span class="s2">&quot;DeltaBiomass_AG&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;BGB_delta&quot;</span><span class="p">:</span> <span class="n">flux_results</span><span class="p">[</span><span class="s2">&quot;DeltaBiomass_BG&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;DOM_delta&quot;</span><span class="p">:</span> <span class="n">flux_results</span><span class="p">[</span><span class="s2">&quot;DeltaDOM&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;Total Ecosystem_delta&quot;</span><span class="p">:</span> <span class="n">flux_results</span><span class="p">[</span><span class="s2">&quot;DeltaBiomass_AG&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">flux_results</span><span class="p">[</span><span class="s2">&quot;DeltaBiomass_BG&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">flux_results</span><span class="p">[</span><span class="s2">&quot;DeltaDOM&quot;</span><span class="p">],</span>
+
+            <span class="p">}</span>
+        <span class="p">)</span>
+     
+
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;Stock&quot;</span><span class="p">:</span> <span class="n">annual_process_fluxes</span><span class="p">,</span> <span class="s2">&quot;Raw&quot;</span><span class="p">:</span> <span class="n">flux_results</span><span class="p">}</span></div>
 
 
-<div class="viewcode-block" id="Runner.cbm_scenario_fluxes"><a class="viewcode-back" href="../../autoapi/cbm_runner/runner/index.html#cbm_runner.runner.Runner.cbm_scenario_fluxes">[docs]</a>    <span class="k">def</span> <span class="nf">cbm_scenario_fluxes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">forest_data</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Runner.cbm_scenario_fluxes">
+<a class="viewcode-back" href="../../autoapi/cbm_runner/runner/index.html#cbm_runner.runner.Runner.cbm_scenario_fluxes">[docs]</a>
+    <span class="k">def</span> <span class="nf">cbm_scenario_fluxes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">forest_data</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the carbon fluxes for each scenario in the given forest data.</span>
 
@@ -516,7 +665,9 @@
                     <span class="o">-</span> <span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Total Ecosystem&quot;</span><span class="p">]</span>
                 <span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">fluxes</span></div></div>
+        <span class="k">return</span> <span class="n">fluxes</span></div>
+</div>
+
 </pre></div>
 
            </div>

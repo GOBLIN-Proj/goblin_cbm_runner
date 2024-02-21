@@ -3,6 +3,19 @@
 
 .. py:module:: cbm_runner.cbm_data_factory
 
+.. autoapi-nested-parse::
+
+   Data Factory Module
+   ==============
+   This module contains the DataFactory class, which is used to create and manage input data for CBM simulations.
+
+   **Key Features**
+
+   * **Dynamic Data Generation:** Creates and organizes input files (configuration files, classifiers, age classes, yield curves, inventories, disturbance events/types, and transition rules) for both baseline and specific scenarios.
+   * **Flexibility:** Facilitates customization of CBM simulations by allowing modification of input data.
+   * **Data Integrity:** Ensures consistency and accuracy of generated CBM input data.
+
+
 
 Module Contents
 ---------------
@@ -22,138 +35,146 @@ Classes
 
    A class that represents a data factory for creating and managing input data for CBM simulations.
 
-   This class facilitates the generation and organization of various input files required for running
-   Carbon Budget Model (CBM) simulations. It handles the creation of directories, configuration files,
-   classifiers, age classes, yield curves, inventories, disturbance events, disturbance types,
-   and transition rules for different scenarios.
-
-   :param config_path: The path to the configuration file.
-   :type config_path: str
-   :param calibration_year: The calibration year.
-   :type calibration_year: int
-   :param forest_end_year: The forest end year.
-   :type forest_end_year: int
-   :param afforestation_data: The afforestation data.
-   :type afforestation_data: dict
-   :param scenario_data: The scenario data.
-   :type scenario_data: dict
+   ... (Existing class description)
 
    .. attribute:: loader_class
 
-      An instance of the Loader class.
+      An instance of the Loader class for loading data.
 
       :type: Loader
 
    .. attribute:: data_manager_class
 
-      An instance of the DataManager class.
+      Handles CBM configuration data.
 
       :type: DataManager
 
    .. attribute:: json_creator_class
 
-      An instance of the CreateJSON class.
+      Constructs JSON configuration files.
 
       :type: CreateJSON
 
    .. attribute:: inventory_class
 
-      An instance of the Inventory class.
+      Manages inventory data.
 
       :type: Inventory
 
    .. attribute:: disturbance_class
 
-      An instance of the Disturbances class.
+      Manages disturbance data.
 
       :type: Disturbances
 
    .. attribute:: transition_class
 
-      An instance of the Transition class.
+      Manages transition rules.
 
       :type: Transition
 
    .. attribute:: afforestation_data
 
-      The afforestation data.
+      Data related to afforestation.
 
       :type: dict
 
    .. method:: set_input_data_dir(sc, path)
 
-      Sets the input data directory for a scenario.
+      Sets the input data directory for a scenario, loads SIT, classifiers, and inventory.
 
    .. method:: set_baseline_input_data_dir(path)
 
-      Sets the baseline input data directory.
+      Sets the baseline input data directory, loads SIT, classifiers, and inventory.
 
    .. method:: make_data_dirs(scenarios, path)
 
-      Creates data directories for the specified scenarios.
+      Creates data directories for specified scenarios.
 
    .. method:: clean_data_dir(path)
 
-      Cleans the specified data directory.
+      Removes existing data from a directory.
 
    .. method:: clean_baseline_data_dir(path)
 
-      Cleans the baseline data directory.
+      Removes existing data from the baseline directory.
 
    .. method:: make_config_json(scenario, path)
 
-      Creates the configuration JSON file for a scenario.
+      Creates a configuration JSON file.
 
    .. method:: make_classifiers(scenario, path)
 
-      Creates the classifiers CSV file for a scenario.
+      Creates a classifiers CSV file.
 
    .. method:: make_age_classes(scenario, path)
 
-      Creates the age classes CSV file for a scenario.
+      Creates an age classes CSV file.
 
    .. method:: make_yield_curves(scenario, path)
 
-      Creates the yield curves CSV file for a scenario.
+      Creates a yield curves CSV file.
 
    .. method:: make_inventory(scenario, path)
 
-      Creates the inventory CSV file for a scenario.
+      Creates an inventory CSV file.
 
    .. method:: make_disturbance_events(scenario, path)
 
-      Creates the disturbance events CSV file for a scenario.
+      Creates a disturbance events CSV file.
 
    .. method:: make_disturbance_type(scenario, path)
 
-      Creates the disturbance type CSV file for a scenario.
+      Creates a disturbance type CSV file.
 
    .. method:: make_transition_rules(scenario, path)
 
-      Creates the transition rules CSV file for a scenario.
+      Creates a transition rules CSV file.
       
 
    .. py:method:: set_input_data_dir(sc, path)
 
-      Sets the input data directory.
+      Sets the input data directory for a scenario, initializes the CBM simulation data.
+
+      This methods loads the following using the CBM's Standard Import Tool (SIT):
+          * SIT configuration: Settings that govern how the CBM simulation runs
+          * Classifiers: Descriptions of forest stands (species, soil type, etc.)
+          * Inventory: Data on the initial forest composition.
 
       :param sc: The scenario number.
       :type sc: int
       :param path: The path to the input data directory.
       :type path: str
 
-      :returns: A tuple containing the SIT object, classifiers, and inventory.
+      :returns:
+
+                A tuple containing the following:
+                    * SIT object:  The loaded SIT configuration.
+                    * classifiers (DataFrame): Classifiers for the forest stands.
+                    * inventory (DataFrame): The forest inventory data.
       :rtype: tuple
 
 
    .. py:method:: set_baseline_input_data_dir(path)
 
-      Sets the baseline input data directory.
+      Sets the input data directory for the baseline, initializes the CBM simulation data.
 
-      :param path: The path to the baseline input data directory.
+      This methods loads the following using the CBM's Standard Import Tool (SIT):
+          * SIT configuration: Settings that govern how the CBM simulation runs
+          * Classifiers: Descriptions of forest stands (species, soil type, etc.)
+          * Inventory: Data on the initial forest composition.
+
+      :param sc: The scenario number.
+      :type sc: int
+      :param path: The path to the input data directory.
       :type path: str
 
-      :returns: A tuple containing the SIT object, classifiers, and inventory.
+      :returns:
+
+                A tuple containing the following:
+                    * SIT object:  The loaded SIT configuration.
+                    * classifiers (DataFrame): Classifiers for the forest stands.
+                    * inventory (DataFrame): The forest inventory data.
       :rtype: tuple
 
 
