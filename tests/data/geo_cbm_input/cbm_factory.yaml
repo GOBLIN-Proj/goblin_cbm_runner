@@ -1,0 +1,22 @@
+Classifiers:
+
+  harvest:
+    clearfell: 0.01
+    thinning: 0.01
+
+  age_classes:
+    max_age: 100
+    age_interval: 5
+
+  species:
+    - Sitka
+    - SGB
+
+  yield_class:
+    Sitka:
+      - YC13_16: 0.37
+      - YC17_20: 0.26
+      - YC20_24: 0.20
+      - YC24_30: 0.17
+    SGB:
+      - YC10: 1

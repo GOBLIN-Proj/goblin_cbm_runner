@@ -3,6 +3,13 @@
 
 .. py:module:: cbm_runner.transition
 
+.. autoapi-nested-parse::
+
+   Transition Module
+   =================
+   This module is responsible for generating the transition rules structure based on the given scenario.
+
+
 
 Module Contents
 ---------------

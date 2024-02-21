@@ -1,8 +1,14 @@
+"""
+Inventory Module 
+================
+This module is responsible for managing inventory data for forest simulation in a CBM (Carbon Budget Modeling) context.
+It handles the creation and structuring of inventory data for both baseline and scenario-based simulations.
+"""
 import pandas as pd
 import os
 import itertools
-from cbm_runner.loader import Loader
-from cbm_runner.cbm_runner_data_manager import DataManager
+from resource_manager.loader import Loader
+from resource_manager.cbm_runner_data_manager import DataManager
 
 
 class Inventory:
@@ -36,7 +42,7 @@ class Inventory:
     """
     def __init__(self, calibration_year, config_path, afforestation_data):
         self.loader_class = Loader()
-        self.data_manager_class = DataManager(calibration_year, config_path)
+        self.data_manager_class = DataManager(calibration_year=calibration_year, config_file=config_path)
         self.afforestation_data = afforestation_data
         self.age_df = self.loader_class.forest_age_structure()
         self.baseline_forest_classifiers = self.data_manager_class.get_classifiers()[
@@ -353,26 +359,17 @@ class Inventory:
         Returns:
             dict: A dictionary containing the areas of afforestation for each yield class and species.
         """
-        scenario_areas_dicts = dict(
-            zip(
-                scenario_afforestation_areas.species,
-                scenario_afforestation_areas.total_area,
-            )
-        )
+        areas_dict ={}
 
-        areas_dict = {}
-
-        for species in scenario_areas_dicts.keys():
-            for yield_class in self.yield_baseline_dict[species].keys():
-                if yield_class not in areas_dict:
-                    areas_dict[yield_class] = {}
-
-                areas_dict[yield_class][species] = (
-                    scenario_areas_dicts[species]
-                    * self.yield_baseline_dict[species][yield_class]
-                )
+        for yield_class, species, total_area in zip(scenario_afforestation_areas.yield_class, scenario_afforestation_areas.species, scenario_afforestation_areas.total_area):
+            if yield_class not in areas_dict:
+                areas_dict[yield_class] = {}
+            if species not in areas_dict[yield_class]:
+                areas_dict[yield_class][species] = 0
+            areas_dict[yield_class][species] += total_area
 
         return areas_dict
+    
 
     def combined_mineral_afforestation_dict(self, scenario_afforestation_areas):
         """

@@ -1,24 +1,25 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🌲 CBM_runner, a CBM CFS3 interface for the GOBLIN model &mdash; CBM_runner 0.1.0 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" type="text/css" />
-      <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+  <title>🌲 CBM_runner, a CBM CFS3 interface for the GOBLIN model &mdash; CBM_runner 0.3.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=eafc0fe6" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=e259d695"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -47,6 +48,7 @@
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="autoapi/index.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="example.html">Example Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example.html#plot-fluxes-for-baseline">Plot Fluxes for Baseline</a></li>
 </ul>
 
         </div>
@@ -74,15 +76,15 @@
            <div itemprop="articleBody">
              
   <section id="cbm-runner-a-cbm-cfs3-interface-for-the-goblin-model">
-<h1>🌲 CBM_runner, a CBM CFS3 interface for the GOBLIN model<a class="headerlink" href="#cbm-runner-a-cbm-cfs3-interface-for-the-goblin-model" title="Permalink to this heading"></a></h1>
+<h1>🌲 CBM_runner, a CBM CFS3 interface for the GOBLIN model<a class="headerlink" href="#cbm-runner-a-cbm-cfs3-interface-for-the-goblin-model" title="Link to this heading"></a></h1>
 <p><a class="reference external" href="https://github.com/colmduff/goblin_lite/blob/0.1.0/LICENSE"><img alt="license" src="https://img.shields.io/badge/License-MIT-red" /></a>
 <a class="reference external" href="https://github.com/colmduff/cbm_runner"><img alt="python" src="https://img.shields.io/badge/python-3.9-blue?logo=python&amp;logoColor=white" /></a>
 <a class="reference external" href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg" /></a></p>
 <p>Based on the <a class="reference external" href="https://gmd.copernicus.org/articles/15/2239/2022/">GOBLIN</a> (<strong>G</strong>eneral <strong>O</strong>verview for a <strong>B</strong>ackcasting approach of <strong>L</strong>ivestock <strong>IN</strong>tensification) LifeCycle Analysis tool, the cbm_runner package generates the data requried for the CBM CFS3 (libcbm_py) tool. It also interfaces with the tool directly, generating results in a single dataframe for all scenarios.</p>
-<p>The outputs are related to biomass, and dead organic matter. These are totaled into a total ecosystem value.</p>
+<p>The outputs are related to biomass, and dead organic matter. These are summed into a total ecosystem value.</p>
 <p>The estimated volumns are all in t of C.</p>
 <section id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading"></a></h2>
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
 <p>Install from git hub.</p>
 <p>When prompted enter your <code class="docutils literal notranslate"><span class="pre">&lt;username&gt;</span></code> and password, which is your <code class="docutils literal notranslate"><span class="pre">&lt;access_token&gt;</span></code>.</p>
 <p><code class="docutils literal notranslate"><span class="pre">&lt;access_token&gt;</span></code> is provided by the repo manager.</p>
@@ -92,64 +94,21 @@
 </div>
 </section>
 <section id="usage">
-<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this heading"></a></h2>
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
 <p>The Runner class takes the total afforestation area and divides it evenly across years (calibration year - target year).</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cbm_runner.runner</span> <span class="kn">import</span> <span class="n">Runner</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> 
-<span class="kn">import</span> <span class="nn">os</span> 
-
-<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="c1">#path to data</span>
-    <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;./data&quot;</span>
-
-    <span class="c1">#afforestation data for each scenario</span>
-    <span class="n">afforest_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;scenario_afforestation.csv&quot;</span><span class="p">),</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    
-    <span class="c1">#basic configuration file</span>
-    <span class="n">config</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;cbm_factory.yaml&quot;</span><span class="p">)</span>
-
-    <span class="c1">#scenario_data </span>
-    <span class="n">sc_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;scenario_dataframe.csv&quot;</span><span class="p">))</span>
-
-    <span class="c1">#calibration and end point</span>
-    <span class="n">calibration_year</span> <span class="o">=</span> <span class="mi">2020</span>
-    <span class="n">forest_end_year</span> <span class="o">=</span> <span class="mi">2050</span>
-    
-    <span class="c1">#instance of the Runner class</span>
-    <span class="n">runner</span> <span class="o">=</span> <span class="n">Runner</span><span class="p">(</span><span class="n">config</span><span class="p">,</span><span class="n">calibration_year</span><span class="p">,</span> <span class="n">forest_end_year</span><span class="p">,</span> <span class="n">afforest_data</span><span class="p">,</span> <span class="n">sc_data</span><span class="p">)</span>
-    
-    <span class="c1">#generation of data for each of the scenarios</span>
-    <span class="n">runner</span><span class="o">.</span><span class="n">generate_input_data</span><span class="p">()</span>
-
-    <span class="c1">#generation of aggregated results </span>
-    <span class="n">runner</span><span class="o">.</span><span class="n">run_aggregate_scenarios</span><span class="p">()</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;c_aggregate.csv&quot;</span><span class="p">))</span>
-
-    <span class="c1">#generation of annual flux results</span>
-    <span class="n">runner</span><span class="o">.</span><span class="n">run_flux_scenarios</span><span class="p">()</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;c_flux.csv&quot;</span><span class="p">))</span>
-
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="n">main</span><span class="p">()</span>
-    
-</pre></div>
-</div>
-<p>The ForestSimRunner class allows the user to specify annual afforestation rates in a seperate file.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cbm_runner.forestsim_runner</span> <span class="kn">import</span> <span class="n">ForestSimRunner</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">os</span>
 
 
 <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
     <span class="c1"># path to data</span>
-    <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;./data&quot;</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;./data/runner_input&quot;</span>
+    <span class="n">results_path</span> <span class="o">=</span> <span class="s2">&quot;./data/runner_results&quot;</span>
 
     <span class="c1"># afforestation data for each scenario</span>
     <span class="n">afforest_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;scenario_afforestation.csv&quot;</span><span class="p">),</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span>
-    <span class="p">)</span>
-
-    <span class="n">afforest_data_annual</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;scenario_afforestation_annual.csv&quot;</span><span class="p">),</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;cbm_afforestation.csv&quot;</span><span class="p">),</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span>
     <span class="p">)</span>
 
     <span class="c1"># basic configuration file</span>
@@ -160,19 +119,65 @@
 
     <span class="c1"># calibration and end point</span>
     <span class="n">calibration_year</span> <span class="o">=</span> <span class="mi">2020</span>
-    <span class="n">forest_end_year</span> <span class="o">=</span> <span class="mi">2050</span>
 
     <span class="c1"># instance of the Runner class</span>
-    <span class="n">runner</span> <span class="o">=</span> <span class="n">ForestSimRunner</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">calibration_year</span><span class="p">,</span> <span class="n">forest_end_year</span><span class="p">,</span> <span class="n">afforest_data</span><span class="p">,</span> <span class="n">afforest_data_annual</span><span class="p">,</span> <span class="n">sc_data</span><span class="p">)</span>
+    <span class="n">runner</span> <span class="o">=</span> <span class="n">Runner</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">calibration_year</span><span class="p">,</span> <span class="n">afforest_data</span><span class="p">,</span> <span class="n">sc_data</span><span class="p">)</span>
 
     <span class="c1"># generation of data for each of the scenarios</span>
     <span class="n">runner</span><span class="o">.</span><span class="n">generate_input_data</span><span class="p">()</span>
 
     <span class="c1"># generation of aggregated results</span>
-    <span class="n">runner</span><span class="o">.</span><span class="n">run_aggregate_scenarios</span><span class="p">()</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;forsim_c_aggregate.csv&quot;</span><span class="p">))</span>
+    <span class="n">runner</span><span class="o">.</span><span class="n">run_aggregate_scenarios</span><span class="p">()</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">results_path</span><span class="p">,</span> <span class="s2">&quot;c_aggregate.csv&quot;</span><span class="p">))</span>
 
     <span class="c1"># generation of annual flux results</span>
-    <span class="n">runner</span><span class="o">.</span><span class="n">run_flux_scenarios</span><span class="p">()</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;forsim_c_flux.csv&quot;</span><span class="p">))</span>
+    <span class="n">runner</span><span class="o">.</span><span class="n">run_flux_scenarios</span><span class="p">()</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">results_path</span><span class="p">,</span> <span class="s2">&quot;c_flux.csv&quot;</span><span class="p">))</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+    
+</pre></div>
+</div>
+<p>The ForestSimRunner class allows the user to specify annual afforestation rates in a seperate file.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">forest_sim.forestsim_runner</span> <span class="kn">import</span> <span class="n">ForestSimRunner</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="c1"># path to data</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;./data/forsim_input&quot;</span>
+    <span class="n">results_path</span> <span class="o">=</span> <span class="s2">&quot;./data/forsim_results&quot;</span>
+
+    <span class="c1"># afforestation data for each scenario</span>
+    <span class="n">afforest_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;scenario_afforestation_calculated.csv&quot;</span><span class="p">),</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span>
+    <span class="p">)</span>
+
+    <span class="n">afforest_data_annual</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;scenario_afforestation_annual.csv&quot;</span><span class="p">),</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span>
+    <span class="p">)</span>
+
+    <span class="c1"># basic configuration file</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;cbm_factory.yaml&quot;</span><span class="p">)</span>
+
+    <span class="c1"># scenario_data</span>
+    <span class="n">sc_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;scenario_input_dataframe.csv&quot;</span><span class="p">))</span>
+
+    <span class="c1"># calibration and end point</span>
+    <span class="n">calibration_year</span> <span class="o">=</span> <span class="mi">2020</span>
+
+    <span class="c1"># instance of the Runner class</span>
+    <span class="n">runner</span> <span class="o">=</span> <span class="n">ForestSimRunner</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">calibration_year</span><span class="p">,</span> <span class="n">afforest_data</span><span class="p">,</span> <span class="n">afforest_data_annual</span><span class="p">,</span> <span class="n">sc_data</span><span class="p">)</span>
+
+    <span class="c1"># generation of data for each of the scenarios</span>
+    <span class="n">runner</span><span class="o">.</span><span class="n">generate_input_data</span><span class="p">()</span>
+
+    <span class="c1"># generation of aggregated results</span>
+    <span class="n">runner</span><span class="o">.</span><span class="n">run_aggregate_scenarios</span><span class="p">()</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">results_path</span><span class="p">,</span> <span class="s2">&quot;forsim_c_aggregate.csv&quot;</span><span class="p">))</span>
+
+    <span class="c1"># generation of annual flux results</span>
+    <span class="n">runner</span><span class="o">.</span><span class="n">run_flux_scenarios</span><span class="p">()</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">results_path</span><span class="p">,</span> <span class="s2">&quot;forsim_c_flux.csv&quot;</span><span class="p">))</span>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
@@ -181,7 +186,7 @@
 </div>
 </section>
 <section id="license">
-<h2>License<a class="headerlink" href="#license" title="Permalink to this heading"></a></h2>
+<h2>License<a class="headerlink" href="#license" title="Link to this heading"></a></h2>
 <p>This project is licensed under the terms of the MIT license.</p>
 <div class="toctree-wrapper compound">
 </div>
