@@ -3,6 +3,15 @@
 
 .. py:module:: cbm_runner.disturbances
 
+.. autoapi-nested-parse::
+
+   Disturbances Module
+   ===================
+   This module is responsible for managing disturbances within a CBM (Carbon Budget Modeling) model.
+   It handles various aspects of disturbances including scenario afforestation areas, legacy disturbance afforestation,
+   disturbance structures, and filling data for legacy and scenario-based disturbances.
+
+
 
 Module Contents
 ---------------
@@ -227,7 +236,7 @@ Classes
       :returns: A generator that yields combinations of scenario, forest, soil, and yield classifiers.
 
 
-   .. py:method:: _get_classifier_combinations()
+   .. py:method:: _get_classifier_combinations(species, disturbance=None)
 
       Generates all possible combinations of forest types, soil classes, and yield classes.
 

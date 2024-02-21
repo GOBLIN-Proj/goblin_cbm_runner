@@ -1,18 +1,30 @@
+"""
+Data Factory Module
+==============
+This module contains the DataFactory class, which is used to create and manage input data for CBM simulations.
+
+**Key Features**
+
+* **Dynamic Data Generation:** Creates and organizes input files (configuration files, classifiers, age classes, yield curves, inventories, disturbance events/types, and transition rules) for both baseline and specific scenarios.
+* **Flexibility:** Facilitates customization of CBM simulations by allowing modification of input data.
+* **Data Integrity:** Ensures consistency and accuracy of generated CBM input data.
+
+"""
+
 import pandas as pd
-import math
 import os
 import shutil
 import json
 import itertools
 
-from cbm_runner.loader import Loader
-from cbm_runner.cbm_runner_data_manager import DataManager
+from resource_manager.loader import Loader
+from resource_manager.cbm_runner_data_manager import DataManager
 from cbm_runner.create_json import CreateJSON
 from cbm_runner.yield_curves import YieldCurves
 from cbm_runner.inventory import Inventory
 from cbm_runner.disturbances import Disturbances
 from cbm_runner.transition import Transition
-import cbm_runner.parser as parser
+import resource_manager.parser as parser
 
 
 from libcbm.input.sit import sit_cbm_factory
@@ -22,41 +34,31 @@ class DataFactory:
     """
     A class that represents a data factory for creating and managing input data for CBM simulations.
 
-    This class facilitates the generation and organization of various input files required for running 
-    Carbon Budget Model (CBM) simulations. It handles the creation of directories, configuration files, 
-    classifiers, age classes, yield curves, inventories, disturbance events, disturbance types, 
-    and transition rules for different scenarios.
-
-    Args:
-        config_path (str): The path to the configuration file.
-        calibration_year (int): The calibration year.
-        forest_end_year (int): The forest end year.
-        afforestation_data (dict): The afforestation data.
-        scenario_data (dict): The scenario data.
+    ... (Existing class description) 
 
     Attributes:
-        loader_class (Loader): An instance of the Loader class.
-        data_manager_class (DataManager): An instance of the DataManager class.
-        json_creator_class (CreateJSON): An instance of the CreateJSON class.
-        inventory_class (Inventory): An instance of the Inventory class.
-        disturbance_class (Disturbances): An instance of the Disturbances class.
-        transition_class (Transition): An instance of the Transition class.
-        afforestation_data (dict): The afforestation data.
+        loader_class (Loader): An instance of the Loader class for loading data.
+        data_manager_class (DataManager): Handles CBM configuration data.
+        json_creator_class (CreateJSON): Constructs JSON configuration files.
+        inventory_class (Inventory): Manages inventory data.
+        disturbance_class (Disturbances): Manages disturbance data.
+        transition_class (Transition): Manages transition rules.
+        afforestation_data (dict): Data related to afforestation.
 
     Methods:
-        set_input_data_dir(sc, path): Sets the input data directory for a scenario.
-        set_baseline_input_data_dir(path): Sets the baseline input data directory.
-        make_data_dirs(scenarios, path): Creates data directories for the specified scenarios.
-        clean_data_dir(path): Cleans the specified data directory.
-        clean_baseline_data_dir(path): Cleans the baseline data directory.
-        make_config_json(scenario, path): Creates the configuration JSON file for a scenario.
-        make_classifiers(scenario, path): Creates the classifiers CSV file for a scenario.
-        make_age_classes(scenario, path): Creates the age classes CSV file for a scenario.
-        make_yield_curves(scenario, path): Creates the yield curves CSV file for a scenario.
-        make_inventory(scenario, path): Creates the inventory CSV file for a scenario.
-        make_disturbance_events(scenario, path): Creates the disturbance events CSV file for a scenario.
-        make_disturbance_type(scenario, path): Creates the disturbance type CSV file for a scenario.
-        make_transition_rules(scenario, path): Creates the transition rules CSV file for a scenario.
+        set_input_data_dir(sc, path): Sets the input data directory for a scenario, loads SIT, classifiers, and inventory.
+        set_baseline_input_data_dir(path): Sets the baseline input data directory, loads SIT, classifiers, and inventory.
+        make_data_dirs(scenarios, path): Creates data directories for specified scenarios.
+        clean_data_dir(path): Removes existing data from a directory.
+        clean_baseline_data_dir(path): Removes existing data from the baseline directory.
+        make_config_json(scenario, path): Creates a configuration JSON file.
+        make_classifiers(scenario, path): Creates a classifiers CSV file.
+        make_age_classes(scenario, path): Creates an age classes CSV file.
+        make_yield_curves(scenario, path): Creates a yield curves CSV file.
+        make_inventory(scenario, path): Creates an inventory CSV file.
+        make_disturbance_events(scenario, path): Creates a disturbance events CSV file.
+        make_disturbance_type(scenario, path): Creates a disturbance type CSV file.
+        make_transition_rules(scenario, path): Creates a transition rules CSV file.
     """
     def __init__(
         self,
@@ -67,7 +69,7 @@ class DataFactory:
         scenario_data,
     ):
         self.loader_class = Loader()
-        self.data_manager_class = DataManager(calibration_year, config_path)
+        self.data_manager_class = DataManager(calibration_year=calibration_year, config_file=config_path)
         self.json_creator_class = CreateJSON(config_path)
         self.inventory_class = Inventory(
             calibration_year, config_path, afforestation_data
@@ -84,14 +86,22 @@ class DataFactory:
 
     def set_input_data_dir(self, sc, path):
         """
-        Sets the input data directory.
+        Sets the input data directory for a scenario, initializes the CBM simulation data.
+
+        This methods loads the following using the CBM's Standard Import Tool (SIT):
+            * SIT configuration: Settings that govern how the CBM simulation runs 
+            * Classifiers: Descriptions of forest stands (species, soil type, etc.)
+            * Inventory: Data on the initial forest composition.
 
         Args:
             sc (int): The scenario number.
             path (str): The path to the input data directory.
 
         Returns:
-            tuple: A tuple containing the SIT object, classifiers, and inventory.
+            tuple: A tuple containing the following:
+                * SIT object:  The loaded SIT configuration.
+                * classifiers (DataFrame): Classifiers for the forest stands.
+                * inventory (DataFrame): The forest inventory data.
         """
         sit_config_path = os.path.join(path, str(sc), "sit_config.json")
 
@@ -103,13 +113,22 @@ class DataFactory:
 
     def set_baseline_input_data_dir(self, path):
         """
-        Sets the baseline input data directory.
+        Sets the input data directory for the baseline, initializes the CBM simulation data.
+
+        This methods loads the following using the CBM's Standard Import Tool (SIT):
+            * SIT configuration: Settings that govern how the CBM simulation runs 
+            * Classifiers: Descriptions of forest stands (species, soil type, etc.)
+            * Inventory: Data on the initial forest composition.
 
         Args:
-            path (str): The path to the baseline input data directory.
+            sc (int): The scenario number.
+            path (str): The path to the input data directory.
 
         Returns:
-            tuple: A tuple containing the SIT object, classifiers, and inventory.
+            tuple: A tuple containing the following:
+                * SIT object:  The loaded SIT configuration.
+                * classifiers (DataFrame): Classifiers for the forest stands.
+                * inventory (DataFrame): The forest inventory data.
         """
         sit_config_path = os.path.join(path, "sit_config.json")
 
@@ -215,6 +234,7 @@ class DataFactory:
             )
         else:
             classifier_df.to_csv(os.path.join(path, "classifiers.csv"), index=False)
+
 
     def make_age_classes(self, scenario, path):
         """

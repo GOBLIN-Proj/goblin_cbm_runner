@@ -1,0 +1,267 @@
+non_forest_dict:
+  Sitka:
+    mineral: "NFSitka_mineral"
+    peat: "NFSitka_peat"
+  SGB:
+    mineral: "NFSGB_mineral"
+    peat: "NFSGB_peat"
+
+
+non_forest_soils:
+  mineral:
+    - "NFSitka_mineral"
+    - "NFSGB_mineral"
+  peat:
+    - "NFSitka_peat"
+    - "NFSGB_peat"
+
+forest_type_keys:
+  afforestation: "A"
+  legacy: "L"
+
+soils_dict:
+  mineral:
+    - "Cambisols (Ireland)"
+    - "Gleysols (Ireland)"
+    - "Luvisols (Ireland)"
+    - "Podzolic (Ireland)"
+  peat:
+    - "Peat (Ireland)"
+
+classifiers:
+  Baseline:
+    Species:
+      Sitka: "Sitka spruce"
+      SGB: "Slow Growing Unspecified broadleaved species - Genus type"
+      CBmix: "Mix Spruce"
+    Forest type:
+      L: "Legacy"
+    Soil classes:
+      mineral: "Mineral"
+      peat: "Peat"
+    Yield classes:
+      YC6: "Yield class 6"
+      YC10: "Yield class 10"
+      YC4_12: "Yield class 4 to 12"
+      YC13_16: "Yield class 13 to 16"
+      YC17_20: "Yield class 17 to 20"
+      YC20_24: "Yield class 20 to 24"
+      YC24_30: "Yield class 24 to 30"
+  Scenario:
+    Species:
+      Sitka: "Sitka spruce"
+      SGB: "Slow Growing Unspecified broadleaved species - Genus type"
+      NFSitka_mineral: "NonForestSitkaMineral"
+      NFSGB_mineral: "NonForestSGBMineral"
+      NFSitka_peat: "NonForestSitkaPeat"
+      NFSGB_peat: "NonForestSGBPeat"
+    Forest type:
+      A: "Afforestation"
+      L: "Legacy"
+    Soil classes:
+      mineral: "Mineral"
+      peat: "Peat"
+    Yield classes:
+      YC6: "Yield class 6"
+      YC4_12: "Yield class 4 to 12"
+      YC13_16: "Yield class 13 to 16"
+      YC17_20: "Yield class 17 to 20"
+      YC20_24: "Yield class 20 to 24"
+      YC24_30: "Yield class 24 to 30"
+
+disturbances:
+  Baseline:
+    - "DISTID1"
+    - "DISTID2"
+    - "DISTID3"
+    - "DISTID5"
+  Scenario:
+    - "DISTID1"
+    - "DISTID2"
+    - "DISTID3"
+    - "DISTID4"
+    - "DISTID5"
+
+yield_name_dict:
+  Sitka:
+    YC4_12: "Spruce_4_12"
+    YC13_16: "Spruce_13_16"
+    YC17_20: "Spruce_17_20"
+    YC20_24: "Spruce_20_24"
+    YC24_30: "Spruce_24_30"
+  SGB:
+    YC6: "SGB"
+  CBmix:
+    YC10: "CBmix"
+
+
+species_name_dict:
+  Spruce_4_12:
+    YC4_12: "Sitka"
+  Spruce_13_16:
+    YC13_16: "Sitka"
+  Spruce_17_20:
+    YC17_20: "Sitka"
+  Spruce_20_24:
+    YC20_24: "Sitka"
+  Spruce_24_30:
+    YC24_30: "Sitka"
+  SGB:
+    YC6: "SGB"
+  CBmix:
+    YC10: "CBmix"
+
+
+afforestation_yield_name_dict:
+  NFSitka_mineral:
+    - "YC4_12"
+    - "YC13_16"
+    - "YC17_20"
+    - "YC20_24"
+    - "YC24_30"
+  NFSGB_mineral: "YC6"
+  NFSitka_peat:
+    - "YC4_12"
+    - "YC13_16"
+    - "YC17_20"
+    - "YC20_24"
+    - "YC24_30"
+  NFSGB_peat: "YC6"
+
+
+yield_baseline_dict:
+  Sitka:
+    YC4_12: 0.37
+    YC13_16: 0.26
+    YC17_20: 0.20
+    YC20_24: 0.17
+    YC24_30: 0.0
+  SGB:
+    YC6: 1
+  CBmix:
+    YC10: 1
+
+disturbance_cols:
+  - "Classifier1"
+  - "Classifier2"
+  - "Classifier3"
+  - "Classifier4"
+  - "UsingID"
+  - "sw_age_min"
+  - "sw_age_max"
+  - "hw_age_min"
+  - "hw_age_max"
+  - "MinYearsSinceDist"
+  - "MaxYearsSinceDist"
+  - "LastDistTypeID"
+  - "MinTotBiomassC"
+  - "MaxTotBiomassC"
+  - "MinSWMerchBiomassC"
+  - "MaxSWMerchBiomassC"
+  - "MinHWMerchBiomassC"
+  - "MaxHWMerchBiomassC"
+  - "MinTotalStemSnagC"
+  - "MaxTotalStemSnagC"
+  - "MinSWStemSnagC"
+  - "MaxSWStemSnagC"
+  - "MinHWStemSnagC"
+  - "MaxHWStemSnagC"
+  - "MinTotalStemSnagMerchC"
+  - "MaxTotalStemSnagMerchC"
+  - "MinSWMerchStemSnagC"
+  - "MaxSWMerchStemSnagC"
+  - "MinHWMerchStemSnagC"
+  - "MaxHWMerchStemSnagC"
+  - "Efficiency"
+  - "SortType"
+  - "MeasureType"
+  - "Amount"
+  - "DistTypeID"
+  - "Year"
+
+static_disturbance_cols:
+  - "MaxYearsSinceDist"
+  - "LastDistTypeID"
+  - "MinTotBiomassC"
+  - "MaxTotBiomassC"
+  - "MinSWMerchBiomassC"
+  - "MaxSWMerchBiomassC"
+  - "MinHWMerchBiomassC"
+  - "MaxHWMerchBiomassC"
+  - "MinTotalStemSnagC"
+  - "MaxTotalStemSnagC"
+  - "MinSWStemSnagC"
+  - "MaxSWStemSnagC"
+  - "MinHWStemSnagC"
+  - "MaxHWStemSnagC"
+  - "MinTotalStemSnagMerchC"
+  - "MaxTotalStemSnagMerchC"
+  - "MinSWMerchStemSnagC"
+  - "MaxSWMerchStemSnagC"
+  - "MinHWMerchStemSnagC"
+  - "MaxHWMerchStemSnagC"
+
+transition_cols:
+  before_cols:
+    - "Classifier1"
+    - "Classifier2"
+    - "Classifier3"
+    - "Classifier4"
+    - "UsingID"
+    - "SWStart"
+    - "SWEnd"
+    - "HWDStart"
+    - "HWEnd"
+    - "DistType"
+  after_cols:
+    - "Classifier1"
+    - "Classifier2"
+    - "Classifier3"
+    - "Classifier4"
+    - "RegenDelay"
+    - "ResetAge"
+    - "Percent"
+
+
+mapping:
+  species:
+    Sitka:
+      user_species: "Sitka spruce"
+      default_species: "Sitka spruce"
+    SGB:
+      user_species: "Slow Growing Unspecified broadleaved species - Genus type"
+      default_species: "Unspecified broadleaved species - Genus type"
+    CBmix:
+      user_species: "Mix Spruce"
+      default_species: "Spruce"
+    NFSitka_mineral:
+      user_species: "NonForestSitkaMineral"
+      default_species: "Missing value - Genus type"
+    NFSGB_mineral:
+      user_species: "NonForestSGBMineral"
+      default_species: "Missing value - Genus type"
+    NFSitka_peat:
+      user_species: "NonForestSitkaPeat"
+      default_species: "Missing value - Genus type"
+    NFSGB_peat:
+      user_species: "NonForestSGBPeat"
+      default_species: "Missing value - Genus type"
+      
+  boundary: "Ireland"
+  
+  disturbance_types:
+    DISTID1:
+      user_dist_type: "Clearcut"
+      default_dist_type: "Clearcut harvesting with salvage"
+    DISTID2:
+      user_dist_type: "Thinning"
+      default_dist_type: "20% commercial thinning"
+    DISTID3:
+      user_dist_type: "Fire"
+      default_dist_type: "Wildfire"
+    DISTID4:
+      user_dist_type: "Afforestation"
+      default_dist_type: "Afforestation"
+    DISTID5:
+      user_dist_type: "Unknown"
+      default_dist_type: "Unknown"

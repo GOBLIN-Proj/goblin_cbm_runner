@@ -1,10 +1,18 @@
-import cbm_runner.parser as parser
-from cbm_runner.cbm_runner_data_manager import DataManager
-from cbm_runner.loader import Loader
+"""
+Disturbances Module
+===================
+This module is responsible for managing disturbances within a CBM (Carbon Budget Modeling) model.
+It handles various aspects of disturbances including scenario afforestation areas, legacy disturbance afforestation, 
+disturbance structures, and filling data for legacy and scenario-based disturbances.
+"""
+
+import resource_manager.parser as parser
+from resource_manager.cbm_runner_data_manager import DataManager
+from resource_manager.loader import Loader
 from cbm_runner.inventory import Inventory
 import pandas as pd
 import itertools
-from cbm_runner.harvest import AfforestationTracker
+from harvest_manager.harvest import AfforestationTracker
 
 
 
@@ -52,7 +60,7 @@ class Disturbances:
         
         self.loader_class = Loader()
         self.data_manager_class = DataManager(
-            calibration_year, config_path, scenario_data
+            calibration_year=calibration_year, config_file=config_path, scenario_data=scenario_data
         )
         self.forest_baseline_year = self.data_manager_class.get_afforestation_baseline()
 
@@ -90,15 +98,21 @@ class Disturbances:
 
         classifiers = self.data_manager_class.config_data
 
-        for species in parser.get_inventory_species(classifiers):
-            mask = (self.afforestation_data["species"] == species) & (
-                self.afforestation_data["scenario"] == scenario
-            )
+        aggregated_data = self.afforestation_data.groupby(['species', 'yield_class', 'scenario'])['total_area'].sum().reset_index()
 
+        for species in parser.get_inventory_species(classifiers):
+
+            species_data = aggregated_data[(aggregated_data['species'] == species) & (aggregated_data['scenario'] == scenario)]
+    
             result_dict[species] = {}
-            result_dict[species]["mineral"] = (
-                self.afforestation_data.loc[mask, "total_area"].item() / scenario_years
-            )
+                
+            for index, row in species_data.iterrows():
+
+                yield_class = row['yield_class']
+                total_area = row['total_area']
+                
+                result_dict[species][yield_class] ={}
+                result_dict[species][yield_class]["mineral"] = total_area / scenario_years
 
         return result_dict
 
@@ -639,28 +653,26 @@ class Disturbances:
         species = context["species"]
         yield_class = context["yield_class"]
         soil = context["soil"]
-        configuration_classifiers = context["configuration_classifiers"]
+        #configuration_classifiers = context["configuration_classifiers"]
 
-        row_data["Classifier1"] = non_forest_dict[species][soil]
-        afforestation_value = afforestation_inventory[species][soil]
+        # Safely get the value for species and soil, with a default of an empty dictionary
+        species_dict = non_forest_dict.get(species, {})
+
+        row_data["Classifier1"] = species_dict.get(soil, "Species not found")
 
         if row_data["Classifier3"] == soil:
             try:
-                row_data["Amount"] = (
-                    afforestation_value
-                    * parser.get_yield_class_proportions(
-                        configuration_classifiers,
-                        species,
-                        yield_class,
-                    )
-                )
+                # Navigate through the nested dictionaries safely with .get
+                species_inventory = afforestation_inventory.get(species, {})
+                yield_class_dict = species_inventory.get(yield_class, {})
+                afforestation_value = yield_class_dict.get(soil, 0)  # Default to 0 if soil key is not found
+
+                row_data["Amount"] = afforestation_value
+
             except TypeError:
                 row_data["Amount"] = 0
-
         else:
             row_data["Amount"] = 0
-
-
 
 
     def _handle_legacy_afforestation(self, row_data, context, dataframes):

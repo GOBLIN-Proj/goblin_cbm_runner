@@ -3,6 +3,14 @@
 
 .. py:module:: cbm_runner.inventory
 
+.. autoapi-nested-parse::
+
+   Inventory Module
+   ================
+   This module is responsible for managing inventory data for forest simulation in a CBM (Carbon Budget Modeling) context.
+   It handles the creation and structuring of inventory data for both baseline and scenario-based simulations.
+
+
 
 Module Contents
 ---------------

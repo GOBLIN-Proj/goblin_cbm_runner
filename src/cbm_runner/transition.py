@@ -1,4 +1,10 @@
-from cbm_runner.cbm_runner_data_manager import DataManager
+"""
+Transition Module
+=================
+This module is responsible for generating the transition rules structure based on the given scenario.
+"""
+
+from resource_manager.cbm_runner_data_manager import DataManager
 import pandas as pd
 import itertools
 
@@ -21,7 +27,7 @@ class Transition:
 
     """
     def __init__(self, calibration_year, config_path):
-        self.data_manager_class = DataManager(calibration_year, config_path)
+        self.data_manager_class = DataManager(calibration_year=calibration_year, config_file=config_path)
         self.baseline_forest_classifiers = self.data_manager_class.get_classifiers()[
             "Baseline"
         ]
