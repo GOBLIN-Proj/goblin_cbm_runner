@@ -1,6 +1,13 @@
+"""
+Create Json Module
+==================
+This module is responsible for generating the configuration JSON file used by the CBM AIDB.
+It provides methods to populate a predefined template with scenario-specific data and mapping definitions.
+"""
+
 import copy
-from cbm_runner.loader import Loader
-from cbm_runner.cbm_runner_data_manager import DataManager
+from resource_manager.loader import Loader
+from resource_manager.cbm_runner_data_manager import DataManager
 
 
 class CreateJSON:
@@ -21,7 +28,7 @@ class CreateJSON:
 
     def __init__(self, config_path):
         self.loader_class = Loader()
-        self.data_manager_class = DataManager(None, config_path, None)
+        self.data_manager_class = DataManager(config_file=config_path)
 
         self.template = {
             "import_config": {

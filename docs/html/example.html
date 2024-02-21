@@ -1,24 +1,25 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Example Usage &mdash; CBM_runner 0.1.0 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" type="text/css" />
-      <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+  <title>Example Usage &mdash; CBM_runner 0.3.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=eafc0fe6" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=e259d695"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -48,12 +49,14 @@
 <li class="toctree-l1"><a class="reference internal" href="autoapi/index.html">API Reference</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Example Usage</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#imports">Imports</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#the-runner">The Runner</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-runner">The Runner</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-inputs-example">Data Inputs Example</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#define-classes-and-run-scenarios">Define classes and Run Scenarios</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="#plot-fluxes-for-baseline">Plot Fluxes for Baseline</a></li>
 </ul>
 
         </div>
@@ -81,15 +84,16 @@
            <div itemprop="articleBody">
              
   <section id="example-usage">
-<h1>Example Usage<a class="headerlink" href="#example-usage" title="Permalink to this heading"></a></h1>
+<h1>Example Usage<a class="headerlink" href="#example-usage" title="Link to this heading"></a></h1>
 <p>Here is a demonstartion of the potential usage of <code class="docutils literal notranslate"><span class="pre">cbm_runner</span></code>.</p>
 <section id="imports">
-<h2>Imports<a class="headerlink" href="#imports" title="Permalink to this heading"></a></h2>
+<h2>Imports<a class="headerlink" href="#imports" title="Link to this heading"></a></h2>
 <p>Firstly, we start of by importing the relevant classes.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cbm_runner.runner</span> <span class="kn">import</span> <span class="n">Runner</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">os</span>
 
 
@@ -104,18 +108,17 @@
 <p>The <code class="docutils literal notranslate"><span class="pre">Runner</span></code> class is basically used to set to run the scenarios based on the configuration files for the CBM CFS3.</p>
 </section>
 <section id="the-runner">
-<h2>The Runner<a class="headerlink" href="#the-runner" title="Permalink to this heading"></a></h2>
+<h2>The Runner<a class="headerlink" href="#the-runner" title="Link to this heading"></a></h2>
 <p>In the first example below, we will set the path to the configurations and data, define the base and target year. Finally, we will create a directory for our outputs</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># path to data</span>
-<span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;../src/tests/data/&quot;</span>
+<span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;../tests/data/runner_input/&quot;</span>
 
 <span class="c1"># afforestation data for each scenario</span>
 <span class="n">afforest_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
-    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;scenario_afforestation.csv&quot;</span><span class="p">),</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;cbm_afforestation.csv&quot;</span><span class="p">),</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span>
 <span class="p">)</span>
-
 
 <span class="c1"># basic configuration file</span>
 <span class="n">config</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;cbm_factory.yaml&quot;</span><span class="p">)</span>
@@ -123,10 +126,8 @@
 <span class="c1"># scenario_data</span>
 <span class="n">sc_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;scenario_dataframe.csv&quot;</span><span class="p">))</span>
 
-
 <span class="c1"># calibration and end point</span>
 <span class="n">calibration_year</span> <span class="o">=</span> <span class="mi">2020</span>
-<span class="n">forest_end_year</span> <span class="o">=</span> <span class="mi">2050</span>
 
 
 <span class="c1">#Make directory to store exported file</span>
@@ -138,12 +139,167 @@
 </div>
 </div>
 </div>
+</section>
+<section id="data-inputs-example">
+<h2>Data Inputs Example<a class="headerlink" href="#data-inputs-example" title="Link to this heading"></a></h2>
+<p>Here we can see what our data inputs look like.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Scenario afforestation areas </span>
+<span class="nb">print</span><span class="p">(</span><span class="n">afforest_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    scenario species yield_class     total_area
+0         -1   Sitka     YC17_20       0.000000
+1         -1   Sitka     YC20_24       0.000000
+2         -1   Sitka     YC24_30       0.000000
+3         -1     SGB         YC6       0.000000
+4         -1     SGB         YC6       0.000000
+5         -1     SGB         YC6       0.000000
+6          0   Sitka     YC24_30  417595.058325
+7          0     SGB         YC6  715935.503074
+8          0   Sitka     YC20_24  208791.204651
+9          0     SGB         YC6  357956.908635
+10         0   Sitka     YC17_20       0.000000
+11         0     SGB         YC6       0.000000
+12         1   Sitka     YC24_30  418877.449812
+13         1     SGB         YC6  718134.067390
+14         1   Sitka     YC20_24  508198.559238
+15         1     SGB         YC6  871268.430782
+16         1   Sitka     YC17_20    5823.216747
+17         1     SGB         YC6    9983.469700
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Configuration file</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="n">config_contents</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">config_contents</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Classifiers:
+
+  harvest:
+    clearfell: 0.05
+    thinning: 0.05
+
+  age_classes:
+    max_age: 100
+    age_interval: 5
+
+  species:
+    - Sitka
+    - SGB
+
+  yield_class:
+    Sitka:
+      - YC13_16: 0.37
+      - YC17_20: 0.26
+      - YC20_24: 0.20
+      - YC24_30: 0.17
+    SGB:
+      - YC10: 1
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Scenario data</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sc_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    Unnamed: 0  Scenarios Cattle systems Manure management      Dairy pop  \
+0            0          0          Dairy        tank solid       0.000000   
+1            1          0          Dairy       tank liquid  172390.090632   
+2            2          0           Beef        tank solid       0.000000   
+3            3          0           Beef       tank liquid       0.000000   
+4            4          0  Lowland sheep       tank liquid       0.000000   
+5            5          0   Upland sheep       tank liquid       0.000000   
+6            6          1          Dairy        tank solid       0.000000   
+7            7          1          Dairy       tank liquid  172390.090632   
+8            8          1           Beef        tank solid       0.000000   
+9            9          1           Beef       tank liquid       0.000000   
+10          10          1  Lowland sheep       tank liquid       0.000000   
+11          11          1   Upland sheep       tank liquid       0.000000   
+
+        Beef pop  Dairy prod  Beef prod  mm_storage  Cattle EF  ...  \
+0       0.000000    0.087908   0.500607           0          0  ...   
+1       0.000000    0.087908   0.500607           0          0  ...   
+2       0.000000    0.087908   0.500607           0          0  ...   
+3   27807.487071    0.087908   0.500607           0          0  ...   
+4       0.000000    0.087908   0.500607           0          0  ...   
+5       0.000000    0.087908   0.500607           0          0  ...   
+6       0.000000    0.087908   0.500607           0          0  ...   
+7       0.000000    0.087908   0.500607           0          0  ...   
+8       0.000000    0.087908   0.500607           0          0  ...   
+9   27807.487071    0.087908   0.500607           0          0  ...   
+10      0.000000    0.087908   0.500607           0          0  ...   
+11      0.000000    0.087908   0.500607           0          0  ...   
+
+    Land rewetting  Grass management  Upland sheep pop  Upland sheep prod  \
+0                0           0.08792                 0                  0   
+1                0           0.08792                 0                  0   
+2                0           0.08792                 0                  0   
+3                0           0.08792                 0                  0   
+4                0           0.08792                 0                  0   
+5                0           0.08792              9453                  0   
+6                0           0.08792                 0                  0   
+7                0           0.08792                 0                  0   
+8                0           0.08792                 0                  0   
+9                0           0.08792                 0                  0   
+10               0           0.08792                 0                  0   
+11               0           0.08792              9453                  0   
+
+    Lowland sheep pop  Lowland sheep prod  Dairy Pasture fertilisation  \
+0                   0                   0                   136.870525   
+1                   0                   0                   136.870525   
+2                   0                   0                   136.870525   
+3                   0                   0                   136.870525   
+4               37812                   0                   136.870525   
+5                   0                   0                   136.870525   
+6                   0                   0                   136.870525   
+7                   0                   0                   136.870525   
+8                   0                   0                   136.870525   
+9                   0                   0                   136.870525   
+10              37812                   0                   136.870525   
+11                  0                   0                   136.870525   
+
+    Beef Pasture fertilisation  Broadleaf proportion  Afforest Year  
+0                   105.001711              0.591629           2050  
+1                   105.001711              0.591629           2050  
+2                   105.001711              0.591629           2050  
+3                   105.001711              0.591629           2050  
+4                   105.001711              0.591629           2050  
+5                   105.001711              0.591629           2050  
+6                   105.001711              0.591629           2050  
+7                   105.001711              0.591629           2050  
+8                   105.001711              0.591629           2050  
+9                   105.001711              0.591629           2050  
+10                  105.001711              0.591629           2050  
+11                  105.001711              0.591629           2050  
+
+[12 rows x 29 columns]
+</pre></div>
+</div>
+</div>
+</div>
 <section id="define-classes-and-run-scenarios">
-<h3>Define classes and Run Scenarios<a class="headerlink" href="#define-classes-and-run-scenarios" title="Permalink to this heading"></a></h3>
+<h3>Define classes and Run Scenarios<a class="headerlink" href="#define-classes-and-run-scenarios" title="Link to this heading"></a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># instance of the Runner class</span>
-<span class="n">runner</span> <span class="o">=</span> <span class="n">Runner</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">calibration_year</span><span class="p">,</span> <span class="n">forest_end_year</span><span class="p">,</span> <span class="n">afforest_data</span><span class="p">,</span> <span class="n">sc_data</span><span class="p">)</span>
+<span class="n">runner</span> <span class="o">=</span> <span class="n">Runner</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">calibration_year</span><span class="p">,</span> <span class="n">afforest_data</span><span class="p">,</span> <span class="n">sc_data</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -214,56 +370,56 @@
     <tr>
       <th>0</th>
       <td>2019</td>
-      <td>-4.334780e+07</td>
-      <td>-9.696019e+06</td>
-      <td>-4.826559e+07</td>
-      <td>-3.067907e+07</td>
-      <td>-7.285119e+07</td>
-      <td>-2.048397e+08</td>
+      <td>4.513050e+07</td>
+      <td>1.008403e+07</td>
+      <td>5.313893e+07</td>
+      <td>8.387095e+06</td>
+      <td>3.874143e+07</td>
+      <td>1.554820e+08</td>
       <td>-1</td>
     </tr>
     <tr>
       <th>1</th>
       <td>2020</td>
-      <td>-4.470023e+07</td>
-      <td>-9.994071e+06</td>
-      <td>-4.705136e+07</td>
-      <td>-3.109692e+07</td>
-      <td>-7.286168e+07</td>
-      <td>-2.057043e+08</td>
+      <td>4.609836e+07</td>
+      <td>1.028980e+07</td>
+      <td>5.210091e+07</td>
+      <td>8.824441e+06</td>
+      <td>3.877414e+07</td>
+      <td>1.560877e+08</td>
       <td>-1</td>
     </tr>
     <tr>
       <th>2</th>
       <td>2021</td>
-      <td>-4.641273e+07</td>
-      <td>-1.036570e+07</td>
-      <td>-4.593213e+07</td>
-      <td>-3.128908e+07</td>
-      <td>-7.287457e+07</td>
-      <td>-2.068742e+08</td>
+      <td>4.744695e+07</td>
+      <td>1.057824e+07</td>
+      <td>5.105815e+07</td>
+      <td>9.033563e+06</td>
+      <td>3.880214e+07</td>
+      <td>1.569190e+08</td>
       <td>-1</td>
     </tr>
     <tr>
       <th>3</th>
       <td>2022</td>
-      <td>-4.832679e+07</td>
-      <td>-1.078105e+07</td>
-      <td>-4.483124e+07</td>
-      <td>-3.142845e+07</td>
-      <td>-7.288961e+07</td>
-      <td>-2.082571e+08</td>
+      <td>4.838556e+07</td>
+      <td>1.077410e+07</td>
+      <td>5.010653e+07</td>
+      <td>9.337109e+06</td>
+      <td>3.883224e+07</td>
+      <td>1.574355e+08</td>
       <td>-1</td>
     </tr>
     <tr>
       <th>4</th>
       <td>2023</td>
-      <td>-5.065810e+07</td>
-      <td>-1.128812e+07</td>
-      <td>-4.369818e+07</td>
-      <td>-3.146399e+07</td>
-      <td>-7.290520e+07</td>
-      <td>-2.100136e+08</td>
+      <td>4.948526e+07</td>
+      <td>1.100507e+07</td>
+      <td>4.916912e+07</td>
+      <td>9.535881e+06</td>
+      <td>3.885980e+07</td>
+      <td>1.580551e+08</td>
       <td>-1</td>
     </tr>
     <tr>
@@ -278,63 +434,63 @@
       <td>...</td>
     </tr>
     <tr>
-      <th>219</th>
+      <th>91</th>
       <td>2046</td>
-      <td>-1.043159e+08</td>
-      <td>-2.271539e+07</td>
-      <td>-3.133548e+07</td>
-      <td>-3.862336e+07</td>
-      <td>-7.405842e+07</td>
-      <td>-2.710486e+08</td>
-      <td>5</td>
+      <td>1.461019e+08</td>
+      <td>3.530953e+07</td>
+      <td>3.796343e+07</td>
+      <td>2.825445e+07</td>
+      <td>4.335018e+07</td>
+      <td>2.909794e+08</td>
+      <td>1</td>
     </tr>
     <tr>
-      <th>220</th>
+      <th>92</th>
       <td>2047</td>
-      <td>-1.067074e+08</td>
-      <td>-2.321878e+07</td>
-      <td>-3.119778e+07</td>
-      <td>-3.906293e+07</td>
-      <td>-7.415019e+07</td>
-      <td>-2.743371e+08</td>
-      <td>5</td>
+      <td>1.547642e+08</td>
+      <td>3.726742e+07</td>
+      <td>3.804261e+07</td>
+      <td>2.963746e+07</td>
+      <td>4.370808e+07</td>
+      <td>3.034198e+08</td>
+      <td>1</td>
     </tr>
     <tr>
-      <th>221</th>
+      <th>93</th>
       <td>2048</td>
-      <td>-1.087491e+08</td>
-      <td>-2.364419e+07</td>
-      <td>-3.114016e+07</td>
-      <td>-3.971592e+07</td>
-      <td>-7.424763e+07</td>
-      <td>-2.774970e+08</td>
-      <td>5</td>
+      <td>1.636791e+08</td>
+      <td>3.926653e+07</td>
+      <td>3.820170e+07</td>
+      <td>3.110403e+07</td>
+      <td>4.408089e+07</td>
+      <td>3.163322e+08</td>
+      <td>1</td>
     </tr>
     <tr>
-      <th>222</th>
+      <th>94</th>
       <td>2049</td>
-      <td>-1.111483e+08</td>
-      <td>-2.414888e+07</td>
-      <td>-3.104509e+07</td>
-      <td>-4.012076e+07</td>
-      <td>-7.434683e+07</td>
-      <td>-2.808099e+08</td>
-      <td>5</td>
+      <td>1.723472e+08</td>
+      <td>4.120553e+07</td>
+      <td>3.847704e+07</td>
+      <td>3.274118e+07</td>
+      <td>4.447010e+07</td>
+      <td>3.292411e+08</td>
+      <td>1</td>
     </tr>
     <tr>
-      <th>223</th>
+      <th>95</th>
       <td>2050</td>
-      <td>-1.135013e+08</td>
-      <td>-2.464325e+07</td>
-      <td>-3.097364e+07</td>
-      <td>-4.054944e+07</td>
-      <td>-7.445027e+07</td>
-      <td>-2.841179e+08</td>
-      <td>5</td>
+      <td>1.809577e+08</td>
+      <td>4.312441e+07</td>
+      <td>3.884029e+07</td>
+      <td>3.442326e+07</td>
+      <td>4.487376e+07</td>
+      <td>3.422194e+08</td>
+      <td>1</td>
     </tr>
   </tbody>
 </table>
-<p>224 rows × 8 columns</p>
+<p>96 rows × 8 columns</p>
 </div></div></div>
 </div>
 <div class="cell docutils container">
@@ -376,56 +532,56 @@
     <tr>
       <th>0</th>
       <td>2020</td>
-      <td>-1.352425e+06</td>
-      <td>-298052.157910</td>
-      <td>1.214229e+06</td>
-      <td>-417848.669748</td>
-      <td>-10481.618257</td>
-      <td>-8.645789e+05</td>
+      <td>9.606429e+05</td>
+      <td>2.042569e+05</td>
+      <td>-1.037892e+06</td>
+      <td>4.436493e+05</td>
+      <td>32901.025073</td>
+      <td>6.035582e+05</td>
       <td>-1</td>
     </tr>
     <tr>
       <th>1</th>
       <td>2021</td>
-      <td>-1.712503e+06</td>
-      <td>-371624.761924</td>
-      <td>1.119231e+06</td>
-      <td>-192166.371998</td>
-      <td>-12889.460613</td>
-      <td>-1.169953e+06</td>
+      <td>1.352971e+06</td>
+      <td>2.892407e+05</td>
+      <td>-1.041695e+06</td>
+      <td>2.093288e+05</td>
+      <td>28007.560601</td>
+      <td>8.378527e+05</td>
       <td>-1</td>
     </tr>
     <tr>
       <th>2</th>
       <td>2022</td>
-      <td>-1.914064e+06</td>
-      <td>-415358.547329</td>
-      <td>1.100893e+06</td>
-      <td>-139365.549878</td>
-      <td>-15042.650959</td>
-      <td>-1.382938e+06</td>
+      <td>9.447853e+05</td>
+      <td>1.972852e+05</td>
+      <td>-9.533915e+05</td>
+      <td>3.035588e+05</td>
+      <td>30074.987089</td>
+      <td>5.223128e+05</td>
       <td>-1</td>
     </tr>
     <tr>
       <th>3</th>
       <td>2023</td>
-      <td>-2.331305e+06</td>
-      <td>-507068.319808</td>
-      <td>1.133057e+06</td>
-      <td>-35543.722159</td>
-      <td>-15590.234680</td>
-      <td>-1.756450e+06</td>
+      <td>1.098485e+06</td>
+      <td>2.307425e+05</td>
+      <td>-9.332406e+05</td>
+      <td>2.003284e+05</td>
+      <td>27553.385486</td>
+      <td>6.238689e+05</td>
       <td>-1</td>
     </tr>
     <tr>
       <th>4</th>
       <td>2024</td>
-      <td>-2.286463e+06</td>
-      <td>-495906.559847</td>
-      <td>1.056267e+06</td>
-      <td>-94884.372233</td>
-      <td>-19108.980925</td>
-      <td>-1.840096e+06</td>
+      <td>1.023629e+06</td>
+      <td>2.129128e+05</td>
+      <td>-9.046260e+05</td>
+      <td>1.905759e+05</td>
+      <td>28449.785538</td>
+      <td>5.509420e+05</td>
       <td>-1</td>
     </tr>
     <tr>
@@ -440,64 +596,99 @@
       <td>...</td>
     </tr>
     <tr>
-      <th>212</th>
+      <th>88</th>
       <td>2046</td>
-      <td>-2.367932e+06</td>
-      <td>-498407.793721</td>
-      <td>1.626758e+05</td>
-      <td>-431711.730082</td>
-      <td>-87905.286249</td>
-      <td>-3.223281e+06</td>
-      <td>5</td>
+      <td>8.287207e+06</td>
+      <td>1.888961e+06</td>
+      <td>1.837781e+04</td>
+      <td>1.343569e+06</td>
+      <td>343947.956173</td>
+      <td>1.188206e+07</td>
+      <td>1</td>
     </tr>
     <tr>
-      <th>213</th>
+      <th>89</th>
       <td>2047</td>
-      <td>-2.391506e+06</td>
-      <td>-503384.859128</td>
-      <td>1.377005e+05</td>
-      <td>-439567.951743</td>
-      <td>-91768.574017</td>
-      <td>-3.288526e+06</td>
-      <td>5</td>
+      <td>8.657784e+06</td>
+      <td>1.956784e+06</td>
+      <td>7.935731e+04</td>
+      <td>1.384277e+06</td>
+      <td>357878.964641</td>
+      <td>1.243608e+07</td>
+      <td>1</td>
     </tr>
     <tr>
-      <th>214</th>
+      <th>90</th>
       <td>2048</td>
-      <td>-2.041628e+06</td>
-      <td>-425414.905696</td>
-      <td>5.762638e+04</td>
-      <td>-652992.445315</td>
-      <td>-97444.650372</td>
-      <td>-3.159854e+06</td>
-      <td>5</td>
+      <td>8.917256e+06</td>
+      <td>1.999803e+06</td>
+      <td>1.599067e+05</td>
+      <td>1.464919e+06</td>
+      <td>372736.251400</td>
+      <td>1.291462e+07</td>
+      <td>1</td>
     </tr>
     <tr>
-      <th>215</th>
+      <th>91</th>
       <td>2049</td>
-      <td>-2.399264e+06</td>
-      <td>-504692.944701</td>
-      <td>9.506752e+04</td>
-      <td>-404840.225669</td>
-      <td>-99199.616675</td>
-      <td>-3.312930e+06</td>
-      <td>5</td>
+      <td>8.686351e+06</td>
+      <td>1.943218e+06</td>
+      <td>2.755089e+05</td>
+      <td>1.629766e+06</td>
+      <td>389068.702974</td>
+      <td>1.292391e+07</td>
+      <td>1</td>
     </tr>
     <tr>
-      <th>216</th>
+      <th>92</th>
       <td>2050</td>
-      <td>-2.352917e+06</td>
-      <td>-494365.612410</td>
-      <td>7.144593e+04</td>
-      <td>-428674.288049</td>
-      <td>-103438.957444</td>
-      <td>-3.307949e+06</td>
-      <td>5</td>
+      <td>8.633584e+06</td>
+      <td>1.924160e+06</td>
+      <td>3.575113e+05</td>
+      <td>1.677279e+06</td>
+      <td>403509.780581</td>
+      <td>1.299604e+07</td>
+      <td>1</td>
     </tr>
   </tbody>
 </table>
-<p>217 rows × 8 columns</p>
+<p>93 rows × 8 columns</p>
 </div></div></div>
+</div>
+</section>
+</section>
+</section>
+<section id="plot-fluxes-for-baseline">
+<h1>Plot Fluxes for Baseline<a class="headerlink" href="#plot-fluxes-for-baseline" title="Link to this heading"></a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Limit Year Range</span>
+<span class="n">data_to_plot</span> <span class="o">=</span> <span class="n">fluxes</span><span class="p">[(</span><span class="n">fluxes</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">2020</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">fluxes</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">2030</span><span class="p">)]</span> 
+
+<span class="c1"># 2. Select Scenario </span>
+<span class="n">scenario_to_plot</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="n">data_to_plot</span> <span class="o">=</span> <span class="n">data_to_plot</span><span class="p">[</span><span class="n">data_to_plot</span><span class="p">[</span><span class="s1">&#39;Scenario&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">scenario_to_plot</span><span class="p">]</span>
+
+<span class="c1"># 3. Plotting</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data_to_plot</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">],</span> <span class="n">data_to_plot</span><span class="p">[</span><span class="s1">&#39;AGB&#39;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;AGB&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data_to_plot</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">],</span> <span class="n">data_to_plot</span><span class="p">[</span><span class="s1">&#39;BGB&#39;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;BGB&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data_to_plot</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">],</span> <span class="n">data_to_plot</span><span class="p">[</span><span class="s1">&#39;Deadwood&#39;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Deadwood&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data_to_plot</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">],</span> <span class="n">data_to_plot</span><span class="p">[</span><span class="s1">&#39;Litter&#39;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Litter&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data_to_plot</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">],</span> <span class="n">data_to_plot</span><span class="p">[</span><span class="s1">&#39;Soil&#39;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Soil&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data_to_plot</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">],</span> <span class="n">data_to_plot</span><span class="p">[</span><span class="s1">&#39;Total Ecosystem&#39;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Total Ecosystem&#39;</span><span class="p">)</span>
+
+<span class="c1"># 4. Customization</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Year&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;tCarbon&#39;</span><span class="p">)</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Carbon Dynamics - Scenario </span><span class="si">{</span><span class="n">scenario_to_plot</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/43d649e77a2cf19a51826def987408729c7055aba18f82a363c6b8cd18c4c4e4.png" src="_images/43d649e77a2cf19a51826def987408729c7055aba18f82a363c6b8cd18c4c4e4.png" />
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -524,8 +715,6 @@ Deleted file: ./jupyter_example/c_stock.csv
 </div>
 </div>
 </div>
-</section>
-</section>
 </section>
 
 

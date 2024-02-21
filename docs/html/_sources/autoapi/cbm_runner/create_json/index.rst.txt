@@ -3,6 +3,14 @@
 
 .. py:module:: cbm_runner.create_json
 
+.. autoapi-nested-parse::
+
+   Create Json Module
+   ==================
+   This module is responsible for generating the configuration JSON file used by the CBM AIDB.
+   It provides methods to populate a predefined template with scenario-specific data and mapping definitions.
+
+
 
 Module Contents
 ---------------

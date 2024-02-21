@@ -1,80 +1,114 @@
+"""
+Runner Module
+=============
+This module is responsible for orchestrating the execution of Carbon Budget Model (CBM) simulations for various scenarios,
+including baseline and afforestation projects. 
+
+"""
 import cbm_runner.generated_input_data as input_data_path
 import cbm_runner.baseline_input_conf as baseline_conf_path
 from cbm_runner.cbm_data_factory import DataFactory
-from cbm_runner.cbm_runner_data_manager import DataManager
-from cbm_runner.cbm_pools import Pools
-from cbm_runner.validation import ValidationData
+from resource_manager.cbm_runner_data_manager import DataManager
+from resource_manager.cbm_pools import Pools
+from resource_manager.flux_manager import FluxManager
+from resource_manager.scenario_data_fetcher import ScenarioDataFetcher
+from cbm_validation.validation import ValidationData
 from libcbm.model.cbm import cbm_simulator
 from libcbm.input.sit import sit_cbm_factory
 
 import pandas as pd
 
-
 class Runner:
     """
-    Orchestrates the running of CBM (Carbon Budget Model) simulations for various scenarios including baseline and afforestation.
+    The Runner class orchestrates the execution of Carbon Budget Model (CBM) simulations 
+    for various scenarios, including baseline and afforestation projects. It utilizes 
+    annualized afforestation data to give an estimation of carbon stock or flux over a number of 
+    specified years (from the calibration year to the target year).
 
-    Uses annualised scenario afforestation data, where the total area available for afforestation is divided equally over the number of years specified (target year - calibration year).
-
-    This class utilizes data factories and managers to set up and execute CBM simulations, generating outputs such as carbon stocks and fluxes for different scenarios. It also manages the creation of input data for these simulations.
+    This class leverages various data factories and managers to prepare input data, set up, 
+    and execute CBM simulations, ultimately generating outputs such as carbon stocks and fluxes 
+    across different scenarios. It manages the creation and organization of simulation input data 
+    using specified directory paths and configuration files.
 
     Attributes:
-        path (str): Directory path for input data.
+        path (str): Directory path where input data is stored.
         baseline_conf_path (str): Directory path for baseline configuration data.
-        cbm_data_class (DataFactory): Instance of the DataFactory class for CBM data preparation.
-        data_manager_class (DataManager): Instance of the DataManager class for managing data and configurations.
-        INDEX (list): List of unique scenario identifiers.
-        forest_end_year (int): The end year of the forest simulation.
-        pools (Pools): Instance of the Pools class for managing CBM pools.
-        AGB, BGB, deadwood, litter, soil, flux_pools: Different pool types for CBM simulations.
+        cbm_data_class (DataFactory): Instance of DataFactory for preparing CBM data.
+        data_manager_class (DataManager): Instance of DataManager for managing simulation data and configurations.
+        INDEX (list): List of unique identifiers for each simulation scenario.
+        forest_end_year (int): The final year of the forest simulation period.
+        pools (Pools): Instance of the Pools class for managing CBM carbon pools.
+        AGB, BGB, deadwood, litter, soil, flux_pools (various): Instances representing different carbon pool types used in CBM simulations.
 
     Methods:
-        generate_base_input_data(): Generates the baseline input data required for CBM simulations.
-        generate_input_data(): Generates input data for various afforestation scenarios.
-        run_aggregate_scenarios(): Runs and generates carbon stocks data from different CBM simulation scenarios.
-        run_flux_scenarios(): Runs CBM simulations and calculates carbon flux data for different scenarios.
-        afforestation_scenarios_structure(): Retrieves the structure data for each afforestation scenario.
-        cbm_baseline_forest(): Runs the CBM simulation for the baseline forest and returns various data structures.
-        cbm_aggregate_scenario(sc): Runs the CBM simulation for a specific scenario and generates carbon stock data.
-        cbm_scenario_fluxes(forest_data): Calculates carbon fluxes based on CBM simulation outputs.
+        generate_base_input_data():
+            Prepares baseline input data required for CBM simulations by cleaning the baseline data directory and generating essential input files.
+
+        generate_input_data():
+            Generates input data for various afforestation scenarios by cleaning the data directory, creating necessary subdirectories, and preparing scenario-specific input files.
+
+        run_aggregate_scenarios():
+            Executes CBM simulations for a set of scenarios, generating and aggregating carbon stock data across these scenarios.
+
+        run_flux_scenarios():
+            Conducts CBM simulations to calculate carbon flux data for various scenarios, merging and aggregating results.
+
+        afforestation_scenarios_structure():
+            Retrieves structural data for each afforestation scenario, facilitating analysis of scenario-specific forest dynamics.
+
+        cbm_baseline_forest():
+            Executes the CBM simulation for the baseline forest scenario, generating stock, structural, and raw simulation data.
+
+        cbm_aggregate_scenario(sc):
+            Runs a CBM simulation for a specified scenario (sc), generating aggregated carbon stock and raw data.
+
+        cbm_scenario_fluxes(forest_data):
+            Calculates carbon fluxes based on CBM simulation outputs for given forest data, aiding in the analysis of carbon dynamics across scenarios.
+
+        libcbm_scenario_fluxes(sc):
+            Generates carbon flux data using the Libcbm method directly for a specified scenario (sc), contributing to the comprehensive analysis of carbon budget impacts under different land management strategies.
     """
     def __init__(
         self,
         config_path,
         calibration_year,
-        forest_end_year,
         afforest_data,
         scenario_data,
-        gen_baseline = True
+        gen_baseline = True,
+        gen_validation = False,
+        validation_path = None,
     ):
+        self.gen_validation = gen_validation
+        self.validation_path = validation_path
         self.path = input_data_path.get_local_dir()
         self.baseline_conf_path = baseline_conf_path.get_local_dir()
-        self.cbm_data_class = DataFactory(
-            config_path, calibration_year, forest_end_year, afforest_data, scenario_data
-        )
-        self.data_manager_class = DataManager(calibration_year, config_path)
+        
+        self.sc_fetcher = ScenarioDataFetcher(scenario_data)
+        self.forest_end_year = self.sc_fetcher.get_afforestation_end_year()
 
-        self.INDEX = [int(i) for i in afforest_data.scenario.unique()]
-        self.forest_end_year = forest_end_year
+        self.cbm_data_class = DataFactory(
+            config_path, calibration_year, self.forest_end_year, afforest_data, scenario_data
+        )
+        self.data_manager_class = DataManager(calibration_year=calibration_year, config_file=config_path)
+
+        self.INDEX = self.sc_fetcher.get_afforest_scenario_index()
         
         self.pools = Pools()
+        self.Flux_class = FluxManager()
         self.AGB = self.pools.get_above_ground_biomass_pools()
         self.BGB = self.pools.get_below_ground_biomass_pools()
         self.deadwood = self.pools.get_deadwood_pools()
         self.litter = self.pools.get_litter_pools()
         self.soil = self.pools.get_soil_organic_matter_pools()
-        self.flux_pools = self.pools.get_annual_process_fluxes()
 
-        ValidationData.clear_validation_folder()
+        if validation_path is not None and gen_validation:
+            ValidationData.clear_validation_folder(self.validation_path)
 
         if gen_baseline:
             self.generate_base_input_data()
             self.forest_baseline_dataframe = self.cbm_baseline_forest()
-            ValidationData.get_baseline_forest(self.forest_baseline_dataframe["Stock"])
-
-        
-        
-
+            if self.gen_validation:
+                ValidationData.get_baseline_forest(self.validation_path, self.forest_baseline_dataframe["Stock"])
 
 
     def generate_base_input_data(self):
@@ -104,7 +138,8 @@ class Runner:
         self.cbm_data_class.make_disturbance_type(None, path)
         self.cbm_data_class.make_transition_rules(None, path)
 
-    def generate_input_data(self):
+
+    def generate_input_data(self, path = None):
         """
         Generates input data for the CBM runner.
 
@@ -117,7 +152,8 @@ class Runner:
         Returns:
             None
         """
-        path = self.path
+        if path is None:
+            path = self.path
 
         self.cbm_data_class.clean_data_dir(path)
         self.cbm_data_class.make_data_dirs(self.INDEX, path)
@@ -241,6 +277,7 @@ class Runner:
 
         return structure_data
 
+
     def cbm_baseline_forest(self):
             """
             Runs a baseline forest simulation using the CBM model.
@@ -319,16 +356,10 @@ class Runner:
 
             annual_carbon_stocks["Year"] = year_range
 
-            age = results.state.merge(results.classifiers)[
-                ["age", "time_since_last_disturbance", "last_disturbance_type"]
-            ]
-            area = results.area.merge(results.classifiers)
+            return {"Stock": annual_carbon_stocks, "Raw": pi}
 
-            structure_df = pd.concat([age, area], axis=1)
 
-            return {"Stock": annual_carbon_stocks, "Structure": structure_df, "Raw": pi}
-
-    def cbm_aggregate_scenario(self, sc):
+    def cbm_aggregate_scenario(self, sc, path = None):
         """
         Generate carbon stocks for the CBM (Carbon Budget Model) scenario data.
 
@@ -341,14 +372,17 @@ class Runner:
                 - "Structure": DataFrame containing age and area information.
                 - "Raw": DataFrame containing raw data.
         """
+        
         forest_baseline_year = self.data_manager_class.get_afforestation_baseline()
         forestry_end_year = self.forest_end_year
-        path = self.path
 
-        years = (forestry_end_year +1) - forest_baseline_year
+        if path is None:
+            path = self.path
+
+        years = forestry_end_year - forest_baseline_year
 
         year_range = [
-            year for year in range(forest_baseline_year -1, forestry_end_year +1)
+            year for year in range(forest_baseline_year, forestry_end_year +1)
         ]
 
         sit, classifiers, inventory = self.cbm_data_class.set_input_data_dir(sc, path)
@@ -379,10 +413,11 @@ class Runner:
                 reporting_func=reporting_func,
             )
 
-        ValidationData.get_disturbance_statistics(rule_based_processor, years, sc)
-        ValidationData.get_age_classes(sit, sc)
-        ValidationData.get_sit_events(rule_based_processor, sc)
-        ValidationData.merge_events(sc)
+        if self.gen_validation:
+            ValidationData.get_disturbance_statistics(self.validation_path, rule_based_processor, years, sc)
+            ValidationData.get_age_classes(self.validation_path, sit, sc)
+            ValidationData.get_sit_events(self.validation_path, rule_based_processor, sc)
+            ValidationData.merge_events(self.validation_path, sc)
 
         pi = results.pools.merge(results.classifiers)
         annual_carbon_stocks = pd.DataFrame(
@@ -409,17 +444,85 @@ class Runner:
         annual_carbon_stocks["Year"] = year_range
         annual_carbon_stocks["Scenario"] = sc
 
-        age = results.state.merge(results.classifiers)[
-            ["age", "time_since_last_disturbance", "last_disturbance_type"]
+        return {"Stock": annual_carbon_stocks, "Raw": pi}
+
+
+    def libcbm_scenario_fluxes(self, sc, path = None):
+        """
+        Generate carbon Fluxes using the Libcbm method for the CBM (Carbon Budget Model) scenario data.
+
+        Args:
+            sc (str): The scenario name.
+
+        Returns:
+            dict: A dictionary containing the aggregated data.
+                - "Stock": DataFrame containing annual carbon stocks.
+                - "Raw": DataFrame containing raw data.
+        """
+        forest_baseline_year = self.data_manager_class.get_afforestation_baseline()
+        forestry_end_year = self.forest_end_year
+
+        if path is None:
+            path = self.path
+
+        years = forestry_end_year - forest_baseline_year
+
+        year_range = [
+            year for year in range(forest_baseline_year, forestry_end_year +1)
         ]
-        area = results.area.merge(results.classifiers)
 
-        params = results.parameters.merge(results.classifiers)
+        sit, classifiers, inventory = self.cbm_data_class.set_input_data_dir(sc, path)
 
+        classifier_config = sit_cbm_factory.get_classifiers(
+            sit.sit_data.classifiers, sit.sit_data.classifier_values
+        )
 
-        structure_df = pd.concat([age, area, params], axis=1)
+        results, reporting_func = cbm_simulator.create_in_memory_reporting_func(
+            classifier_map={
+                x["id"]: x["value"] for x in classifier_config["classifier_values"]
+            }
+        )
 
-        return {"Stock": annual_carbon_stocks, "Structure": structure_df, "Raw": pi}
+        # Simulation
+        with sit_cbm_factory.initialize_cbm(sit) as cbm:
+            # Create a function to apply rule based disturbance events and transition rules based on the SIT input
+            rule_based_processor = sit_cbm_factory.create_sit_rule_based_processor(
+                sit, cbm
+            )
+            # The following line of code spins up the CBM inventory and runs it through 200 timesteps.
+            cbm_simulator.simulate(
+                cbm,
+                n_steps=years,
+                classifiers=classifiers,
+                inventory=inventory,
+                pre_dynamics_func=rule_based_processor.pre_dynamics_func,
+                reporting_func=reporting_func,
+            )
+
+        if self.gen_validation:
+            ValidationData.get_disturbance_statistics(self.validation_path, rule_based_processor, years, sc)
+            ValidationData.get_age_classes(self.validation_path, sit, sc)
+            ValidationData.get_sit_events(self.validation_path, rule_based_processor, sc)
+            ValidationData.merge_events(self.validation_path, sc)
+            ValidationData.results_contents(self.validation_path, results, sc)
+
+        flux_results = self.Flux_class.concatenated_fluxes_data(results).groupby(["TimeStep"]).sum()
+
+        annual_process_fluxes = pd.DataFrame(
+            {
+                "Scenario": sc,
+                "Timestep":flux_results.index,
+                "Year": year_range,
+                "AGB_delta": flux_results["DeltaBiomass_AG"],
+                "BGB_delta": flux_results["DeltaBiomass_BG"],
+                "DOM_delta": flux_results["DeltaDOM"],
+                "Total Ecosystem_delta": flux_results["DeltaBiomass_AG"] + flux_results["DeltaBiomass_BG"] + flux_results["DeltaDOM"],
+
+            }
+        )
+     
+
+        return {"Stock": annual_process_fluxes, "Raw": flux_results}
 
 
     def cbm_scenario_fluxes(self, forest_data):
