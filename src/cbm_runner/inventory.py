@@ -7,8 +7,8 @@ It handles the creation and structuring of inventory data for both baseline and 
 import pandas as pd
 import os
 import itertools
-from resource_manager.loader import Loader
-from resource_manager.cbm_runner_data_manager import DataManager
+from cbm_runner.resource_manager.loader import Loader
+from cbm_runner.resource_manager.cbm_runner_data_manager import DataManager
 
 
 class Inventory:

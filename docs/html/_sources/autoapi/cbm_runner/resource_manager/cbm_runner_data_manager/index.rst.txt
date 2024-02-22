@@ -1,0 +1,346 @@
+:py:mod:`cbm_runner.resource_manager.cbm_runner_data_manager`
+=============================================================
+
+.. py:module:: cbm_runner.resource_manager.cbm_runner_data_manager
+
+.. autoapi-nested-parse::
+
+   CBM Runner Data Manager
+   =======================
+   This module contains the DataManager class, which is responsible for managing data for the CBM Runner.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   cbm_runner.resource_manager.cbm_runner_data_manager.DataManager
+
+
+
+
+.. py:class:: DataManager(calibration_year=None, config_file=None, scenario_data=None)
+
+
+   Manages data for CBM Runner.
+
+   This class provides methods to access and manipulate data relevant to the CBM Runner,
+   including configurations, disturbance data, and scenario information.
+
+   .. attribute:: config_data
+
+      Configuration data from a YAML file.
+
+      :type: dict
+
+   .. attribute:: forest_baseline_year
+
+      The baseline (calibration) year for forest data.
+
+      :type: int
+
+   .. attribute:: afforestation_baseline
+
+      The baseline year for afforestation.
+
+      :type: int
+
+   .. attribute:: cbm_default_config
+
+      The default CBM configuration.
+
+      :type: dict
+
+   .. attribute:: non_forest_dict
+
+      Non-forest dictionary for afforestation types.
+
+      :type: dict
+
+   .. attribute:: non_forest_soils
+
+      Non-forest soils types, split between mineral and peat.
+
+      :type: dict
+
+   .. attribute:: forest_type_keys
+
+      Forest type keys from CBM default configuration (Legacy and Afforestation classifiers).
+
+      :type: dict
+
+   .. attribute:: soils_dict
+
+      Soils dictionary from CBM default configuration, afforestation pre types (for initial SOC).
+
+      :type: dict
+
+   .. attribute:: classifiers
+
+      Classifiers from CBM default configuration.
+
+      :type: dict
+
+   .. attribute:: disturbances_config
+
+      Disturbances configuration for scenario and baseline from CBM default configuration.
+
+      :type: dict
+
+   .. attribute:: yield_name_dict
+
+      Species yield name dictionary relating species to growth curves from CBM default configuration.
+
+      :type: dict
+
+   .. attribute:: species_name_dict
+
+      Species name dictionary from CBM default configuration.
+
+      :type: dict
+
+   .. attribute:: afforestation_yield_name_dict
+
+      Afforestation yield name dictionary from CBM default configuration.
+
+      :type: dict
+
+   .. attribute:: yield_baseline_dict
+
+      Yield baseline dictionary relating the proprotional split, nationally, of yields by species from CBM default configuration.
+
+      :type: dict
+
+   .. attribute:: disturbance_cols
+
+      Disturbance columns from CBM default configuration.
+
+      :type: dict
+
+   .. attribute:: static_disturbance_cols
+
+      Static disturbance columns from CBM default configuration.
+
+      :type: dict
+
+   .. attribute:: transition_cols
+
+      Transition columns from CBM default configuration.
+
+      :type: dict
+
+   .. attribute:: mapping
+
+      AIDB mapping from CBM default configuration.
+
+      :type: dict
+
+   .. attribute:: scenario_data
+
+      Scenario data.
+
+      :type: DataFrame
+
+   .. attribute:: scenario_disturbance_dict
+
+      Scenario disturbance dictionary.
+
+      :type: dict
+
+   :param calibration_year: The year used for calibration. Defaults to None.
+   :type calibration_year: int, optional
+   :param config_file: Path to the configuration file. Defaults to None.
+   :type config_file: str, optional
+   :param scenario_data: Dataframe containing scenario data. Defaults to None.
+   :type scenario_data: DataFrame, optional
+
+   .. py:method:: get_config_data(config_file)
+
+      Load and return the configuration data from the specified file.
+
+      :param config_file: The path to the configuration file.
+      :type config_file: str
+
+      :returns: The configuration data loaded from the file.
+      :rtype: dict
+
+
+   .. py:method:: get_non_forest_dict()
+
+      Retrieves the non-forest dictionary.
+
+      :returns: The non-forest dictionary.
+      :rtype: dict
+
+
+   .. py:method:: get_non_forest_soils()
+
+      Retrieves the non-forest soils dictionary.
+
+      :returns: The non-forest soils dictionary.
+      :rtype: dict
+
+
+   .. py:method:: get_forest_type_keys()
+
+      Retrieves the forest type dictionary.
+
+      :returns: The forest type dictionary.
+      :rtype: dict
+
+
+   .. py:method:: get_soils_dict()
+
+      Retrieves the soils dictionary.
+
+      :returns: The soils dictionary.
+      :rtype: dict
+
+
+   .. py:method:: get_classifiers()
+
+      Retrieves the classifiers dictionary.
+
+      :returns: The classifiers dictionary.
+      :rtype: dict
+
+
+   .. py:method:: get_disturbances_config()
+
+      Retrieves the disturbance ID dictionary for scenarios and baseline.
+
+      :returns: The disturbance ID dictionary.
+      :rtype: dict
+
+
+   .. py:method:: get_yield_name_dict()
+
+      Retrieves the disturbance ID dictionary for scenarios and baseline.
+
+      :returns: The disturbance ID dictionary.
+      :rtype: dict
+
+
+   .. py:method:: get_species_name_dict()
+
+      Get the dictionary mapping species IDs to their names.
+
+      :returns: A dictionary where the keys are species growth curve IDs and the values are species names.
+      :rtype: dict
+
+
+   .. py:method:: get_afforestation_yield_name_dict()
+
+      Returns the dictionary containing the names of afforestation yield classes.
+
+      :returns: A dictionary containing the names of afforestation yield classes.
+      :rtype: dict
+
+
+   .. py:method:: get_yield_baseline_dict()
+
+      Returns the yield baseline dictionary.
+
+      :returns: The yield baseline dictionary where keys are yield classes and values are the proportions of that yield class nationally.
+      :rtype: dict
+
+
+   .. py:method:: get_disturbance_cols()
+
+      Returns the disturbance columns used in the disturbance dataframe generator.
+
+      :returns: A list of disturbance columns.
+      :rtype: list
+
+
+   .. py:method:: get_static_disturbance_cols()
+
+      Returns the static disturbance columns used in the disturbance dataframe generator.
+
+      :returns: A list of static disturbance columns.
+      :rtype: list
+
+
+   .. py:method:: get_transition_cols()
+
+      Returns the transition columns used in the transition dataframe generator.
+
+      :returns: A list of transition columns.
+      :rtype: list
+
+
+   .. py:method:: get_mapping()
+
+      Returns the mapping used by the data manager to mapping parameters to the CBM AIDB.
+
+      :returns: The mapping used by the data manager.
+      :rtype: dict
+
+
+   .. py:method:: get_forest_baseline_year()
+
+      Get the forest baseline year, which is equal to the calibration year.
+
+      :returns: The forest baseline year.
+      :rtype: int
+
+
+   .. py:method:: get_afforestation_baseline()
+
+      Returns the afforestation baseline, default is 1990.
+
+      :returns: The afforestation baseline (1990).
+
+
+   .. py:method:: get_scenario_data()
+
+      Returns the goblin scenario data, used to retrieve the harvest and thinning proportions for scenarios.
+
+      :returns: The scenario data.
+      :rtype: dict
+
+
+   .. py:method:: get_scenario_disturbance_dict()
+
+      Returns the scenario and baseline disturbance ID dictionary.
+
+      :returns: The scenario and baseline disturbance ID dictionary.
+      :rtype: dict
+
+
+   .. py:method:: gen_scenario_disturbance_dict(scenario_data)
+
+      Generate a dictionary of disturbance data for each scenario.
+
+      :param scenario_data: The input scenario data.
+      :type scenario_data: DataFrame
+
+      :returns: A dictionary containing disturbance data for each scenario.
+      :rtype: dict
+
+
+   .. py:method:: get_baseline_disturbance_dict(scenario_dist)
+
+      Get the baseline disturbance dictionary. This is added to the scenario disturbance dictionary.
+
+      :param scenario_dist: The scenario disturbance dictionary.
+      :type scenario_dist: dict
+
+      :returns: The updated scenario disturbance dictionary with baseline disturbances.
+      :rtype: dict
+
+
+   .. py:method:: get_legacy_disturbance_dict()
+
+      Get the legacy disturbance dictionary.
+
+      :returns: The legacy disturbance dictionary containing clearfell and thinning data.
+      :rtype: dict
+
+
+

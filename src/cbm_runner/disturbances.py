@@ -6,13 +6,13 @@ It handles various aspects of disturbances including scenario afforestation area
 disturbance structures, and filling data for legacy and scenario-based disturbances.
 """
 
-import resource_manager.parser as parser
-from resource_manager.cbm_runner_data_manager import DataManager
-from resource_manager.loader import Loader
+import cbm_runner.resource_manager.parser as parser
+from cbm_runner.resource_manager.cbm_runner_data_manager import DataManager
+from cbm_runner.resource_manager.loader import Loader
 from cbm_runner.inventory import Inventory
 import pandas as pd
 import itertools
-from harvest_manager.harvest import AfforestationTracker
+from cbm_runner.harvest_manager.harvest import AfforestationTracker
 
 
 
