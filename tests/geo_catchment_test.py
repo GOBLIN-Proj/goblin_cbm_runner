@@ -1,5 +1,5 @@
-from geo_cbm_runner.catchment_forest_cover import CatchmentForest
-from resource_manager.scenario_data_fetcher import ScenarioDataFetcher
+from cbm_runner.geo_cbm_runner.catchment_forest_cover import CatchmentForest
+from cbm_runner.resource_manager.scenario_data_fetcher import ScenarioDataFetcher
 import os 
 import pandas as pd
 

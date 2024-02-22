@@ -11,7 +11,15 @@ Subpackages
    :maxdepth: 3
 
    baseline_input_conf/index.rst
+   cbm_validation/index.rst
+   configuration_data/index.rst
+   database/index.rst
+   forest_sim/index.rst
    generated_input_data/index.rst
+   geo_cbm_runner/index.rst
+   harvest_manager/index.rst
+   historic_affor/index.rst
+   resource_manager/index.rst
    validation_data/index.rst
 
 

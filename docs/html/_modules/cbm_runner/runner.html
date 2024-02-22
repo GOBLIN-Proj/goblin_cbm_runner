@@ -84,11 +84,11 @@
 <span class="kn">import</span> <span class="nn">cbm_runner.generated_input_data</span> <span class="k">as</span> <span class="nn">input_data_path</span>
 <span class="kn">import</span> <span class="nn">cbm_runner.baseline_input_conf</span> <span class="k">as</span> <span class="nn">baseline_conf_path</span>
 <span class="kn">from</span> <span class="nn">cbm_runner.cbm_data_factory</span> <span class="kn">import</span> <span class="n">DataFactory</span>
-<span class="kn">from</span> <span class="nn">resource_manager.cbm_runner_data_manager</span> <span class="kn">import</span> <span class="n">DataManager</span>
-<span class="kn">from</span> <span class="nn">resource_manager.cbm_pools</span> <span class="kn">import</span> <span class="n">Pools</span>
-<span class="kn">from</span> <span class="nn">resource_manager.flux_manager</span> <span class="kn">import</span> <span class="n">FluxManager</span>
-<span class="kn">from</span> <span class="nn">resource_manager.scenario_data_fetcher</span> <span class="kn">import</span> <span class="n">ScenarioDataFetcher</span>
-<span class="kn">from</span> <span class="nn">cbm_validation.validation</span> <span class="kn">import</span> <span class="n">ValidationData</span>
+<span class="kn">from</span> <span class="nn">cbm_runner.resource_manager.cbm_runner_data_manager</span> <span class="kn">import</span> <span class="n">DataManager</span>
+<span class="kn">from</span> <span class="nn">cbm_runner.resource_manager.cbm_pools</span> <span class="kn">import</span> <span class="n">Pools</span>
+<span class="kn">from</span> <span class="nn">cbm_runner.resource_manager.flux_manager</span> <span class="kn">import</span> <span class="n">FluxManager</span>
+<span class="kn">from</span> <span class="nn">cbm_runner.resource_manager.scenario_data_fetcher</span> <span class="kn">import</span> <span class="n">ScenarioDataFetcher</span>
+<span class="kn">from</span> <span class="nn">cbm_runner.cbm_validation.validation</span> <span class="kn">import</span> <span class="n">ValidationData</span>
 <span class="kn">from</span> <span class="nn">libcbm.model.cbm</span> <span class="kn">import</span> <span class="n">cbm_simulator</span>
 <span class="kn">from</span> <span class="nn">libcbm.input.sit</span> <span class="kn">import</span> <span class="n">sit_cbm_factory</span>
 
@@ -186,7 +186,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">generate_base_input_data</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">forest_baseline_dataframe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbm_baseline_forest</span><span class="p">()</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gen_validation</span><span class="p">:</span>
-                <span class="n">ValidationData</span><span class="o">.</span><span class="n">get_baseline_forest</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validation_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">forest_baseline_dataframe</span><span class="p">[</span><span class="s2">&quot;Stock&quot;</span><span class="p">])</span>
+                <span class="n">ValidationData</span><span class="o">.</span><span class="n">gen_baseline_forest</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validation_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">forest_baseline_dataframe</span><span class="p">[</span><span class="s2">&quot;Stock&quot;</span><span class="p">])</span>
 
 
 <div class="viewcode-block" id="Runner.generate_base_input_data">
@@ -512,9 +512,9 @@
             <span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gen_validation</span><span class="p">:</span>
-            <span class="n">ValidationData</span><span class="o">.</span><span class="n">get_disturbance_statistics</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validation_path</span><span class="p">,</span> <span class="n">rule_based_processor</span><span class="p">,</span> <span class="n">years</span><span class="p">,</span> <span class="n">sc</span><span class="p">)</span>
-            <span class="n">ValidationData</span><span class="o">.</span><span class="n">get_age_classes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validation_path</span><span class="p">,</span> <span class="n">sit</span><span class="p">,</span> <span class="n">sc</span><span class="p">)</span>
-            <span class="n">ValidationData</span><span class="o">.</span><span class="n">get_sit_events</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validation_path</span><span class="p">,</span> <span class="n">rule_based_processor</span><span class="p">,</span> <span class="n">sc</span><span class="p">)</span>
+            <span class="n">ValidationData</span><span class="o">.</span><span class="n">gen_disturbance_statistics</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validation_path</span><span class="p">,</span> <span class="n">rule_based_processor</span><span class="p">,</span> <span class="n">years</span><span class="p">,</span> <span class="n">sc</span><span class="p">)</span>
+            <span class="n">ValidationData</span><span class="o">.</span><span class="n">gen_age_classes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validation_path</span><span class="p">,</span> <span class="n">sit</span><span class="p">,</span> <span class="n">sc</span><span class="p">)</span>
+            <span class="n">ValidationData</span><span class="o">.</span><span class="n">gen_sit_events</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validation_path</span><span class="p">,</span> <span class="n">rule_based_processor</span><span class="p">,</span> <span class="n">sc</span><span class="p">)</span>
             <span class="n">ValidationData</span><span class="o">.</span><span class="n">merge_events</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validation_path</span><span class="p">,</span> <span class="n">sc</span><span class="p">)</span>
 
         <span class="n">pi</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">pools</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">classifiers</span><span class="p">)</span>
@@ -601,9 +601,9 @@
             <span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gen_validation</span><span class="p">:</span>
-            <span class="n">ValidationData</span><span class="o">.</span><span class="n">get_disturbance_statistics</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validation_path</span><span class="p">,</span> <span class="n">rule_based_processor</span><span class="p">,</span> <span class="n">years</span><span class="p">,</span> <span class="n">sc</span><span class="p">)</span>
-            <span class="n">ValidationData</span><span class="o">.</span><span class="n">get_age_classes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validation_path</span><span class="p">,</span> <span class="n">sit</span><span class="p">,</span> <span class="n">sc</span><span class="p">)</span>
-            <span class="n">ValidationData</span><span class="o">.</span><span class="n">get_sit_events</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validation_path</span><span class="p">,</span> <span class="n">rule_based_processor</span><span class="p">,</span> <span class="n">sc</span><span class="p">)</span>
+            <span class="n">ValidationData</span><span class="o">.</span><span class="n">gen_disturbance_statistics</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validation_path</span><span class="p">,</span> <span class="n">rule_based_processor</span><span class="p">,</span> <span class="n">years</span><span class="p">,</span> <span class="n">sc</span><span class="p">)</span>
+            <span class="n">ValidationData</span><span class="o">.</span><span class="n">gen_age_classes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validation_path</span><span class="p">,</span> <span class="n">sit</span><span class="p">,</span> <span class="n">sc</span><span class="p">)</span>
+            <span class="n">ValidationData</span><span class="o">.</span><span class="n">gen_sit_events</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validation_path</span><span class="p">,</span> <span class="n">rule_based_processor</span><span class="p">,</span> <span class="n">sc</span><span class="p">)</span>
             <span class="n">ValidationData</span><span class="o">.</span><span class="n">merge_events</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validation_path</span><span class="p">,</span> <span class="n">sc</span><span class="p">)</span>
             <span class="n">ValidationData</span><span class="o">.</span><span class="n">results_contents</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validation_path</span><span class="p">,</span> <span class="n">results</span><span class="p">,</span> <span class="n">sc</span><span class="p">)</span>
 

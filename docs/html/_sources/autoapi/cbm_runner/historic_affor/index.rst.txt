@@ -1,0 +1,27 @@
+:py:mod:`cbm_runner.historic_affor`
+===================================
+
+.. py:module:: cbm_runner.historic_affor
+
+
+Subpackages
+-----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 3
+
+   baseline_input_conf/index.rst
+   generated_input_data/index.rst
+   validation_data/index.rst
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   historic_affor_runner/index.rst
+   historic_affor_validation_manager/index.rst
+
+

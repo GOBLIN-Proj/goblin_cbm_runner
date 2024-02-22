@@ -1,5 +1,5 @@
-from historic_affor.historic_affor_runner import HistoricAfforRunner
-import historic_affor.validation_data as validation_path
+from cbm_runner.historic_affor.historic_affor_runner import HistoricAfforRunner
+import cbm_runner.historic_affor.validation_data as validation_path
 import pandas as pd
 import os
 

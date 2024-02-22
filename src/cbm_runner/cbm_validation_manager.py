@@ -3,7 +3,7 @@ CBM Validation Manager
 ======================
 This class is responsible for retrieving the validation data for the validation directory.
 """
-from cbm_validation.validation import ValidationData
+from cbm_runner.cbm_validation.validation import ValidationData
 from cbm_runner.validation_data import get_local_dir
 
 class CBM_ValidationManager:

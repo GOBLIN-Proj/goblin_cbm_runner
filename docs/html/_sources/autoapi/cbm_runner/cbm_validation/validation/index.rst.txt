@@ -1,0 +1,224 @@
+:py:mod:`cbm_runner.cbm_validation.validation`
+==============================================
+
+.. py:module:: cbm_runner.cbm_validation.validation
+
+.. autoapi-nested-parse::
+
+   Validation Module
+   =================
+   This module provides functions for clearing validation output folders,
+   retrieving and saving validation data for different scenarios, and
+   merging events data for analysis.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   cbm_runner.cbm_validation.validation.ValidationData
+
+
+
+
+.. py:class:: ValidationData
+
+
+   Provides static methods for working with validation data.
+   This includes clearing folders, saving/retrieving different types
+   of validation data, and merging events data.
+
+   .. py:method:: clear_validation_folder(output_data_path)
+      :staticmethod:
+
+      Clears the validation output folder.
+
+      :param output_data_path: The path to the validation output folder.
+
+
+   .. py:method:: gen_disturbance_statistics(output_data_path, object, years, sc)
+      :staticmethod:
+
+      Gets disturbance statistics and saves them to a CSV file.
+
+      :param output_data_path: The path to save the CSV file.
+      :param object: An object containing the disturbance statistics data.
+      :param years: The number of years of data.
+      :param sc: The scenario identifier.
+
+
+   .. py:method:: gen_age_classes(output_data_path, object, sc)
+      :staticmethod:
+
+      Gets age class data and saves it to a CSV file.
+
+      :param output_data_path: The path to save the CSV file.
+      :param object: An object containing the age class data.
+      :param sc: The scenario identifier.
+
+
+   .. py:method:: gen_sit_events(output_data_path, object, sc)
+      :staticmethod:
+
+      Gets SIT events data and saves it to a CSV file.
+
+      :param output_data_path: The path to save the CSV file.
+      :param object: An object containing the SIT events data.
+      :param sc: The scenario identifier.
+
+
+   .. py:method:: gen_baseline_forest(output_data_path, data)
+      :staticmethod:
+
+      Saves baseline forest data to a CSV file.
+
+      :param output_data_path: The path to save the CSV file.
+      :param data: The baseline forest data (pandas DataFrame).
+
+
+   .. py:method:: merge_events(output_data_path, sc)
+      :staticmethod:
+
+      Merges SIT events and event statistics (by timestep) data and saves the
+      result as a CSV file.
+
+      :param output_data_path: The path to save the CSV file.
+      :param sc: The scenario identifier.
+
+
+   .. py:method:: results_contents(output_data_path, object, sc)
+      :staticmethod:
+
+      Saves various results data (area, flux, params, pools, state)
+      as CSV files.
+
+      :param output_data_path: The path to save the CSV files.
+      :param object: An object containing the results data.
+      :param sc: The scenario identifier.
+
+
+   .. py:method:: get_linked_events(path, sc)
+      :staticmethod:
+
+      Retrieves linked events data from a CSV file.
+
+      :param path: The path to the CSV file.
+      :param sc: The scenario identifier.
+
+      :returns: A pandas DataFrame containing the linked events data, or an
+                error message if the file is not found.
+
+
+   .. py:method:: get_site_event_stats_by_timestep(path, sc)
+      :staticmethod:
+
+      Retrieves site event stats by timestep data from a CSV file.
+
+      :param path: The path to the CSV file.
+      :param sc: The scenario identifier.
+
+      :returns: A pandas DataFrame containing the site event stats by timestep data, or an
+                error message if the file is not found.
+
+
+   .. py:method:: get_age_classes(path, sc)
+      :staticmethod:
+
+      Retrieves age classes data from a CSV file.
+
+      :param path: The path to the CSV file.
+      :param sc: The scenario identifier.
+
+      :returns: A pandas DataFrame containing the age classes data, or an
+                error message if the file is not found.
+
+
+   .. py:method:: get_sit_events(path, sc)
+      :staticmethod:
+
+      Retrieves SIT events data from a CSV file.
+
+      :param path: The path to the CSV file.
+      :param sc: The scenario identifier.
+
+      :returns: A pandas DataFrame containing the SIT events data, or an
+                error message if the file is not found.
+
+
+   .. py:method:: get_baseline_forest(path)
+      :staticmethod:
+
+      Retrieves baseline forest data from a CSV file.
+
+      :param path: The path to the CSV file.
+
+      :returns: A pandas DataFrame containing the baseline forest data, or an
+                error message if the file is not found.
+
+
+   .. py:method:: get_data_area(path, sc)
+      :staticmethod:
+
+      Retrieves data area results from a CSV file.
+
+      :param path: The path to the CSV file.
+      :param sc: The scenario identifier.
+
+      :returns: A pandas DataFrame containing the data area results, or an
+                error message if the file is not found.
+
+
+   .. py:method:: get_data_flux(path, sc)
+      :staticmethod:
+
+      Retrieves data flux results from a CSV file.
+
+      :param path: The path to the CSV file.
+      :param sc: The scenario identifier.
+
+      :returns: A pandas DataFrame containing the data flux results, or an
+                error message if the file is not found.
+
+
+   .. py:method:: get_data_params(path, sc)
+      :staticmethod:
+
+      Retrieves data params results from a CSV file.
+
+      :param path: The path to the CSV file.
+      :param sc: The scenario identifier.
+
+      :returns: A pandas DataFrame containing the data params results, or an
+                error message if the file is not found.
+
+
+   .. py:method:: get_data_pools(path, sc)
+      :staticmethod:
+
+      Retrieves data pools results from a CSV file.
+
+      :param path: The path to the CSV file.
+      :param sc: The scenario identifier.
+
+      :returns: A pandas DataFrame containing the data pools results, or an
+                error message if the file is not found.
+
+
+   .. py:method:: get_data_state(path, sc)
+      :staticmethod:
+
+      Retrieves data state results from a CSV file.
+
+      :param path: The path to the CSV file.
+      :param sc: The scenario identifier.
+
+      :returns: A pandas DataFrame containing the data state results, or an
+                error message if the file is not found.
+
+
+

@@ -1,5 +1,5 @@
-from geo_cbm_runner.geo_runner import GeoRunner
-import geo_cbm_runner.validation_data as validation_path
+from cbm_runner.geo_cbm_runner.geo_runner import GeoRunner
+import cbm_runner.geo_cbm_runner.validation_data as validation_path
 import pandas as pd
 import os
 
@@ -22,7 +22,6 @@ def main():
 
     # calibration and end point
     calibration_year = 2020
-    forest_end_year = 2050
 
     # instance of the Runner class
     runner = GeoRunner(config, calibration_year, afforest_data, sc_data, gen_validation=True, validation_path=validation_path)
@@ -31,7 +30,7 @@ def main():
     runner.generate_input_data()
 
     # generation of aggregated results
-    #runner.run_aggregate_scenarios().to_csv(os.path.join(results_path, "c_aggregate.csv"))
+    runner.run_aggregate_scenarios().to_csv(os.path.join(results_path, "c_aggregate.csv"))
 
     # generation of annual flux results
     runner.run_flux_scenarios().to_csv(os.path.join(results_path, "c_flux.csv"))

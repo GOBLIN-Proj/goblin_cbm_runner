@@ -4,7 +4,7 @@ Yield Curves Module
 This module is responsible for generating yield tables using different methods.
 
 """
-from resource_manager.loader import Loader
+from cbm_runner.resource_manager.loader import Loader
 import math
 import pandas as pd
 
