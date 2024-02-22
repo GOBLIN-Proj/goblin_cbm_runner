@@ -6,8 +6,8 @@ It provides methods to populate a predefined template with scenario-specific dat
 """
 
 import copy
-from resource_manager.loader import Loader
-from resource_manager.cbm_runner_data_manager import DataManager
+from cbm_runner.resource_manager.loader import Loader
+from cbm_runner.resource_manager.cbm_runner_data_manager import DataManager
 
 
 class CreateJSON:

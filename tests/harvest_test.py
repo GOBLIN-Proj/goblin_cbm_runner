@@ -1,6 +1,6 @@
 import pandas as pd
 import os
-from harvest_manager.harvest import AfforestationTracker
+from cbm_runner.harvest_manager.harvest import AfforestationTracker
 import unittest
 
 

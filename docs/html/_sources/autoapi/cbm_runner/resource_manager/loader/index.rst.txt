@@ -1,0 +1,147 @@
+:py:mod:`cbm_runner.resource_manager.loader`
+============================================
+
+.. py:module:: cbm_runner.resource_manager.loader
+
+.. autoapi-nested-parse::
+
+   Loader
+   ======
+   The Loader class is responsible for loading various dataframes used in the CBM Runner.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   cbm_runner.resource_manager.loader.Loader
+
+
+
+
+.. py:class:: Loader
+
+
+   The Loader class is responsible for loading various dataframes used in the CBM Runner.
+
+   .. attribute:: dataframes
+
+      An instance of the DataManager class for managing the dataframes.
+
+      :type: DataManager
+
+   .. method:: forest_age_structure
+
+      Returns the forest inventory age structure dataframe.
+
+   .. method:: forest_cbm_yields
+
+      Returns the forest CBM yields dataframe.
+
+   .. method:: forest_kb_yields
+
+      Returns the forest Firs yields dataframe.
+
+   .. method:: NIR_forest_data_ha
+
+      Returns the NIR forest data (hectares) dataframe.
+
+   .. method:: cso_species_breakdown
+
+      Returns the CSO species breakdown dataframe.
+
+   .. method:: afforestation_areas_NIR
+
+      Returns the afforestation areas (NIR) dataframe.
+
+   .. method:: afforestation_areas_KB
+
+      Returns the afforestation areas (Firs) dataframe.
+
+   .. method:: disturbance_time
+
+      Returns the disturbance times dataframe.
+
+   .. method:: kb_yield_curves
+
+      Returns the Firs yield curves dataframe.
+
+   .. method:: disturbance_type
+
+      Returns the disturbance types dataframe.
+
+   .. method:: harvest_areas_NIR
+
+      Returns the forest harvest areas (NIR) dataframe.
+
+   .. method:: disturbance_data
+
+      Returns the disturbance data dataframe.
+      
+
+   .. py:method:: forest_age_structure()
+
+      Returns the forest inventory age structure dataframe.
+
+
+   .. py:method:: forest_cbm_yields()
+
+      Returns the forest CBM yields dataframe.
+
+
+   .. py:method:: forest_kb_yields()
+
+      Returns the forest KB yields dataframe.
+
+
+   .. py:method:: NIR_forest_data_ha()
+
+      Returns the NIR forest data (hectares) dataframe.
+
+
+   .. py:method:: cso_species_breakdown()
+
+      Returns the CSO species breakdown dataframe.
+
+
+   .. py:method:: afforestation_areas_NIR()
+
+      Returns the afforestation areas (NIR) dataframe.
+
+
+   .. py:method:: afforestation_areas_KB()
+
+      Returns the afforestation areas (KB) dataframe.
+
+
+   .. py:method:: disturbance_time()
+
+      Returns the disturbance times dataframe.
+
+
+   .. py:method:: kb_yield_curves()
+
+      Returns the KB yield curves dataframe.
+
+
+   .. py:method:: disturbance_type()
+
+      Returns the disturbance types dataframe.
+
+
+   .. py:method:: harvest_areas_NIR()
+
+      Returns the forest harvest areas (NIR) dataframe.
+
+
+   .. py:method:: disturbance_data()
+
+      Returns the disturbance data dataframe.
+
+
+
