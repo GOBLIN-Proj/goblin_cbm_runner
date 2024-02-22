@@ -1,5 +1,5 @@
-from geo_cbm_runner.geo_runner import GeoRunner
-import geo_cbm_runner.validation_data as validation_path
+from cbm_runner.geo_cbm_runner.geo_runner import GeoRunner
+import cbm_runner.geo_cbm_runner.validation_data as validation_path
 import pandas as pd
 import os
 
@@ -22,10 +22,9 @@ def main():
 
     # calibration and end point
     calibration_year = 2020
-    forest_end_year = 2050
 
     # instance of the Runner class
-    runner = GeoRunner(validation_path, config, calibration_year, forest_end_year, afforest_data, sc_data)
+    runner = GeoRunner(config, calibration_year, afforest_data, sc_data)
 
     # generation of data for each of the scenarios
     runner.generate_input_data()

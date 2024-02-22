@@ -4,7 +4,7 @@ Transition Module
 This module is responsible for generating the transition rules structure based on the given scenario.
 """
 
-from resource_manager.cbm_runner_data_manager import DataManager
+from cbm_runner.resource_manager.cbm_runner_data_manager import DataManager
 import pandas as pd
 import itertools
 

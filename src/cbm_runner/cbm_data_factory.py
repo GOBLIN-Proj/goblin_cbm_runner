@@ -17,14 +17,14 @@ import shutil
 import json
 import itertools
 
-from resource_manager.loader import Loader
-from resource_manager.cbm_runner_data_manager import DataManager
+from cbm_runner.resource_manager.loader import Loader
+from cbm_runner.resource_manager.cbm_runner_data_manager import DataManager
 from cbm_runner.create_json import CreateJSON
 from cbm_runner.yield_curves import YieldCurves
 from cbm_runner.inventory import Inventory
 from cbm_runner.disturbances import Disturbances
 from cbm_runner.transition import Transition
-import resource_manager.parser as parser
+import cbm_runner.resource_manager.parser as parser
 
 
 from libcbm.input.sit import sit_cbm_factory

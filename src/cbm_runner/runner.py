@@ -8,11 +8,11 @@ including baseline and afforestation projects.
 import cbm_runner.generated_input_data as input_data_path
 import cbm_runner.baseline_input_conf as baseline_conf_path
 from cbm_runner.cbm_data_factory import DataFactory
-from resource_manager.cbm_runner_data_manager import DataManager
-from resource_manager.cbm_pools import Pools
-from resource_manager.flux_manager import FluxManager
-from resource_manager.scenario_data_fetcher import ScenarioDataFetcher
-from cbm_validation.validation import ValidationData
+from cbm_runner.resource_manager.cbm_runner_data_manager import DataManager
+from cbm_runner.resource_manager.cbm_pools import Pools
+from cbm_runner.resource_manager.flux_manager import FluxManager
+from cbm_runner.resource_manager.scenario_data_fetcher import ScenarioDataFetcher
+from cbm_runner.cbm_validation.validation import ValidationData
 from libcbm.model.cbm import cbm_simulator
 from libcbm.input.sit import sit_cbm_factory
 
@@ -108,7 +108,7 @@ class Runner:
             self.generate_base_input_data()
             self.forest_baseline_dataframe = self.cbm_baseline_forest()
             if self.gen_validation:
-                ValidationData.get_baseline_forest(self.validation_path, self.forest_baseline_dataframe["Stock"])
+                ValidationData.gen_baseline_forest(self.validation_path, self.forest_baseline_dataframe["Stock"])
 
 
     def generate_base_input_data(self):
@@ -414,9 +414,9 @@ class Runner:
             )
 
         if self.gen_validation:
-            ValidationData.get_disturbance_statistics(self.validation_path, rule_based_processor, years, sc)
-            ValidationData.get_age_classes(self.validation_path, sit, sc)
-            ValidationData.get_sit_events(self.validation_path, rule_based_processor, sc)
+            ValidationData.gen_disturbance_statistics(self.validation_path, rule_based_processor, years, sc)
+            ValidationData.gen_age_classes(self.validation_path, sit, sc)
+            ValidationData.gen_sit_events(self.validation_path, rule_based_processor, sc)
             ValidationData.merge_events(self.validation_path, sc)
 
         pi = results.pools.merge(results.classifiers)
@@ -500,9 +500,9 @@ class Runner:
             )
 
         if self.gen_validation:
-            ValidationData.get_disturbance_statistics(self.validation_path, rule_based_processor, years, sc)
-            ValidationData.get_age_classes(self.validation_path, sit, sc)
-            ValidationData.get_sit_events(self.validation_path, rule_based_processor, sc)
+            ValidationData.gen_disturbance_statistics(self.validation_path, rule_based_processor, years, sc)
+            ValidationData.gen_age_classes(self.validation_path, sit, sc)
+            ValidationData.gen_sit_events(self.validation_path, rule_based_processor, sc)
             ValidationData.merge_events(self.validation_path, sc)
             ValidationData.results_contents(self.validation_path, results, sc)
 
