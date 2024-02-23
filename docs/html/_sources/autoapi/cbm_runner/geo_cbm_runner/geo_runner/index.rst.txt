@@ -227,6 +227,9 @@ Classes
       :rtype: dict
 
 
+   .. py:method:: _add_years(sc)
+
+
    .. py:method:: libcbm_scenario_fluxes(sc)
 
       Generate carbon Fluxes using the Libcbm method for the CBM (Carbon Budget Model) scenario data.
