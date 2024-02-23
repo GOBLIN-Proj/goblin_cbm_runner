@@ -290,11 +290,12 @@ class GeoRunner:
             forestry_end_year = self.forest_end_year
             path = self.baseline_conf_path
 
-            years = (forestry_end_year +1) - forest_baseline_year 
+            years = (forestry_end_year+1) - forest_baseline_year 
 
             year_range = [
                 year for year in range(forest_baseline_year -1, forestry_end_year +1)
             ]
+
 
             sit, classifiers, inventory = self.cbm_data_class.set_baseline_input_data_dir(
                 path
@@ -379,6 +380,7 @@ class GeoRunner:
             year for year in range(forest_baseline_year, forestry_end_year +1)
         ]
 
+
         sit, classifiers, inventory = self.cbm_data_class.set_input_data_dir(sc, path)
 
         classifier_config = sit_cbm_factory.get_classifiers(
@@ -414,6 +416,8 @@ class GeoRunner:
             ValidationData.merge_events(self.validation_path, sc)
 
         pi = results.pools.merge(results.classifiers)
+
+
         annual_carbon_stocks = pd.DataFrame(
             {
                 "Year": pi["timestep"],
@@ -435,10 +439,33 @@ class GeoRunner:
             ["AGB", "BGB", "Deadwood", "Litter", "Soil", "Total Ecosystem"]
         ].sum()
 
+
         annual_carbon_stocks["Year"] = year_range
         annual_carbon_stocks["Scenario"] = sc
 
+        additional_years = self._add_years(sc)
+
+        annual_carbon_stocks = pd.concat([additional_years, annual_carbon_stocks], ignore_index=True)
+
         return {"Stock": annual_carbon_stocks, "Raw": pi}
+
+
+    def _add_years(self,  sc):
+        
+        forest_baseline_year = self.data_manager_class.get_forest_baseline_year()
+
+        years_data = {
+        "Year": [(forest_baseline_year-2), (forest_baseline_year-1)],
+        "AGB": [0.0, 0.0],
+        "BGB": [0.0, 0.0],
+        "Deadwood": [0.0, 0.0],
+        "Litter": [0.0, 0.0],
+        "Soil": [0.0, 0.0],
+        "Total Ecosystem": [0.0, 0.0],
+        "Scenario": [sc, sc]  # Assuming 'sc' is defined somewhere in your code
+        }
+        
+        return pd.DataFrame(years_data)
 
 
     def libcbm_scenario_fluxes(self, sc):

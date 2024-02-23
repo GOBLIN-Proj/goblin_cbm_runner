@@ -388,11 +388,12 @@
             <span class="n">forestry_end_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forest_end_year</span>
             <span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">baseline_conf_path</span>
 
-            <span class="n">years</span> <span class="o">=</span> <span class="p">(</span><span class="n">forestry_end_year</span> <span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">forest_baseline_year</span> 
+            <span class="n">years</span> <span class="o">=</span> <span class="p">(</span><span class="n">forestry_end_year</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">forest_baseline_year</span> 
 
             <span class="n">year_range</span> <span class="o">=</span> <span class="p">[</span>
                 <span class="n">year</span> <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">forest_baseline_year</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">forestry_end_year</span> <span class="o">+</span><span class="mi">1</span><span class="p">)</span>
             <span class="p">]</span>
+
 
             <span class="n">sit</span><span class="p">,</span> <span class="n">classifiers</span><span class="p">,</span> <span class="n">inventory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">set_baseline_input_data_dir</span><span class="p">(</span>
                 <span class="n">path</span>
@@ -480,6 +481,7 @@
             <span class="n">year</span> <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">forest_baseline_year</span><span class="p">,</span> <span class="n">forestry_end_year</span> <span class="o">+</span><span class="mi">1</span><span class="p">)</span>
         <span class="p">]</span>
 
+
         <span class="n">sit</span><span class="p">,</span> <span class="n">classifiers</span><span class="p">,</span> <span class="n">inventory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">set_input_data_dir</span><span class="p">(</span><span class="n">sc</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
 
         <span class="n">classifier_config</span> <span class="o">=</span> <span class="n">sit_cbm_factory</span><span class="o">.</span><span class="n">get_classifiers</span><span class="p">(</span>
@@ -515,6 +517,8 @@
             <span class="n">ValidationData</span><span class="o">.</span><span class="n">merge_events</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validation_path</span><span class="p">,</span> <span class="n">sc</span><span class="p">)</span>
 
         <span class="n">pi</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">pools</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">classifiers</span><span class="p">)</span>
+
+
         <span class="n">annual_carbon_stocks</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
             <span class="p">{</span>
                 <span class="s2">&quot;Year&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="s2">&quot;timestep&quot;</span><span class="p">],</span>
@@ -536,10 +540,36 @@
             <span class="p">[</span><span class="s2">&quot;AGB&quot;</span><span class="p">,</span> <span class="s2">&quot;BGB&quot;</span><span class="p">,</span> <span class="s2">&quot;Deadwood&quot;</span><span class="p">,</span> <span class="s2">&quot;Litter&quot;</span><span class="p">,</span> <span class="s2">&quot;Soil&quot;</span><span class="p">,</span> <span class="s2">&quot;Total Ecosystem&quot;</span><span class="p">]</span>
         <span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 
+
         <span class="n">annual_carbon_stocks</span><span class="p">[</span><span class="s2">&quot;Year&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">year_range</span>
         <span class="n">annual_carbon_stocks</span><span class="p">[</span><span class="s2">&quot;Scenario&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sc</span>
 
+        <span class="n">additional_years</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_years</span><span class="p">(</span><span class="n">sc</span><span class="p">)</span>
+
+        <span class="n">annual_carbon_stocks</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">additional_years</span><span class="p">,</span> <span class="n">annual_carbon_stocks</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;Stock&quot;</span><span class="p">:</span> <span class="n">annual_carbon_stocks</span><span class="p">,</span> <span class="s2">&quot;Raw&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="GeoRunner._add_years">
+<a class="viewcode-back" href="../../../autoapi/cbm_runner/geo_cbm_runner/geo_runner/index.html#cbm_runner.geo_cbm_runner.geo_runner.GeoRunner._add_years">[docs]</a>
+    <span class="k">def</span> <span class="nf">_add_years</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>  <span class="n">sc</span><span class="p">):</span>
+        
+        <span class="n">forest_baseline_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_forest_baseline_year</span><span class="p">()</span>
+
+        <span class="n">years_data</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;Year&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="n">forest_baseline_year</span><span class="o">-</span><span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="n">forest_baseline_year</span><span class="o">-</span><span class="mi">1</span><span class="p">)],</span>
+        <span class="s2">&quot;AGB&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+        <span class="s2">&quot;BGB&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+        <span class="s2">&quot;Deadwood&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+        <span class="s2">&quot;Litter&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+        <span class="s2">&quot;Soil&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+        <span class="s2">&quot;Total Ecosystem&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+        <span class="s2">&quot;Scenario&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">sc</span><span class="p">,</span> <span class="n">sc</span><span class="p">]</span>  <span class="c1"># Assuming &#39;sc&#39; is defined somewhere in your code</span>
+        <span class="p">}</span>
+        
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">years_data</span><span class="p">)</span></div>
 
 
 
