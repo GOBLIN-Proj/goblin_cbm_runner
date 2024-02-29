@@ -133,7 +133,7 @@ class Disturbances:
 
         self.disturbance_timing = self.loader_class.disturbance_time()
         self.disturbance_dataframe = self.loader_class.disturbance_data()
-        self.scenario_disturbance_dict = self.data_manager_class.scenario_disturbance_dict
+        self.scenario_disturbance_dict = self.data_manager_class.get_scenario_disturbance_dict()
         self.legacy_disturbance_dict = self.data_manager_class.get_legacy_disturbance_dict()
         self.yield_name_dict = self.data_manager_class.get_yield_name_dict()
 
