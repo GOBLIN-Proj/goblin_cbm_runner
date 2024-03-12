@@ -28,13 +28,46 @@ Classes
 
 
 
-.. py:class:: HistoricAfforRunner(config_path, calibration_year, afforest_data, scenario_data, validation_path)
+.. py:class:: HistoricAfforRunner(config_path, calibration_year, afforest_data, scenario_data, gen_baseline=False, gen_validation=False, sit_path=None)
 
 
    Facilitates the execution of Carbon Budget Model (CBM) simulations for assessing historic afforestation efforts in Ireland.
    Designed primarily for the validation of historic afforestation input data, this class leverages a suite of data management and
    simulation tools to prepare, execute, and analyze CBM simulations. It focuses on generating outputs such as carbon stocks
    and fluxes across various afforestation scenarios, offering insights into the carbon budget implications of past afforestation activities.
+
+   :param config_path: The path to the CBM configuration file.
+   :type config_path: str
+   :param calibration_year: The year used for calibration.
+   :type calibration_year: int
+   :param afforest_data: The afforestation data.
+   :type afforest_data: AfforestData
+   :param scenario_data: The scenario data.
+   :type scenario_data: ScenarioData
+   :param gen_baseline: A boolean indicating whether to generate baseline data
+   :type gen_baseline: bool
+   :param gen_validation: A boolean indicating whether to generate validation data
+   :type gen_validation: bool
+   :param sit_path: The path to the SIT directory.
+   :type sit_path: str
+
+   .. attribute:: paths_class
+
+      Manages the directory paths for input data, baseline configuration, and validation, ensuring a clean and organized data environment.
+
+      :type: Paths
+
+   .. attribute:: gen_validation
+
+      A boolean indicating whether to generate validation data, critical for ensuring the accuracy and reliability of simulation results.
+
+      :type: bool
+
+   .. attribute:: validation_path
+
+      Directory path for validation data, supporting the validation of simulation outputs and the assessment of data quality.
+
+      :type: str
 
    .. attribute:: path
 
@@ -119,6 +152,8 @@ Classes
       
       Invokes libCBM to calculate carbon fluxes for a given scenario, enhancing the depth of analysis with library-supported CBM functionalities.
       
+
+   .. note:: An external path must be provided when generating validation data.
 
    .. py:method:: generate_input_data()
 

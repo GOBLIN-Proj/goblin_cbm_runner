@@ -1,0 +1,13 @@
+Classifier1,Classifier2,Classifier3,Classifier4,UsingID,Age,Area,Delay,UNFCCCLC,HistDist,LastDist
+NFSitka_mineral,A,mineral,YC4_12,False,0,0.0,0,2,DISTID5,DISTID5
+NFSitka_mineral,A,mineral,YC13_16,False,0,0.0,0,2,DISTID5,DISTID5
+NFSitka_mineral,A,mineral,YC17_20,False,0,2080346.88002235,0,2,DISTID5,DISTID5
+NFSitka_mineral,A,mineral,YC20_24,False,0,15676323.891922,0,2,DISTID5,DISTID5
+NFSitka_mineral,A,mineral,YC24_30,False,0,15834332.951511601,0,2,DISTID5,DISTID5
+NFSGB_mineral,A,mineral,YC6,False,0,134364014.89382413,0,2,DISTID5,DISTID5
+NFSitka_peat,A,peat,YC4_12,False,0,0.0,0,2,DISTID5,DISTID5
+NFSitka_peat,A,peat,YC13_16,False,0,0.0,0,2,DISTID5,DISTID5
+NFSitka_peat,A,peat,YC17_20,False,0,0.0,0,2,DISTID5,DISTID5
+NFSitka_peat,A,peat,YC20_24,False,0,0.0,0,2,DISTID5,DISTID5
+NFSitka_peat,A,peat,YC24_30,False,0,0.0,0,2,DISTID5,DISTID5
+NFSGB_peat,A,peat,YC6,False,0,0.0,0,2,DISTID5,DISTID5

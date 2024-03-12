@@ -5,17 +5,17 @@ This module is responsible for orchestrating the execution of Carbon Budget Mode
 including baseline and afforestation projects. 
 
 """
-import cbm_runner.generated_input_data as input_data_path
-import cbm_runner.baseline_input_conf as baseline_conf_path
 from cbm_runner.cbm_data_factory import DataFactory
 from cbm_runner.resource_manager.cbm_runner_data_manager import DataManager
 from cbm_runner.resource_manager.cbm_pools import Pools
 from cbm_runner.resource_manager.flux_manager import FluxManager
 from cbm_runner.resource_manager.scenario_data_fetcher import ScenarioDataFetcher
+from cbm_runner.resource_manager.paths import Paths
 from cbm_runner.cbm_validation.validation import ValidationData
 from libcbm.model.cbm import cbm_simulator
 from libcbm.input.sit import sit_cbm_factory
 
+import os
 import pandas as pd
 
 class Runner:
@@ -30,7 +30,19 @@ class Runner:
     across different scenarios. It manages the creation and organization of simulation input data 
     using specified directory paths and configuration files.
 
+    Args:
+        config_path (str): The path to the CBM configuration file.
+        calibration_year (int): The year used for calibration.
+        afforest_data (AfforestData): The afforestation data.
+        scenario_data (ScenarioData): The scenario data.
+        gen_baseline (bool): A boolean indicating whether to generate baseline data.
+        gen_validation (bool): A boolean indicating whether to generate validation data.
+        sit_path (str): The path to the SIT directory.
+
     Attributes:
+        paths_class (Paths): Instance of Paths for setting up directory paths for CBM simulation input data.
+        gen_validation (bool): A boolean indicating whether to generate validation data.
+        validation_path (str): Directory path for validation data.
         path (str): Directory path where input data is stored.
         baseline_conf_path (str): Directory path for baseline configuration data.
         cbm_data_class (DataFactory): Instance of DataFactory for preparing CBM data.
@@ -67,6 +79,9 @@ class Runner:
 
         libcbm_scenario_fluxes(sc):
             Generates carbon flux data using the Libcbm method directly for a specified scenario (sc), contributing to the comprehensive analysis of carbon budget impacts under different land management strategies.
+   
+    Note:
+        An external path can be specified to generate the validation data.
     """
     def __init__(
         self,
@@ -76,12 +91,15 @@ class Runner:
         scenario_data,
         gen_baseline = True,
         gen_validation = False,
-        validation_path = None,
+        sit_path = None,
     ):
+        self.paths_class = Paths(sit_path, gen_baseline, gen_validation)
+        self.paths_class.setup_runner_paths(sit_path)
+
         self.gen_validation = gen_validation
-        self.validation_path = validation_path
-        self.path = input_data_path.get_local_dir()
-        self.baseline_conf_path = baseline_conf_path.get_local_dir()
+        self.validation_path = self.paths_class.get_validation_path()
+        self.path = self.paths_class.get_generated_input_data_path()
+        self.baseline_conf_path = self.paths_class.get_baseline_conf_path()
         
         self.sc_fetcher = ScenarioDataFetcher(scenario_data)
         self.forest_end_year = self.sc_fetcher.get_afforestation_end_year()
@@ -101,14 +119,12 @@ class Runner:
         self.litter = self.pools.get_litter_pools()
         self.soil = self.pools.get_soil_organic_matter_pools()
 
-        if validation_path is not None and gen_validation:
-            ValidationData.clear_validation_folder(self.validation_path)
-
         if gen_baseline:
             self.generate_base_input_data()
             self.forest_baseline_dataframe = self.cbm_baseline_forest()
             if self.gen_validation:
                 ValidationData.gen_baseline_forest(self.validation_path, self.forest_baseline_dataframe["Stock"])
+
 
 
     def generate_base_input_data(self):

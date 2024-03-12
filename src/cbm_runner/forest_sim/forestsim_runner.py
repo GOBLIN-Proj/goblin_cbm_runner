@@ -5,12 +5,10 @@ Forest Sim Runner
 The ForestSimRunner class is responsible for generating input data and running scenarios in the CBM model.
 
 """
-import cbm_runner.generated_input_data as input_data_path
-import cbm_runner.baseline_input_conf as baseline_conf_path
 from cbm_runner.forest_sim.forestsim_factory import ForestSimFactory
 from cbm_runner.runner import Runner
 from cbm_runner.resource_manager.scenario_data_fetcher import ScenarioDataFetcher
-
+from cbm_runner.resource_manager.paths import Paths
 import pandas as pd
 
 
@@ -27,8 +25,14 @@ class ForestSimRunner:
         afforest_data (AfforestData): The afforestation data.
         afforest_data_annual (AfforestDataAnnual): The annual afforestation data.
         scenario_data (ScenarioData): The scenario data.
+        gen_baseline (bool): A flag to generate the baseline data.
+        gen_validation (bool): A flag to generate the validation data.
+        sit_path (str): The path to the SIT directory.
 
     Attributes:
+        paths_class (Paths): The instance of the Paths class.
+        gen_validation (bool): A flag to generate the validation data.
+        validation_path (str): The path to the validation directory.
         path (str): The path to the local directory.
         baseline_conf_path (str): The path to the baseline configuration directory.
         cbm_data_class (ForestSimFactory): The instance of the ForestSimFactory class.
@@ -40,6 +44,9 @@ class ForestSimRunner:
         generate_input_data(): Generates the input data for each scenario in the CBM model.
         run_aggregate_scenarios(): Runs the aggregate scenarios in the CBM model.
         run_flux_scenarios(): Runs the flux scenarios in the CBM model.
+
+    Note:
+        An external path can be specified to generate the validation data.
     """
     
     def __init__(
@@ -49,11 +56,18 @@ class ForestSimRunner:
         afforest_data,
         afforest_data_annual,
         scenario_data,
+        gen_baseline = True,
         gen_validation = False,
-        validation_path=None,
+        sit_path = None,
     ):
-        self.path = input_data_path.get_local_dir()
-        self.baseline_conf_path = baseline_conf_path.get_local_dir()
+        
+        self.paths_class = Paths(sit_path, gen_baseline, gen_validation)
+        self.paths_class.setup_runner_paths(sit_path)
+        
+        self.gen_validation = gen_validation
+        self.validation_path = self.paths_class.get_validation_path()
+        self.path = self.paths_class.get_generated_input_data_path()
+        self.baseline_conf_path = self.paths_class.get_baseline_conf_path()
 
         self.sc_fetcher = ScenarioDataFetcher(scenario_data)
         self.forest_end_year = self.sc_fetcher.get_afforestation_end_year()
@@ -68,7 +82,7 @@ class ForestSimRunner:
             afforest_data,
             scenario_data,
             gen_validation,
-            validation_path)
+            sit_path)
 
         self.INDEX = self.sc_fetcher.get_afforest_scenario_index()
 

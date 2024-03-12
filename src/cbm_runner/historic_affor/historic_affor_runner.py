@@ -7,11 +7,10 @@ This class is designed to facilitate the execution of Carbon Budget Model (CBM) 
 
 The module is intended largely for validation of historic afforestation input data, leveraging a suite of data management and simulation tools to prepare, execute, and analyze CBM simulations.
 """
-import cbm_runner.historic_affor.generated_input_data as input_data_path
-import cbm_runner.historic_affor.baseline_input_conf as baseline_conf_path
 from cbm_runner.cbm_data_factory import DataFactory
 from cbm_runner.resource_manager.cbm_runner_data_manager import DataManager
 from cbm_runner.resource_manager.scenario_data_fetcher import ScenarioDataFetcher
+from cbm_runner.resource_manager.paths import Paths
 from cbm_runner.runner import Runner
 
 
@@ -25,7 +24,19 @@ class HistoricAfforRunner:
     simulation tools to prepare, execute, and analyze CBM simulations. It focuses on generating outputs such as carbon stocks 
     and fluxes across various afforestation scenarios, offering insights into the carbon budget implications of past afforestation activities.
 
+    Args:
+        config_path (str): The path to the CBM configuration file.
+        calibration_year (int): The year used for calibration.
+        afforest_data (AfforestData): The afforestation data.
+        scenario_data (ScenarioData): The scenario data.
+        gen_baseline (bool): A boolean indicating whether to generate baseline data
+        gen_validation (bool): A boolean indicating whether to generate validation data
+        sit_path (str): The path to the SIT directory.
+
     Attributes:
+        paths_class (Paths): Manages the directory paths for input data, baseline configuration, and validation, ensuring a clean and organized data environment.
+        gen_validation (bool): A boolean indicating whether to generate validation data, critical for ensuring the accuracy and reliability of simulation results.
+        validation_path (str): Directory path for validation data, supporting the validation of simulation outputs and the assessment of data quality.
         path (str): Directory path where input data is stored, facilitating data management and simulation setup.
         baseline_conf_path (str): Directory path for baseline configuration data, critical for initializing simulation parameters.
         cbm_data_class (DataFactory): Manages the creation and organization of CBM data, ensuring accurate simulation inputs.
@@ -55,6 +66,9 @@ class HistoricAfforRunner:
         
         libcbm_scenario_fluxes(scenario):
             Invokes libCBM to calculate carbon fluxes for a given scenario, enhancing the depth of analysis with library-supported CBM functionalities.
+
+    Note:
+        An external path must be provided when generating validation data. 
     """
     def __init__(
         self,
@@ -62,10 +76,16 @@ class HistoricAfforRunner:
         calibration_year,
         afforest_data,
         scenario_data,
-        validation_path,
+        gen_baseline=False,
+        gen_validation=False,
+        sit_path = None,
     ):
-        self.path = input_data_path.get_local_dir()
-        self.baseline_conf_path = baseline_conf_path.get_local_dir()
+        self.paths_class = Paths(sit_path, gen_baseline, gen_validation)
+        self.paths_class.setup_runner_paths(sit_path)
+        self.gen_validation = gen_validation
+        self.validation_path = self.paths_class.get_validation_path()
+        self.path = self.paths_class.get_generated_input_data_path()
+        self.baseline_conf_path = self.paths_class.get_baseline_conf_path()
 
         self.sc_fetcher = ScenarioDataFetcher(scenario_data)
         self.forest_end_year = self.sc_fetcher.get_afforestation_end_year()
@@ -86,8 +106,8 @@ class HistoricAfforRunner:
         afforest_data,
         scenario_data,
         gen_baseline=False,
-        gen_validation=True,
-        validation_path=validation_path)
+        gen_validation=self.gen_validation,
+        sit_path=sit_path)
 
 
 

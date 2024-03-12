@@ -17,6 +17,7 @@ Submodules
    geo_cbm_runner_data_manager/index.rst
    loader/index.rst
    parser/index.rst
+   paths/index.rst
    scenario_data_fetcher/index.rst
 
 
