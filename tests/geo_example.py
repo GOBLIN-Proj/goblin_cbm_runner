@@ -24,7 +24,7 @@ def main():
     calibration_year = 2020
 
     # instance of the Runner class
-    runner = GeoRunner(config, calibration_year, afforest_data, sc_data, gen_validation=True, validation_path=validation_path)
+    runner = GeoRunner(config, calibration_year, afforest_data, sc_data)
 
     # generation of data for each of the scenarios
     runner.generate_input_data()
