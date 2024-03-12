@@ -25,12 +25,47 @@ Classes
 
 
 
-.. py:class:: GeoRunner(config_path, calibration_year, afforest_data, scenario_data, gen_baseline=True, gen_validation=False, validation_path=None)
+.. py:class:: GeoRunner(config_path, calibration_year, afforest_data, scenario_data, gen_baseline=True, gen_validation=False, sit_path=None)
 
 
    Handles execution of CBM simulations focused on Irish historic afforestation at the catchment level, utilizing
    geo-specific data preparation and management for Irish catchment data. This class orchestrates the setup, execution,
    and output generation for various scenarios, providing insights into carbon stocks and fluxes.
+
+   :param config_path: Path to the configuration file.
+   :type config_path: str
+   :param calibration_year: Year used for calibration.
+   :type calibration_year: int
+   :param afforest_data: Afforestation data.
+   :type afforest_data: AfforestData
+   :param scenario_data: Scenario data.
+   :type scenario_data: ScenarioData
+   :param gen_baseline: Flag to generate baseline data.
+   :type gen_baseline: bool
+   :param gen_validation: Flag to generate validation data.
+   :type gen_validation: bool
+   :param validation_path: Path to directory for validation data.
+   :type validation_path: str
+   :param sit_path: Path to the SIT directory.
+   :type sit_path: str
+
+   .. attribute:: paths_class
+
+      Manages paths for the GeoRunner.
+
+      :type: Paths
+
+   .. attribute:: gen_validation
+
+      Flag to generate validation data.
+
+      :type: bool
+
+   .. attribute:: validation_path
+
+      Path to directory for validation data.
+
+      :type: str
 
    .. attribute:: path
 
@@ -143,7 +178,8 @@ Classes
       
       Calculates carbon fluxes based on forest data for each scenario.
       
-      
+
+   .. note:: An external path can be specified to generate the validation data.
 
    .. py:method:: generate_base_input_data()
 

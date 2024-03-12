@@ -25,7 +25,7 @@ Classes
 
 
 
-.. py:class:: Runner(config_path, calibration_year, afforest_data, scenario_data, gen_baseline=True, gen_validation=False, validation_path=None)
+.. py:class:: Runner(config_path, calibration_year, afforest_data, scenario_data, gen_baseline=True, gen_validation=False, sit_path=None)
 
 
    The Runner class orchestrates the execution of Carbon Budget Model (CBM) simulations
@@ -37,6 +37,39 @@ Classes
    and execute CBM simulations, ultimately generating outputs such as carbon stocks and fluxes
    across different scenarios. It manages the creation and organization of simulation input data
    using specified directory paths and configuration files.
+
+   :param config_path: The path to the CBM configuration file.
+   :type config_path: str
+   :param calibration_year: The year used for calibration.
+   :type calibration_year: int
+   :param afforest_data: The afforestation data.
+   :type afforest_data: AfforestData
+   :param scenario_data: The scenario data.
+   :type scenario_data: ScenarioData
+   :param gen_baseline: A boolean indicating whether to generate baseline data.
+   :type gen_baseline: bool
+   :param gen_validation: A boolean indicating whether to generate validation data.
+   :type gen_validation: bool
+   :param sit_path: The path to the SIT directory.
+   :type sit_path: str
+
+   .. attribute:: paths_class
+
+      Instance of Paths for setting up directory paths for CBM simulation input data.
+
+      :type: Paths
+
+   .. attribute:: gen_validation
+
+      A boolean indicating whether to generate validation data.
+
+      :type: bool
+
+   .. attribute:: validation_path
+
+      Directory path for validation data.
+
+      :type: str
 
    .. attribute:: path
 
@@ -139,6 +172,8 @@ Classes
       
       Generates carbon flux data using the Libcbm method directly for a specified scenario (sc), contributing to the comprehensive analysis of carbon budget impacts under different land management strategies.
       
+
+   .. note:: An external path can be specified to generate the validation data.
 
    .. py:method:: generate_base_input_data()
 

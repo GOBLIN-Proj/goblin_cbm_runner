@@ -20,7 +20,6 @@ Subpackages
    harvest_manager/index.rst
    historic_affor/index.rst
    resource_manager/index.rst
-   validation_data/index.rst
 
 
 Submodules

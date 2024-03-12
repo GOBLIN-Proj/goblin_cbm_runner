@@ -41,7 +41,6 @@ class ValidationData:
             years: The number of years of data.
             sc: The scenario identifier.
         """        
-        path = output_data_path.get_local_dir()
 
         data = pd.DataFrame()
 
@@ -53,7 +52,7 @@ class ValidationData:
             data = pd.concat([data, temp_data], axis=0)
 
         
-        data.to_csv(os.path.join(path, "scenario_" + str(sc) +"_sit_event_stats_by_timestep.csv"))
+        data.to_csv(os.path.join(output_data_path, "scenario_" + str(sc) +"_sit_event_stats_by_timestep.csv"))
 
 
     @staticmethod
@@ -66,11 +65,10 @@ class ValidationData:
             object: An object containing the age class data.
             sc: The scenario identifier.
         """
-        path = output_data_path.get_local_dir()
 
         data = object.sit_data.age_classes
 
-        data.to_csv(os.path.join(path, "scenario_" + str(sc) +"_age_classes.csv"))
+        data.to_csv(os.path.join(output_data_path, "scenario_" + str(sc) +"_age_classes.csv"))
 
 
     @staticmethod
@@ -83,11 +81,10 @@ class ValidationData:
             object: An object containing the SIT events data.
             sc: The scenario identifier.
         """
-        path = output_data_path.get_local_dir()
 
         data = object.sit_events
 
-        data.to_csv(os.path.join(path, "scenario_" + str(sc) +"_sit_events.csv"))
+        data.to_csv(os.path.join(output_data_path, "scenario_" + str(sc) +"_sit_events.csv"))
 
 
     @staticmethod
@@ -99,9 +96,8 @@ class ValidationData:
             output_data_path: The path to save the CSV file.
             data: The baseline forest data (pandas DataFrame).
         """
-        path = output_data_path.get_local_dir()
 
-        data.to_csv(os.path.join(path, "scenario_baseline_forest.csv"))
+        data.to_csv(os.path.join(output_data_path, "scenario_baseline_forest.csv"))
 
 
     @staticmethod
@@ -114,10 +110,9 @@ class ValidationData:
             output_data_path: The path to save the CSV file.
             sc: The scenario identifier.
         """
-        path = output_data_path.get_local_dir()
 
-        events_names = pd.read_csv(os.path.join(path, "scenario_" + str(sc) +"_sit_events.csv"), index_col=0)
-        events_data = pd.read_csv(os.path.join(path, "scenario_" + str(sc) +"_sit_event_stats_by_timestep.csv"),index_col=7)
+        events_names = pd.read_csv(os.path.join(output_data_path, "scenario_" + str(sc) +"_sit_events.csv"), index_col=0)
+        events_data = pd.read_csv(os.path.join(output_data_path, "scenario_" + str(sc) +"_sit_event_stats_by_timestep.csv"),index_col=7)
 
         data_merge =[]
 
@@ -139,7 +134,7 @@ class ValidationData:
 
         data = pd.DataFrame(data_merge)
 
-        data.to_csv(os.path.join(path, "scenario_"+str(sc)+"_linked_events.csv"))
+        data.to_csv(os.path.join(output_data_path, "scenario_"+str(sc)+"_linked_events.csv"))
 
 
     @staticmethod
@@ -153,7 +148,6 @@ class ValidationData:
             object: An object containing the results data.
             sc: The scenario identifier.
         """
-        path = output_data_path.get_local_dir()
 
         results= {
             "data_area":object.area,
@@ -163,7 +157,7 @@ class ValidationData:
             "data_state":object.state}
         
         for key, data in results.items():
-            results[key].to_csv(os.path.join(path, "scenario_" + str(sc) +"_results_" + key + ".csv"))
+            results[key].to_csv(os.path.join(output_data_path, "scenario_" + str(sc) +"_results_" + key + ".csv"))
 
 
     @staticmethod

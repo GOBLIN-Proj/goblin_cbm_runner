@@ -12,7 +12,6 @@ Subpackages
 
    baseline_input_conf/index.rst
    generated_input_data/index.rst
-   validation_data/index.rst
 
 
 Submodules
