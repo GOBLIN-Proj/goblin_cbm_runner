@@ -5,13 +5,12 @@ This module provides functionalities to run CBM simulations focused on Irish his
 utilizing geo-specific data preparation and management for Irish catchment data.
 
 """
-import cbm_runner.geo_cbm_runner.generated_input_data as input_data_path
-import cbm_runner.geo_cbm_runner.baseline_input_conf as baseline_conf_path
 from cbm_runner.geo_cbm_runner.geo_cbm_data_factory import DataFactory
 from cbm_runner.resource_manager.geo_cbm_runner_data_manager import GeoDataManager
 from cbm_runner.resource_manager.cbm_pools import Pools
 from cbm_runner.resource_manager.flux_manager import FluxManager
 from cbm_runner.resource_manager.scenario_data_fetcher import ScenarioDataFetcher
+from cbm_runner.resource_manager.paths import Paths
 from cbm_runner.cbm_validation.validation import ValidationData
 from libcbm.model.cbm import cbm_simulator
 from libcbm.input.sit import sit_cbm_factory
@@ -26,7 +25,20 @@ class GeoRunner:
     geo-specific data preparation and management for Irish catchment data. This class orchestrates the setup, execution, 
     and output generation for various scenarios, providing insights into carbon stocks and fluxes.
 
+    Args:
+        config_path (str): Path to the configuration file.
+        calibration_year (int): Year used for calibration.
+        afforest_data (AfforestData): Afforestation data.
+        scenario_data (ScenarioData): Scenario data.
+        gen_baseline (bool): Flag to generate baseline data.
+        gen_validation (bool): Flag to generate validation data.
+        validation_path (str): Path to directory for validation data.
+        sit_path (str): Path to the SIT directory.
+
     Attributes:
+        paths_class (Paths): Manages paths for the GeoRunner.
+        gen_validation (bool): Flag to generate validation data.
+        validation_path (str): Path to directory for validation data.
         path (str): Path to directory for input data.
         baseline_conf_path (str): Path to directory for baseline configuration data.
         cbm_data_class (DataFactory): Handles CBM data preparation.
@@ -67,7 +79,11 @@ class GeoRunner:
 
         cbm_scenario_fluxes(forest_data):
             Calculates carbon fluxes based on forest data for each scenario.
-        """
+
+    Note:
+        An external path can be specified to generate the validation data.
+
+    """
     def __init__(
         self,
         config_path,
@@ -76,12 +92,15 @@ class GeoRunner:
         scenario_data,
         gen_baseline = True,
         gen_validation = False,
-        validation_path = None,
+        sit_path = None,
     ):
+
+        self.paths_class = Paths(sit_path, gen_baseline, gen_validation)
+        self.paths_class.setup_geo_runner_paths(sit_path)
         self.gen_validation = gen_validation
-        self.validation_path = validation_path
-        self.path = input_data_path.get_local_dir()
-        self.baseline_conf_path = baseline_conf_path.get_local_dir()
+        self.validation_path = self.paths_class.get_validation_path()
+        self.path = self.paths_class.get_generated_input_data_path()
+        self.baseline_conf_path = self.paths_class.get_baseline_conf_path()
         self.sc_fetcher = ScenarioDataFetcher(scenario_data)
         self.forest_end_year = self.sc_fetcher.get_afforestation_end_year()
         self.cbm_data_class = DataFactory(
@@ -98,9 +117,6 @@ class GeoRunner:
         self.deadwood = self.pools.get_deadwood_pools()
         self.litter = self.pools.get_litter_pools()
         self.soil = self.pools.get_soil_organic_matter_pools()
-        
-        if validation_path is not None and gen_validation:
-            ValidationData.clear_validation_folder(self.validation_path)
 
         if gen_baseline:
             self.generate_base_input_data()

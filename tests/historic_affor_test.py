@@ -1,5 +1,4 @@
 from cbm_runner.historic_affor.historic_affor_runner import HistoricAfforRunner
-import cbm_runner.historic_affor.validation_data as validation_path
 import pandas as pd
 import os
 
@@ -24,7 +23,7 @@ def main():
     calibration_year = 2022
 
     # instance of the Runner class
-    runner = HistoricAfforRunner(config, calibration_year, afforest_data, sc_data, validation_path=validation_path)
+    runner = HistoricAfforRunner(config, calibration_year, afforest_data, sc_data)
 
     # generation of data for each of the scenarios
     runner.generate_input_data()

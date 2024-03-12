@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>cbm_runner.geo_cbm_runner.geo_runner &mdash; CBM_runner 0.3.1 documentation</title>
+  <title>cbm_runner.geo_cbm_runner.geo_runner &mdash; CBM_runner 0.3.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -16,7 +16,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=4621528c"></script>
+        <script src="../../../_static/documentation_options.js?v=71d9d8e6"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -81,13 +81,12 @@
 <span class="sd">utilizing geo-specific data preparation and management for Irish catchment data.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">import</span> <span class="nn">cbm_runner.geo_cbm_runner.generated_input_data</span> <span class="k">as</span> <span class="nn">input_data_path</span>
-<span class="kn">import</span> <span class="nn">cbm_runner.geo_cbm_runner.baseline_input_conf</span> <span class="k">as</span> <span class="nn">baseline_conf_path</span>
 <span class="kn">from</span> <span class="nn">cbm_runner.geo_cbm_runner.geo_cbm_data_factory</span> <span class="kn">import</span> <span class="n">DataFactory</span>
 <span class="kn">from</span> <span class="nn">cbm_runner.resource_manager.geo_cbm_runner_data_manager</span> <span class="kn">import</span> <span class="n">GeoDataManager</span>
 <span class="kn">from</span> <span class="nn">cbm_runner.resource_manager.cbm_pools</span> <span class="kn">import</span> <span class="n">Pools</span>
 <span class="kn">from</span> <span class="nn">cbm_runner.resource_manager.flux_manager</span> <span class="kn">import</span> <span class="n">FluxManager</span>
 <span class="kn">from</span> <span class="nn">cbm_runner.resource_manager.scenario_data_fetcher</span> <span class="kn">import</span> <span class="n">ScenarioDataFetcher</span>
+<span class="kn">from</span> <span class="nn">cbm_runner.resource_manager.paths</span> <span class="kn">import</span> <span class="n">Paths</span>
 <span class="kn">from</span> <span class="nn">cbm_runner.cbm_validation.validation</span> <span class="kn">import</span> <span class="n">ValidationData</span>
 <span class="kn">from</span> <span class="nn">libcbm.model.cbm</span> <span class="kn">import</span> <span class="n">cbm_simulator</span>
 <span class="kn">from</span> <span class="nn">libcbm.input.sit</span> <span class="kn">import</span> <span class="n">sit_cbm_factory</span>
@@ -104,7 +103,20 @@
 <span class="sd">    geo-specific data preparation and management for Irish catchment data. This class orchestrates the setup, execution, </span>
 <span class="sd">    and output generation for various scenarios, providing insights into carbon stocks and fluxes.</span>
 
+<span class="sd">    Args:</span>
+<span class="sd">        config_path (str): Path to the configuration file.</span>
+<span class="sd">        calibration_year (int): Year used for calibration.</span>
+<span class="sd">        afforest_data (AfforestData): Afforestation data.</span>
+<span class="sd">        scenario_data (ScenarioData): Scenario data.</span>
+<span class="sd">        gen_baseline (bool): Flag to generate baseline data.</span>
+<span class="sd">        gen_validation (bool): Flag to generate validation data.</span>
+<span class="sd">        validation_path (str): Path to directory for validation data.</span>
+<span class="sd">        sit_path (str): Path to the SIT directory.</span>
+
 <span class="sd">    Attributes:</span>
+<span class="sd">        paths_class (Paths): Manages paths for the GeoRunner.</span>
+<span class="sd">        gen_validation (bool): Flag to generate validation data.</span>
+<span class="sd">        validation_path (str): Path to directory for validation data.</span>
 <span class="sd">        path (str): Path to directory for input data.</span>
 <span class="sd">        baseline_conf_path (str): Path to directory for baseline configuration data.</span>
 <span class="sd">        cbm_data_class (DataFactory): Handles CBM data preparation.</span>
@@ -145,7 +157,11 @@
 
 <span class="sd">        cbm_scenario_fluxes(forest_data):</span>
 <span class="sd">            Calculates carbon fluxes based on forest data for each scenario.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        An external path can be specified to generate the validation data.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="GeoRunner.__init__">
 <a class="viewcode-back" href="../../../autoapi/cbm_runner/geo_cbm_runner/geo_runner/index.html#cbm_runner.geo_cbm_runner.geo_runner.GeoRunner.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
@@ -156,12 +172,15 @@
         <span class="n">scenario_data</span><span class="p">,</span>
         <span class="n">gen_baseline</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">gen_validation</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">validation_path</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">sit_path</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">paths_class</span> <span class="o">=</span> <span class="n">Paths</span><span class="p">(</span><span class="n">sit_path</span><span class="p">,</span> <span class="n">gen_baseline</span><span class="p">,</span> <span class="n">gen_validation</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">paths_class</span><span class="o">.</span><span class="n">setup_geo_runner_paths</span><span class="p">(</span><span class="n">sit_path</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gen_validation</span> <span class="o">=</span> <span class="n">gen_validation</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">validation_path</span> <span class="o">=</span> <span class="n">validation_path</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">input_data_path</span><span class="o">.</span><span class="n">get_local_dir</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">baseline_conf_path</span> <span class="o">=</span> <span class="n">baseline_conf_path</span><span class="o">.</span><span class="n">get_local_dir</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">validation_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">paths_class</span><span class="o">.</span><span class="n">get_validation_path</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">paths_class</span><span class="o">.</span><span class="n">get_generated_input_data_path</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">baseline_conf_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">paths_class</span><span class="o">.</span><span class="n">get_baseline_conf_path</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sc_fetcher</span> <span class="o">=</span> <span class="n">ScenarioDataFetcher</span><span class="p">(</span><span class="n">scenario_data</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">forest_end_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sc_fetcher</span><span class="o">.</span><span class="n">get_afforestation_end_year</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span> <span class="o">=</span> <span class="n">DataFactory</span><span class="p">(</span>
@@ -178,9 +197,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">deadwood</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pools</span><span class="o">.</span><span class="n">get_deadwood_pools</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">litter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pools</span><span class="o">.</span><span class="n">get_litter_pools</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">soil</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pools</span><span class="o">.</span><span class="n">get_soil_organic_matter_pools</span><span class="p">()</span>
-        
-        <span class="k">if</span> <span class="n">validation_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">gen_validation</span><span class="p">:</span>
-            <span class="n">ValidationData</span><span class="o">.</span><span class="n">clear_validation_folder</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validation_path</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">gen_baseline</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">generate_base_input_data</span><span class="p">()</span>

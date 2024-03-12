@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>cbm_runner.forest_sim.forestsim_runner &mdash; CBM_runner 0.3.1 documentation</title>
+  <title>cbm_runner.forest_sim.forestsim_runner &mdash; CBM_runner 0.3.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../_static/documentation_options.js?v=4621528c"></script>
+        <script src="../../../../_static/documentation_options.js?v=71d9d8e6"></script>
         <script src="../../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -60,7 +60,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../../harvest_manager/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cbm_runner.harvest_manager</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../historic_affor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cbm_runner.historic_affor</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../resource_manager/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cbm_runner.resource_manager</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../validation_data/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cbm_runner.validation_data</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../index.html#submodules">Submodules</a></li>
@@ -117,7 +116,7 @@
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="cbm_runner.forest_sim.forestsim_runner.ForestSimRunner">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cbm_runner.forest_sim.forestsim_runner.</span></span><span class="sig-name descname"><span class="pre">ForestSimRunner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibration_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">afforest_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">afforest_data_annual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gen_validation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validation_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/cbm_runner/forest_sim/forestsim_runner.html#ForestSimRunner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cbm_runner.forest_sim.forestsim_runner.ForestSimRunner" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cbm_runner.forest_sim.forestsim_runner.</span></span><span class="sig-name descname"><span class="pre">ForestSimRunner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibration_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">afforest_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">afforest_data_annual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gen_baseline</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gen_validation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sit_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/cbm_runner/forest_sim/forestsim_runner.html#ForestSimRunner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cbm_runner.forest_sim.forestsim_runner.ForestSimRunner" title="Link to this definition"></a></dt>
 <dd><p>The ForestSimRunner class is responsible for generating input data and running scenarios in the CBM model.</p>
 <p>This class is used when annual afforesation has been specified for each year.</p>
 <dl class="field-list simple">
@@ -129,9 +128,45 @@
 <li><p><strong>afforest_data</strong> (<em>AfforestData</em>) – The afforestation data.</p></li>
 <li><p><strong>afforest_data_annual</strong> (<em>AfforestDataAnnual</em>) – The annual afforestation data.</p></li>
 <li><p><strong>scenario_data</strong> (<em>ScenarioData</em>) – The scenario data.</p></li>
+<li><p><strong>gen_baseline</strong> (<em>bool</em>) – A flag to generate the baseline data.</p></li>
+<li><p><strong>gen_validation</strong> (<em>bool</em>) – A flag to generate the validation data.</p></li>
+<li><p><strong>sit_path</strong> (<em>str</em>) – The path to the SIT directory.</p></li>
 </ul>
 </dd>
 </dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cbm_runner.forest_sim.forestsim_runner.ForestSimRunner.paths_class">
+<span class="sig-name descname"><span class="pre">paths_class</span></span><a class="headerlink" href="#cbm_runner.forest_sim.forestsim_runner.ForestSimRunner.paths_class" title="Link to this definition"></a></dt>
+<dd><p>The instance of the Paths class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../../resource_manager/paths/index.html#cbm_runner.resource_manager.paths.Paths" title="cbm_runner.resource_manager.paths.Paths">Paths</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cbm_runner.forest_sim.forestsim_runner.ForestSimRunner.gen_validation">
+<span class="sig-name descname"><span class="pre">gen_validation</span></span><a class="headerlink" href="#cbm_runner.forest_sim.forestsim_runner.ForestSimRunner.gen_validation" title="Link to this definition"></a></dt>
+<dd><p>A flag to generate the validation data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cbm_runner.forest_sim.forestsim_runner.ForestSimRunner.validation_path">
+<span class="sig-name descname"><span class="pre">validation_path</span></span><a class="headerlink" href="#cbm_runner.forest_sim.forestsim_runner.ForestSimRunner.validation_path" title="Link to this definition"></a></dt>
+<dd><p>The path to the validation directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cbm_runner.forest_sim.forestsim_runner.ForestSimRunner.path">
 <span class="sig-name descname"><span class="pre">path</span></span><a class="headerlink" href="#cbm_runner.forest_sim.forestsim_runner.ForestSimRunner.path" title="Link to this definition"></a></dt>
@@ -211,6 +246,10 @@
 <dd><p>Runs the flux scenarios in the CBM model.</p>
 </dd></dl>
 
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>An external path can be specified to generate the validation data.</p>
+</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="id0">
 <span class="sig-name descname"><span class="pre">generate_base_input_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/cbm_runner/forest_sim/forestsim_runner.html#ForestSimRunner.generate_base_input_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
