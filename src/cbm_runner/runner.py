@@ -171,8 +171,8 @@ class Runner:
         if path is None:
             path = self.path
 
-        self.cbm_data_class.clean_data_dir(path)
-        self.cbm_data_class.make_data_dirs(self.INDEX, path)
+            self.cbm_data_class.clean_data_dir(path)
+            self.cbm_data_class.make_data_dirs(self.INDEX, path)
 
         for i in self.INDEX:
             self.cbm_data_class.make_classifiers(i, path)
