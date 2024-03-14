@@ -125,3 +125,40 @@ class Paths:
             str: The validation path.
         """
         return self.validation_path
+    
+
+    def get_internal_generated_input_data_path(self):
+        """
+        Returns the internal generated input data path.
+
+        Returns:
+            str: The internal generated input data path.
+        """
+        return runner_input_data_path.get_local_dir()
+    
+    def get_internal_baseline_conf_path(self):
+        """
+        Returns the internal baseline configuration path.
+
+        Returns:
+            str: The internal baseline configuration path.
+        """
+        return runner_baseline_conf_path.get_local_dir()
+    
+
+    def is_path_internal(self, path):
+        """
+        Determines whether the provided path is one of the internally generated paths.
+        
+        Args:
+            path (str): The path to check.
+            
+        Returns:
+            bool: True if the path is internally generated, False otherwise.
+        """
+        internal_paths = [
+            self.get_internal_generated_input_data_path(),
+            self.get_internal_baseline_conf_path(),
+        ]
+        # Check if the provided path matches any of the internal paths
+        return path in internal_paths
