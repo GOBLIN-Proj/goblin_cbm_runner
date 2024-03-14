@@ -120,14 +120,14 @@ class Runner:
         self.soil = self.pools.get_soil_organic_matter_pools()
 
         if gen_baseline:
-            self.generate_base_input_data()
+            self.generate_base_input_data(sit_path)
             self.forest_baseline_dataframe = self.cbm_baseline_forest()
             if self.gen_validation:
                 ValidationData.gen_baseline_forest(self.validation_path, self.forest_baseline_dataframe["Stock"])
 
 
 
-    def generate_base_input_data(self):
+    def generate_base_input_data(self, sit_path = None):
         """
         Generates the base input data for the CBM runner.
 
@@ -143,7 +143,8 @@ class Runner:
         """
         path = self.baseline_conf_path
 
-        self.cbm_data_class.clean_baseline_data_dir(path)
+        if not self.paths_class.is_path_internal(path):
+            self.cbm_data_class.clean_baseline_data_dir(path)
 
         self.cbm_data_class.make_classifiers(None, path)
         self.cbm_data_class.make_config_json(None, path)
@@ -155,7 +156,7 @@ class Runner:
         self.cbm_data_class.make_transition_rules(None, path)
 
 
-    def generate_input_data(self, path = None):
+    def generate_input_data(self):
         """
         Generates input data for the CBM runner.
 
@@ -168,9 +169,10 @@ class Runner:
         Returns:
             None
         """
-        if path is None:
-            path = self.path
+        path = self.path
 
+        
+        if not self.paths_class.is_path_internal(path):
             self.cbm_data_class.clean_data_dir(path)
             self.cbm_data_class.make_data_dirs(self.INDEX, path)
 
@@ -183,6 +185,7 @@ class Runner:
             self.cbm_data_class.make_disturbance_events(i, path)
             self.cbm_data_class.make_disturbance_type(i, path)
             self.cbm_data_class.make_transition_rules(i, path)
+
 
     def run_aggregate_scenarios(self):
         """
