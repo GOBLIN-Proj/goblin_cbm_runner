@@ -28,7 +28,7 @@ Classes
 
 
 
-.. py:class:: HistoricAfforRunner(config_path, calibration_year, afforest_data, scenario_data, gen_baseline=False, gen_validation=False, sit_path=None)
+.. py:class:: HistoricAfforRunner(config_path, calibration_year, afforest_data, scenario_data, gen_baseline=False, gen_validation=False)
 
 
    Facilitates the execution of Carbon Budget Model (CBM) simulations for assessing historic afforestation efforts in Ireland.
@@ -48,8 +48,6 @@ Classes
    :type gen_baseline: bool
    :param gen_validation: A boolean indicating whether to generate validation data
    :type gen_validation: bool
-   :param sit_path: The path to the SIT directory.
-   :type sit_path: str
 
    .. attribute:: paths_class
 

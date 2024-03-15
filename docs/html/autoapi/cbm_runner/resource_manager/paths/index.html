@@ -4,10 +4,10 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>cbm_runner.resource_manager.paths &mdash; CBM_runner 0.3.2 documentation</title>
+  <title>cbm_runner.resource_manager.paths &mdash; CBM_runner 0.3.3 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=eafc0fe6" />
 
   
@@ -17,7 +17,7 @@
   
         <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../_static/documentation_options.js?v=71d9d8e6"></script>
+        <script src="../../../../_static/documentation_options.js?v=d5a15cff"></script>
         <script src="../../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -215,6 +215,34 @@
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="cbm_runner.resource_manager.paths.Paths.setup_forest_runner_paths">
+<span class="sig-name descname"><span class="pre">setup_forest_runner_paths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sit_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/cbm_runner/resource_manager/paths.html#Paths.setup_forest_runner_paths"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cbm_runner.resource_manager.paths.Paths.setup_forest_runner_paths" title="Link to this definition"></a></dt>
+<dd><p>Sets up the necessary directory paths for CBM simulation input data for forest_sim.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sit_path</strong> (<em>str</em>) – The specific site path provided by the user; None if not provided.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cbm_runner.resource_manager.paths.Paths.setup_historic_affor_paths">
+<span class="sig-name descname"><span class="pre">setup_historic_affor_paths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sit_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/cbm_runner/resource_manager/paths.html#Paths.setup_historic_affor_paths"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cbm_runner.resource_manager.paths.Paths.setup_historic_affor_paths" title="Link to this definition"></a></dt>
+<dd><p>Sets up the necessary directory paths for CBM simulation input data for historic_affor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sit_path</strong> (<em>str</em>) – The specific site path provided by the user; None if not provided.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="id2">
 <span class="sig-name descname"><span class="pre">make_external_dirs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/cbm_runner/resource_manager/paths.html#Paths.make_external_dirs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
 <dd><p>Creates directories for external use.</p>
@@ -266,6 +294,153 @@
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cbm_runner.resource_manager.paths.Paths.get_internal_runner_generated_input_data_path">
+<span class="sig-name descname"><span class="pre">get_internal_runner_generated_input_data_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/cbm_runner/resource_manager/paths.html#Paths.get_internal_runner_generated_input_data_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cbm_runner.resource_manager.paths.Paths.get_internal_runner_generated_input_data_path" title="Link to this definition"></a></dt>
+<dd><p>Returns the internal generated input data path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The internal generated input data path.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cbm_runner.resource_manager.paths.Paths.get_internal_runner_baseline_conf_path">
+<span class="sig-name descname"><span class="pre">get_internal_runner_baseline_conf_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/cbm_runner/resource_manager/paths.html#Paths.get_internal_runner_baseline_conf_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cbm_runner.resource_manager.paths.Paths.get_internal_runner_baseline_conf_path" title="Link to this definition"></a></dt>
+<dd><p>Returns the internal baseline configuration path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The internal baseline configuration path.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cbm_runner.resource_manager.paths.Paths.get_internal_geo_runner_generated_input_data_path">
+<span class="sig-name descname"><span class="pre">get_internal_geo_runner_generated_input_data_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/cbm_runner/resource_manager/paths.html#Paths.get_internal_geo_runner_generated_input_data_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cbm_runner.resource_manager.paths.Paths.get_internal_geo_runner_generated_input_data_path" title="Link to this definition"></a></dt>
+<dd><p>Returns the internal generated input data path for geo_cbm_runner.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The internal generated input data path for geo_cbm_runner.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cbm_runner.resource_manager.paths.Paths.get_internal_geo_runner_baseline_conf_path">
+<span class="sig-name descname"><span class="pre">get_internal_geo_runner_baseline_conf_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/cbm_runner/resource_manager/paths.html#Paths.get_internal_geo_runner_baseline_conf_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cbm_runner.resource_manager.paths.Paths.get_internal_geo_runner_baseline_conf_path" title="Link to this definition"></a></dt>
+<dd><p>Returns the internal baseline configuration path for geo_cbm_runner.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The internal baseline configuration path for geo_cbm_runner.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cbm_runner.resource_manager.paths.Paths.get_internal_forest_runner_generated_input_data_path">
+<span class="sig-name descname"><span class="pre">get_internal_forest_runner_generated_input_data_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/cbm_runner/resource_manager/paths.html#Paths.get_internal_forest_runner_generated_input_data_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cbm_runner.resource_manager.paths.Paths.get_internal_forest_runner_generated_input_data_path" title="Link to this definition"></a></dt>
+<dd><p>Returns the internal generated input data path for forest_sim.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The internal generated input data path for forest_sim.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cbm_runner.resource_manager.paths.Paths.get_internal_forest_runner_baseline_conf_path">
+<span class="sig-name descname"><span class="pre">get_internal_forest_runner_baseline_conf_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/cbm_runner/resource_manager/paths.html#Paths.get_internal_forest_runner_baseline_conf_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cbm_runner.resource_manager.paths.Paths.get_internal_forest_runner_baseline_conf_path" title="Link to this definition"></a></dt>
+<dd><p>Returns the internal baseline configuration path for forest_sim.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The internal baseline configuration path for forest_sim.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cbm_runner.resource_manager.paths.Paths.get_internal_historic_affor_generated_input_data_path">
+<span class="sig-name descname"><span class="pre">get_internal_historic_affor_generated_input_data_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/cbm_runner/resource_manager/paths.html#Paths.get_internal_historic_affor_generated_input_data_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cbm_runner.resource_manager.paths.Paths.get_internal_historic_affor_generated_input_data_path" title="Link to this definition"></a></dt>
+<dd><p>Returns the internal generated input data path for historic_affor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The internal generated input data path for historic_affor.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cbm_runner.resource_manager.paths.Paths.get_internal_historic_affor_baseline_conf_path">
+<span class="sig-name descname"><span class="pre">get_internal_historic_affor_baseline_conf_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/cbm_runner/resource_manager/paths.html#Paths.get_internal_historic_affor_baseline_conf_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cbm_runner.resource_manager.paths.Paths.get_internal_historic_affor_baseline_conf_path" title="Link to this definition"></a></dt>
+<dd><p>Returns the internal baseline configuration path for historic_affor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The internal baseline configuration path for historic_affor.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cbm_runner.resource_manager.paths.Paths.is_path_internal">
+<span class="sig-name descname"><span class="pre">is_path_internal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/cbm_runner/resource_manager/paths.html#Paths.is_path_internal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cbm_runner.resource_manager.paths.Paths.is_path_internal" title="Link to this definition"></a></dt>
+<dd><p>Determines whether the provided path is one of the internally generated paths.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – The path to check.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the path is internally generated, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cbm_runner.resource_manager.paths.Paths.retry_operation">
+<span class="sig-name descname"><span class="pre">retry_operation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_attempts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wait_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/cbm_runner/resource_manager/paths.html#Paths.retry_operation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cbm_runner.resource_manager.paths.Paths.retry_operation" title="Link to this definition"></a></dt>
+<dd><p>Retry a function multiple times if it fails.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>function</strong> (<em>function</em>) – The function to execute.</p></li>
+<li><p><strong>max_attempts</strong> (<em>int</em>) – The maximum number of attempts.</p></li>
+<li><p><strong>wait_time</strong> (<em>int</em>) – The time to wait before retrying.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The result of the function if successful.</p>
 </dd>
 </dl>
 </dd></dl>

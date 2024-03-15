@@ -31,7 +31,6 @@ class HistoricAfforRunner:
         scenario_data (ScenarioData): The scenario data.
         gen_baseline (bool): A boolean indicating whether to generate baseline data
         gen_validation (bool): A boolean indicating whether to generate validation data
-        sit_path (str): The path to the SIT directory.
 
     Attributes:
         paths_class (Paths): Manages the directory paths for input data, baseline configuration, and validation, ensuring a clean and organized data environment.
@@ -77,11 +76,10 @@ class HistoricAfforRunner:
         afforest_data,
         scenario_data,
         gen_baseline=False,
-        gen_validation=False,
-        sit_path = None,
-    ):
-        self.paths_class = Paths(sit_path, gen_baseline, gen_validation)
-        self.paths_class.setup_runner_paths(sit_path)
+        gen_validation=False
+    ):  
+        self.paths_class = Paths(None, gen_baseline, gen_validation)
+        self.paths_class.setup_historic_affor_paths(None)
         self.gen_validation = gen_validation
         self.validation_path = self.paths_class.get_validation_path()
         self.path = self.paths_class.get_generated_input_data_path()
@@ -107,7 +105,7 @@ class HistoricAfforRunner:
         scenario_data,
         gen_baseline=False,
         gen_validation=self.gen_validation,
-        sit_path=sit_path)
+        sit_path=None)
 
 
 
@@ -125,9 +123,10 @@ class HistoricAfforRunner:
             None
         """
         path = self.path
-
-        self.cbm_data_class.clean_data_dir(path)
-        self.cbm_data_class.make_data_dirs(self.INDEX, path)
+    
+        if self.paths_class.is_path_internal(path):
+            self.cbm_data_class.clean_data_dir(path)
+            self.cbm_data_class.make_data_dirs(self.INDEX, path)
 
         for i in self.INDEX:
             self.cbm_data_class.make_classifiers(i, path)

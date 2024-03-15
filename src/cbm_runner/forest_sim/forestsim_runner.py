@@ -27,7 +27,6 @@ class ForestSimRunner:
         scenario_data (ScenarioData): The scenario data.
         gen_baseline (bool): A flag to generate the baseline data.
         gen_validation (bool): A flag to generate the validation data.
-        sit_path (str): The path to the SIT directory.
 
     Attributes:
         paths_class (Paths): The instance of the Paths class.
@@ -58,11 +57,10 @@ class ForestSimRunner:
         scenario_data,
         gen_baseline = True,
         gen_validation = False,
-        sit_path = None,
     ):
         
-        self.paths_class = Paths(sit_path, gen_baseline, gen_validation)
-        self.paths_class.setup_runner_paths(sit_path)
+        self.paths_class = Paths(None, gen_baseline, gen_validation)
+        self.paths_class.setup_forest_runner_paths(None)
         
         self.gen_validation = gen_validation
         self.validation_path = self.paths_class.get_validation_path()
@@ -82,7 +80,7 @@ class ForestSimRunner:
             afforest_data,
             scenario_data,
             gen_validation,
-            sit_path)
+            None)
 
         self.INDEX = self.sc_fetcher.get_afforest_scenario_index()
 
@@ -93,7 +91,8 @@ class ForestSimRunner:
         """
         path = self.baseline_conf_path
 
-        self.cbm_data_class.clean_baseline_data_dir(path)
+        if not self.paths_class.is_path_internal(path):
+            self.cbm_data_class.clean_baseline_data_dir(path)
 
         self.cbm_data_class.make_classifiers(None, path)
         self.cbm_data_class.make_config_json(None, path)
@@ -109,9 +108,10 @@ class ForestSimRunner:
         Generates the input data for each scenario in the CBM model.
         """
         path = self.path
-
-        self.cbm_data_class.clean_data_dir(path)
-        self.cbm_data_class.make_data_dirs(self.INDEX, path)
+    
+        if self.paths_class.is_path_internal(path):
+            self.cbm_data_class.clean_data_dir(path)
+            self.cbm_data_class.make_data_dirs(self.INDEX, path)
 
         for i in self.INDEX:
             self.cbm_data_class.make_classifiers(i, path)

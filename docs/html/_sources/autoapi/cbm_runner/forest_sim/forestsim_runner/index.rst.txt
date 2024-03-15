@@ -25,7 +25,7 @@ Classes
 
 
 
-.. py:class:: ForestSimRunner(config_path, calibration_year, afforest_data, afforest_data_annual, scenario_data, gen_baseline=True, gen_validation=False, sit_path=None)
+.. py:class:: ForestSimRunner(config_path, calibration_year, afforest_data, afforest_data_annual, scenario_data, gen_baseline=True, gen_validation=False)
 
 
    The ForestSimRunner class is responsible for generating input data and running scenarios in the CBM model.
@@ -48,8 +48,6 @@ Classes
    :type gen_baseline: bool
    :param gen_validation: A flag to generate the validation data.
    :type gen_validation: bool
-   :param sit_path: The path to the SIT directory.
-   :type sit_path: str
 
    .. attribute:: paths_class
 
