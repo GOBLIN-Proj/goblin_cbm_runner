@@ -141,7 +141,8 @@ class GeoRunner:
         """
         path = self.baseline_conf_path
 
-        self.cbm_data_class.clean_baseline_data_dir(path)
+        if self.paths_class.is_path_internal(path):
+            self.cbm_data_class.clean_baseline_data_dir(path)
 
         self.cbm_data_class.make_classifiers(None, path)
         self.cbm_data_class.make_config_json(None, path)
@@ -168,8 +169,10 @@ class GeoRunner:
         """
         path = self.path
 
-        self.cbm_data_class.clean_data_dir(path)
-        self.cbm_data_class.make_data_dirs(self.INDEX, path)
+        
+        if not self.paths_class.is_path_internal(path):
+            self.cbm_data_class.clean_data_dir(path)
+            self.cbm_data_class.make_data_dirs(self.INDEX, path)
 
         for i in self.INDEX:
             self.cbm_data_class.make_classifiers(i, path)
