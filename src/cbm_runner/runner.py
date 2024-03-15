@@ -99,6 +99,7 @@ class Runner:
         self.gen_validation = gen_validation
         self.validation_path = self.paths_class.get_validation_path()
         self.path = self.paths_class.get_generated_input_data_path()
+
         self.baseline_conf_path = self.paths_class.get_baseline_conf_path()
         
         self.sc_fetcher = ScenarioDataFetcher(scenario_data)
@@ -143,7 +144,8 @@ class Runner:
         """
         path = self.baseline_conf_path
 
-        self.cbm_data_class.clean_baseline_data_dir(path)
+        if not self.paths_class.is_path_internal(path):
+            self.cbm_data_class.clean_baseline_data_dir(path)
 
         self.cbm_data_class.make_classifiers(None, path)
         self.cbm_data_class.make_config_json(None, path)
@@ -155,7 +157,7 @@ class Runner:
         self.cbm_data_class.make_transition_rules(None, path)
 
 
-    def generate_input_data(self, path = None):
+    def generate_input_data(self):
         """
         Generates input data for the CBM runner.
 
@@ -168,11 +170,11 @@ class Runner:
         Returns:
             None
         """
-        if path is None:
-            path = self.path
-
-        self.cbm_data_class.clean_data_dir(path)
-        self.cbm_data_class.make_data_dirs(self.INDEX, path)
+        path = self.path
+    
+        if self.paths_class.is_path_internal(path):
+            self.cbm_data_class.clean_data_dir(path)
+            self.cbm_data_class.make_data_dirs(self.INDEX, path)
 
         for i in self.INDEX:
             self.cbm_data_class.make_classifiers(i, path)
@@ -183,6 +185,7 @@ class Runner:
             self.cbm_data_class.make_disturbance_events(i, path)
             self.cbm_data_class.make_disturbance_type(i, path)
             self.cbm_data_class.make_transition_rules(i, path)
+
 
     def run_aggregate_scenarios(self):
         """
