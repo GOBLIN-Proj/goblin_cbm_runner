@@ -1,5 +1,4 @@
 from cbm_runner.forest_sim.forestsim_runner import ForestSimRunner
-import cbm_runner.forest_sim.validation_data as validation_path
 import pandas as pd
 import os
 

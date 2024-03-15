@@ -105,7 +105,6 @@
 <span class="sd">        scenario_data (ScenarioData): The scenario data.</span>
 <span class="sd">        gen_baseline (bool): A flag to generate the baseline data.</span>
 <span class="sd">        gen_validation (bool): A flag to generate the validation data.</span>
-<span class="sd">        sit_path (str): The path to the SIT directory.</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        paths_class (Paths): The instance of the Paths class.</span>
@@ -136,11 +135,10 @@
         <span class="n">scenario_data</span><span class="p">,</span>
         <span class="n">gen_baseline</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">gen_validation</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">sit_path</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
         
-        <span class="bp">self</span><span class="o">.</span><span class="n">paths_class</span> <span class="o">=</span> <span class="n">Paths</span><span class="p">(</span><span class="n">sit_path</span><span class="p">,</span> <span class="n">gen_baseline</span><span class="p">,</span> <span class="n">gen_validation</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">paths_class</span><span class="o">.</span><span class="n">setup_runner_paths</span><span class="p">(</span><span class="n">sit_path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">paths_class</span> <span class="o">=</span> <span class="n">Paths</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">gen_baseline</span><span class="p">,</span> <span class="n">gen_validation</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">paths_class</span><span class="o">.</span><span class="n">setup_forest_runner_paths</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">gen_validation</span> <span class="o">=</span> <span class="n">gen_validation</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">validation_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">paths_class</span><span class="o">.</span><span class="n">get_validation_path</span><span class="p">()</span>
@@ -160,7 +158,7 @@
             <span class="n">afforest_data</span><span class="p">,</span>
             <span class="n">scenario_data</span><span class="p">,</span>
             <span class="n">gen_validation</span><span class="p">,</span>
-            <span class="n">sit_path</span><span class="p">)</span>
+            <span class="kc">None</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">INDEX</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sc_fetcher</span><span class="o">.</span><span class="n">get_afforest_scenario_index</span><span class="p">()</span>
 
@@ -173,7 +171,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">baseline_conf_path</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">clean_baseline_data_dir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">paths_class</span><span class="o">.</span><span class="n">is_path_internal</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">clean_baseline_data_dir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">make_classifiers</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">make_config_json</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
@@ -192,9 +191,10 @@
 <span class="sd">        Generates the input data for each scenario in the CBM model.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">clean_data_dir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">make_data_dirs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">INDEX</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+    
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">paths_class</span><span class="o">.</span><span class="n">is_path_internal</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">clean_data_dir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">make_data_dirs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">INDEX</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">INDEX</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">make_classifiers</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>

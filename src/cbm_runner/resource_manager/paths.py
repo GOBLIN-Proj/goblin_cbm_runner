@@ -9,6 +9,10 @@ import cbm_runner.generated_input_data as runner_input_data_path
 import cbm_runner.baseline_input_conf as runner_baseline_conf_path
 import cbm_runner.geo_cbm_runner.generated_input_data as geo_runner_input_data_path
 import cbm_runner.geo_cbm_runner.baseline_input_conf as geo_runner_baseline_conf_path
+import cbm_runner.forest_sim.generated_input_data as forest_runner_input_data_path
+import cbm_runner.forest_sim.baseline_input_conf as forest_runner_baseline_conf_path
+import cbm_runner.historic_affor.baseline_input_conf as historic_affor_baseline_conf_path
+import cbm_runner.historic_affor.generated_input_data as historic_affor_input_data_path
 
 class Paths:
     """
@@ -79,8 +83,52 @@ class Paths:
         self.generated_input_data_path = path
         self.baseline_conf_path = baseline_conf_path
         self.validation_path = validation_path
-            
 
+    def setup_forest_runner_paths(self, sit_path):
+        """
+        Sets up the necessary directory paths for CBM simulation input data for forest_sim.
+
+
+        Args:
+            sit_path (str): The specific site path provided by the user; None if not provided.
+
+        Returns:
+            None
+        """
+        # Initialize default paths before checking sit_path
+        path = os.path.join(sit_path, "CBM/generated_input_data") if sit_path else forest_runner_input_data_path.get_local_dir()
+        baseline_conf_path = os.path.join(sit_path, "CBM/baseline_input_conf") if sit_path and self.gen_baseline else forest_runner_baseline_conf_path.get_local_dir() if self.gen_baseline else None
+        validation_path = os.path.join(sit_path, "CBM/validation") if sit_path and self.validation else None
+
+        if sit_path is not None:
+            self.make_external_dirs(sit_path)
+
+        self.generated_input_data_path = path
+        self.baseline_conf_path = baseline_conf_path
+        self.validation_path = validation_path
+
+    def setup_historic_affor_paths(self, sit_path):
+        """
+        Sets up the necessary directory paths for CBM simulation input data for historic_affor.
+
+        Args:
+            sit_path (str): The specific site path provided by the user; None if not provided.
+
+        Returns:
+            None
+        """
+
+        path = os.path.join(sit_path, "CBM/generated_input_data") if sit_path else historic_affor_input_data_path.get_local_dir()
+        baseline_conf_path = os.path.join(sit_path, "CBM/baseline_input_conf") if sit_path and self.gen_baseline else historic_affor_baseline_conf_path.get_local_dir() if self.gen_baseline else None
+        validation_path = os.path.join(sit_path, "CBM/validation") if sit_path and self.validation else None
+
+        if sit_path is not None:
+            self.make_external_dirs(sit_path)
+
+        self.generated_input_data_path = path
+        self.baseline_conf_path = baseline_conf_path
+        self.validation_path = validation_path
+        
 
     def make_external_dirs(self, path):
         """
@@ -166,6 +214,42 @@ class Paths:
         return geo_runner_baseline_conf_path.get_local_dir()
     
 
+    def get_internal_forest_runner_generated_input_data_path(self):
+        """
+        Returns the internal generated input data path for forest_sim.
+
+        Returns:
+            str: The internal generated input data path for forest_sim.
+        """
+        return forest_runner_input_data_path.get_local_dir()
+    
+    def get_internal_forest_runner_baseline_conf_path(self):
+        """
+        Returns the internal baseline configuration path for forest_sim.
+
+        Returns:
+            str: The internal baseline configuration path for forest_sim.
+        """
+        return forest_runner_baseline_conf_path.get_local_dir()
+    
+    def get_internal_historic_affor_generated_input_data_path(self):
+        """
+        Returns the internal generated input data path for historic_affor.
+
+        Returns:
+            str: The internal generated input data path for historic_affor.
+        """
+        return historic_affor_input_data_path.get_local_dir()
+    
+    def get_internal_historic_affor_baseline_conf_path(self):
+        """
+        Returns the internal baseline configuration path for historic_affor.
+
+        Returns:
+            str: The internal baseline configuration path for historic_affor.
+        """
+        return historic_affor_baseline_conf_path.get_local_dir()
+
     def is_path_internal(self, path):
         """
         Determines whether the provided path is one of the internally generated paths.
@@ -181,6 +265,10 @@ class Paths:
             self.get_internal_runner_generated_input_data_path(),
             self.get_internal_geo_runner_baseline_conf_path(),
             self.get_internal_geo_runner_generated_input_data_path(),
+            self.get_internal_forest_runner_baseline_conf_path(),
+            self.get_internal_forest_runner_generated_input_data_path(),
+            self.get_internal_historic_affor_baseline_conf_path(),
+            self.get_internal_historic_affor_generated_input_data_path(),
         ]
         # Check if the provided path matches any of the internal paths
         return path in internal_paths

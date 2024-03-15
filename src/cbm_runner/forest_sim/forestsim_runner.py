@@ -60,7 +60,7 @@ class ForestSimRunner:
     ):
         
         self.paths_class = Paths(None, gen_baseline, gen_validation)
-        self.paths_class.setup_runner_paths(None)
+        self.paths_class.setup_forest_runner_paths(None)
         
         self.gen_validation = gen_validation
         self.validation_path = self.paths_class.get_validation_path()
@@ -91,7 +91,8 @@ class ForestSimRunner:
         """
         path = self.baseline_conf_path
 
-        self.cbm_data_class.clean_baseline_data_dir(path)
+        if not self.paths_class.is_path_internal(path):
+            self.cbm_data_class.clean_baseline_data_dir(path)
 
         self.cbm_data_class.make_classifiers(None, path)
         self.cbm_data_class.make_config_json(None, path)
@@ -107,9 +108,10 @@ class ForestSimRunner:
         Generates the input data for each scenario in the CBM model.
         """
         path = self.path
-
-        self.cbm_data_class.clean_data_dir(path)
-        self.cbm_data_class.make_data_dirs(self.INDEX, path)
+    
+        if self.paths_class.is_path_internal(path):
+            self.cbm_data_class.clean_data_dir(path)
+            self.cbm_data_class.make_data_dirs(self.INDEX, path)
 
         for i in self.INDEX:
             self.cbm_data_class.make_classifiers(i, path)
