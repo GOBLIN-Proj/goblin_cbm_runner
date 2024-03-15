@@ -4,6 +4,7 @@ Paths module
 This module contains the Paths class, which is used to set up the necessary directory paths for CBM simulation input data for cbm_runner and geo_cbm_runner.
 """
 import os 
+import time
 import cbm_runner.generated_input_data as runner_input_data_path
 import cbm_runner.baseline_input_conf as runner_baseline_conf_path
 import cbm_runner.geo_cbm_runner.generated_input_data as geo_runner_input_data_path
@@ -127,7 +128,7 @@ class Paths:
         return self.validation_path
     
 
-    def get_internal_generated_input_data_path(self):
+    def get_internal_runner_generated_input_data_path(self):
         """
         Returns the internal generated input data path.
 
@@ -136,7 +137,7 @@ class Paths:
         """
         return runner_input_data_path.get_local_dir()
     
-    def get_internal_baseline_conf_path(self):
+    def get_internal_runner_baseline_conf_path(self):
         """
         Returns the internal baseline configuration path.
 
@@ -144,6 +145,25 @@ class Paths:
             str: The internal baseline configuration path.
         """
         return runner_baseline_conf_path.get_local_dir()
+    
+    def get_internal_geo_runner_generated_input_data_path(self):
+        """
+        Returns the internal generated input data path for geo_cbm_runner.
+
+        Returns:
+            str: The internal generated input data path for geo_cbm_runner.
+        """
+        return geo_runner_input_data_path.get_local_dir()
+    
+    
+    def get_internal_geo_runner_baseline_conf_path(self):
+        """
+        Returns the internal baseline configuration path for geo_cbm_runner.
+
+        Returns:
+            str: The internal baseline configuration path for geo_cbm_runner.
+        """
+        return geo_runner_baseline_conf_path.get_local_dir()
     
 
     def is_path_internal(self, path):
@@ -157,8 +177,31 @@ class Paths:
             bool: True if the path is internally generated, False otherwise.
         """
         internal_paths = [
-            self.get_internal_generated_input_data_path(),
-            self.get_internal_baseline_conf_path(),
+            self.get_internal_runner_baseline_conf_path(),
+            self.get_internal_runner_generated_input_data_path(),
+            self.get_internal_geo_runner_baseline_conf_path(),
+            self.get_internal_geo_runner_generated_input_data_path(),
         ]
         # Check if the provided path matches any of the internal paths
         return path in internal_paths
+    
+
+    def retry_operation(self, function, max_attempts=5, wait_time=60):
+        """
+        Retry a function multiple times if it fails.
+
+        Args:
+            function (function): The function to execute.
+            max_attempts (int): The maximum number of attempts.
+            wait_time (int): The time to wait before retrying.
+
+        Returns:
+            The result of the function if successful.
+        """
+        for attempt in range(max_attempts):
+            try:
+                return function()  # Attempt to execute the function
+            except Exception as e:
+                print(f"Attempt {attempt + 1} failed due to error: {e}")
+                time.sleep(wait_time)  # Wait before retrying
+        raise Exception(f"All {max_attempts} attempts failed.")

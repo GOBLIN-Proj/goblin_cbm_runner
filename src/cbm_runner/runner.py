@@ -99,6 +99,7 @@ class Runner:
         self.gen_validation = gen_validation
         self.validation_path = self.paths_class.get_validation_path()
         self.path = self.paths_class.get_generated_input_data_path()
+
         self.baseline_conf_path = self.paths_class.get_baseline_conf_path()
         
         self.sc_fetcher = ScenarioDataFetcher(scenario_data)
@@ -120,14 +121,14 @@ class Runner:
         self.soil = self.pools.get_soil_organic_matter_pools()
 
         if gen_baseline:
-            self.generate_base_input_data(sit_path)
+            self.generate_base_input_data()
             self.forest_baseline_dataframe = self.cbm_baseline_forest()
             if self.gen_validation:
                 ValidationData.gen_baseline_forest(self.validation_path, self.forest_baseline_dataframe["Stock"])
 
 
 
-    def generate_base_input_data(self, sit_path = None):
+    def generate_base_input_data(self):
         """
         Generates the base input data for the CBM runner.
 
@@ -170,9 +171,8 @@ class Runner:
             None
         """
         path = self.path
-
-        
-        if not self.paths_class.is_path_internal(path):
+    
+        if self.paths_class.is_path_internal(path):
             self.cbm_data_class.clean_data_dir(path)
             self.cbm_data_class.make_data_dirs(self.INDEX, path)
 
