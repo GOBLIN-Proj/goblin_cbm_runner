@@ -13,7 +13,7 @@ numpy = "^1.25.0"
 sqlalchemy = "^1.4.0"
 pyyaml = "*"
 libcbm  = {git = "https://github.com/colmduff/libcbm_py.git", branch = "pandas_updated"}
-catchment_data_api = {git = "https://github.com/colmduff/catchment_data_api.git", branch = "main"}
+catchment_data_api = {git = "https://github.com/GOBLIN-Proj/catchment_data_api.git", branch = "main"}
 
 
 [build-system]
