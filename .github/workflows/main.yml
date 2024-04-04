@@ -1,0 +1,40 @@
+name: ci-cd
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Set up Python 3.10.6
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9.13
+
+    - name: Check-out repository
+      uses: actions/checkout@v2
+
+    - name: Set up Git authentication
+      run: git config --global url."https://${{ secrets.PAT_TOKEN }}@github.com/".insteadOf "https://github.com/"
+
+    - name: Install dependencies
+      env:
+        PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+      run: |
+        python -m pip install --upgrade pip
+        curl -sSL https://install.python-poetry.org | python3 -
+        python -m pip install .
+
+    - name: Print current directory
+      run: |
+        pwd
+        ls -la
+
+    - name: Run tests
+      run: |
+        cd ./tests/
+        python -m unittest output_test.py
