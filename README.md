@@ -15,13 +15,6 @@
 
 Install from git hub. 
 
-When prompted enter your ```<username>``` and password, which is your ```<access_token>```.
-
-```<access_token>``` is provided by the repo manager.
-
-```<username>``` pass your own github username.
-
-
 ```bash
 pip install "cbm_runner@git+https://github.com/GOBLIN-Proj/cbm_runner.git@main" 
 
