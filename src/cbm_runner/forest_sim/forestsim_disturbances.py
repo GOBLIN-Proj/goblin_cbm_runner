@@ -5,7 +5,7 @@ The ForestSimDistrubances class represents the disturbances in a forest simulati
 This is used when the user wishes to siumulate afforestation with areas per year explicitly defined.
 """
 
-from cbm_runner.disturbances import Disturbances
+from cbm_runner.default_runner.disturbances import Disturbances
 import cbm_runner.resource_manager.parser as parser
 from cbm_runner.resource_manager.cbm_runner_data_manager import DataManager
 from cbm_runner.resource_manager.loader import Loader

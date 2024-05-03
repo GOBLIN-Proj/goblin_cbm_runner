@@ -50,6 +50,17 @@ soils_dict:
 
 classifiers:
   Baseline:
+    Climate unit:
+      35: "CLU35"
+      45: "CLU45"
+      55: "CLU55"
+      65: "CLU65"
+    Forest management types:
+      A: "Mngm A"
+      B: "Mngm B"
+      C: "Mngm C"
+      D: "Mngm D"
+      E: "Mngm E"
     Species:
       Pine: "Other pine"
       Sitka: "Sitka spruce"
@@ -57,11 +68,6 @@ classifiers:
       FGB: "Fast Growing Unspecified broadleaved species - Genus type"
       CBmix: "Mix Spruce"
       OC: "Other Spruce"
-    Forest type:
-      L: "Legacy"
-    Soil classes:
-      mineral: "Mineral"
-      peat: "Peat"
     Yield classes:
       YC6: "Yield class 6"
       YC10: "Yield class 10"
@@ -112,7 +118,9 @@ disturbances:
     - "DISTID1"
     - "DISTID2"
     - "DISTID3"
+    - "DISTID4"
     - "DISTID5"
+    - "DISTID6"
   Scenario:
     - "DISTID1"
     - "DISTID2"
@@ -319,40 +327,40 @@ mapping:
       default_species: "Spruce"
     NFPine_mineral:
       user_species: "NonForestPineMineral"
-      default_species: "Missing value - Genus type"
+      default_species: "Unknown (Ireland)"
     NFSitka_mineral:
       user_species: "NonForestSitkaMineral"
-      default_species: "Missing value - Genus type"
+      default_species: "Unknown (Ireland)"
     NFSGB_mineral:
       user_species: "NonForestSGBMineral"
-      default_species: "Missing value - Genus type"
+      default_species: "Unknown (Ireland)"
     NFFGB_mineral:
       user_species: "NonForestFGBMineral"
-      default_species: "Missing value - Genus type"
+      default_species: "Unknown (Ireland)"
     NFCBmix_mineral:
       user_species: "NonForestCBmixMineral"
-      default_species: "Missing value - Genus type"
+      default_species: "Unknown (Ireland)"
     NFOC_mineral:
       user_species: "NonForestOCMineral"
-      default_species: "Missing value - Genus type"
+      default_species: "Unknown (Ireland)"
     NFPine_peat:
       user_species: "NonForestPinePeat"
-      default_species: "Missing value - Genus type"
+      default_species: "Unknown (Ireland)"
     NFSitka_peat:
       user_species: "NonForestSitkaPeat"
-      default_species: "Missing value - Genus type"
+      default_species: "Unknown (Ireland)"
     NFSGB_peat:
       user_species: "NonForestSGBPeat"
-      default_species: "Missing value - Genus type"
+      default_species: "Unknown (Ireland)"
     NFFGB_peat:
       user_species: "NonForestFGBPeat"
-      default_species: "Missing value - Genus type"
+      default_species: "Unknown (Ireland)"
     NFCBmix_peat:
       user_species: "NonForestCBmixPeat"
-      default_species: "Missing value - Genus type"
+      default_species: "Unknown (Ireland)"
     NFOC_peat:
       user_species: "NonForestOCPeat"
-      default_species: "Missing value - Genus type"
+      default_species: "Unknown (Ireland)"
   boundary: "Ireland"
   
   disturbance_types:
@@ -371,3 +379,6 @@ mapping:
     DISTID5:
       user_dist_type: "Unknown"
       default_dist_type: "Unknown"
+    DISTID6:
+      user_dist_type: "Deforestation"
+      default_dist_type: "Deforestation"

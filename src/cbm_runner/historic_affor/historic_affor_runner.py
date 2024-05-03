@@ -7,11 +7,11 @@ This class is designed to facilitate the execution of Carbon Budget Model (CBM) 
 
 The module is intended largely for validation of historic afforestation input data, leveraging a suite of data management and simulation tools to prepare, execute, and analyze CBM simulations.
 """
-from cbm_runner.cbm_data_factory import DataFactory
+from cbm_runner.default_runner.cbm_data_factory import DataFactory
 from cbm_runner.resource_manager.cbm_runner_data_manager import DataManager
 from cbm_runner.resource_manager.scenario_data_fetcher import ScenarioDataFetcher
 from cbm_runner.resource_manager.paths import Paths
-from cbm_runner.runner import Runner
+from cbm_runner.cbm.cbm_methods import CBMSim
 
 
 import pandas as pd
@@ -75,13 +75,10 @@ class HistoricAfforRunner:
         calibration_year,
         afforest_data,
         scenario_data,
-        gen_baseline=False,
-        gen_validation=False
+        sit_path=None
     ):  
-        self.paths_class = Paths(None, gen_baseline, gen_validation)
-        self.paths_class.setup_historic_affor_paths(None)
-        self.gen_validation = gen_validation
-        self.validation_path = self.paths_class.get_validation_path()
+        self.paths_class = Paths(sit_path, gen_baseline=False)
+        self.paths_class.setup_historic_affor_paths(sit_path)
         self.path = self.paths_class.get_generated_input_data_path()
         self.baseline_conf_path = self.paths_class.get_baseline_conf_path()
 
@@ -96,18 +93,14 @@ class HistoricAfforRunner:
         self.data_manager_class = DataManager(calibration_year, config_path)
 
         self.INDEX = self.sc_fetcher.get_afforest_scenario_index()
-        
-        
-        self.runner_class = Runner(
-        config_path,
-        calibration_year,
-        afforest_data,
-        scenario_data,
-        gen_baseline=False,
-        gen_validation=self.gen_validation,
-        sit_path=None)
 
+        self.SIM_class = CBMSim()
 
+        self.years = self.data_manager_class.get_scenario_years(self.forest_end_year)
+
+        self.year_range = self.data_manager_class.get_scenario_years_range(self.forest_end_year)
+
+        self.defaults_db = self.paths_class.get_aidb_path()
 
     def generate_input_data(self):
         """
@@ -123,10 +116,11 @@ class HistoricAfforRunner:
             None
         """
         path = self.path
-    
+
         if self.paths_class.is_path_internal(path):
             self.cbm_data_class.clean_data_dir(path)
-            self.cbm_data_class.make_data_dirs(self.INDEX, path)
+
+        self.cbm_data_class.make_data_dirs(self.INDEX, path)
 
         for i in self.INDEX:
             self.cbm_data_class.make_classifiers(i, path)
@@ -171,16 +165,22 @@ class HistoricAfforRunner:
         fluxes_forest_data = pd.DataFrame()
 
         for i in self.INDEX:
-            forest_data = self.runner_class.cbm_aggregate_scenario(i, path=self.path)["Stock"]
+            forest_data = self.SIM_class.cbm_aggregate_scenario_stock(i, self.cbm_data_class, 
+                                                                      self.years, 
+                                                                      self.year_range, 
+                                                                      self.path,
+                                                                      self.defaults_db
+                                                                      )
 
 
-            fluxes_data = self.runner_class.cbm_scenario_fluxes(forest_data)
+            fluxes_data = self.SIM_class.cbm_scenario_fluxes(forest_data)
 
             fluxes_forest_data = pd.concat(
                 [fluxes_forest_data, fluxes_data], ignore_index=True
             )
 
         return fluxes_forest_data
+
 
     def run_aggregate_scenarios(self):
         """
@@ -197,7 +197,12 @@ class HistoricAfforRunner:
         aggregate_forest_data = pd.DataFrame()
 
         for i in self.INDEX:
-            forest_data = self.runner_class.cbm_aggregate_scenario(i, path=self.path)["Stock"]
+            forest_data = self.SIM_class.cbm_aggregate_scenario_stock(i, self.cbm_data_class, 
+                                                                      self.years, 
+                                                                      self.year_range, 
+                                                                      self.path,
+                                                                      self.defaults_db
+                                                                      )
 
             forest_data_copy = forest_data.copy(deep=True)
 
@@ -222,7 +227,11 @@ class HistoricAfforRunner:
         aggregate_forest_data = pd.DataFrame()
 
         for i in self.INDEX:
-            forest_data = self.libcbm_scenario_fluxes(i)["Stock"]
+            forest_data = self.SIM_class.libcbm_scenario_fluxes(i, self.cbm_data_class, 
+                                                                      self.years, 
+                                                                      self.year_range, 
+                                                                      self.path,
+                                                                      self.defaults_db)
 
             forest_data_copy = forest_data.copy(deep=True)
 
@@ -232,32 +241,3 @@ class HistoricAfforRunner:
 
         return aggregate_forest_data
 
-    def cbm_aggregate_scenario(self, scenario):
-        """
-        Runs aggregate scenarios for forest data.
-
-        This method iterates over a set of scenarios and generates carbon stock data for each scenario.
-        It merges the forest data with a baseline forest data, adds selected columns, and drops duplicate columns.
-        The carbon stock data for all scenarios is then concatenated into a single DataFrame.
-
-        Args:
-            scenario (int): The scenario number.
-
-        Returns:
-            pd.DataFrame: The carbon stock data for all scenarios.
-        """
-        return self.runner_class.cbm_aggregate_scenario(scenario, path=self.path)
-    
-    def libcbm_scenario_fluxes(self, scenario):
-        """
-        Generate carbon Fluxes using the Libcbm method for the CBM (Carbon Budget Model) scenario data.
-
-        Args:
-            sc (str): The scenario name.
-
-        Returns:
-            dict: A dictionary containing the aggregated data.
-                - "Stock": DataFrame containing annual carbon stocks.
-                - "Raw": DataFrame containing raw data.
-        """
-        return self.runner_class.libcbm_scenario_fluxes(scenario, path=self.path)

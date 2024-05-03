@@ -72,7 +72,7 @@ class ValidationData:
 
 
     @staticmethod
-    def gen_sit_events(output_data_path, object, sc):
+    def gen_sit_events(object):
         """
         Gets SIT events data and saves it to a CSV file.
 
@@ -84,7 +84,7 @@ class ValidationData:
 
         data = object.sit_events
 
-        data.to_csv(os.path.join(output_data_path, "scenario_" + str(sc) +"_sit_events.csv"))
+        return data
 
 
     @staticmethod
@@ -118,9 +118,9 @@ class ValidationData:
 
         for i in events_data.index:
             row = {"Species": events_names.at[i, "Species"],
-                   "Forest type": events_names.at[i, "Forest type"],
-                   "Soil classes": events_names.at[i, "Soil classes"],
-                   "Yield classes": events_names.at[i, "Yield classes"],
+                   "Forest type": events_names.at[i, "Forest_type"],
+                   "Soil classes": events_names.at[i, "Soil_classes"],
+                   "Yield classes": events_names.at[i, "Yield_classes"],
                    "Disturbance type": events_names.at[i, "disturbance_type"],
                    "Year": events_names.at[i, "time_step"],
                    "Target volume type": events_names.at[i, "target_type"],

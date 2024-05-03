@@ -4,7 +4,7 @@ ForestSimFactory
 
 A factory class for creating and managing forest simulation data in a CBM context.
 """
-from cbm_runner.cbm_data_factory import DataFactory
+from cbm_runner.default_runner.cbm_data_factory import DataFactory
 from cbm_runner.forest_sim.forestsim_disturbances import ForestSimDistrubances
 from cbm_runner.forest_sim.forestsim_inventory import ForSimInventory
 import os 
@@ -54,7 +54,8 @@ class ForestSimFactory:
         self.DataFactory = DataFactory(config_path, calibration_year, forest_end_year, afforestation_data, scenario_data)
         self.disturbance_class = ForestSimDistrubances(config_path, calibration_year, forest_end_year, afforestation_data, afforest_data_annual, scenario_data)
 
-    def set_input_data_dir(self, sc, path):
+
+    def set_input_data_dir(self, sc, path, db_path):
         """
         Set the input data directory for a specific scenario.
 
@@ -63,9 +64,11 @@ class ForestSimFactory:
             path (str): The path to the input data directory.
 
         """
-        self.DataFactory.set_input_data_dir(sc, path)
+        sit, classifiers, inventory = self.DataFactory.set_input_data_dir(sc, path, db_path)
 
-    def set_baseline_input_data_dir(self, path):
+        return sit, classifiers, inventory
+
+    def set_baseline_input_data_dir(self, path, db_path):
         """
         Set the input data directory for the baseline scenario.
 
@@ -73,7 +76,23 @@ class ForestSimFactory:
             path (str): The path to the input data directory.
 
         """
-        self.DataFactory.set_baseline_input_data_dir(path)
+        sit, classifiers, inventory = self.DataFactory.set_baseline_input_data_dir(path, db_path)
+
+        return sit, classifiers, inventory
+
+
+    def set_spinup_baseline_input_data_dir(self, path, db_path):
+        """
+        Set the input data directory for the spinup scenario.
+
+        Args:
+            path (str): The path to the input data directory.
+
+        """
+        sit, classifiers, inventory = self.DataFactory.set_spinup_baseline_input_data_dir(path, db_path)
+
+        return sit, classifiers, inventory
+
 
     def make_data_dirs(self, scenarios, path):
         """
@@ -221,7 +240,29 @@ class ForestSimFactory:
             disturbance_events = self.disturbance_class.fill_baseline_forest()
             disturbance_events.to_csv(
                 os.path.join(path, "disturbance_events.csv"), index=False)
-    
+            
+
+    def make_base_classifiers(self, path):
+        self.DataFactory.make_base_classifiers(path)
+
+    def make_base_age_classes(self, path):
+        self.DataFactory.make_base_age_classes(path)
+
+    def make_base_yield_curves(self,path):
+        self.DataFactory.make_base_yield_curves(path)
+
+    def make_base_inventory(self, path):
+        self.DataFactory.make_base_inventory(path)
+
+    def make_base_disturbance_events(self, path):
+        self.DataFactory.make_base_disturbance_events(path)
+
+    def make_base_disturbance_type(self, path):
+        self.DataFactory.make_base_disturbance_type(path)
+
+    def make_base_transition_rules(self, path):
+        self.DataFactory.make_base_transition_rules(path)
+
 
     
 

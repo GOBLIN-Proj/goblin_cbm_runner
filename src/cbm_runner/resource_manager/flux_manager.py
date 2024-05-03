@@ -9,6 +9,7 @@ to generate disturbance fluxes and process fluxes while ensuring consistency acr
 from cbm_runner.resource_manager.cbm_pools import Pools
 import pandas as pd 
 
+
 class FluxManager:
     """
     Manages the preparation and transformation of carbon flux data for use in a Carbon Budget Model.
@@ -38,11 +39,10 @@ class FluxManager:
 
         # Identify columns to scale
         columns_to_scale = [col for col in flux_data.columns if col not in columns]
-        
-
+        flux_data.to_csv("flux_data_test_before.csv")
         # Scale only rows where 'target_type' == 'Area'
         for col in columns_to_scale:
-            flux_data[col] = flux_data[col] * area
+            flux_data[col] = flux_data[col] * area["area"]
         
         return flux_data
 
@@ -71,7 +71,7 @@ class FluxManager:
         return flux_filtered
     
 
-    def flux_results_dataframes(self, object):
+    def flux_results_dataframes(self, flux, state, parameters, area):
         """
         Combines scaled and filtered carbon flux data.
 
@@ -81,18 +81,16 @@ class FluxManager:
         Returns:
             pandas.DataFrame: DataFrame with augmented flux data ready for CBM use.
         """
-        flux = self._add_identifier(object)
+        flux = self._add_identifier(flux, state, parameters)
 
-        area = object.area['area'].values
-
-        scaled_data = self.scale_flux_data(flux, area)
+        #scaled_data = self.scale_flux_data(flux, area)
         
-        output = self.filter_flux_data(scaled_data)
+        output = self.filter_flux_data(flux)
        
         return output
 
 
-    def _add_identifier(self, object):
+    def _add_identifier(self, flux, state, parameters):
         """
         Adds land class and disturbance type columns to an existing flux DataFrame.
 
@@ -102,15 +100,14 @@ class FluxManager:
         Returns:
             pandas.DataFrame: Flux DataFrame with 'land_class' and 'disturbance_type' columns added.   
         """        
-        flux = object.flux
 
-        flux['land_class'] = object.state[['land_class']].values
-        flux['disturbance_type'] = object.parameters[['disturbance_type']].values
+        flux['land_class'] = state['land_class'].values
+        flux['disturbance_type'] = parameters['disturbance_type'].values
 
         return flux
 
 
-    def create_disturbance_fluxes(self,object):
+    def create_disturbance_fluxes(self,flux, state, parameters, area):
         """
         Creates a DataFrame of carbon fluxes related to disturbances. 
 
@@ -120,7 +117,7 @@ class FluxManager:
         Returns:
             pandas.DataFrame: A DataFrame containing calculated disturbance fluxes.
         """ 
-        dist_flux = self.flux_results_dataframes(object)
+        dist_flux = self.flux_results_dataframes(flux, state, parameters, area)
 
         dist_cols = self.CBMpools.get_disturbance_flux_columns()
 
@@ -134,7 +131,6 @@ class FluxManager:
             "DisturbanceFineLitterInput",]].sum(axis=1)
         
         dist_dict["TimeStep"] = dist_flux["timestep"]
-        dist_dict["DistTypeID"] = dist_flux["disturbance_type"]
         dist_dict["LandClassID"] = dist_flux["land_class"]
         dist_dict["CO2Production"] = dist_flux["DisturbanceCO2Production"]
         dist_dict["CH4Production"] = dist_flux["DisturbanceCH4Production"]
@@ -174,7 +170,7 @@ class FluxManager:
         return pd.DataFrame(dist_dict)
     
 
-    def create_total_litter(self, object):
+    def create_total_litter(self, flux):
         """
         Calculates the total litter production based on relevant litter flux columns.
 
@@ -184,11 +180,11 @@ class FluxManager:
         Returns:
              pandas.Series: A Series representing the total litter production.
         """
-        total_litter = object.flux[self.CBMpools.get_total_litter()].sum(axis=1)
+        total_litter = flux[self.CBMpools.get_total_litter()].sum(axis=1)
 
         return total_litter
     
-    def create_gross_growthAG(self, object):
+    def create_gross_growthAG(self, flux):
         """
         Calculates the gross growth for aboveground biomass.
 
@@ -198,11 +194,12 @@ class FluxManager:
         Returns:
             pandas.Series: A Series representing the calculated aboveground gross growth.
         """
-        gross_growth = object.flux["DeltaBiomass_AG"]+object.flux[self.CBMpools.get_gross_growth_AG()].sum(axis=1)
+        
+        gross_growth = flux["DeltaBiomass_AG"]+ flux[self.CBMpools.get_gross_growth_AG()].sum(axis=1)
 
         return gross_growth
     
-    def create_gross_growthBG(self, object):
+    def create_gross_growthBG(self, flux):
         """
         Calculates the gross growth for belowground biomass.
 
@@ -212,11 +209,11 @@ class FluxManager:
         Returns:
             pandas.Series: A Series representing the calculated belowground gross growth.
         """            
-        gross_growth = object.flux["DeltaBiomass_BG"]+object.flux[self.CBMpools.get_gross_growth_BG()].sum(axis=1)
+        gross_growth = flux["DeltaBiomass_BG"]+flux[self.CBMpools.get_gross_growth_BG()].sum(axis=1)
 
         return gross_growth
     
-    def create_process_fluxes(self, object):
+    def create_process_fluxes(self, flux, state, parameters):
         """
         Creates a DataFrame of annual process fluxes in the CBM.
 
@@ -226,10 +223,10 @@ class FluxManager:
         Returns:
             pandas.DataFrame:  DataFrame with calculated annual process fluxes.        
         """
-        process_flux = self._add_identifier(object)
-        total_litter = self.create_total_litter(object)
-        gross_growthAG = self.create_gross_growthAG(object)
-        gross_growthBG = self.create_gross_growthBG(object)
+        process_flux = self._add_identifier(flux, state, parameters)
+        total_litter = self.create_total_litter(flux)
+        gross_growthAG = self.create_gross_growthAG(flux)
+        gross_growthBG = self.create_gross_growthBG(flux)
 
         process_cols = self.CBMpools.get_annual_process_columns()
 
@@ -263,7 +260,7 @@ class FluxManager:
 
         return pd.DataFrame(process_dict)
     
-    def concatenated_fluxes_data(self, object):
+    def concatenated_fluxes_data(self, flux, state, parameters, area):
         """
         Combines disturbance fluxes and annual process fluxes into a single DataFrame.
 
@@ -273,7 +270,35 @@ class FluxManager:
         Returns:
              pandas.DataFrame: DataFrame with concatenated disturbance and process fluxes.
         """
-        process_flux = self.create_process_fluxes(object)
-        disturbance_flux = self.create_disturbance_fluxes(object)
+        process_flux = self.create_process_fluxes(flux, state, parameters)
+        disturbance_flux = self.create_disturbance_fluxes(flux, state, parameters, area)
 
         return pd.concat([process_flux, disturbance_flux], axis=0)
+
+
+    def flux_filter_and_aggregate(self, df):
+        filtered_df = df[(df['LandClassID'] == 7) | (df['LandClassID'] == 0)]
+
+        filtered_df_copy = filtered_df.copy()
+
+        filtered_df_copy['DeltaBio'] = (
+            (filtered_df['GrossGrowth_AG'] + filtered_df['GrossGrowth_BG']) -
+            filtered_df['BiomassToSoil'] - filtered_df['SoftProduction'] - filtered_df['HardProduction'] - filtered_df['DOMProduction'] -
+            filtered_df['BioCO2Emission'] - filtered_df['BioCOEmission'] - filtered_df['BioCH4Emission']
+        )
+        
+        filtered_df_copy['DeltaDOM'] = (
+            filtered_df['BiomassToSoil'] - filtered_df['DOMCO2Emission'] - filtered_df['DOMCOEmission'] - filtered_df['DOMCH4Emssion'] -
+            filtered_df['DOMProduction']
+        )
+        
+        filtered_df_copy['Delta_Ecos'] = filtered_df_copy['DeltaBio'] + filtered_df_copy['DeltaDOM']
+        filtered_df_copy['Harvest'] = filtered_df_copy['SoftProduction'] + filtered_df_copy['HardProduction'] + filtered_df_copy['DOMProduction']
+        
+
+        
+        # Group by 'TimeStep' and calculate sums
+        result = filtered_df_copy.groupby(["TimeStep"]).sum()
+
+        return result
+

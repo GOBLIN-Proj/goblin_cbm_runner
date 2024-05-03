@@ -31,6 +31,15 @@ class DataManager:
         get_disturbance_types: Retrieves the disturbance types data from the database.
         get_disturbance_times: Retrieves the disturbance times data from the database.
         get_disturbance_data: Retrieves the disturbance data from the database.
+        get_baseline_classifiers: Retrieves the baseline classifiers from the database.
+        get_baseline_age_classes: Retrieves the baseline age classes from the database.
+        get_baseline_disturbance_events: Retrieves the baseline disturbance events from the database.
+        get_baseline_disturbance_types: Retrieves the baseline disturbance types from the database.
+        get_baseline_growth_curves: Retrieves the baseline growth curves from the database.
+        get_baseline_inventory: Retrieves the baseline inventory from the database.
+        get_baseline_transition: Retrieves the baseline transition from the database.
+        get_baseline_standing_volume: Retrieves the baseline standing volume from the database.
+
     """
 
     def __init__(self):
@@ -225,10 +234,144 @@ class DataManager:
         Returns:
             pandas.DataFrame: A DataFrame containing the disturbance data.
         """
-        table = "KB_Disturbance_data"
+        table = "KB_Disturbance_data_original"
         dataframe = pd.read_sql(
             "SELECT * FROM '%s'" % (table),
             self.engine,
+        )
+
+        return dataframe
+
+    def get_baseline_classifiers(self):
+        """
+        Retrieves the baseline classifiers from the database.
+
+        Returns:
+            pandas.DataFrame: A DataFrame containing the baseline classifiers.
+        """
+        table = "base_classifiers_2016_to_2050"
+        dataframe = pd.read_sql(
+            "SELECT * FROM '%s'" % (table),
+            self.engine,
+        )
+
+        return dataframe
+    
+    def get_baseline_age_classes(self):
+        """
+        Retrieves the baseline age classes from the database.
+
+        Returns:
+            pandas.DataFrame: A DataFrame containing the baseline age classes.
+        """
+        table = "base_age_class_2016_to_2050"
+        dataframe = pd.read_sql(
+            "SELECT * FROM '%s'" % (table),
+            self.engine,
+        )
+
+        return dataframe
+    
+    def get_baseline_disturbance_events(self):
+        """
+        Retrieves the baseline disturbance events from the database.
+
+        Returns:
+            pandas.DataFrame: A DataFrame containing the baseline disturbance events.
+        """
+        table = "base_disturbance_events_2016_to_2050"
+        dataframe = pd.read_sql(
+            "SELECT * FROM '%s'" % (table),
+            self.engine,
+        )
+
+        return dataframe
+    
+    def get_baseline_disturbance_types(self):
+        """
+        Retrieves the baseline disturbance types from the database.
+
+        Returns:
+            pandas.DataFrame: A DataFrame containing the baseline disturbance types.
+        """
+        table = "base_disturbance_types_2016_to_2050"
+        dataframe = pd.read_sql(
+            "SELECT * FROM '%s'" % (table),
+            self.engine,
+        )
+
+        return dataframe
+    
+    def get_baseline_growth_curves(self):
+        """
+        Retrieves the baseline growth curves from the database.
+
+        Returns:
+            pandas.DataFrame: A DataFrame containing the baseline growth curves.
+        """
+        table = "base_growth_2016_to_2050"
+        dataframe = pd.read_sql(
+            "SELECT * FROM '%s'" % (table),
+            self.engine,
+        )
+
+        return dataframe
+    
+    def get_baseline_inventory(self):
+        """
+        Retrieves the baseline inventory from the database.
+
+        Returns:
+            pandas.DataFrame: A DataFrame containing the baseline inventory.
+        """
+        table = "base_inventory_2016_to_2050"
+        dataframe = pd.read_sql(
+            "SELECT * FROM '%s'" % (table),
+            self.engine,
+        )
+
+        return dataframe
+    
+    def get_baseline_transition(self):
+        """
+        Retrieves the baseline transition from the database.
+
+        Returns:
+            pandas.DataFrame: A DataFrame containing the baseline transition.
+        """
+        table = "base_transition_2016_to_2050"
+        dataframe = pd.read_sql(
+            "SELECT * FROM '%s'" % (table),
+            self.engine,
+        )
+
+        return dataframe
+    
+    def get_baseline_standing_volume(self):
+        """
+        Retrieves the baseline standing volume from the database.
+
+        Returns:
+            pandas.DataFrame: A DataFrame containing the baseline standing volume.
+        """
+        table = "base_standing_volume_2016_to_2050"
+        dataframe = pd.read_sql(
+            "SELECT * FROM '%s'" % (table),
+            self.engine,
+        )
+
+        return dataframe
+
+    def get_geo_baseline_standing_volume(self):
+        """
+        Retrieves the baseline standing volume from the database.
+
+        Returns:
+            pandas.DataFrame: A DataFrame containing the baseline standing volume.
+        """
+        table = "kb_geo_standing_vol"
+        dataframe = pd.read_sql(
+            "SELECT * FROM '%s'" % (table), self.engine, index_col=["Cohort"]
         )
 
         return dataframe
