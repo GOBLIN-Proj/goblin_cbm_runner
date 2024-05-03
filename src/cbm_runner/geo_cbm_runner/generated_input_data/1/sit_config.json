@@ -58,19 +58,19 @@
                 },
                 {
                     "user_species": "NonForestSitkaMineral",
-                    "default_species": "Missing value - Genus type"
+                    "default_species": "Unknown (Ireland)"
                 },
                 {
                     "user_species": "NonForestSGBMineral",
-                    "default_species": "Missing value - Genus type"
+                    "default_species": "Unknown (Ireland)"
                 },
                 {
                     "user_species": "NonForestSitkaPeat",
-                    "default_species": "Missing value - Genus type"
+                    "default_species": "Unknown (Ireland)"
                 },
                 {
                     "user_species": "NonForestSGBPeat",
-                    "default_species": "Missing value - Genus type"
+                    "default_species": "Unknown (Ireland)"
                 }
             ]
         },

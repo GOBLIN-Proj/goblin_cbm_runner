@@ -16,7 +16,7 @@ import itertools
 from cbm_runner.resource_manager.loader import Loader
 from cbm_runner.resource_manager.geo_cbm_runner_data_manager import GeoDataManager
 from cbm_runner.geo_cbm_runner.geo_create_json import CreateJSON
-from cbm_runner.yield_curves import YieldCurves
+from cbm_runner.default_runner.yield_curves import YieldCurves
 from cbm_runner.geo_cbm_runner.geo_inventory import Inventory
 from cbm_runner.geo_cbm_runner.geo_disturbances import Disturbances
 from cbm_runner.geo_cbm_runner.geo_transition import Transition
@@ -94,7 +94,8 @@ class DataFactory:
         self.transition_class = Transition(calibration_year, config_path)
         self.afforestation_data = afforestation_data
 
-    def set_input_data_dir(self, sc, path):
+
+    def set_input_data_dir(self, sc, path, db_path):
         """
         Sets the input data directory for a scenario, initializes the CBM simulation data.
 
@@ -115,13 +116,13 @@ class DataFactory:
         """
         sit_config_path = os.path.join(path, str(sc), "sit_config.json")
 
-        sit = sit_cbm_factory.load_sit(sit_config_path)
+        sit = sit_cbm_factory.load_sit(sit_config_path, db_path)
 
         classifiers, inventory = sit_cbm_factory.initialize_inventory(sit)
 
         return sit, classifiers, inventory
 
-    def set_baseline_input_data_dir(self, path):
+    def set_baseline_input_data_dir(self, path, db_path):
         """
         Sets the input data directory for the baseline, initializes the CBM simulation data.
 
@@ -142,11 +143,94 @@ class DataFactory:
         """
         sit_config_path = os.path.join(path, "sit_config.json")
 
-        sit = sit_cbm_factory.load_sit(sit_config_path)
+        sit = sit_cbm_factory.load_sit(sit_config_path, db_path)
 
         classifiers, inventory = sit_cbm_factory.initialize_inventory(sit)
 
         return sit, classifiers, inventory
+    
+    def set_spinup_baseline_input_data_dir(self, path, db_path):
+        """
+        Sets the input data directory for the baseline, initializes the CBM simulation data.
+
+        This methods loads the following using the CBM's Standard Import Tool (SIT):
+            * SIT configuration: Settings that govern how the CBM simulation runs 
+            * Classifiers: Descriptions of forest stands (species, soil type, etc.)
+            * Inventory: Data on the initial forest composition.
+
+        Args:
+            sc (int): The scenario number.
+            path (str): The path to the input data directory.
+
+        Returns:
+            tuple: A tuple containing the following:
+                * SIT object:  The loaded SIT configuration.
+                * classifiers (DataFrame): Classifiers for the forest stands.
+                * inventory (DataFrame): The forest inventory data.
+        """
+        sit_config_path = os.path.join(path, "spinup_config.json")
+
+        sit = sit_cbm_factory.load_sit(sit_config_path, db_path)
+
+        classifiers, inventory = sit_cbm_factory.initialize_inventory(sit)
+
+        return sit, classifiers, inventory
+    
+
+    def set_input_data_dir(self, sc, path, db_path):
+        """
+        Sets the input data directory for a scenario, initializes the CBM simulation data.
+
+        This methods loads the following using the CBM's Standard Import Tool (SIT):
+            * SIT configuration: Settings that govern how the CBM simulation runs 
+            * Classifiers: Descriptions of forest stands (species, soil type, etc.)
+            * Inventory: Data on the initial forest composition.
+
+        Args:
+            sc (int): The scenario number.
+            path (str): The path to the input data directory.
+
+        Returns:
+            tuple: A tuple containing the following:
+                * SIT object:  The loaded SIT configuration.
+                * classifiers (DataFrame): Classifiers for the forest stands.
+                * inventory (DataFrame): The forest inventory data.
+        """
+        sit_config_path = os.path.join(path, str(sc), "sit_config.json")
+
+        sit = sit_cbm_factory.load_sit(sit_config_path, db_path)
+
+        classifiers, inventory = sit_cbm_factory.initialize_inventory(sit)
+
+        return sit, classifiers, inventory
+
+    def set_baseline_input_data_dir(self, path, db_path):
+        """
+        Sets the input data directory for the baseline, initializes the CBM simulation data.
+
+        This methods loads the following using the CBM's Standard Import Tool (SIT):
+            * SIT configuration: Settings that govern how the CBM simulation runs 
+            * Classifiers: Descriptions of forest stands (species, soil type, etc.)
+            * Inventory: Data on the initial forest composition.
+
+        Args:
+            sc (int): The scenario number.
+            path (str): The path to the input data directory.
+
+        Returns:
+            tuple: A tuple containing the following:
+                * SIT object:  The loaded SIT configuration.
+                * classifiers (DataFrame): Classifiers for the forest stands.
+                * inventory (DataFrame): The forest inventory data.
+        """
+        sit_config_path = os.path.join(path, "sit_config.json")
+
+        sit = sit_cbm_factory.load_sit(sit_config_path, db_path)
+
+        classifiers, inventory = sit_cbm_factory.initialize_inventory(sit)
+
+        return sit, classifiers, inventory
+    
 
     def make_data_dirs(self, scenarios, path):
         """
@@ -196,6 +280,10 @@ class DataFactory:
 
         file = "sit_config.json"
 
+        spinup_dictionary = self.json_creator_class.populate_spinup_template()
+
+        file2 = "spinup_config.json"
+
         # Writing to outfile
         if scenario is not None:
             with open(os.path.join(path, str(scenario), file), "w") as outfile:
@@ -204,6 +292,8 @@ class DataFactory:
             with open(os.path.join(path, file), "w") as outfile:
                 json.dump(dictionary, outfile, indent=4)
 
+            with open(os.path.join(path, file2), "w") as outfile2:
+                json.dump(spinup_dictionary, outfile2, indent=4)
 
     def make_classifiers(self, scenario, path):
         """
@@ -277,26 +367,9 @@ class DataFactory:
             age_classes_df.to_csv(os.path.join(path, "age_classes.csv"), index=False)
 
 
-    def make_yield_curves(self, scenario, path):
-        """
-        Creates the yield curves CSV file.
-
-        Args:
-            scenario (int): The scenario number.
-            path (str): The path to the output directory.
-
-        Returns:
-            None
-        """
-        yield_df = YieldCurves.yield_table_generater_method3()
+    def gen_yield_dataframe(self, classifiers, yield_df):
 
         shared_classifiers = self.data_manager_class.config_data["Classifiers"]
-
-        if scenario is not None:
-            classifiers = self.data_manager_class.get_classifiers()["Scenario"]
-
-        else:
-            classifiers = self.data_manager_class.get_classifiers()["Baseline"]
 
         name_dict = self.data_manager_class.get_yield_name_dict()
         afforestation_yield_name_dict = (
@@ -361,13 +434,41 @@ class DataFactory:
                                 ].item()
 
                 count += 1
+        return growth_df
+
+    def make_yield_curves(self, scenario, path):
+        """
+        Creates the yield curves CSV file.
+
+        Args:
+            scenario (int): The scenario number.
+            path (str): The path to the output directory.
+
+        Returns:
+            None
+        """
+        yield_df = YieldCurves.yield_table_generater_method3()
+
+        standing_vol_yield_df = YieldCurves.standing_vol_yield_table_generater_method()
+
 
         if scenario is not None:
-            growth_df.to_csv(
+            classifiers = self.data_manager_class.get_classifiers()["Scenario"]
+            self.gen_yield_dataframe(classifiers, yield_df).to_csv(
                 os.path.join(path, str(scenario), "growth.csv"), index=False
             )
+
         else:
-            growth_df.to_csv(os.path.join(path, "growth.csv"), index=False)
+            classifiers = self.data_manager_class.get_classifiers()["Baseline"]
+
+            self.gen_yield_dataframe(classifiers, yield_df).to_csv(
+                os.path.join(path, "growth.csv"), index=False
+            )
+
+            self.gen_yield_dataframe(classifiers, standing_vol_yield_df).to_csv(
+                os.path.join(path, "standing_vol.csv"), index=False
+            )
+
 
     def make_inventory(self, scenario, path):
         """
