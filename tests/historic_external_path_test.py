@@ -39,7 +39,7 @@ def main():
     runner.run_libcbm_flux_scenarios().to_csv(os.path.join(results_path, "historic_c_flux_libcbm.csv"))
 
     # generation of annual flux results libcbm Raw
-    runner.libcbm_scenario_fluxes(-1)["Raw"].to_csv(os.path.join(results_path, "historic_c_flux_libcbm_raw.csv"))
+    #runner.libcbm_scenario_fluxes(-1)["Raw"].to_csv(os.path.join(results_path, "historic_c_flux_libcbm_raw.csv"))
 
     #generate structure data
     #runner.cbm_aggregate_scenario(-1)["Structure"].to_csv(os.path.join(results_path, "historic_structure.csv"))

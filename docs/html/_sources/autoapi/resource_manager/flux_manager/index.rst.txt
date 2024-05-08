@@ -1,0 +1,150 @@
+:py:mod:`resource_manager.flux_manager`
+=======================================
+
+.. py:module:: resource_manager.flux_manager
+
+.. autoapi-nested-parse::
+
+   Flux Manager
+   ============
+   This module provides tools for scaling, filtering, and transforming carbon flux data
+   within the context of a Carbon Budget Model (CBM). It integrates with the CBMpools class
+   to generate disturbance fluxes and process fluxes while ensuring consistency across data.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   resource_manager.flux_manager.FluxManager
+
+
+
+
+.. py:class:: FluxManager
+
+
+   Manages the preparation and transformation of carbon flux data for use in a Carbon Budget Model.
+
+   Responsibilities:
+       * **Initialization:** Establishes a link to a `Pools` object (from CBMpools module) to access carbon pool definitions.
+       * **Scaling:** Scales flux data based on a given area (`scale_flux_data`).
+       * **Filtering:** Removes rows in flux data where all flux values are zero (`filter_flux_data`).
+       * **Result Generation:** Combines scaled and filtered flux data with area and disturbance information (`flux_results_dataframes`).
+       * **Flux Creation:** Generates disturbance, total litter, gross growth, and process fluxes for a CBM model (`create_disturbance_fluxes`, `create_total_litter`, `create_gross_growthAG`, `create_gross_growthBG`, `create_process_fluxes`).
+
+   .. py:method:: scale_flux_data(flux_data, area)
+
+      Scales relevant carbon flux columns in a DataFrame based on a provided area.
+
+      :param flux_data: DataFrame containing unscaled carbon flux data.
+      :type flux_data: pandas.DataFrame
+      :param area: The area value to be used as a scaling factor.
+      :type area: float or numeric column
+
+      :returns: A DataFrame with updated flux values scaled by the area.
+      :rtype: pandas.DataFrame
+
+
+   .. py:method:: filter_flux_data(flux_data)
+
+      Removes rows from a flux DataFrame where all valid flux values are zero.
+
+      Filtering eliminates time steps where no carbon movement is happening.
+
+      :param flux_data: DataFrame containing carbon flux data.
+      :type flux_data: pandas.DataFrame
+
+      :returns: Filtered DataFrame with only rows containing non-zero flux values.
+      :rtype: pandas.DataFrame
+
+
+   .. py:method:: flux_results_dataframes(flux, state, parameters, area)
+
+      Combines scaled and filtered carbon flux data.
+
+      :param object: An object holding flux data, area, and state information.
+
+      :returns: DataFrame with augmented flux data ready for CBM use.
+      :rtype: pandas.DataFrame
+
+
+   .. py:method:: _add_identifier(flux, state, parameters)
+
+      Adds land class and disturbance type columns to an existing flux DataFrame.
+
+      :param object: An object holding flux data, land class, and disturbance type information.
+
+      :returns: Flux DataFrame with 'land_class' and 'disturbance_type' columns added.
+      :rtype: pandas.DataFrame
+
+
+   .. py:method:: create_disturbance_fluxes(flux, state, parameters, area)
+
+      Creates a DataFrame of carbon fluxes related to disturbances.
+
+      :param object: An object holding flux data, area, and state information.
+
+      :returns: A DataFrame containing calculated disturbance fluxes.
+      :rtype: pandas.DataFrame
+
+
+   .. py:method:: create_total_litter(flux)
+
+      Calculates the total litter production based on relevant litter flux columns.
+
+      :param object: An object holding flux data and other relevant state information.
+
+      :returns: A Series representing the total litter production.
+      :rtype: pandas.Series
+
+
+   .. py:method:: create_gross_growthAG(flux)
+
+      Calculates the gross growth for aboveground biomass.
+
+      :param object: An object holding flux data and other relevant state information.
+
+      :returns: A Series representing the calculated aboveground gross growth.
+      :rtype: pandas.Series
+
+
+   .. py:method:: create_gross_growthBG(flux)
+
+      Calculates the gross growth for belowground biomass.
+
+      :param object: An object holding flux data and other relevant state information.
+
+      :returns: A Series representing the calculated belowground gross growth.
+      :rtype: pandas.Series
+
+
+   .. py:method:: create_process_fluxes(flux, state, parameters)
+
+      Creates a DataFrame of annual process fluxes in the CBM.
+
+      :param object: An object holding flux data, area, and state information.
+
+      :returns: DataFrame with calculated annual process fluxes.
+      :rtype: pandas.DataFrame
+
+
+   .. py:method:: concatenated_fluxes_data(flux, state, parameters, area)
+
+      Combines disturbance fluxes and annual process fluxes into a single DataFrame.
+
+      :param object: An object holding flux data, area, and state information.
+
+      :returns: DataFrame with concatenated disturbance and process fluxes.
+      :rtype: pandas.DataFrame
+
+
+   .. py:method:: flux_filter_and_aggregate(df)
+
+
+

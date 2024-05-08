@@ -90,9 +90,6 @@ class Disturbances:
         _handle_scenario_afforestation(row_data, context, dataframes):
             Manages afforestation data within a scenario, adjusting for new forest growth.
         
-        _handle_legacy_forest(row_data, context, dataframes):
-            Processes legacy forest data, updating with disturbance events and timing.
-        
         _update_disturbance_timing(row_data, context, dataframes):
             Updates the timing for disturbances based on scenario and forest conditions.
         
@@ -188,7 +185,7 @@ class Disturbances:
 
     def fill_baseline_forest(self):
         """
-        Fills the baseline forest with disturbance data.
+        Fills the baseline (managed) forest with disturbance data.
 
         Returns:
             pandas.DataFrame: DataFrame containing disturbance data.
@@ -567,90 +564,6 @@ class Disturbances:
         else:
             row_data["Amount"] = 0
 
-
-    def _handle_legacy_forest(self, row_data, context, dataframes):
-        """
-        Handles legacy forest data by updating disturbance timing and populating row data with relevant information.
-
-        Args:
-            row_data (dict): The row data to be updated with disturbance information.
-            context (dict): The context containing relevant information for the disturbance handling.
-            dataframes (dict): A dictionary of dataframes containing disturbance data.
-
-        Returns:
-            None
-        """
-        # ... logic for legacy forest ...
-        # This includes your logic for DISTID3, DISTID1, DISTID2, and the else block
-
-        dist = context["dist"]
-        disturbance_dataframe = dataframes["disturbance_dataframe"]
-        species = context["species"]
-        yield_class = context["yield_class"]
-        yr = context["year"]
-        forest_baseline_year = context["forest_baseline_year"]
-
-
-        self._update_disturbance_timing(row_data, context, dataframes)
-
-        if dist == "DISTID3":
-            mask = (
-                (disturbance_dataframe["Species"] == "?")
-                & (disturbance_dataframe["Yield_class"] == "?")
-                & (
-                    disturbance_dataframe["Year"]
-                    == (forest_baseline_year + yr)
-                )
-                & (disturbance_dataframe["Disturbance_id"] == dist)
-            )
-
-            try:
-                row_data["Amount"] = disturbance_dataframe.loc[
-                    mask, "Amount"
-                ].item()
-                row_data["MeasureType"] = disturbance_dataframe.loc[
-                    mask, "M_type"
-                ].item()
-                row_data["SortType"] = disturbance_dataframe.loc[
-                    mask, "SortType"
-                ].item()
-            except ValueError:
-                row_data["Amount"] = 0
-
-            
-
-
-        elif (
-                dist == "DISTID1" or dist == "DISTID2"
-            ):
-            mask = (
-                    (disturbance_dataframe["Species"] == species)
-                    & (disturbance_dataframe["Yield_class"] == yield_class)
-                    & (
-                        disturbance_dataframe["Year"]
-                        == (forest_baseline_year + yr)
-                    )
-                    & (disturbance_dataframe["Disturbance_id"] == dist)
-                )
-            row_data["Classifier1"] = species
-            try:
-                row_data["Amount"] = disturbance_dataframe.loc[
-                    mask, "Amount"
-                ].item()
-                row_data["MeasureType"] = disturbance_dataframe.loc[
-                    mask, "M_type"
-                ].item()
-                row_data["SortType"] = disturbance_dataframe.loc[
-                    mask, "SortType"
-                ].item()
-                
-            except ValueError:
-                row_data["Amount"] = 0
-
-        else:
-            row_data["Classifier1"] = species
-            row_data["Amount"] = 0
-
     
     def _update_disturbance_timing(self, row_data, context, dataframes):
         """Retrieve disturbance timing information from the disturbance_timing DataFrame.
@@ -738,8 +651,10 @@ class Disturbances:
 
         Returns:
             None
-        """
 
+        Note:
+            Unlike the default runner, broadleaf disturnbance can be set. 
+        """
         data_df = self.get_legacy_forest_area_breakdown()
         yield_name_dict = self.yield_name_dict
 
@@ -754,11 +669,14 @@ class Disturbances:
 
         for year in years:
             for species in data_df["species"].unique():
-                if species != "SGB":
-                    for soil in data_df["soil"].unique():
-                        for yc in yield_name_dict[species].keys():
-                            dist = self.legacy_disturbance_dict
-                            tracker.forest_disturbance(year, species, yc, soil, dist)
+                for soil in data_df["soil"].unique():
+                    for yc in yield_name_dict[species].keys():
+                        if species == "SGB":
+                            dist = self.legacy_disturbance_dict["broadleaf"]
+                        else:
+                            dist = self.legacy_disturbance_dict["conifer"]
+
+                        tracker.forest_disturbance(year, species, yc, soil, dist)
             tracker.move_to_next_age()
             
 

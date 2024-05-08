@@ -1,0 +1,35 @@
+classifier_id,name,description
+1,_CLASSIFIER,Species
+1,Pine,Other pine
+1,Sitka,Sitka spruce
+1,SGB,Slow Growing Unspecified broadleaved species - Genus type
+1,FGB,Fast Growing Unspecified broadleaved species - Genus type
+1,CBmix,Mix Spruce
+1,OC,Other Spruce
+1,NFPine_mineral,NonForestPineMineral
+1,NFSitka_mineral,NonForestSitkaMineral
+1,NFSGB_mineral,NonForestSGBMineral
+1,NFFGB_mineral,NonForestFGBMineral
+1,NFCBmix_mineral,NonForestCBmixMineral
+1,NFOC_mineral,NonForestOCMineral
+1,NFPine_peat,NonForestPinePeat
+1,NFSitka_peat,NonForestSitkaPeat
+1,NFSGB_peat,NonForestSGBPeat
+1,NFFGB_peat,NonForestFGBPeat
+1,NFCBmix_peat,NonForestCBmixPeat
+1,NFOC_peat,NonForestOCPeat
+2,_CLASSIFIER,Forest type
+2,A,Afforestation
+2,L,Legacy
+3,_CLASSIFIER,Soil classes
+3,mineral,Mineral
+3,peat,Peat
+4,_CLASSIFIER,Yield classes
+4,YC6,Yield class 6
+4,YC10,Yield class 10
+4,YC12_20,Yield class 12 to 20
+4,YC4_12,Yield class 4 to 12
+4,YC13_16,Yield class 13 to 16
+4,YC17_20,Yield class 17 to 20
+4,YC20_24,Yield class 20 to 24
+4,YC24_30,Yield class 24 to 30

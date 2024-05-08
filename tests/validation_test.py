@@ -1,13 +1,12 @@
-from cbm_runner.cbm_validation_manager import CBM_ValidationManager
+from cbm_runner.cbm_validation.validation_runner import ValRunner
 
 def main():
-    val = CBM_ValidationManager()
+    path = "./data/validation_data/"
+    start = 1990
+    end = 2050
+    val = ValRunner(start, end, path, None)
 
-    print(val.get_linked_events(0))
-    print(val.get_site_event_stats_by_timestep(0))
-    print(val.get_age_classes(0))
-    print(val.get_sit_events(0))
-    print(val.get_baseline_forest())
+    print(val.run_validation())
 
 if __name__ == "__main__":
     main()

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>geo_cbm_runner.geo_transition &mdash; CBM_runner 0.3.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=eafc0fe6" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=1e28cc32"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="resource_manager" href="../../resource_manager/index.html" />
+    <link rel="prev" title="geo_cbm_runner.geo_runner" href="../geo_runner/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            CBM_runner
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../INSTALLATION.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../historic_affor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">historic_affor</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../forest_sim/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">forest_sim</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../default_runner/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">default_runner</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../database/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">database</span></code></a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">geo_cbm_runner</span></code></a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../index.html#subpackages">Subpackages</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../catchment_forest_cover/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">geo_cbm_runner.catchment_forest_cover</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../geo_cbm_data_factory/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">geo_cbm_runner.geo_cbm_data_factory</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../geo_create_json/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">geo_cbm_runner.geo_create_json</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../geo_disturbances/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">geo_cbm_runner.geo_disturbances</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../geo_inventory/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">geo_cbm_runner.geo_inventory</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../geo_runner/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">geo_cbm_runner.geo_runner</span></code></a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">geo_cbm_runner.geo_transition</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../resource_manager/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">resource_manager</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../configuration_data/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">configuration_data</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../harvest_manager/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">harvest_manager</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cbm_methods/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cbm_methods</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cbm_validation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cbm_validation</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../example.html">Example Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../example.html#plot-fluxes-for-baseline">Plot Fluxes for Baseline</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">CBM_runner</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">geo_cbm_runner</span></code></a></li>
+      <li class="breadcrumb-item active"><code class="xref py py-mod docutils literal notranslate"><span class="pre">geo_cbm_runner.geo_transition</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/autoapi/geo_cbm_runner/geo_transition/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-geo_cbm_runner.geo_transition">
+<span id="geo-cbm-runner-geo-transition"></span><h1><a class="reference internal" href="#module-geo_cbm_runner.geo_transition" title="geo_cbm_runner.geo_transition"><code class="xref py py-mod docutils literal notranslate"><span class="pre">geo_cbm_runner.geo_transition</span></code></a><a class="headerlink" href="#module-geo_cbm_runner.geo_transition" title="Link to this heading"></a></h1>
+<section id="geo-transition-module">
+<p>This module provides functionalities to generate transition rules structure based on given scenario.</p>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Link to this heading"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#geo_cbm_runner.geo_transition.Transition" title="geo_cbm_runner.geo_transition.Transition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Transition</span></code></a></p></td>
+<td><p>Represents a transition object that generates transition rules structure based on given scenario.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="geo_cbm_runner.geo_transition.Transition">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geo_cbm_runner.geo_transition.</span></span><span class="sig-name descname"><span class="pre">Transition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">calibration_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#geo_cbm_runner.geo_transition.Transition" title="Link to this definition"></a></dt>
+<dd><p>Represents a transition object that generates transition rules structure based on given scenario.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>calibration_year</strong> (<em>int</em>) – The calibration year.</p></li>
+<li><p><strong>config_path</strong> (<em>str</em>) – The path to the configuration file.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geo_cbm_runner.geo_transition.Transition.data_manager_class">
+<span class="sig-name descname"><span class="pre">data_manager_class</span></span><a class="headerlink" href="#geo_cbm_runner.geo_transition.Transition.data_manager_class" title="Link to this definition"></a></dt>
+<dd><p>The data manager class instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../../resource_manager/cbm_runner_data_manager/index.html#resource_manager.cbm_runner_data_manager.DataManager" title="resource_manager.cbm_runner_data_manager.DataManager">DataManager</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geo_cbm_runner.geo_transition.Transition.baseline_forest_classifiers">
+<span class="sig-name descname"><span class="pre">baseline_forest_classifiers</span></span><a class="headerlink" href="#geo_cbm_runner.geo_transition.Transition.baseline_forest_classifiers" title="Link to this definition"></a></dt>
+<dd><p>The baseline forest classifiers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geo_cbm_runner.geo_transition.Transition.scenario_forest_classifiers">
+<span class="sig-name descname"><span class="pre">scenario_forest_classifiers</span></span><a class="headerlink" href="#geo_cbm_runner.geo_transition.Transition.scenario_forest_classifiers" title="Link to this definition"></a></dt>
+<dd><p>The scenario forest classifiers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geo_cbm_runner.geo_transition.Transition.make_transition_rules_structure">
+<span class="sig-name descname"><span class="pre">make_transition_rules_structure</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#geo_cbm_runner.geo_transition.Transition.make_transition_rules_structure" title="Link to this definition"></a></dt>
+<dd><p>Generates the transition rules structure based on the given scenario.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">make_transition_rules_structure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dd><p>Generates a transition rules structure based on the given scenario.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>scenario</strong> – The scenario to generate the transition rules structure for.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The transition rules structure as a pandas DataFrame.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../geo_runner/index.html" class="btn btn-neutral float-left" title="geo_cbm_runner.geo_runner" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../resource_manager/index.html" class="btn btn-neutral float-right" title="resource_manager" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Colm Duffy.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

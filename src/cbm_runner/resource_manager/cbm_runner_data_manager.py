@@ -50,9 +50,9 @@ class DataManager:
         self.CBMpools = Pools()
         self.config_data = self.get_config_data(config_file) if config_file else None
 
-        self.forest_baseline_year = (
-            (int(calibration_year)) if calibration_year is not None else None
-        )
+        self.forest_baseline_year = 2016 #(
+            #(int(calibration_year)) if calibration_year is not None else None
+        #)
 
         self.afforestation_baseline = 1990
 
@@ -346,3 +346,54 @@ class DataManager:
 
         return legacy_dist
     
+    def get_scenario_years(self, forestry_end_year):
+        """
+        Get the scenario years.
+
+        Returns:
+            int: The number of years in the scenario.
+        """
+        forest_baseline_year = self.get_afforestation_baseline()
+
+        years = forestry_end_year - forest_baseline_year
+
+        return years
+    
+    def get_scenario_years_range(self, forestry_end_year):
+        """
+        Get the scenario years range.
+
+        Returns:
+            list: The range of years in the scenario.
+        """
+        forest_baseline_year = self.get_afforestation_baseline()
+
+        years_range = list(range(forest_baseline_year, forestry_end_year + 1))
+
+        return years_range
+    
+    def get_baseline_years(self, forestry_end_year):
+        """
+        Get the baseline years.
+
+        Returns:
+            int: The number of years in the baseline.
+        """
+        forest_baseline_year = self.get_forest_baseline_year()
+
+        years = forestry_end_year - forest_baseline_year
+
+        return years
+    
+    def get_baseline_years_range(self, forestry_end_year):
+        """
+        Get the baseline years range.
+
+        Returns:
+            list: The range of years in the baseline.
+        """
+        forest_baseline_year = self.get_forest_baseline_year()
+
+        years_range = list(range(forest_baseline_year, forestry_end_year + 1))
+
+        return years_range

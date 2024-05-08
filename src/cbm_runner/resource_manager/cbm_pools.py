@@ -28,6 +28,7 @@ class Pools:
         annual_process_fluxes (list): List of annual process fluxes.
     """
     def __init__(self):
+
         self.above_ground_biomass_pools = [
             "SoftwoodMerch",
             "SoftwoodFoliage",
@@ -87,7 +88,6 @@ class Pools:
     
         self.disturbance_fluxes = [
             "TimeStep",
-            "DistTypeID",
             "LandClassID",
             "CO2Production",
             "CH4Production",
@@ -151,7 +151,6 @@ class Pools:
         
         self.annual_process_columns = [
             "TimeStep",
-            "DistTypeID",
             "LandClassID",
             "CO2Production",
             "CH4Production",

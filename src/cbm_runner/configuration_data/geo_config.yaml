@@ -236,16 +236,16 @@ mapping:
       default_species: "Spruce"
     NFSitka_mineral:
       user_species: "NonForestSitkaMineral"
-      default_species: "Missing value - Genus type"
+      default_species: "Unknown (Ireland)"
     NFSGB_mineral:
       user_species: "NonForestSGBMineral"
-      default_species: "Missing value - Genus type"
+      default_species: "Unknown (Ireland)"
     NFSitka_peat:
       user_species: "NonForestSitkaPeat"
-      default_species: "Missing value - Genus type"
+      default_species: "Unknown (Ireland)"
     NFSGB_peat:
       user_species: "NonForestSGBPeat"
-      default_species: "Missing value - Genus type"
+      default_species: "Unknown (Ireland)"
       
   boundary: "Ireland"
   

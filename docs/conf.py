@@ -9,7 +9,7 @@
 project = 'CBM_runner'
 copyright = '2023, Colm Duffy'
 author = 'Colm Duffy'
-release = '0.3.3'
+release = '0.3.4'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
