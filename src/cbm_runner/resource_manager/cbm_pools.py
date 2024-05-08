@@ -28,6 +28,7 @@ class Pools:
         annual_process_fluxes (list): List of annual process fluxes.
     """
     def __init__(self):
+
         self.above_ground_biomass_pools = [
             "SoftwoodMerch",
             "SoftwoodFoliage",

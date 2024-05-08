@@ -19,6 +19,7 @@ class YieldCurves:
         yield_table_generater_method1(): Generates a yield table using the first method based on parameters from a 'forest_kb_yields' dataset.
         yield_table_generater_method2(): Generates a yield table using the second method based on parameters from a 'forest_cbm_yields' dataset.
         yield_table_generater_method3(): Generates a yield table using the third method directly from 'kb_yield_curves' dataset.
+        standing_vol_yield_table_generater_method(): Generates a standing volume table using the 'kb_standing_volume_curves' dataset.
 
     The generated yield tables are crucial for modeling forest growth and can be used in various simulation scenarios. Each method applies different mathematical models and parameters to estimate the yield over time for different forest cohorts.
     """
@@ -95,7 +96,7 @@ class YieldCurves:
     @classmethod
     def yield_table_generater_method3(cls):
         """
-        Generates a yield table using the third method.
+        Generates a yield table.
 
         This method directly uses the 'kb_yield_curves' dataset to provide yield data for various species across different years.
 
@@ -112,12 +113,12 @@ class YieldCurves:
     @classmethod
     def standing_vol_yield_table_generater_method(cls):
         """
-        Generates a yield table using the third method.
+        Generates a standing volume table.
 
-        This method directly uses the 'kb_yield_curves' dataset to provide yield data for various species across different years.
+        This method directly uses the 'kb_standing_volume_curves' dataset to provide data for various species across different years.
 
         Returns:
-            DataFrame: A pandas DataFrame containing the yield data as per the kb_yield_curves dataset.
+            DataFrame: A pandas DataFrame containing the standing volume data as per the kb_standing_volume_curves dataset.
         """
         loader_class = Loader()
         yield_df = loader_class.kb_standing_vol_yield_curves()

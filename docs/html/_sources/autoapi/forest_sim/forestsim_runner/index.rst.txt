@@ -1,0 +1,164 @@
+:py:mod:`forest_sim.forestsim_runner`
+=====================================
+
+.. py:module:: forest_sim.forestsim_runner
+
+.. autoapi-nested-parse::
+
+   Forest Sim Runner
+   =================
+
+   The ForestSimRunner class is responsible for generating input data and running scenarios in the CBM model.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   forest_sim.forestsim_runner.ForestSimRunner
+
+
+
+
+.. py:class:: ForestSimRunner(config_path, calibration_year, afforest_data, afforest_data_annual, scenario_data)
+
+
+   The ForestSimRunner class is responsible for generating input data and running scenarios in the CBM model.
+
+   This class is used when annual afforesation has been specified for each year.
+
+   :param config_path: The path to the CBM configuration file.
+   :type config_path: str
+   :param calibration_year: The year used for calibration.
+   :type calibration_year: int
+   :param forest_end_year: The final year of the simulation.
+   :type forest_end_year: int
+   :param afforest_data: The afforestation data.
+   :type afforest_data: AfforestData
+   :param afforest_data_annual: The annual afforestation data.
+   :type afforest_data_annual: AfforestDataAnnual
+   :param scenario_data: The scenario data.
+   :type scenario_data: ScenarioData
+   :param gen_baseline: A flag to generate the baseline data.
+   :type gen_baseline: bool
+   :param gen_validation: A flag to generate the validation data.
+   :type gen_validation: bool
+
+   .. attribute:: paths_class
+
+      The instance of the Paths class.
+
+      :type: Paths
+
+   .. attribute:: gen_validation
+
+      A flag to generate the validation data.
+
+      :type: bool
+
+   .. attribute:: validation_path
+
+      The path to the validation directory.
+
+      :type: str
+
+   .. attribute:: path
+
+      The path to the local directory.
+
+      :type: str
+
+   .. attribute:: baseline_conf_path
+
+      The path to the baseline configuration directory.
+
+      :type: str
+
+   .. attribute:: cbm_data_class
+
+      The instance of the ForestSimFactory class.
+
+      :type: ForestSimFactory
+
+   .. attribute:: cbm_runner_class
+
+      The instance of the Runner class.
+
+      :type: Runner
+
+   .. attribute:: INDEX
+
+      The list of unique scenario indices.
+
+      :type: list
+
+   .. method:: generate_base_input_data()
+
+      Generates the base input data for the CBM model.
+
+   .. method:: generate_input_data()
+
+      Generates the input data for each scenario in the CBM model.
+
+   .. method:: run_aggregate_scenarios()
+
+      Runs the aggregate scenarios in the CBM model.
+
+   .. method:: run_flux_scenarios()
+
+      Runs the flux scenarios in the CBM model.
+      
+
+   .. note:: An external path can be specified to generate the validation data.
+
+   .. py:method:: _generate_base_input_data()
+
+      Generates the base input data for the CBM runner.
+
+      This method cleans the baseline data directory, and then generates various input files
+      required for the CBM runner, such as classifiers, configuration JSON, age classes,
+      yield curves, inventory, disturbance events, disturbance types, and transition rules.
+
+      :param None:
+
+      :returns: None
+
+
+   .. py:method:: generate_input_data()
+
+      Generates input data for the CBM runner.
+
+      This method cleans the data directory, creates necessary directories,
+      and generates various input files required for the CBM runner.
+
+      :param None:
+
+      :returns: None
+
+
+   .. py:method:: run_aggregate_scenarios()
+
+      Runs aggregate scenarios for forest data.
+
+      This method iterates over a set of scenarios and generates carbon stock data for each scenario.
+      It merges the forest data with a baseline forest data, adds selected columns, and drops duplicate columns.
+      The carbon stock data for all scenarios is then concatenated into a single DataFrame.
+
+      :returns: The carbon stock data for all scenarios.
+      :rtype: pd.DataFrame
+
+
+   .. py:method:: run_flux_scenarios()
+
+      Runs carbon flux scenarios for each index in self.INDEX.
+
+      :returns: A DataFrame containing the merged and added data from each scenario.
+      :rtype: pandas.DataFrame
+
+
+

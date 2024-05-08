@@ -59,6 +59,13 @@ class DataFactory:
         make_disturbance_events(scenario, path): Creates a disturbance events CSV file.
         make_disturbance_type(scenario, path): Creates a disturbance type CSV file.
         make_transition_rules(scenario, path): Creates a transition rules CSV file.
+        make_base_age_classes(path): Creates the baseline age classes CSV file.
+        make_base_classifiers(path): Creates the baseline classifiers CSV file.
+        make_base_yield_curves(path): Creates the baseline yield curves CSV files.
+        make_base_inventory(path): Creates the baseline inventory CSV file.
+        make_base_disturbance_events(path): Creates the baseline disturbance events CSV file.
+        make_base_disturbance_type(path): Creates the baseline disturbance type CSV file.
+        make_base_transition_rules(path): Creates the baseline transition rules CSV file.
     """
     def __init__(
         self,
@@ -512,10 +519,12 @@ class DataFactory:
 
     def make_base_age_classes(self, path):
         """
-        Creates the baseline age classes CSV file.
+        Creates age classes DataFrame for managed forest and saves it as a CSV file.
+
+        Data for managed forest is referenced internally.
 
         Args:
-            path (str): The path to the output directory.
+            path (str): The path where the CSV file will be saved.
 
         Returns:
             None
@@ -528,22 +537,25 @@ class DataFactory:
 
     def make_base_classifiers(self, path):
         """
-        Creates the baseline classifiers CSV file.
+        Generates a dataframe of classifiers for managed forest and saves it as a CSV file.
 
-        Args:
-            path (str): The path to the output directory.
+        Data for managed forest is referenced internally.
+
+        Parameters:
+        - path (str): The path where the CSV file will be saved.
 
         Returns:
-            None
+        None
         """
-        
         self.loader_class.base_classifiers().to_csv(
                 os.path.join(path, "classifiers.csv"), index=False
             )
         
     def make_base_yield_curves(self, path):
         """
-        Creates the baseline and standing volume yield curves CSV files.
+        Creates the yield and standing volume curves CSV files for managed forest.
+
+        Data for managed forest is referenced internally.
 
         Args:
             path (str): The path to the output directory.
@@ -562,11 +574,13 @@ class DataFactory:
 
     def make_base_inventory(self, path):
         """
-        Creates the baseline inventory CSV file.
+        Creates the inventory data for managed forest and saves it as a CSV file.
+
+        Data for managed forest is referenced internally.
 
         Args:
             path (str): The path to the output directory.
-
+        
         Returns:
             None
         """
@@ -578,7 +592,9 @@ class DataFactory:
 
     def make_base_disturbance_events(self, path):
         """
-        Creates the baseline disturbance events CSV file.
+        Creates the disturbance events for managed forest and saves it as a CSV file.
+
+        Data for managed forest is referenced internally.
 
         Args:
             path (str): The path to the output directory.
@@ -593,8 +609,10 @@ class DataFactory:
 
     def make_base_disturbance_type(self, path):
         """
-        Creates the baseline disturbance type CSV file.
-        
+        Creates the disturbance type data for managed forest and saves it as a CSV file.
+
+        Data for managed forest is referenced internally.
+
         Args:
             path (str): The path to the output directory.
 
@@ -608,7 +626,9 @@ class DataFactory:
         
     def make_base_transition_rules(self, path):
         """
-        Creates the baseline transition rules CSV file.
+        Creates the transition rules for managed forest and saves it as a CSV file.
+
+        Data for managed forest is referenced internally.
 
         Args:
             path (str): The path to the output directory.

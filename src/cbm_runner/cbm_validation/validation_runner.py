@@ -103,20 +103,16 @@ class ValRunner:
 
     def run_validation(self):
         """
-        Runs aggregate scenarios for forest data.
-
-        This method iterates over a set of scenarios and generates carbon stock data for each scenario.
-        It merges the forest data with a baseline forest data, adds selected columns, and drops duplicate columns.
-        The carbon stock data for all scenarios is then concatenated into a single DataFrame.
+        Runs the CBM validation for the specified years.
 
         Returns:
-            pd.DataFrame: The carbon stock data for all scenarios.
+            dict: A dictionary containing the validation dataframes
         """
 
-        _data = self.SIM_class.cbm_basic_validation(self.years, 
+        data = self.SIM_class.cbm_basic_validation(self.years, 
                                                     self.path,
                                                     self.defaults_db
                                                     )
             
-        return _data
+        return data
 

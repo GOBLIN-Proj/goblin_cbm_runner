@@ -87,7 +87,7 @@ class ForestSimRunner:
 
         self.baseline_year_range = self.data_manager_class.get_baseline_years_range(self.forest_end_year)
 
-        self.generate_base_input_data()
+        self._generate_base_input_data()
         self.forest_baseline_dataframe = self.SIM_class.baseline_simulate_stock(self.cbm_data_class,
                                                                                  self.baseline_years,
                                                                                  self.baseline_year_range,
@@ -95,7 +95,7 @@ class ForestSimRunner:
                                                                                  self.defaults_db)
 
 
-    def generate_base_input_data(self):
+    def _generate_base_input_data(self):
         """
         Generates the base input data for the CBM runner.
 
@@ -186,7 +186,7 @@ class ForestSimRunner:
             )
 
             # Add the values for selected columns where 'year' matches
-            columns_to_add = ["AGB", "BGB", "Deadwood", "Litter", "Soil", "Total Ecosystem"]
+            columns_to_add = ["AGB", "BGB", "Deadwood", "Litter", "Soil","Harvest", "Total Ecosystem"]
             for col in columns_to_add:
                 merged_data[col] = merged_data[col] + merged_data[col + "_baseline"]
 
@@ -236,7 +236,7 @@ class ForestSimRunner:
             )
 
             # Add the values for selected columns where 'year' matches
-            columns_to_add = ["AGB", "BGB", "Deadwood", "Litter", "Soil", "Total Ecosystem"]
+            columns_to_add = ["AGB", "BGB", "Deadwood", "Litter", "Soil","Harvest", "Total Ecosystem"]
             for col in columns_to_add:
                 merged_data[col] = merged_data[col] + merged_data[col + "_baseline"]
 

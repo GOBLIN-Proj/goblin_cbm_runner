@@ -124,50 +124,55 @@ class AfforestationTracker:
         disturbance_types = self.disturbance_timing["disturbance_id"].unique()
         yield_name = self.data_manager_class.get_yield_name_dict()
 
+
+
         for stand in self.stands:
             for dist in disturbance_types:
-                disturbed_area = 0
+                if proportion[dist] == 0:
+                    pass
+                else:
+                    disturbed_area = 0
 
-                if stand.yield_class == yield_class and stand.species == species and stand.soil == soil:
+                    if stand.yield_class == yield_class and stand.species == species and stand.soil == soil:
 
-                    try:
-                        yc = yield_name[species][yield_class]
-                    except KeyError:
-                        yc = None
+                        try:
+                            yc = yield_name[species][yield_class]
+                        except KeyError:
+                            yc = None
 
-                    if yc is not None:
-                        mask = ((self.disturbance_timing.index == yc) & (self.disturbance_timing["disturbance_id"] == dist))
-                        if not self.disturbance_timing.loc[mask].empty:
-                            if stand.age >= self.disturbance_timing.loc[mask, "sw_age_min"].item() and stand.age <= self.disturbance_timing.loc[mask,"sw_age_max"].item():
-                                dist_stand = DisturbedForestStand(year,species, yield_class, soil)
-                                
-                                if dist == "DISTID1":
-                                    disturbed_area = stand.area * proportion[dist]
-                                    replant = ForestStand(species, yield_class, soil, disturbed_area)
-                                    self.stands.append(replant)
-                                    stand.area = stand.area * (1 - proportion[dist])
+                        if yc is not None:
+                            mask = ((self.disturbance_timing.index == yc) & (self.disturbance_timing["disturbance_id"] == dist))
+                            if not self.disturbance_timing.loc[mask].empty:
+                                if stand.age >= self.disturbance_timing.loc[mask, "sw_age_min"].item() and stand.age <= self.disturbance_timing.loc[mask,"sw_age_max"].item():
+                                    dist_stand = DisturbedForestStand(year,species, yield_class, soil)
+                                    
+                                    if dist == "DISTID1":
+                                        disturbed_area = stand.area * proportion[dist]
+                                        replant = ForestStand(species, yield_class, soil, disturbed_area)
+                                        self.stands.append(replant)
+                                        stand.area = stand.area * (1 - proportion[dist])
 
-                                    dist_stand.dist = dist
-                                    dist_stand.area = disturbed_area
-                                    dist_stand.species = species
-                                    dist_stand.yield_class = yield_class
-                                    dist_stand.soil = soil
-                                    self.disturbed_stands.append(dist_stand)
+                                        dist_stand.dist = dist
+                                        dist_stand.area = disturbed_area
+                                        dist_stand.species = species
+                                        dist_stand.yield_class = yield_class
+                                        dist_stand.soil = soil
+                                        self.disturbed_stands.append(dist_stand)
 
-                                elif stand.since_last_dist is None or stand.since_last_dist >= self.disturbance_timing.loc[mask, "min years since dist"].item():
-                                    disturbed_area = stand.area * proportion[dist]
-                                    stand.disturb()
+                                    elif stand.since_last_dist is None or stand.since_last_dist >= self.disturbance_timing.loc[mask, "min years since dist"].item():
+                                        disturbed_area = stand.area * proportion[dist]
+                                        stand.disturb()
 
-                                    dist_stand.dist = dist
-                                    dist_stand.area = disturbed_area
-                                    dist_stand.species = species
-                                    dist_stand.yield_class = yield_class
-                                    dist_stand.soil = soil
-                                    self.disturbed_stands.append(dist_stand)
+                                        dist_stand.dist = dist
+                                        dist_stand.area = disturbed_area
+                                        dist_stand.species = species
+                                        dist_stand.yield_class = yield_class
+                                        dist_stand.soil = soil
+                                        self.disturbed_stands.append(dist_stand)
 
-                                elif stand.since_last_dist < self.disturbance_timing.loc[mask, "min years since dist"].item():
-                                        
-                                    stand.reset_dist()
+                                    elif stand.since_last_dist < self.disturbance_timing.loc[mask, "min years since dist"].item():
+                                            
+                                        stand.reset_dist()
            
                     
 

@@ -18,33 +18,30 @@ from cbm_runner.harvest_manager.harvest import AfforestationTracker
 
 class Disturbances:
     """
-    A class to manage disturbances within a CBM (Carbon Budget Modeling) model.
-
-    This class handles various aspects of disturbances including scenario afforestation areas, 
-    legacy disturbance afforestation, disturbance structures, and filling data for legacy and 
-    scenario-based disturbances.
+    Manages disturbances within a CBM (Carbon Budget Model) model, addressing both legacy and scenario-based disturbances. 
+    This class plays a pivotal role in simulating the impact of disturbances on forest carbon stocks and fluxes, 
+    adapting to user-defined management strategies and afforestation scenarios.
 
     Attributes:
-        forest_end_year (int): The end year for the forest data.
-        calibration_year (int): The year used for calibration.
-        loader_class (Loader): An instance of the Loader class.
-        data_manager_class (DataManager): An instance of the DataManager class.
-        baseline_forest_classifiers (dict): Classifiers for the baseline forest.
-        scenario_forest_classifiers (dict): Classifiers for the scenario forest.
-        afforestation_data (DataFrame): Dataframe containing afforestation data.
-        inventory_class (Inventory): An instance of the Inventory class.
-        disturbance_timing (DataFrame): Dataframe containing disturbance timing information.
-        disturbance_dataframe (DataFrame): Dataframe containing disturbance data.
-        scenario_disturbance_dict (dict): Dictionary containing scenario disturbance information.
-        legacy_disturbance_dict (dict): Dictionary containing legacy disturbance information.
-        yield_name_dict (dict): Dictionary mapping yields to names.
+        forest_end_year (int): Target year for simulation end, dictating the temporal scope of forest data.
+        calibration_year (int): Base year for data calibration, aligning historical disturbance data with current simulations.
+        loader_class (Loader): Facilitates loading and processing external disturbance and afforestation data.
+        data_manager_class (DataManager): Manages data configurations, ensuring alignment with user-defined scenarios and CBM configurations.
+        baseline_forest_classifiers (dict): Classifies baseline forest scenarios, crucial for distinguishing legacy disturbances.
+        scenario_forest_classifiers (dict): Classifies scenario-specific forest data, essential for implementing management strategies.
+        afforestation_data (DataFrame): Stores afforestation data, central to calculating scenario-specific afforestation impacts.
+        inventory_class (Inventory): Manages forest inventory data, linking afforestation data with forest carbon dynamics.
+        disturbance_timing (DataFrame): Schedules the timing of disturbances, integral for temporal dynamics in simulation.
+        disturbance_dataframe (DataFrame): Contains detailed records of disturbances, serving as a primary input for simulation processes.
+        scenario_disturbance_dict (dict): Maps scenarios to their respective disturbances, enabling tailored management strategies.
+        legacy_disturbance_dict (dict): Maintains a record of historical disturbances.
+        yield_name_dict (dict): Correlates yield classes with species names.
 
     Parameters:
-        config_path (str): Path to the configuration file.
-        calibration_year (int): The year used for calibration.
-        forest_end_year (int): The end (targer) year for the forest data.
-        afforestation_data (DataFrame): Dataframe containing afforestation data.
-        scenario_data (DataFrame): Dataframe containing scenario data.
+        config_path (str): Configuration path for setting up CBM simulations.
+        calibration_year (int): The initial year for data calibration.
+        forest_end_year (int): The final year for simulation, defining the temporal boundary for scenario execution.
+        afforestation_data (DataFrame): Detailed data of afforestation activities per scenario.
     """
     
     def __init__(
@@ -118,7 +115,9 @@ class Disturbances:
 
     def legacy_disturbance_afforestation_area(self, years):
         """
-        Calculates the afforestation area for legacy forest over a number of years.
+        Calculates the afforestation area for legacy forest over a number of years from 1990.
+
+        This afforestation data pertains to private afforestation in Ireland. 
 
         Parameters:
             years (int): The number of years to calculate afforestation for.
@@ -266,7 +265,8 @@ class Disturbances:
 
     def fill_baseline_forest(self):
         """
-        Fills the baseline forest with disturbance data.
+        Fills the baseline forest with disturbance data. The baseline forest is the forest data for 
+        managed forest land in Ireland (Coillte forests).
 
         Returns:
             pandas.DataFrame: DataFrame containing disturbance data.
@@ -313,7 +313,8 @@ class Disturbances:
 
     def fill_scenario_data(self, scenario):
         """
-        Fills the disturbance data for a given scenario.
+        Fills the disturbance data for a given scenario. The final dataframe will include the data from legacy afforestation (afforestation from 1990)
+        as well as user defined scenario data.
 
         Args:
             scenario: The scenario for which to fill the disturbance data.
@@ -877,8 +878,10 @@ class Disturbances:
 
         Returns:
             None
-        """
 
+        Note:
+            Broadleaf species are assumed to be undisturbed.
+        """
         data_df = self.get_legacy_forest_area_breakdown()
         yield_name_dict = self.yield_name_dict
 

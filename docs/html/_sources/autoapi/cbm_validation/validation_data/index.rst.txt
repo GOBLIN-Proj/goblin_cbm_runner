@@ -1,0 +1,27 @@
+:py:mod:`cbm_validation.validation_data`
+========================================
+
+.. py:module:: cbm_validation.validation_data
+
+
+Package Contents
+----------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   cbm_validation.validation_data.get_local_dir
+
+
+
+.. py:function:: get_local_dir()
+
+   Gets the directory containing this script
+
+   :returns: full path to the the script's directory
+   :rtype: str
+
+

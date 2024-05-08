@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>default_runner.disturbances &mdash; CBM_runner 0.3.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=eafc0fe6" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=1e28cc32"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="default_runner.inventory" href="../inventory/index.html" />
+    <link rel="prev" title="default_runner.create_json" href="../create_json/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            CBM_runner
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../INSTALLATION.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../historic_affor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">historic_affor</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../forest_sim/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">forest_sim</span></code></a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">default_runner</span></code></a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../index.html#subpackages">Subpackages</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../cbm_data_factory/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">default_runner.cbm_data_factory</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../create_json/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">default_runner.create_json</span></code></a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">default_runner.disturbances</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../inventory/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">default_runner.inventory</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../runner/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">default_runner.runner</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../transition/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">default_runner.transition</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../yield_curves/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">default_runner.yield_curves</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../database/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">database</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../geo_cbm_runner/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">geo_cbm_runner</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../resource_manager/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">resource_manager</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../configuration_data/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">configuration_data</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../harvest_manager/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">harvest_manager</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cbm_methods/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cbm_methods</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cbm_validation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cbm_validation</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../example.html">Example Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../example.html#plot-fluxes-for-baseline">Plot Fluxes for Baseline</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">CBM_runner</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">default_runner</span></code></a></li>
+      <li class="breadcrumb-item active"><code class="xref py py-mod docutils literal notranslate"><span class="pre">default_runner.disturbances</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/autoapi/default_runner/disturbances/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-default_runner.disturbances">
+<span id="default-runner-disturbances"></span><h1><a class="reference internal" href="#module-default_runner.disturbances" title="default_runner.disturbances"><code class="xref py py-mod docutils literal notranslate"><span class="pre">default_runner.disturbances</span></code></a><a class="headerlink" href="#module-default_runner.disturbances" title="Link to this heading"></a></h1>
+<section id="disturbances-module">
+<p>This module is responsible for managing disturbances within a CBM (Carbon Budget Modeling) model.
+It handles various aspects of disturbances including scenario afforestation areas, legacy disturbance afforestation,
+disturbance structures, and filling data for legacy and scenario-based disturbances.</p>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Link to this heading"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#default_runner.disturbances.Disturbances" title="default_runner.disturbances.Disturbances"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Disturbances</span></code></a></p></td>
+<td><p>Manages disturbances within a CBM (Carbon Budget Model) model, addressing both legacy and scenario-based disturbances.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="default_runner.disturbances.Disturbances">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">default_runner.disturbances.</span></span><span class="sig-name descname"><span class="pre">Disturbances</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibration_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forest_end_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">afforestation_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#default_runner.disturbances.Disturbances" title="Link to this definition"></a></dt>
+<dd><p>Manages disturbances within a CBM (Carbon Budget Model) model, addressing both legacy and scenario-based disturbances.
+This class plays a pivotal role in simulating the impact of disturbances on forest carbon stocks and fluxes,
+adapting to user-defined management strategies and afforestation scenarios.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="default_runner.disturbances.Disturbances.forest_end_year">
+<span class="sig-name descname"><span class="pre">forest_end_year</span></span><a class="headerlink" href="#default_runner.disturbances.Disturbances.forest_end_year" title="Link to this definition"></a></dt>
+<dd><p>Target year for simulation end, dictating the temporal scope of forest data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="default_runner.disturbances.Disturbances.calibration_year">
+<span class="sig-name descname"><span class="pre">calibration_year</span></span><a class="headerlink" href="#default_runner.disturbances.Disturbances.calibration_year" title="Link to this definition"></a></dt>
+<dd><p>Base year for data calibration, aligning historical disturbance data with current simulations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="default_runner.disturbances.Disturbances.loader_class">
+<span class="sig-name descname"><span class="pre">loader_class</span></span><a class="headerlink" href="#default_runner.disturbances.Disturbances.loader_class" title="Link to this definition"></a></dt>
+<dd><p>Facilitates loading and processing external disturbance and afforestation data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../../resource_manager/loader/index.html#resource_manager.loader.Loader" title="resource_manager.loader.Loader">Loader</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="default_runner.disturbances.Disturbances.data_manager_class">
+<span class="sig-name descname"><span class="pre">data_manager_class</span></span><a class="headerlink" href="#default_runner.disturbances.Disturbances.data_manager_class" title="Link to this definition"></a></dt>
+<dd><p>Manages data configurations, ensuring alignment with user-defined scenarios and CBM configurations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../../resource_manager/cbm_runner_data_manager/index.html#resource_manager.cbm_runner_data_manager.DataManager" title="resource_manager.cbm_runner_data_manager.DataManager">DataManager</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="default_runner.disturbances.Disturbances.baseline_forest_classifiers">
+<span class="sig-name descname"><span class="pre">baseline_forest_classifiers</span></span><a class="headerlink" href="#default_runner.disturbances.Disturbances.baseline_forest_classifiers" title="Link to this definition"></a></dt>
+<dd><p>Classifies baseline forest scenarios, crucial for distinguishing legacy disturbances.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="default_runner.disturbances.Disturbances.scenario_forest_classifiers">
+<span class="sig-name descname"><span class="pre">scenario_forest_classifiers</span></span><a class="headerlink" href="#default_runner.disturbances.Disturbances.scenario_forest_classifiers" title="Link to this definition"></a></dt>
+<dd><p>Classifies scenario-specific forest data, essential for implementing management strategies.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="default_runner.disturbances.Disturbances.afforestation_data">
+<span class="sig-name descname"><span class="pre">afforestation_data</span></span><a class="headerlink" href="#default_runner.disturbances.Disturbances.afforestation_data" title="Link to this definition"></a></dt>
+<dd><p>Stores afforestation data, central to calculating scenario-specific afforestation impacts.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="default_runner.disturbances.Disturbances.inventory_class">
+<span class="sig-name descname"><span class="pre">inventory_class</span></span><a class="headerlink" href="#default_runner.disturbances.Disturbances.inventory_class" title="Link to this definition"></a></dt>
+<dd><p>Manages forest inventory data, linking afforestation data with forest carbon dynamics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../inventory/index.html#default_runner.inventory.Inventory" title="default_runner.inventory.Inventory">Inventory</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="default_runner.disturbances.Disturbances.disturbance_timing">
+<span class="sig-name descname"><span class="pre">disturbance_timing</span></span><a class="headerlink" href="#default_runner.disturbances.Disturbances.disturbance_timing" title="Link to this definition"></a></dt>
+<dd><p>Schedules the timing of disturbances, integral for temporal dynamics in simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="default_runner.disturbances.Disturbances.disturbance_dataframe">
+<span class="sig-name descname"><span class="pre">disturbance_dataframe</span></span><a class="headerlink" href="#default_runner.disturbances.Disturbances.disturbance_dataframe" title="Link to this definition"></a></dt>
+<dd><p>Contains detailed records of disturbances, serving as a primary input for simulation processes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="default_runner.disturbances.Disturbances.scenario_disturbance_dict">
+<span class="sig-name descname"><span class="pre">scenario_disturbance_dict</span></span><a class="headerlink" href="#default_runner.disturbances.Disturbances.scenario_disturbance_dict" title="Link to this definition"></a></dt>
+<dd><p>Maps scenarios to their respective disturbances, enabling tailored management strategies.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="default_runner.disturbances.Disturbances.legacy_disturbance_dict">
+<span class="sig-name descname"><span class="pre">legacy_disturbance_dict</span></span><a class="headerlink" href="#default_runner.disturbances.Disturbances.legacy_disturbance_dict" title="Link to this definition"></a></dt>
+<dd><p>Maintains a record of historical disturbances.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="default_runner.disturbances.Disturbances.yield_name_dict">
+<span class="sig-name descname"><span class="pre">yield_name_dict</span></span><a class="headerlink" href="#default_runner.disturbances.Disturbances.yield_name_dict" title="Link to this definition"></a></dt>
+<dd><p>Correlates yield classes with species names.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config_path</strong> (<em>str</em>) – Configuration path for setting up CBM simulations.</p></li>
+<li><p><strong>calibration_year</strong> (<em>int</em>) – The initial year for data calibration.</p></li>
+<li><p><strong>forest_end_year</strong> (<em>int</em>) – The final year for simulation, defining the temporal boundary for scenario execution.</p></li>
+<li><p><strong>afforestation_data</strong> (<em>DataFrame</em>) – Detailed data of afforestation activities per scenario.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="default_runner.disturbances.Disturbances.scenario_afforestation_area">
+<span class="sig-name descname"><span class="pre">scenario_afforestation_area</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#default_runner.disturbances.Disturbances.scenario_afforestation_area" title="Link to this definition"></a></dt>
+<dd><p>Calculates the afforestation area for a given scenario.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>scenario</strong> (<em>str</em>) – The scenario to calculate afforestation for.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary with species as keys and afforestation areas as values.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="default_runner.disturbances.Disturbances.legacy_disturbance_afforestation_area">
+<span class="sig-name descname"><span class="pre">legacy_disturbance_afforestation_area</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">years</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#default_runner.disturbances.Disturbances.legacy_disturbance_afforestation_area" title="Link to this definition"></a></dt>
+<dd><p>Calculates the afforestation area for legacy forest over a number of years from 1990.</p>
+<p>This afforestation data pertains to private afforestation in Ireland.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>years</strong> (<em>int</em>) – The number of years to calculate afforestation for.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dataframe with calculated afforestation areas.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="default_runner.disturbances.Disturbances.disturbance_structure">
+<span class="sig-name descname"><span class="pre">disturbance_structure</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#default_runner.disturbances.Disturbances.disturbance_structure" title="Link to this definition"></a></dt>
+<dd><p>Creates a dataframe structure for disturbances.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dataframe with the structure for disturbances.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="default_runner.disturbances.Disturbances.fill_legacy_data">
+<span class="sig-name descname"><span class="pre">fill_legacy_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#default_runner.disturbances.Disturbances.fill_legacy_data" title="Link to this definition"></a></dt>
+<dd><p>Fills the disturbance data for legacy years based on the given configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The disturbance data for legacy years.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="default_runner.disturbances.Disturbances.fill_baseline_forest">
+<span class="sig-name descname"><span class="pre">fill_baseline_forest</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#default_runner.disturbances.Disturbances.fill_baseline_forest" title="Link to this definition"></a></dt>
+<dd><p>Fills the baseline forest with disturbance data. The baseline forest is the forest data for
+managed forest land in Ireland (Coillte forests).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame containing disturbance data.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="default_runner.disturbances.Disturbances.fill_scenario_data">
+<span class="sig-name descname"><span class="pre">fill_scenario_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#default_runner.disturbances.Disturbances.fill_scenario_data" title="Link to this definition"></a></dt>
+<dd><p>Fills the disturbance data for a given scenario. The final dataframe will include the data from legacy afforestation (afforestation from 1990)
+as well as user defined scenario data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>scenario</strong> – The scenario for which to fill the disturbance data.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The disturbance data DataFrame after filling with scenario data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="default_runner.disturbances.Disturbances._process_scenario_harvest_data">
+<span class="sig-name descname"><span class="pre">_process_scenario_harvest_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tracker</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">row_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#default_runner.disturbances.Disturbances._process_scenario_harvest_data" title="Link to this definition"></a></dt>
+<dd><p>Process the harvest data for a scenario.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tracker</strong> (<em>Tracker</em>) – The tracker object used to track forest changes.</p></li>
+<li><p><strong>row_data</strong> (<em>dict</em>) – The data for a single row.</p></li>
+<li><p><strong>context</strong> (<em>dict</em>) – The context containing additional information.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="default_runner.disturbances.Disturbances._track_scenario_harvest">
+<span class="sig-name descname"><span class="pre">_track_scenario_harvest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tracker</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">row_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#default_runner.disturbances.Disturbances._track_scenario_harvest" title="Link to this definition"></a></dt>
+<dd><p>Track the harvest scenario in the forest model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tracker</strong> (<em>Tracker</em>) – The tracker object used to track forest changes.</p></li>
+<li><p><strong>row_data</strong> (<em>dict</em>) – The data for the current row.</p></li>
+<li><p><strong>context</strong> (<em>dict</em>) – The context containing species, yield class, soil, year, harvest proportion, and age.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="default_runner.disturbances.Disturbances._drop_zero_area_rows">
+<span class="sig-name descname"><span class="pre">_drop_zero_area_rows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">disturbance_df</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#default_runner.disturbances.Disturbances._drop_zero_area_rows" title="Link to this definition"></a></dt>
+<dd><p>Drops rows from the disturbance dataframe where the ‘Amount’ column is zero.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>disturbance_df</strong> (<em>pandas.DataFrame</em>) – The disturbance dataframe.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The disturbance dataframe with zero area rows dropped.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="default_runner.disturbances.Disturbances._get_legacy_classifier_combinations">
+<span class="sig-name descname"><span class="pre">_get_legacy_classifier_combinations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#default_runner.disturbances.Disturbances._get_legacy_classifier_combinations" title="Link to this definition"></a></dt>
+<dd><p>Returns all possible combinations of forest keys, soil keys, and yield keys.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>self</strong> (<a class="reference internal" href="#default_runner.disturbances.Disturbances" title="default_runner.disturbances.Disturbances"><em>Disturbances</em></a>) – The Disturbances object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A generator that yields all possible combinations of forest keys, soil keys, and yield keys.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>combinations (generator)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="default_runner.disturbances.Disturbances._get_scenario_classifier_combinations">
+<span class="sig-name descname"><span class="pre">_get_scenario_classifier_combinations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#default_runner.disturbances.Disturbances._get_scenario_classifier_combinations" title="Link to this definition"></a></dt>
+<dd><p>Generates combinations of scenario, forest, soil, and yield classifiers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A generator that yields combinations of scenario, forest, soil, and yield classifiers.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="default_runner.disturbances.Disturbances._get_classifier_combinations">
+<span class="sig-name descname"><span class="pre">_get_classifier_combinations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">species</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disturbance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#default_runner.disturbances.Disturbances._get_classifier_combinations" title="Link to this definition"></a></dt>
+<dd><p>Generates all possible combinations of forest types, soil classes, and yield classes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A generator that yields tuples representing the combinations of forest types, soil classes, and yield classes.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="default_runner.disturbances.Disturbances._get_static_defaults">
+<span class="sig-name descname"><span class="pre">_get_static_defaults</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#default_runner.disturbances.Disturbances._get_static_defaults" title="Link to this definition"></a></dt>
+<dd><p>Get the default values for static disturbance columns.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dictionary containing the default values for each static disturbance column.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="default_runner.disturbances.Disturbances._generate_row">
+<span class="sig-name descname"><span class="pre">_generate_row</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">species</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forest_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">soil</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yield_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yr</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#default_runner.disturbances.Disturbances._generate_row" title="Link to this definition"></a></dt>
+<dd><p>Generates a row of data for a disturbance event.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>species</strong> (<em>str</em>) – The species of the forest.</p></li>
+<li><p><strong>forest_type</strong> (<em>str</em>) – The type of forest.</p></li>
+<li><p><strong>soil</strong> (<em>str</em>) – The type of soil.</p></li>
+<li><p><strong>yield_class</strong> (<em>str</em>) – The yield class of the forest.</p></li>
+<li><p><strong>dist</strong> (<em>int</em>) – The disturbance type ID.</p></li>
+<li><p><strong>yr</strong> (<em>int</em>) – The year of the disturbance event.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary containing the row data for the disturbance event.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="default_runner.disturbances.Disturbances._process_scenario_row_data">
+<span class="sig-name descname"><span class="pre">_process_scenario_row_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataframes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#default_runner.disturbances.Disturbances._process_scenario_row_data" title="Link to this definition"></a></dt>
+<dd><p>Process the row data for a scenario based on the given context and dataframes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>row_data</strong> (<em>dict</em>) – The row data for the scenario.</p></li>
+<li><p><strong>context</strong> (<em>dict</em>) – The context containing forest type and disturbance information.</p></li>
+<li><p><strong>dataframes</strong> (<em>dict</em>) – The dataframes containing relevant data.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="default_runner.disturbances.Disturbances._process_row_data">
+<span class="sig-name descname"><span class="pre">_process_row_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataframes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#default_runner.disturbances.Disturbances._process_row_data" title="Link to this definition"></a></dt>
+<dd><p>Process the row data based on the given context and dataframes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>row_data</strong> (<em>dict</em>) – The row data to be processed.</p></li>
+<li><p><strong>context</strong> (<em>dict</em>) – The context containing forest type and disturbance information.</p></li>
+<li><p><strong>dataframes</strong> (<em>dict</em>) – The dataframes used for processing.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="default_runner.disturbances.Disturbances._handle_legacy_scenario_forest">
+<span class="sig-name descname"><span class="pre">_handle_legacy_scenario_forest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataframes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#default_runner.disturbances.Disturbances._handle_legacy_scenario_forest" title="Link to this definition"></a></dt>
+<dd><p>Handles the legacy scenario forest by updating the disturbance timing and setting the amount based on the area.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>row_data</strong> (<em>dict</em>) – The row data for the disturbance.</p></li>
+<li><p><strong>context</strong> (<em>dict</em>) – The context information for the disturbance.</p></li>
+<li><p><strong>dataframes</strong> (<em>dict</em>) – The dataframes containing additional data.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="default_runner.disturbances.Disturbances._handle_scenario_afforestation">
+<span class="sig-name descname"><span class="pre">_handle_scenario_afforestation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataframes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#default_runner.disturbances.Disturbances._handle_scenario_afforestation" title="Link to this definition"></a></dt>
+<dd><p>Handle the scenario of afforestation.</p>
+<p>This method calculates the amount of afforestation based on the given row data, context, and dataframes.
+It retrieves the afforestation inventory, non-forest dictionary, species, yield class, soil, and configuration classifiers from the context and dataframes.
+The amount of afforestation is calculated based on the afforestation value, yield class proportions, and classifier3 value.
+If the classifier3 value matches the soil value, the amount is calculated using the afforestation value and yield class proportions.
+If there is a TypeError during the calculation, the amount is set to 0.
+If the classifier3 value does not match the soil value, the amount is set to 0.</p>
+<p>Parameters:
+- row_data (dict): The row data for the afforestation scenario.
+- context (dict): The context containing additional information for the calculation.
+- dataframes (dict): The dataframes containing the afforestation inventory.</p>
+<p>Returns:
+- None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="default_runner.disturbances.Disturbances._handle_legacy_afforestation">
+<span class="sig-name descname"><span class="pre">_handle_legacy_afforestation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataframes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#default_runner.disturbances.Disturbances._handle_legacy_afforestation" title="Link to this definition"></a></dt>
+<dd><p>Handles legacy afforestation by updating the row data with the appropriate classifier and amount.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>row_data</strong> (<em>dict</em>) – The row data to be updated.</p></li>
+<li><p><strong>context</strong> (<em>dict</em>) – The context containing species, yield class, year, and soil information.</p></li>
+<li><p><strong>dataframes</strong> (<em>dict</em>) – A dictionary of dataframes containing the legacy afforestation inventory.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="default_runner.disturbances.Disturbances._handle_legacy_forest">
+<span class="sig-name descname"><span class="pre">_handle_legacy_forest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataframes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#default_runner.disturbances.Disturbances._handle_legacy_forest" title="Link to this definition"></a></dt>
+<dd><p>Handles legacy forest data by updating disturbance timing and populating row data with relevant information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>row_data</strong> (<em>dict</em>) – The row data to be updated with disturbance information.</p></li>
+<li><p><strong>context</strong> (<em>dict</em>) – The context containing relevant information for the disturbance handling.</p></li>
+<li><p><strong>dataframes</strong> (<em>dict</em>) – A dictionary of dataframes containing disturbance data.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="default_runner.disturbances.Disturbances._update_disturbance_timing">
+<span class="sig-name descname"><span class="pre">_update_disturbance_timing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataframes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#default_runner.disturbances.Disturbances._update_disturbance_timing" title="Link to this definition"></a></dt>
+<dd><p>Retrieve disturbance timing information from the disturbance_timing DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>row_data</strong> (<em>dict</em>) – The dictionary containing row data.</p></li>
+<li><p><strong>context</strong> (<em>dict</em>) – The dictionary containing context information.</p></li>
+<li><p><strong>dataframes</strong> (<em>dict</em>) – The dictionary containing dataframes.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ValueError</strong> – If any of the operations fail due to invalid values.</p></li>
+<li><p><strong>KeyError</strong> – If any of the required keys are not found.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="default_runner.disturbances.Disturbances.get_legacy_forest_area_breakdown">
+<span class="sig-name descname"><span class="pre">get_legacy_forest_area_breakdown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#default_runner.disturbances.Disturbances.get_legacy_forest_area_breakdown" title="Link to this definition"></a></dt>
+<dd><p>Calculate the breakdown of legacy forest area based on species, yield class, soil type, and age.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame containing the breakdown of legacy forest area.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="default_runner.disturbances.Disturbances.legacy_disturbance_tracker">
+<span class="sig-name descname"><span class="pre">legacy_disturbance_tracker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tracker</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">years</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#default_runner.disturbances.Disturbances.legacy_disturbance_tracker" title="Link to this definition"></a></dt>
+<dd><p>Apply legacy disturbances to the forest tracker.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tracker</strong> (<em>object</em>) – The forest tracker object.</p></li>
+<li><p><strong>years</strong> (<em>list</em>) – List of years to apply disturbances.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Broadleaf species are assumed to be undisturbed.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../create_json/index.html" class="btn btn-neutral float-left" title="default_runner.create_json" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../inventory/index.html" class="btn btn-neutral float-right" title="default_runner.inventory" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Colm Duffy.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+:py:mod:`default_runner.create_json`
+====================================
+
+.. py:module:: default_runner.create_json
+
+.. autoapi-nested-parse::
+
+   Create Json Module
+   ==================
+   This module is responsible for generating the configuration JSON file used by the CBM AIDB.
+   It provides methods to populate predefined templates with scenario-specific, or managed forest, data and mapping definitions.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   default_runner.create_json.CreateJSON
+
+
+
+
+.. py:class:: CreateJSON(config_path)
+
+
+   This class is responsible for creating the mapping configuration JSON for the CBM AIDB.
+
+   :param config_path: The path to the configuration file.
+   :type config_path: str
+
+   .. attribute:: loader_class
+
+      An instance of the Loader class.
+
+      :type: Loader
+
+   .. attribute:: data_manager_class
+
+      An instance of the DataManager class.
+
+      :type: DataManager
+
+   .. attribute:: template
+
+      The template JSON structure for the mapping configuration.
+
+      :type: dict
+
+   .. attribute:: standing_vol_template
+
+      The template JSON structure for the standing volume configuration.
+
+      :type: dict
+
+   .. method:: populate_template
+
+      Populates the template JSON with data based on the given scenario.
+
+   .. method:: populate_spinup_template
+
+      Populates the template JSON with data based on managed forests.
+      
+
+   .. py:method:: populate_template(scenario)
+
+      Populates the template JSON with data based on the given scenario.
+
+      :param scenario: The scenario for which the mapping is being created.
+      :type scenario: str
+
+      :returns: The populated template JSON.
+      :rtype: dict
+
+
+   .. py:method:: populate_spinup_template()
+
+      Populates the template JSON with data based on managed forests.
+
+      :returns: The populated template JSON.
+      :rtype: dict
+
+
+

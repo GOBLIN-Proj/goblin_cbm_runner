@@ -1,0 +1,182 @@
+:py:mod:`historic_affor.historic_affor_runner`
+==============================================
+
+.. py:module:: historic_affor.historic_affor_runner
+
+.. autoapi-nested-parse::
+
+   Historic Afforestation Runner Module
+   ====================================
+   This module provides functionalities to run historic afforestation simulations using the Carbon Budget Model (CBM).
+
+   This class is designed to facilitate the execution of Carbon Budget Model (CBM) simulations for assessing historic afforestation efforts in Ireland.
+
+   The module is intended largely for validation of historic afforestation input data, leveraging a suite of data management and simulation tools to prepare, execute, and analyze CBM simulations.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   historic_affor.historic_affor_runner.HistoricAfforRunner
+
+
+
+
+.. py:class:: HistoricAfforRunner(config_path, calibration_year, afforest_data, scenario_data, sit_path=None)
+
+
+   Facilitates the execution of Carbon Budget Model (CBM) simulations for assessing historic afforestation efforts in Ireland.
+   Designed primarily for the validation of historic afforestation input data, this class leverages a suite of data management and
+   simulation tools to prepare, execute, and analyze CBM simulations. It focuses on generating outputs such as carbon stocks
+   and fluxes across various afforestation scenarios, offering insights into the carbon budget implications of past afforestation activities.
+
+   :param config_path: The path to the configuration file.
+   :type config_path: str
+   :param calibration_year: The year to calibrate the CBM model.
+   :type calibration_year: int
+   :param afforest_data: A dictionary containing afforestation data.
+   :type afforest_data: dict
+   :param scenario_data: A dictionary containing scenario data.
+   :type scenario_data: dict
+   :param sit_path: The path to the SIT file.
+   :type sit_path: str
+
+   .. attribute:: paths_class
+
+      An instance of the Paths class for managing file paths.
+
+      :type: Paths
+
+   .. attribute:: path
+
+      The path to the generated input data.
+
+      :type: str
+
+   .. attribute:: baseline_conf_path
+
+      The path to the baseline configuration file.
+
+      :type: str
+
+   .. attribute:: sc_fetcher
+
+      An instance of the ScenarioDataFetcher class for fetching scenario data.
+
+      :type: ScenarioDataFetcher
+
+   .. attribute:: forest_end_year
+
+      The end year of the afforestation period.
+
+      :type: int
+
+   .. attribute:: cbm_data_class
+
+      An instance of the DataFactory class for generating CBM input data.
+
+      :type: DataFactory
+
+   .. attribute:: data_manager_class
+
+      An instance of the DataManager class for managing data.
+
+      :type: DataManager
+
+   .. attribute:: INDEX
+
+      A list of scenario indices.
+
+      :type: list
+
+   .. attribute:: SIM_class
+
+      An instance of the CBMSim class for running CBM simulations.
+
+      :type: CBMSim
+
+   .. attribute:: years
+
+      A list of scenario years.
+
+      :type: list
+
+   .. attribute:: year_range
+
+      A list of scenario years range.
+
+      :type: list
+
+   .. attribute:: defaults_db
+
+      The path to the defaults database.
+
+      :type: str
+
+   .. method:: generate_input_data()
+
+      
+      Prepares the input data necessary for CBM simulations, establishing a clean and organized data environment for scenario execution.
+      
+
+   .. method:: run_flux_scenarios()
+
+      
+      Executes simulations to calculate carbon flux data across different scenarios, merging and aggregating results to analyze carbon dynamics.
+      
+
+   .. method:: run_aggregate_scenarios()
+
+      
+      Conducts simulations to generate aggregate carbon stock data from various scenarios.
+      
+
+   .. method:: run_libcbm_flux_scenarios()
+
+      
+      Utilizes the libCBM tool own flux method to generate fluxes.
+      
+
+   .. py:method:: generate_input_data()
+
+      Generates input data for the CBM runner.
+
+      This method cleans the data directory, creates necessary directories,
+      and generates various input files required for the CBM runner.
+
+      :param None:
+
+      :returns: None
+
+
+   .. py:method:: run_flux_scenarios()
+
+      Conducts CBM simulations to calculate and aggregate carbon flux data.
+
+      :returns: Aggregated carbon flux data across all scenarios.
+      :rtype: pd.DataFrame
+
+
+   .. py:method:: run_aggregate_scenarios()
+
+      Executes CBM simulations for a set of scenarios, generating and aggregating carbon stock data across scenarios.
+
+      :returns: Aggregated carbon stock data across all scenarios.
+      :rtype: pd.DataFrame
+
+
+   .. py:method:: run_libcbm_flux_scenarios()
+
+      Conducts CBM simulations using the libcbm internal flux method.
+
+      :returns: Aggregated carbon flux data across all scenarios.
+      :rtype: pd.DataFrame
+
+
+
