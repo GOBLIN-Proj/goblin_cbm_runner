@@ -1,0 +1,25 @@
+:py:mod:`historic_affor`
+========================
+
+.. py:module:: historic_affor
+
+
+Subpackages
+-----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 3
+
+   baseline_input_conf/index.rst
+   generated_input_data/index.rst
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   historic_affor_runner/index.rst
+
+

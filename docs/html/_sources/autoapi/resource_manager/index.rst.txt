@@ -1,0 +1,23 @@
+:py:mod:`resource_manager`
+==========================
+
+.. py:module:: resource_manager
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   cbm_pools/index.rst
+   cbm_runner_data_manager/index.rst
+   database_manager/index.rst
+   flux_manager/index.rst
+   geo_cbm_runner_data_manager/index.rst
+   loader/index.rst
+   parser/index.rst
+   paths/index.rst
+   scenario_data_fetcher/index.rst
+
+

@@ -25,6 +25,14 @@ class Loader:
         disturbance_type: Returns the disturbance types dataframe.
         harvest_areas_NIR: Returns the forest harvest areas (NIR) dataframe.
         disturbance_data: Returns the disturbance data dataframe.
+        base_age_class: Returns the baseline (2016 - 2050) age class dataframe.
+        base_classifiers: Returns the baseline (2016 - 2050) classifiers dataframe.
+        base_disturbance_events: Returns the baseline (2016 - 2050) disturbance events dataframe.
+        base_disturbance_types: Returns the baseline (2016 - 2050) disturbance types dataframe.
+        base_growth_curves: Returns the baseline (2016 - 2050) growth curves dataframe.
+        base_inventory: Returns the baseline (2016 - 2050) inventory dataframe.
+        base_transition: Returns the baseline (2016 - 2050) transitions dataframe.
+        base_standing_volume: Returns the baseline (2016 - 2050) standing volume dataframe.
     """
 
     def __init__(self):
@@ -47,7 +55,7 @@ class Loader:
         Returns the forest KB yields dataframe.
         """
         return self.dataframes.get_forest_kb_yields()
-
+    
     def NIR_forest_data_ha(self):
         """
         Returns the NIR forest data (hectares) dataframe.
@@ -83,6 +91,12 @@ class Loader:
         Returns the KB yield curves dataframe.
         """
         return self.dataframes.get_kb_yield_curves()
+    
+    def kb_standing_vol_yield_curves(self):
+        """
+        Returns the KB standing volume yield curves dataframe.
+        """
+        return self.dataframes.get_geo_baseline_standing_volume()
 
     def disturbance_type(self):
         """
@@ -101,3 +115,51 @@ class Loader:
         Returns the disturbance data dataframe.
         """
         return self.dataframes.get_disturbance_data()
+    
+    def base_age_class(self):
+        """
+        Returns the baseline (2016 - 2050) age class dataframe.
+        """
+        return self.dataframes.get_baseline_age_classes()
+    
+    def base_classifiers(self):
+        """
+        Returns the baseline (2016 - 2050) classifiers dataframe.
+        """
+        return self.dataframes.get_baseline_classifiers()
+    
+    def base_disturbance_events(self):
+        """
+        Returns the baseline (2016 - 2050) disturbance events dataframe.
+        """
+        return self.dataframes.get_baseline_disturbance_events()
+    
+    def base_disturbance_types(self):
+        """
+        Returns the baseline (2016 - 2050) disturbance types dataframe.
+        """
+        return self.dataframes.get_baseline_disturbance_types()
+    
+    def base_growth_curves(self):
+        """
+        Returns the baseline (2016 - 2050) growth curves dataframe.
+        """
+        return self.dataframes.get_baseline_growth_curves()
+    
+    def base_inventory(self):
+        """
+        Returns the baseline (2016 - 2050) inventory dataframe.
+        """
+        return self.dataframes.get_baseline_inventory()
+    
+    def base_transition(self):
+        """
+        Returns the baseline (2016 - 2050) transitions dataframe.
+        """
+        return self.dataframes.get_baseline_transition()
+    
+    def base_standing_volume(self):
+        """
+        Returns the baseline (2016 - 2050) standing volume dataframe.
+        """
+        return self.dataframes.get_baseline_standing_volume()

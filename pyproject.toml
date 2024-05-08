@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "cbm_runner"
-version = "0.3.3"
+version = "0.3.4"
 description = "An interface between the CBM CFS3, libcbm_py, model and the GOBLIN model."
 authors = ["Colm Duffy"]
 license = "MIT"
@@ -12,8 +12,8 @@ pandas = "2.1.4"
 numpy = "^1.25.0"
 sqlalchemy = "^1.4.0"
 pyyaml = "*"
-libcbm  = {git = "https://github.com/colmduff/libcbm_py.git", branch = "pandas_updated"}
-catchment_data_api = {git = "https://github.com/GOBLIN-Proj/catchment_data_api.git", branch = "main"}
+libcbm  = "2.6.6"
+catchment_data_api = "^0.1.0"
 
 
 [build-system]

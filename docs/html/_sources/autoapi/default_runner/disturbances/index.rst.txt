@@ -1,0 +1,404 @@
+:py:mod:`default_runner.disturbances`
+=====================================
+
+.. py:module:: default_runner.disturbances
+
+.. autoapi-nested-parse::
+
+   Disturbances Module
+   ===================
+   This module is responsible for managing disturbances within a CBM (Carbon Budget Modeling) model.
+   It handles various aspects of disturbances including scenario afforestation areas, legacy disturbance afforestation,
+   disturbance structures, and filling data for legacy and scenario-based disturbances.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   default_runner.disturbances.Disturbances
+
+
+
+
+.. py:class:: Disturbances(config_path, calibration_year, forest_end_year, afforestation_data, scenario_data)
+
+
+   Manages disturbances within a CBM (Carbon Budget Model) model, addressing both legacy and scenario-based disturbances.
+   This class plays a pivotal role in simulating the impact of disturbances on forest carbon stocks and fluxes,
+   adapting to user-defined management strategies and afforestation scenarios.
+
+   .. attribute:: forest_end_year
+
+      Target year for simulation end, dictating the temporal scope of forest data.
+
+      :type: int
+
+   .. attribute:: calibration_year
+
+      Base year for data calibration, aligning historical disturbance data with current simulations.
+
+      :type: int
+
+   .. attribute:: loader_class
+
+      Facilitates loading and processing external disturbance and afforestation data.
+
+      :type: Loader
+
+   .. attribute:: data_manager_class
+
+      Manages data configurations, ensuring alignment with user-defined scenarios and CBM configurations.
+
+      :type: DataManager
+
+   .. attribute:: baseline_forest_classifiers
+
+      Classifies baseline forest scenarios, crucial for distinguishing legacy disturbances.
+
+      :type: dict
+
+   .. attribute:: scenario_forest_classifiers
+
+      Classifies scenario-specific forest data, essential for implementing management strategies.
+
+      :type: dict
+
+   .. attribute:: afforestation_data
+
+      Stores afforestation data, central to calculating scenario-specific afforestation impacts.
+
+      :type: DataFrame
+
+   .. attribute:: inventory_class
+
+      Manages forest inventory data, linking afforestation data with forest carbon dynamics.
+
+      :type: Inventory
+
+   .. attribute:: disturbance_timing
+
+      Schedules the timing of disturbances, integral for temporal dynamics in simulation.
+
+      :type: DataFrame
+
+   .. attribute:: disturbance_dataframe
+
+      Contains detailed records of disturbances, serving as a primary input for simulation processes.
+
+      :type: DataFrame
+
+   .. attribute:: scenario_disturbance_dict
+
+      Maps scenarios to their respective disturbances, enabling tailored management strategies.
+
+      :type: dict
+
+   .. attribute:: legacy_disturbance_dict
+
+      Maintains a record of historical disturbances.
+
+      :type: dict
+
+   .. attribute:: yield_name_dict
+
+      Correlates yield classes with species names.
+
+      :type: dict
+
+   :param config_path: Configuration path for setting up CBM simulations.
+   :type config_path: str
+   :param calibration_year: The initial year for data calibration.
+   :type calibration_year: int
+   :param forest_end_year: The final year for simulation, defining the temporal boundary for scenario execution.
+   :type forest_end_year: int
+   :param afforestation_data: Detailed data of afforestation activities per scenario.
+   :type afforestation_data: DataFrame
+
+   .. py:method:: scenario_afforestation_area(scenario)
+
+      Calculates the afforestation area for a given scenario.
+
+      :param scenario: The scenario to calculate afforestation for.
+      :type scenario: str
+
+      :returns: A dictionary with species as keys and afforestation areas as values.
+      :rtype: dict
+
+
+   .. py:method:: legacy_disturbance_afforestation_area(years)
+
+      Calculates the afforestation area for legacy forest over a number of years from 1990.
+
+      This afforestation data pertains to private afforestation in Ireland.
+
+      :param years: The number of years to calculate afforestation for.
+      :type years: int
+
+      :returns: A dataframe with calculated afforestation areas.
+      :rtype: DataFrame
+
+
+   .. py:method:: disturbance_structure()
+
+      Creates a dataframe structure for disturbances.
+
+      :returns: A dataframe with the structure for disturbances.
+      :rtype: DataFrame
+
+
+   .. py:method:: fill_legacy_data()
+
+      Fills the disturbance data for legacy years based on the given configuration.
+
+      :returns: The disturbance data for legacy years.
+      :rtype: pandas.DataFrame
+
+
+   .. py:method:: fill_baseline_forest()
+
+      Fills the baseline forest with disturbance data. The baseline forest is the forest data for
+      managed forest land in Ireland (Coillte forests).
+
+      :returns: DataFrame containing disturbance data.
+      :rtype: pandas.DataFrame
+
+
+   .. py:method:: fill_scenario_data(scenario)
+
+      Fills the disturbance data for a given scenario. The final dataframe will include the data from legacy afforestation (afforestation from 1990)
+      as well as user defined scenario data.
+
+      :param scenario: The scenario for which to fill the disturbance data.
+
+      :returns: The disturbance data DataFrame after filling with scenario data.
+
+
+   .. py:method:: _process_scenario_harvest_data(tracker, row_data, context)
+
+      Process the harvest data for a scenario.
+
+      :param tracker: The tracker object used to track forest changes.
+      :type tracker: Tracker
+      :param row_data: The data for a single row.
+      :type row_data: dict
+      :param context: The context containing additional information.
+      :type context: dict
+
+      :returns: None
+
+
+   .. py:method:: _track_scenario_harvest(tracker, row_data, context)
+
+      Track the harvest scenario in the forest model.
+
+      :param tracker: The tracker object used to track forest changes.
+      :type tracker: Tracker
+      :param row_data: The data for the current row.
+      :type row_data: dict
+      :param context: The context containing species, yield class, soil, year, harvest proportion, and age.
+      :type context: dict
+
+      :returns: None
+
+
+   .. py:method:: _drop_zero_area_rows(disturbance_df)
+
+      Drops rows from the disturbance dataframe where the 'Amount' column is zero.
+
+      :param disturbance_df: The disturbance dataframe.
+      :type disturbance_df: pandas.DataFrame
+
+      :returns: The disturbance dataframe with zero area rows dropped.
+      :rtype: pandas.DataFrame
+
+
+   .. py:method:: _get_legacy_classifier_combinations()
+
+      Returns all possible combinations of forest keys, soil keys, and yield keys.
+
+      :param self: The Disturbances object.
+      :type self: Disturbances
+
+      :returns: A generator that yields all possible combinations of forest keys, soil keys, and yield keys.
+      :rtype: combinations (generator)
+
+
+   .. py:method:: _get_scenario_classifier_combinations()
+
+      Generates combinations of scenario, forest, soil, and yield classifiers.
+
+      :returns: A generator that yields combinations of scenario, forest, soil, and yield classifiers.
+
+
+   .. py:method:: _get_classifier_combinations(species, disturbance=None)
+
+      Generates all possible combinations of forest types, soil classes, and yield classes.
+
+      :returns: A generator that yields tuples representing the combinations of forest types, soil classes, and yield classes.
+
+
+   .. py:method:: _get_static_defaults()
+
+      Get the default values for static disturbance columns.
+
+      :returns: A dictionary containing the default values for each static disturbance column.
+      :rtype: dict
+
+
+   .. py:method:: _generate_row(species, forest_type, soil, yield_class, dist, yr)
+
+      Generates a row of data for a disturbance event.
+
+      :param species: The species of the forest.
+      :type species: str
+      :param forest_type: The type of forest.
+      :type forest_type: str
+      :param soil: The type of soil.
+      :type soil: str
+      :param yield_class: The yield class of the forest.
+      :type yield_class: str
+      :param dist: The disturbance type ID.
+      :type dist: int
+      :param yr: The year of the disturbance event.
+      :type yr: int
+
+      :returns: A dictionary containing the row data for the disturbance event.
+      :rtype: dict
+
+
+   .. py:method:: _process_scenario_row_data(row_data, context, dataframes)
+
+      Process the row data for a scenario based on the given context and dataframes.
+
+      :param row_data: The row data for the scenario.
+      :type row_data: dict
+      :param context: The context containing forest type and disturbance information.
+      :type context: dict
+      :param dataframes: The dataframes containing relevant data.
+      :type dataframes: dict
+
+      :returns: None
+
+
+   .. py:method:: _process_row_data(row_data, context, dataframes)
+
+      Process the row data based on the given context and dataframes.
+
+      :param row_data: The row data to be processed.
+      :type row_data: dict
+      :param context: The context containing forest type and disturbance information.
+      :type context: dict
+      :param dataframes: The dataframes used for processing.
+      :type dataframes: dict
+
+      :returns: None
+
+
+   .. py:method:: _handle_legacy_scenario_forest(row_data, context, dataframes)
+
+      Handles the legacy scenario forest by updating the disturbance timing and setting the amount based on the area.
+
+      :param row_data: The row data for the disturbance.
+      :type row_data: dict
+      :param context: The context information for the disturbance.
+      :type context: dict
+      :param dataframes: The dataframes containing additional data.
+      :type dataframes: dict
+
+      :returns: None
+
+
+   .. py:method:: _handle_scenario_afforestation(row_data, context, dataframes)
+
+      Handle the scenario of afforestation.
+
+      This method calculates the amount of afforestation based on the given row data, context, and dataframes.
+      It retrieves the afforestation inventory, non-forest dictionary, species, yield class, soil, and configuration classifiers from the context and dataframes.
+      The amount of afforestation is calculated based on the afforestation value, yield class proportions, and classifier3 value.
+      If the classifier3 value matches the soil value, the amount is calculated using the afforestation value and yield class proportions.
+      If there is a TypeError during the calculation, the amount is set to 0.
+      If the classifier3 value does not match the soil value, the amount is set to 0.
+
+      Parameters:
+      - row_data (dict): The row data for the afforestation scenario.
+      - context (dict): The context containing additional information for the calculation.
+      - dataframes (dict): The dataframes containing the afforestation inventory.
+
+      Returns:
+      - None
+
+
+   .. py:method:: _handle_legacy_afforestation(row_data, context, dataframes)
+
+      Handles legacy afforestation by updating the row data with the appropriate classifier and amount.
+
+      :param row_data: The row data to be updated.
+      :type row_data: dict
+      :param context: The context containing species, yield class, year, and soil information.
+      :type context: dict
+      :param dataframes: A dictionary of dataframes containing the legacy afforestation inventory.
+      :type dataframes: dict
+
+      :returns: None
+
+
+   .. py:method:: _handle_legacy_forest(row_data, context, dataframes)
+
+      Handles legacy forest data by updating disturbance timing and populating row data with relevant information.
+
+      :param row_data: The row data to be updated with disturbance information.
+      :type row_data: dict
+      :param context: The context containing relevant information for the disturbance handling.
+      :type context: dict
+      :param dataframes: A dictionary of dataframes containing disturbance data.
+      :type dataframes: dict
+
+      :returns: None
+
+
+   .. py:method:: _update_disturbance_timing(row_data, context, dataframes)
+
+      Retrieve disturbance timing information from the disturbance_timing DataFrame.
+
+      :param row_data: The dictionary containing row data.
+      :type row_data: dict
+      :param context: The dictionary containing context information.
+      :type context: dict
+      :param dataframes: The dictionary containing dataframes.
+      :type dataframes: dict
+
+      :returns: None
+
+      :raises ValueError: If any of the operations fail due to invalid values.
+      :raises KeyError: If any of the required keys are not found.
+
+
+   .. py:method:: get_legacy_forest_area_breakdown()
+
+      Calculate the breakdown of legacy forest area based on species, yield class, soil type, and age.
+
+      :returns: DataFrame containing the breakdown of legacy forest area.
+      :rtype: pandas.DataFrame
+
+
+   .. py:method:: legacy_disturbance_tracker(tracker, years)
+
+      Apply legacy disturbances to the forest tracker.
+
+      :param tracker: The forest tracker object.
+      :type tracker: object
+      :param years: List of years to apply disturbances.
+      :type years: list
+
+      :returns: None
+
+      .. note:: Broadleaf species are assumed to be undisturbed.
+
+
+

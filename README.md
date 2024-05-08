@@ -20,12 +20,18 @@ pip install "cbm_runner@git+https://github.com/GOBLIN-Proj/cbm_runner.git@main"
 
 ```
 
+Install from PyPI
+
+```bash
+pip install cbm_runner
+```
+
 ## Usage
 
 The Runner class takes the total afforestation area and divides it evenly across years (calibration year - target year). 
 
 ```python
-from cbm_runner.runner import Runner
+from cbm_runner.default_runner.runner import Runner
 import pandas as pd
 import os
 
@@ -64,7 +70,6 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
 ```
 
 ## License

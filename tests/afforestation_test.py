@@ -1,5 +1,5 @@
-from cbm_runner.runner import Runner
-import cbm_runner.validation_data as validation_path
+from cbm_runner.default_runner import Runner
+#import cbm_runner.validation_data as validation_path
 import pandas as pd
 import os
 
@@ -24,8 +24,9 @@ def main():
     calibration_year = 2020
 
     # instance of the Runner class
-    runner = Runner(config, calibration_year, afforest_data, sc_data, gen_validation=True, validation_path=validation_path)
+    #runner = Runner(config, calibration_year, afforest_data, sc_data, gen_validation=True, validation_path=validation_path)
 
+    runner = Runner(config, calibration_year, afforest_data, sc_data)
     # generation of data for each of the scenarios
     runner.generate_input_data()
 

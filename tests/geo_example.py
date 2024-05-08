@@ -34,8 +34,6 @@ def main():
     # generation of annual flux results
     runner.run_flux_scenarios().to_csv(os.path.join(results_path, "c_flux.csv"))
 
-    runner.cbm_aggregate_scenario(0)["Raw"].to_csv(os.path.join(results_path, "RAW_c_aggregate_sc0.csv"))
-    runner.cbm_aggregate_scenario(0)["Stock"].to_csv(os.path.join(results_path, "Stock_c_aggregate_sc0.csv"))
 
 if __name__ == "__main__":
     main()

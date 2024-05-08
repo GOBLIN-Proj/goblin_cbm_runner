@@ -1,5 +1,4 @@
 from cbm_runner.geo_cbm_runner.geo_runner import GeoRunner
-import cbm_runner.geo_cbm_runner.validation_data as validation_path
 import pandas as pd
 import os
 
