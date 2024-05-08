@@ -1,4 +1,4 @@
-from cbm_runner.forest_sim.forestsim_runner import ForestSimRunner
+from goblin_cbm_runner.forest_sim.forestsim_runner import ForestSimRunner
 import pandas as pd
 import os
 

@@ -40,10 +40,10 @@ If you are proposing a feature:
 
 ## Get Started!
 
-Ready to contribute? Here's how to set up `cbm_runner` for local development.
+Ready to contribute? Here's how to set up `goblin_cbm_runner` for local development.
 
-1. Download a copy of `cbm_runner` locally.
-2. Install `cbm_runner` using `poetry`:
+1. Download a copy of `goblin_cbm_runner` locally.
+2. Install `goblin_cbm_runner` using `poetry`:
 
     ```console
     $ poetry install
