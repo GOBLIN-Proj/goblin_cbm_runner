@@ -1,4 +1,4 @@
-from cbm_runner.default_runner import Runner
+from goblin_cbm_runner.default_runner import Runner
 #import cbm_runner.validation_data as validation_path
 import pandas as pd
 import os

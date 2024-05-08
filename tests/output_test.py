@@ -2,8 +2,8 @@ import unittest
 import os
 from tempfile import TemporaryDirectory
 import pandas as pd
-from cbm_runner.default_runner.runner import Runner
-from cbm_runner.geo_cbm_runner.geo_runner import GeoRunner
+from goblin_cbm_runner.default_runner.runner import Runner
+from goblin_cbm_runner.geo_cbm_runner.geo_runner import GeoRunner
 
 class TestGenerateData(unittest.TestCase):
 

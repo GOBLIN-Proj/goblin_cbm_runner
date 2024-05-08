@@ -6,7 +6,7 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'CBM_runner'
+project = 'goblin_cbm_runner'
 copyright = '2023, Colm Duffy'
 author = 'Colm Duffy'
 release = '0.3.4'
@@ -31,6 +31,6 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-autoapi_dirs = ["../src/cbm_runner"]  # location to parse for API reference
+autoapi_dirs = ["../src/goblin_cbm_runner"]  # location to parse for API reference
 html_theme = "sphinx_rtd_theme"
 html_static_path = ["_static"]
