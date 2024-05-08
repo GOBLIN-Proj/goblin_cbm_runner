@@ -24,7 +24,7 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "from cbm_runner.default_runner.runner import Runner\n",
+    "from goblin_cbm_runner.default_runner.runner import Runner\n",
     "import pandas as pd\n",
     "import matplotlib.pyplot as plt\n",
     "import os\n",

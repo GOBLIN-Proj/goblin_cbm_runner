@@ -1,4 +1,4 @@
-from cbm_runner.geo_cbm_runner.geo_runner import GeoRunner
+from goblin_cbm_runner.geo_cbm_runner.geo_runner import GeoRunner
 import pandas as pd
 import os
 

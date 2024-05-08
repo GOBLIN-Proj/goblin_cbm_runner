@@ -1,0 +1,109 @@
+{
+    "import_config": {
+        "classifiers": {
+            "type": "csv",
+            "params": {
+                "path": "classifiers.csv"
+            }
+        },
+        "disturbance_types": {
+            "type": "csv",
+            "params": {
+                "path": "disturbance_types.csv"
+            }
+        },
+        "age_classes": {
+            "type": "csv",
+            "params": {
+                "path": "age_classes.csv"
+            }
+        },
+        "inventory": {
+            "type": "csv",
+            "params": {
+                "path": "inventory.csv"
+            }
+        },
+        "yield": {
+            "type": "csv",
+            "params": {
+                "path": "growth.csv"
+            }
+        },
+        "events": {
+            "type": "csv",
+            "params": {
+                "path": "disturbance_events.csv"
+            }
+        },
+        "transitions": {
+            "type": "csv",
+            "params": {
+                "path": "transitions.csv"
+            }
+        }
+    },
+    "mapping_config": {
+        "nonforest": null,
+        "species": {
+            "species_classifier": "Species",
+            "species_mapping": [
+                {
+                    "user_species": "Other pine",
+                    "default_species": "Other pine"
+                },
+                {
+                    "user_species": "Sitka spruce",
+                    "default_species": "Sitka spruce"
+                },
+                {
+                    "user_species": "Slow Growing Unspecified broadleaved species - Genus type",
+                    "default_species": "Unspecified broadleaved species - Genus type"
+                },
+                {
+                    "user_species": "Fast Growing Unspecified broadleaved species - Genus type",
+                    "default_species": "Unspecified broadleaved species - Genus type"
+                },
+                {
+                    "user_species": "Mix Spruce",
+                    "default_species": "Spruce"
+                },
+                {
+                    "user_species": "Other Spruce",
+                    "default_species": "Spruce"
+                }
+            ]
+        },
+        "spatial_units": {
+            "mapping_mode": "SingleDefaultSpatialUnit",
+            "admin_boundary": "Ireland",
+            "eco_boundary": "Ireland"
+        },
+        "disturbance_types": [
+            {
+                "user_dist_type": "Clearcut",
+                "default_dist_type": "Clearcut harvesting with salvage"
+            },
+            {
+                "user_dist_type": "Thinning",
+                "default_dist_type": "20% commercial thinning"
+            },
+            {
+                "user_dist_type": "Fire",
+                "default_dist_type": "Wildfire"
+            },
+            {
+                "user_dist_type": "Afforestation",
+                "default_dist_type": "Afforestation"
+            },
+            {
+                "user_dist_type": "Unknown",
+                "default_dist_type": "Unknown"
+            },
+            {
+                "user_dist_type": "Deforestation",
+                "default_dist_type": "Deforestation"
+            }
+        ]
+    }
+}

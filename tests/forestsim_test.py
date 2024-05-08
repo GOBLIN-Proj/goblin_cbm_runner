@@ -1,6 +1,6 @@
 import pandas as pd
 import os
-from cbm_runner.forest_sim.forestsim_factory import ForestSimFactory
+from goblin_cbm_runner.forest_sim.forestsim_factory import ForestSimFactory
 
 
 def main():
