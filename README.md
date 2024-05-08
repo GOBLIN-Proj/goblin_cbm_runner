@@ -1,4 +1,4 @@
-# 🌲 CBM_runner, a CBM CFS3 interface for the GOBLIN model
+# 🌲 GOBLIN_CBM_runner, a CBM CFS3 interface for the GOBLIN model
 [![license](https://img.shields.io/badge/License-MIT-red)](https://github.com/GOBLIN-Proj/goblin_lite/blob/0.1.0/LICENSE)
 [![python](https://img.shields.io/badge/python-3.9-blue?logo=python&logoColor=white)](https://github.com/GOBLIN-Proj/cbm_runner)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
@@ -16,14 +16,14 @@
 Install from git hub. 
 
 ```bash
-pip install "cbm_runner@git+https://github.com/GOBLIN-Proj/cbm_runner.git@main" 
+pip install "cbm_runner@git+https://github.com/GOBLIN-Proj/goblin_cbm_runner.git@main" 
 
 ```
 
 Install from PyPI
 
 ```bash
-pip install cbm_runner
+pip install goblin_cbm_runner
 ```
 
 ## Usage
@@ -31,7 +31,7 @@ pip install cbm_runner
 The Runner class takes the total afforestation area and divides it evenly across years (calibration year - target year). 
 
 ```python
-from cbm_runner.default_runner.runner import Runner
+from goblin_cbm_runner.default_runner.runner import Runner
 import pandas as pd
 import os
 

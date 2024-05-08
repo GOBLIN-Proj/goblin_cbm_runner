@@ -1,4 +1,4 @@
-from cbm_runner.resource_manager.cbm_runner_data_manager import DataManager
+from goblin_cbm_runner.resource_manager.cbm_runner_data_manager import DataManager
 
 def main():
     data_manager = DataManager()

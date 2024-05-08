@@ -1,4 +1,4 @@
-from cbm_runner.default_runner import Runner
+from goblin_cbm_runner.default_runner import Runner
 import pandas as pd
 import os
 from concurrent.futures import ThreadPoolExecutor, as_completed

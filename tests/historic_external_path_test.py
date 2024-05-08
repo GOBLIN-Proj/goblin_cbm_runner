@@ -1,4 +1,4 @@
-from cbm_runner.historic_affor.historic_affor_runner import HistoricAfforRunner
+from goblin_cbm_runner.historic_affor.historic_affor_runner import HistoricAfforRunner
 import pandas as pd
 import os
 

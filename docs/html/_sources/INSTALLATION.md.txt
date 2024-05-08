@@ -22,7 +22,7 @@ You can install the package using pip:
 
 ```bash
 
-    pip install cbm_runner
+    pip install goblin_cbm_runner
 ```
 
 Install from Source
@@ -30,7 +30,7 @@ Install from Source
 To install from source using pip and git:
 
 ```bash
-    pip install git+https://github.com/GOBLIN-Proj/cbm_runner.git@main
+    pip install git+https://github.com/GOBLIN-Proj/goblin_cbm_runner.git@main
 ```
 
 

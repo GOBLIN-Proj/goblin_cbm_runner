@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🌲 CBM_runner, a CBM CFS3 interface for the GOBLIN model &mdash; CBM_runner 0.3.4 documentation</title>
+  <title>🌲 GOBLIN_CBM_runner, a CBM CFS3 interface for the GOBLIN model &mdash; goblin_cbm_runner 0.3.4 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -35,7 +35,7 @@
           
           
           <a href="#" class="icon icon-home">
-            CBM_runner
+            goblin_cbm_runner
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -59,7 +59,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">CBM_runner</a>
+          <a href="#">goblin_cbm_runner</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -67,7 +67,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">🌲 CBM_runner, a CBM CFS3 interface for the GOBLIN model</li>
+      <li class="breadcrumb-item active">🌲 GOBLIN_CBM_runner, a CBM CFS3 interface for the GOBLIN model</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/index.md.txt" rel="nofollow"> View page source</a>
       </li>
@@ -77,8 +77,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="cbm-runner-a-cbm-cfs3-interface-for-the-goblin-model">
-<h1>🌲 CBM_runner, a CBM CFS3 interface for the GOBLIN model<a class="headerlink" href="#cbm-runner-a-cbm-cfs3-interface-for-the-goblin-model" title="Link to this heading"></a></h1>
+  <section id="goblin-cbm-runner-a-cbm-cfs3-interface-for-the-goblin-model">
+<h1>🌲 GOBLIN_CBM_runner, a CBM CFS3 interface for the GOBLIN model<a class="headerlink" href="#goblin-cbm-runner-a-cbm-cfs3-interface-for-the-goblin-model" title="Link to this heading"></a></h1>
 <p><a class="reference external" href="https://github.com/GOBLIN-Proj/goblin_lite/blob/0.1.0/LICENSE"><img alt="license" src="https://img.shields.io/badge/License-MIT-red" /></a>
 <a class="reference external" href="https://github.com/GOBLIN-Proj/cbm_runner"><img alt="python" src="https://img.shields.io/badge/python-3.9-blue?logo=python&amp;logoColor=white" /></a>
 <a class="reference external" href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg" /></a></p>
@@ -88,18 +88,18 @@
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
 <p>Install from git hub.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;cbm_runner@git+https://github.com/GOBLIN-Proj/cbm_runner.git@main&quot;</span><span class="w"> </span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;cbm_runner@git+https://github.com/GOBLIN-Proj/goblin_cbm_runner.git@main&quot;</span><span class="w"> </span>
 </pre></div>
 </div>
 <p>Install from PyPI</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>cbm_runner
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>goblin_cbm_runner
 </pre></div>
 </div>
 </section>
 <section id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
 <p>The Runner class takes the total afforestation area and divides it evenly across years (calibration year - target year).</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cbm_runner.default_runner.runner</span> <span class="kn">import</span> <span class="n">Runner</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">goblin_cbm_runner.default_runner.runner</span> <span class="kn">import</span> <span class="n">Runner</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">os</span>
 

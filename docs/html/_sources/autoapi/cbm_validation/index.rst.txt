@@ -4,15 +4,6 @@
 .. py:module:: cbm_validation
 
 
-Subpackages
------------
-.. toctree::
-   :titlesonly:
-   :maxdepth: 3
-
-   validation_data/index.rst
-
-
 Submodules
 ----------
 .. toctree::

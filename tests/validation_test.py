@@ -1,4 +1,4 @@
-from cbm_runner.cbm_validation.validation_runner import ValRunner
+from goblin_cbm_runner.cbm_validation.validation_runner import ValRunner
 
 def main():
     path = "./data/validation_data/"

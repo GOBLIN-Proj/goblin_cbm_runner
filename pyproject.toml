@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "cbm_runner"
+name = "goblin_cbm_runner"
 version = "0.3.4"
 description = "An interface between the CBM CFS3, libcbm_py, model and the GOBLIN model."
 authors = ["Colm Duffy"]
