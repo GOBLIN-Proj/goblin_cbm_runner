@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>resource_manager.scenario_data_fetcher &mdash; CBM_runner 0.3.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=eafc0fe6" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=1e28cc32"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="configuration_data" href="../../configuration_data/index.html" />
+    <link rel="prev" title="resource_manager.paths" href="../paths/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            CBM_runner
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../INSTALLATION.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../historic_affor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">historic_affor</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../forest_sim/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">forest_sim</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../default_runner/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">default_runner</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../database/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">database</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../geo_cbm_runner/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">geo_cbm_runner</span></code></a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">resource_manager</span></code></a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../cbm_pools/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">resource_manager.cbm_pools</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cbm_runner_data_manager/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">resource_manager.cbm_runner_data_manager</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../database_manager/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">resource_manager.database_manager</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../flux_manager/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">resource_manager.flux_manager</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../geo_cbm_runner_data_manager/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">resource_manager.geo_cbm_runner_data_manager</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../loader/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">resource_manager.loader</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../parser/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">resource_manager.parser</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../paths/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">resource_manager.paths</span></code></a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">resource_manager.scenario_data_fetcher</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../configuration_data/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">configuration_data</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../harvest_manager/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">harvest_manager</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cbm_methods/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cbm_methods</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cbm_validation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cbm_validation</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../example.html">Example Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../example.html#plot-fluxes-for-baseline">Plot Fluxes for Baseline</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">CBM_runner</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">resource_manager</span></code></a></li>
+      <li class="breadcrumb-item active"><code class="xref py py-mod docutils literal notranslate"><span class="pre">resource_manager.scenario_data_fetcher</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/autoapi/resource_manager/scenario_data_fetcher/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-resource_manager.scenario_data_fetcher">
+<span id="resource-manager-scenario-data-fetcher"></span><h1><a class="reference internal" href="#module-resource_manager.scenario_data_fetcher" title="resource_manager.scenario_data_fetcher"><code class="xref py py-mod docutils literal notranslate"><span class="pre">resource_manager.scenario_data_fetcher</span></code></a><a class="headerlink" href="#module-resource_manager.scenario_data_fetcher" title="Link to this heading"></a></h1>
+<section id="scenario-data-fetcher-documentation">
+<p>The <code class="docutils literal notranslate"><span class="pre">ScenarioDataFetcher</span></code> class is designed to extract specific pieces of information from a scenario dataset.</p>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Link to this heading"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#resource_manager.scenario_data_fetcher.ScenarioDataFetcher" title="resource_manager.scenario_data_fetcher.ScenarioDataFetcher"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ScenarioDataFetcher</span></code></a></p></td>
+<td><p>The ScenarioDataFetcher class is designed to extract specific pieces of information from a scenario dataset.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="resource_manager.scenario_data_fetcher.ScenarioDataFetcher">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">resource_manager.scenario_data_fetcher.</span></span><span class="sig-name descname"><span class="pre">ScenarioDataFetcher</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#resource_manager.scenario_data_fetcher.ScenarioDataFetcher" title="Link to this definition"></a></dt>
+<dd><p>The ScenarioDataFetcher class is designed to extract specific pieces of information from a scenario dataset.</p>
+<p>This class provides methods to retrieve various information from a scenario dataset.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="resource_manager.scenario_data_fetcher.ScenarioDataFetcher.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#resource_manager.scenario_data_fetcher.ScenarioDataFetcher.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initializes an instance of the <cite>ScenarioDataFetcher</cite> class.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="resource_manager.scenario_data_fetcher.ScenarioDataFetcher.get_column_index">
+<span class="sig-name descname"><span class="pre">get_column_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#resource_manager.scenario_data_fetcher.ScenarioDataFetcher.get_column_index" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the index of a specified column in the scenario data.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="resource_manager.scenario_data_fetcher.ScenarioDataFetcher.get_afforestation_end_year">
+<span class="sig-name descname"><span class="pre">get_afforestation_end_year</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#resource_manager.scenario_data_fetcher.ScenarioDataFetcher.get_afforestation_end_year" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the end year for afforestation activities for a specified scenario.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="resource_manager.scenario_data_fetcher.ScenarioDataFetcher.get_catchment_name">
+<span class="sig-name descname"><span class="pre">get_catchment_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#resource_manager.scenario_data_fetcher.ScenarioDataFetcher.get_catchment_name" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the name of the catchment area defined in the scenario data.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="resource_manager.scenario_data_fetcher.ScenarioDataFetcher.get_scenario_list">
+<span class="sig-name descname"><span class="pre">get_scenario_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#resource_manager.scenario_data_fetcher.ScenarioDataFetcher.get_scenario_list" title="Link to this definition"></a></dt>
+<dd><p>Retrieves a list of all scenarios present in the scenario data.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="resource_manager.scenario_data_fetcher.ScenarioDataFetcher.get_afforest_scenario_index">
+<span class="sig-name descname"><span class="pre">get_afforest_scenario_index</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#resource_manager.scenario_data_fetcher.ScenarioDataFetcher.get_afforest_scenario_index" title="Link to this definition"></a></dt>
+<dd><p>Retrieves a list of afforestation scenario indices, with -1 indicating a special scenario, followed by the indices of all available scenarios.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">get_column_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the index of a specified column in the scenario data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>column_name</strong> (<em>str</em>) – The name of the column to retrieve.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The index of the column.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">get_afforestation_end_year</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the end year for afforestation activities for a specified scenario.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The afforestation end year.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">get_catchment_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the name of the catchment area defined in the scenario data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The catchment name.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">get_scenario_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
+<dd><p>Retrieves a list of all scenarios present in the scenario data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of scenario identifiers.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">get_afforest_scenario_index</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
+<dd><p>Retrieves a list of afforestation scenario indices, with -1 indicating a special scenario,
+followed by the indices of all available scenarios.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list containing -1 followed by all scenario indices.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../paths/index.html" class="btn btn-neutral float-left" title="resource_manager.paths" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../configuration_data/index.html" class="btn btn-neutral float-right" title="configuration_data" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Colm Duffy.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

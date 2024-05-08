@@ -1,3 +1,9 @@
+"""
+============
+CBM Methods
+============
+This module contains methods for running the Carbon Budget Model (CBM) and generating carbon stocks and fluxes for different scenarios.
+"""
 from libcbm.model.cbm import cbm_simulator
 from libcbm.input.sit import sit_cbm_factory
 from libcbm.model.cbm import cbm_variables
@@ -11,11 +17,38 @@ from libcbm.storage.dataframe import DataFrame
 from libcbm.model.cbm.cbm_variables import CBMVariables
 from libcbm.model.cbm.cbm_model import CBM
 from libcbm.input.sit.sit import SIT
+from cbm_runner.cbm_validation.validation import ValidationData
 import os
 
 
 
 class CBMSim:
+    """
+    A class for running the Carbon Budget Model (CBM) and generating carbon stocks and fluxes for different scenarios.
+
+    This class provides functionalities to run the CBM model and generate carbon stocks and fluxes for different scenarios. 
+    The CBM model is a widely used model for estimating carbon stocks and fluxes in forest ecosystems. 
+    The model uses input data and parameters to simulate the carbon dynamics in forest ecosystems over time.
+
+    Methods:
+        cbm_baseline_forest_stock(): Runs a baseline forest simulation using the CBM model.
+        cbm_aggregate_scenario_stock(): Generate carbon stocks for the CBM (Carbon Budget Model) scenario data.
+        libcbm_scenario_fluxes(): Generate carbon Fluxes using the Libcbm method for the CBM (Carbon Budget Model) scenario data.
+        cbm_scenario_fluxes(): Calculate the carbon fluxes for each scenario in the given forest data.
+        spinup(): Spin up the CBM model.
+        step(): Step the CBM model forward one timestep.
+        baseline_simulate_stock(): Runs a baseline (managed) forest simulation using the CBM model.
+        cbm_basic_validation(): Generate carbon stocks for the CBM (Carbon Budget Model) scenario data.
+
+    Attributes:
+        pools: An instance of the Pools class.
+        Flux_class: An instance of the FluxManager class.
+        AGB: A list of above-ground biomass pools.
+        BGB: A list of below-ground biomass pools.
+        deadwood: A list of deadwood pools.
+        litter: A list of litter pools.
+        soil: A list of soil organic matter pools.
+    """
     def __init__(self):
         self.pools = Pools()
         self.Flux_class = FluxManager()
@@ -31,10 +64,7 @@ class CBMSim:
             Runs a baseline forest simulation using the CBM model.
 
             Returns:
-                dict: A dictionary containing the following data:
-                    - "Stock": DataFrame containing annual carbon stocks for different components (AGB, BGB, Deadwood, Litter, Soil, Total Ecosystem) over the simulation period.
-                    - "Structure": DataFrame containing age, time since last disturbance, and last disturbance type for each timestep.
-                    - "Raw": DataFrame containing raw CBM simulation results.
+                pandas.DataFrame: DataFrame containing the calculated managed forest stocks.
             """
             
             
@@ -101,10 +131,7 @@ class CBMSim:
             sc (str): The scenario name.
 
         Returns:
-            dict: A dictionary containing the aggregated data.
-                - "Stock": DataFrame containing annual carbon stocks.
-                - "Structure": DataFrame containing age and area information.
-                - "Raw": DataFrame containing raw data.
+            pandas.DataFrame: DataFrame containing the calculated stocks.
         """
 
         sit, classifiers, inventory = cbm_data_class.set_input_data_dir(sc, input_path, db_path=database_path)
@@ -141,6 +168,7 @@ class CBMSim:
                 "Deadwood": pi[self.deadwood].sum(axis=1),
                 "Litter": pi[self.litter].sum(axis=1),
                 "Soil": pi[self.soil].sum(axis=1),
+                "Harvest": pi["Products"],
                 "Total Ecosystem": pi[self.AGB
                                       + self.BGB
                                       + self.deadwood
@@ -151,7 +179,7 @@ class CBMSim:
         )
 
         annual_carbon_stocks = annual_carbon_stocks.groupby(["Year"], as_index=False)[
-            ["AGB", "BGB", "Deadwood", "Litter", "Soil", "Total Ecosystem"]
+            ["AGB", "BGB", "Deadwood", "Litter", "Soil", "Harvest","Total Ecosystem"]
         ].sum()
 
         annual_carbon_stocks["Year"] = year_range
@@ -168,9 +196,7 @@ class CBMSim:
             sc (str): The scenario name.
 
         Returns:
-            dict: A dictionary containing the aggregated data.
-                - "Stock": DataFrame containing annual carbon stocks.
-                - "Raw": DataFrame containing raw data.
+            pandas.DataFrame: DataFrame containing the calculated fluxes.
         """
 
         sit, classifiers, inventory = cbm_data_class.set_input_data_dir(sc, input_path, db_path=database_path)
@@ -258,6 +284,9 @@ class CBMSim:
                 fluxes.loc[i - 1, "Soil"] = (
                     forest_data.loc[i, "Soil"] - forest_data.loc[i - 1, "Soil"]
                 )
+                fluxes.loc[i - 1, "Harvest"] = (
+                    forest_data.loc[i, "Harvest"] - forest_data.loc[i - 1, "Harvest"]
+                )
                 fluxes.loc[i - 1, "Total Ecosystem"] = (
                     forest_data.loc[i, "Total Ecosystem"]
                     - forest_data.loc[i - 1, "Total Ecosystem"]
@@ -270,6 +299,14 @@ class CBMSim:
     def spinup(self, sit: SIT,
                 classifiers: DataFrame,
                 inventory: DataFrame) -> CBMVariables:
+        """
+        Spin up the CBM model.
+        
+        Args:
+            sit (SIT): The SIT object.
+            classifiers (DataFrame): The classifiers.
+            inventory (DataFrame): The inventory.
+        """
         
         with sit_cbm_factory.initialize_cbm(sit) as cbm:
 
@@ -304,6 +341,14 @@ class CBMSim:
         
         
     def step(self, time_step: int, sit: SIT, cbm_vars: CBMVariables) -> CBMVariables:
+        """
+        Step the CBM model forward one timestep.
+
+        Args:
+            time_step (int): The timestep.
+            sit (SIT): The SIT object.
+            cbm_vars (CBMVariables): The CBM variables.
+        """
         with sit_cbm_factory.initialize_cbm(sit) as cbm:
             rule_based_processor = sit_cbm_factory.create_sit_rule_based_processor(sit, cbm)
             # apply rule based disturbances to the cbm_vars for this timestep
@@ -315,7 +360,19 @@ class CBMSim:
 
 
     def baseline_simulate_stock(self, cbm_data_class, years, year_range, input_path, database_path):
+        """
+        Runs a baseline (managed) forest simulation using the CBM model.
 
+        Args:
+            cbm_data_class (CBMData): The CBM data class object.
+            years (int): The number of years to simulate.
+            year_range (list): The range of years to simulate.
+            input_path (str): The path to the input data.
+            database_path (str): The path to the database.
+
+        Returns:
+            pandas.DataFrame: DataFrame containing the calculated managed forest stocks.
+        """
         spinup_sit, classifiers, inventory = cbm_data_class.set_spinup_baseline_input_data_dir(
             input_path, database_path
         )
@@ -348,6 +405,7 @@ class CBMSim:
                 "Deadwood": pi[self.deadwood].sum(axis=1),
                 "Litter": pi[self.litter].sum(axis=1),
                 "Soil": pi[self.soil].sum(axis=1),
+                "Harvest": pi["Products"],
                 "Total Ecosystem": pi[self.AGB
                                       + self.BGB
                                       + self.deadwood
@@ -358,25 +416,25 @@ class CBMSim:
         )
 
         annual_carbon_stocks = annual_carbon_stocks.groupby(["Year"], as_index=False)[
-            ["AGB", "BGB", "Deadwood", "Litter", "Soil", "Total Ecosystem"]
+            ["AGB", "BGB", "Deadwood", "Litter", "Soil","Harvest", "Total Ecosystem"]
         ].sum()
 
         annual_carbon_stocks["Year"] = year_range
 
         return annual_carbon_stocks
     
+
     def cbm_basic_validation(self,years, input_path, database_path):
         """
-        Generate carbon stocks for the CBM (Carbon Budget Model) scenario data.
+        Generate validation data for the CBM model for a set of specified inputs. 
 
         Args:
-            sc (str): The scenario name.
-
+            years (int): The number of years to simulate.
+            input_path (str): The path to the SIT input data.
+            database_path (str): The path to the database.
+        
         Returns:
-            dict: A dictionary containing the aggregated data.
-                - "Stock": DataFrame containing annual carbon stocks.
-                - "Structure": DataFrame containing age and area information.
-                - "Raw": DataFrame containing raw data.
+            dict: A dictionary containing the generated validation data.
         """
         sit_config_path = os.path.join(input_path, "sit_config.json")
 
@@ -406,6 +464,23 @@ class CBMSim:
             )
 
         si =  cbm_output.state.to_pandas()
+        pools = cbm_output.pools.to_pandas()
+        flux = cbm_output.flux.to_pandas()
+        parameters = cbm_output.parameters.to_pandas()
+        area = cbm_output.area.to_pandas()
 
+        state_by_timestep = ValidationData.gen_disturbance_statistics(rule_based_processor, years)
+
+        events = ValidationData.gen_sit_events(rule_based_processor)
+
+        linked_events = ValidationData.merge_events(events, state_by_timestep)
+
+        results= {
+            "data_area":area,
+            "data_flux":flux,
+            "data_params":parameters,
+            "data_pools":pools,
+            "data_state":si,
+            "linked_events":linked_events}
     
-        return si
+        return results

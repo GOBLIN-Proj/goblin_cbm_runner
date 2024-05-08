@@ -6,6 +6,15 @@ This page contains auto-generated API reference documentation [#f1]_.
 .. toctree::
    :titlesonly:
 
-   /autoapi/cbm_runner/index
+   /autoapi/historic_affor/index
+   /autoapi/forest_sim/index
+   /autoapi/default_runner/index
+   /autoapi/database/index
+   /autoapi/geo_cbm_runner/index
+   /autoapi/resource_manager/index
+   /autoapi/configuration_data/index
+   /autoapi/harvest_manager/index
+   /autoapi/cbm_methods/index
+   /autoapi/cbm_validation/index
 
 .. [#f1] Created with `sphinx-autoapi <https://github.com/readthedocs/sphinx-autoapi>`_

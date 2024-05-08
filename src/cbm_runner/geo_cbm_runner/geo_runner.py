@@ -17,67 +17,42 @@ import pandas as pd
 
 class GeoRunner:
     """
-    Handles execution of CBM simulations focused on Irish historic afforestation at the catchment level, utilizing 
-    geo-specific data preparation and management for Irish catchment data. This class orchestrates the setup, execution, 
-    and output generation for various scenarios, providing insights into carbon stocks and fluxes.
+    The Runner class orchestrates the execution of Carbon Budget Model (CBM) simulations 
+    for various scenarios, including baseline, afforestation, and user-defined forest management strategies.
+    It utilizes annualized data to estimate carbon stock or flux over specified years.
+    
+    This class manages input data preparation, CBM simulation setups, and the execution process, generating outputs like carbon stocks and fluxes for various scenarios.
 
     Args:
-        config_path (str): Path to the configuration file.
-        calibration_year (int): Year used for calibration.
-        afforest_data (AfforestData): Afforestation data.
-        scenario_data (ScenarioData): Scenario data.
-        gen_baseline (bool): Flag to generate baseline data.
-        gen_validation (bool): Flag to generate validation data.
-        validation_path (str): Path to directory for validation data.
-        sit_path (str): Path to the SIT directory.
+        config_path (str): Path to the CBM configuration file.
+        calibration_year (int): Calibration year for the simulations.
+        afforest_data (AfforestData): Data for afforestation scenarios.
+        scenario_data (ScenarioData): Data for user-defined management scenarios.
+        sit_path (str): Path to the SIT directory, optional.
 
     Attributes:
-        paths_class (Paths): Manages paths for the GeoRunner.
-        gen_validation (bool): Flag to generate validation data.
-        validation_path (str): Path to directory for validation data.
-        path (str): Path to directory for input data.
-        baseline_conf_path (str): Path to directory for baseline configuration data.
-        cbm_data_class (DataFactory): Handles CBM data preparation.
-        data_manager_class (GeoDataManager): Manages simulation data and configurations.
-        INDEX (list): Identifiers for each afforestation scenario.
-        forest_end_year (int): End year for the simulation period.
-        pools (Pools): Manages CBM carbon pools.
-        Flux_class (FluxManager): Calculates carbon fluxes.
-        AGB, BGB, deadwood, litter, soil: Represent various carbon pool types in CBM simulations.
+        paths_class (Paths): Instance of Paths for setting up directory paths for CBM simulation input data.
+        gen_validation (bool): A boolean indicating whether to generate validation data.
+        validation_path (str): Directory path for validation data.
+        path (str): Directory path where input data is stored.
+        baseline_conf_path (str): Directory path for baseline configuration data.
+        cbm_data_class (DataFactory): Instance of DataFactory for preparing CBM data.
+        data_manager_class (DataManager): Instance of DataManager for managing simulation data and configurations.
+        INDEX (list): List of unique identifiers for each simulation scenario.
+        forest_end_year (int): The final year of the forest simulation period.
+        pools (Pools): Instance of the Pools class for managing CBM carbon pools.
+        AGB, BGB, deadwood, litter, soil, flux_pools (various): Instances representing different carbon pool types used in CBM simulations.
 
     Methods:
-        __init__(config_path, calibration_year, afforest_data, scenario_data, gen_baseline=True, gen_validation=False, validation_path=None):
-            Initializes the GeoRunner with configuration paths, data, and operational flags.
-
-        generate_base_input_data():
-            Prepares baseline data for simulations, involving directory cleanup and input file generation.
-
         generate_input_data():
-            Creates scenario-specific input data after cleaning the directory and setting up necessary subdirectories.
-
-        afforestation_scenarios_structure():
-            Retrieves structural data for each scenario, aiding in detailed analysis.
-
-        run_flux_scenarios():
-            Executes simulations to calculate carbon flux data across scenarios.
+            Generates input data required for CBM simulations including those based on user-defined forest management strategies.
+            Cleans the data directory, creates necessary subdirectories, and prepares scenario-specific input files.
 
         run_aggregate_scenarios():
-            Generates and aggregates carbon stock data from simulations across scenarios.
+            Executes CBM simulations for a set of scenarios including user-defined management strategies, generating and aggregating carbon stock data across these scenarios.
 
-        cbm_baseline_forest():
-            Conducts a baseline forest simulation, returning stock, structure, and raw data.
-
-        cbm_aggregate_scenario(sc):
-            Produces carbon stock data for a specified scenario, along with structure and raw data.
-
-        libcbm_scenario_fluxes(sc):
-            Generates carbon fluxes using the Libcbm method for specified scenarios.
-
-        cbm_scenario_fluxes(forest_data):
-            Calculates carbon fluxes based on forest data for each scenario.
-
-    Note:
-        An external path can be specified to generate the validation data.
+        run_flux_scenarios():
+            Conducts CBM simulations to calculate carbon flux data for various scenarios including user-defined management strategies, merging and aggregating results.
 
     """
     def __init__(
@@ -117,7 +92,7 @@ class GeoRunner:
         self.baseline_year_range = self.data_manager_class.get_baseline_years_range(self.forest_end_year)
 
 
-        self.generate_base_input_data()
+        self._generate_base_input_data()
         self.forest_baseline_dataframe = self.SIM_class.baseline_simulate_stock(self.cbm_data_class,
                                                                             self.baseline_years,
                                                                             self.baseline_year_range,
@@ -125,7 +100,7 @@ class GeoRunner:
                                                                             self.defaults_db)
 
 
-    def generate_base_input_data(self):
+    def _generate_base_input_data(self):
         """
         Generates the base input data for the CBM runner.
 
@@ -187,14 +162,12 @@ class GeoRunner:
 
     def run_aggregate_scenarios(self):
         """
-        Runs aggregate scenarios for forest data.
+        Executes CBM simulations for a set of scenarios, generating and aggregating carbon stock data across scenarios, including those derived from user-defined forest management strategies.
 
-        This method iterates over a set of scenarios and generates carbon stock data for each scenario.
-        It merges the forest data with a baseline forest data, adds selected columns, and drops duplicate columns.
-        The carbon stock data for all scenarios is then concatenated into a single DataFrame.
+        Merges scenario-specific data with baseline data to provide a comprehensive view of carbon stocks under various management strategies.
 
         Returns:
-            pd.DataFrame: The carbon stock data for all scenarios.
+            pd.DataFrame: Aggregated carbon stock data across all scenarios.
         """
         forest_data = pd.DataFrame()
         aggregate_forest_data = pd.DataFrame()
@@ -219,7 +192,7 @@ class GeoRunner:
             )
 
             # Add the values for selected columns where 'year' matches
-            columns_to_add = ["AGB", "BGB", "Deadwood", "Litter", "Soil", "Total Ecosystem"]
+            columns_to_add = ["AGB", "BGB", "Deadwood", "Litter", "Soil", "Harvest", "Total Ecosystem"]
             for col in columns_to_add:
                 merged_data[col] = merged_data[col] + merged_data[col + "_baseline"]
 
@@ -242,10 +215,13 @@ class GeoRunner:
 
     def run_flux_scenarios(self):
         """
-        Runs carbon flux scenarios for each index in self.INDEX.
+        Conducts CBM simulations to calculate and aggregate carbon flux data for various scenarios, including those with user-defined forest management strategies.
+
+        This process helps in understanding the impact of different management practices on carbon dynamics within forest ecosystems.
 
         Returns:
-            pandas.DataFrame: A DataFrame containing the merged and added data from each scenario.
+            pd.DataFrame: Aggregated carbon flux data across all scenarios.
+
         """
         forest_data = pd.DataFrame()
         fluxes_data = pd.DataFrame()
@@ -270,7 +246,7 @@ class GeoRunner:
             )
 
             # Add the values for selected columns where 'year' matches
-            columns_to_add = ["AGB", "BGB", "Deadwood", "Litter", "Soil", "Total Ecosystem"]
+            columns_to_add = ["AGB", "BGB", "Deadwood", "Litter", "Soil", "Harvest", "Total Ecosystem"]
             for col in columns_to_add:
                 merged_data[col] = merged_data[col] + merged_data[col + "_baseline"]
 
@@ -292,6 +268,15 @@ class GeoRunner:
 
 
     def _add_years(self,  sc):
+        """
+        Adds additional years to the DataFrame.
+
+        Args:
+            sc (int): Scenario index.
+
+        Returns:
+            pd.DataFrame: DataFrame with additional years.
+        """
         
         forest_baseline_year = self.data_manager_class.get_forest_baseline_year()
 
@@ -302,6 +287,7 @@ class GeoRunner:
         "Deadwood": [0.0, 0.0],
         "Litter": [0.0, 0.0],
         "Soil": [0.0, 0.0],
+        "Harvest": [0.0, 0.0],
         "Total Ecosystem": [0.0, 0.0],
         "Scenario": [sc, sc]  # Assuming 'sc' is defined somewhere in your code
         }

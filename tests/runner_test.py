@@ -1,4 +1,4 @@
-from cbm_runner.default_runner import Runner
+from cbm_runner.default_runner.runner import Runner
 import pandas as pd
 import os
 

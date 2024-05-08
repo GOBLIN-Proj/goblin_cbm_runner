@@ -1,0 +1,28 @@
+:py:mod:`forest_sim`
+====================
+
+.. py:module:: forest_sim
+
+
+Subpackages
+-----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 3
+
+   baseline_input_conf/index.rst
+   generated_input_data/index.rst
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   forestsim_disturbances/index.rst
+   forestsim_factory/index.rst
+   forestsim_inventory/index.rst
+   forestsim_runner/index.rst
+
+

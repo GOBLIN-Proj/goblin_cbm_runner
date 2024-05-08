@@ -39,6 +39,7 @@ class DataManager:
         get_baseline_inventory: Retrieves the baseline inventory from the database.
         get_baseline_transition: Retrieves the baseline transition from the database.
         get_baseline_standing_volume: Retrieves the baseline standing volume from the database.
+        get_geo_baseline_standing_volume: Retrieves the baseline standing volume from the database.
 
     """
 

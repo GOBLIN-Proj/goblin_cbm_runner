@@ -24,9 +24,11 @@ class CreateJSON:
         loader_class (Loader): An instance of the Loader class.
         data_manager_class (DataManager): An instance of the DataManager class.
         template (dict): The template JSON structure for the mapping configuration.
+        standing_vol_template (dict): The template JSON structure for the standing volume configuration.
 
     Methods:
         populate_template: Populates the template JSON with data based on the given scenario.
+        populate_spinup_template: Populates the template JSON with data based on managed forests.
     """
 
     def __init__(self, config_path):
@@ -140,10 +142,7 @@ class CreateJSON:
 
     def populate_spinup_template(self):
             """
-            Populates the template JSON with data based on the given scenario.
-
-            Args:
-                scenario (str): The scenario for which the mapping is being created.
+            Populates the template JSON with data based existing forest in the catchment.
 
             Returns:
                 dict: The populated template JSON.

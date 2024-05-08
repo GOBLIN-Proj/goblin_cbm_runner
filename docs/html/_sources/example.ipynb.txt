@@ -24,7 +24,7 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "from cbm_runner.runner import Runner\n",
+    "from cbm_runner.default_runner.runner import Runner\n",
     "import pandas as pd\n",
     "import matplotlib.pyplot as plt\n",
     "import os\n",
@@ -33,7 +33,7 @@
     "import warnings\n",
     "\n",
     "# Filter out the RuntimeWarning related to unsupported linux distribution\n",
-    "warnings.filterwarnings(\"ignore\", message=\"unsupported linux distribution:\", category=RuntimeWarning)\n"
+    "warnings.filterwarnings(\"ignore\", message=\"untested linux distribution:\", category=RuntimeWarning)\n"
    ]
   },
   {

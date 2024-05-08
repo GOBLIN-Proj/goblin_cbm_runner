@@ -16,23 +16,17 @@ import pandas as pd
 class Runner:
     """
     The Runner class orchestrates the execution of Carbon Budget Model (CBM) simulations 
-    for various scenarios, including baseline and afforestation projects. It utilizes 
-    annualized afforestation data to give an estimation of carbon stock or flux over a number of 
-    specified years (from the calibration year to the target year).
-
-    This class leverages various data factories and managers to prepare input data, set up, 
-    and execute CBM simulations, ultimately generating outputs such as carbon stocks and fluxes 
-    across different scenarios. It manages the creation and organization of simulation input data 
-    using specified directory paths and configuration files.
+    for various scenarios, including baseline, afforestation, and user-defined forest management strategies.
+    It utilizes annualized data to estimate carbon stock or flux over specified years.
+    
+    This class manages input data preparation, CBM simulation setups, and the execution process, generating outputs like carbon stocks and fluxes for various scenarios.
 
     Args:
-        config_path (str): The path to the CBM configuration file.
-        calibration_year (int): The year used for calibration.
-        afforest_data (AfforestData): The afforestation data.
-        scenario_data (ScenarioData): The scenario data.
-        gen_baseline (bool): A boolean indicating whether to generate baseline data.
-        gen_validation (bool): A boolean indicating whether to generate validation data.
-        sit_path (str): The path to the SIT directory.
+        config_path (str): Path to the CBM configuration file.
+        calibration_year (int): Calibration year for the simulations.
+        afforest_data (AfforestData): Data for afforestation scenarios.
+        scenario_data (ScenarioData): Data for user-defined management scenarios.
+        sit_path (str): Path to the SIT directory, optional.
 
     Attributes:
         paths_class (Paths): Instance of Paths for setting up directory paths for CBM simulation input data.
@@ -48,35 +42,16 @@ class Runner:
         AGB, BGB, deadwood, litter, soil, flux_pools (various): Instances representing different carbon pool types used in CBM simulations.
 
     Methods:
-        generate_base_input_data():
-            Prepares baseline input data required for CBM simulations by cleaning the baseline data directory and generating essential input files.
-
         generate_input_data():
-            Generates input data for various afforestation scenarios by cleaning the data directory, creating necessary subdirectories, and preparing scenario-specific input files.
+            Generates input data required for CBM simulations including those based on user-defined forest management strategies.
+            Cleans the data directory, creates necessary subdirectories, and prepares scenario-specific input files.
 
         run_aggregate_scenarios():
-            Executes CBM simulations for a set of scenarios, generating and aggregating carbon stock data across these scenarios.
+            Executes CBM simulations for a set of scenarios including user-defined management strategies, generating and aggregating carbon stock data across these scenarios.
 
         run_flux_scenarios():
-            Conducts CBM simulations to calculate carbon flux data for various scenarios, merging and aggregating results.
+            Conducts CBM simulations to calculate carbon flux data for various scenarios including user-defined management strategies, merging and aggregating results.
 
-        afforestation_scenarios_structure():
-            Retrieves structural data for each afforestation scenario, facilitating analysis of scenario-specific forest dynamics.
-
-        cbm_baseline_forest():
-            Executes the CBM simulation for the baseline forest scenario, generating stock, structural, and raw simulation data.
-
-        cbm_aggregate_scenario(sc):
-            Runs a CBM simulation for a specified scenario (sc), generating aggregated carbon stock and raw data.
-
-        cbm_scenario_fluxes(forest_data):
-            Calculates carbon fluxes based on CBM simulation outputs for given forest data, aiding in the analysis of carbon dynamics across scenarios.
-
-        libcbm_scenario_fluxes(sc):
-            Generates carbon flux data using the Libcbm method directly for a specified scenario (sc), contributing to the comprehensive analysis of carbon budget impacts under different land management strategies.
-   
-    Note:
-        An external path can be specified to generate the validation data.
     """
     def __init__(
         self,
@@ -115,7 +90,7 @@ class Runner:
 
         self.baseline_year_range = self.data_manager_class.get_baseline_years_range(self.forest_end_year)
 
-        self.generate_base_input_data()
+        self._generate_base_input_data()
         self.forest_baseline_dataframe = self.SIM_class.baseline_simulate_stock(self.cbm_data_class,
                                                                                  self.baseline_years,
                                                                                  self.baseline_year_range,
@@ -123,7 +98,7 @@ class Runner:
                                                                                  self.defaults_db)
 
 
-    def generate_base_input_data(self):
+    def _generate_base_input_data(self):
         """
         Generates the base input data for the CBM runner.
 
@@ -184,14 +159,12 @@ class Runner:
 
     def run_aggregate_scenarios(self):
         """
-        Runs aggregate scenarios for forest data.
+        Executes CBM simulations for a set of scenarios, generating and aggregating carbon stock data across scenarios, including those derived from user-defined forest management strategies.
 
-        This method iterates over a set of scenarios and generates carbon stock data for each scenario.
-        It merges the forest data with a baseline forest data, adds selected columns, and drops duplicate columns.
-        The carbon stock data for all scenarios is then concatenated into a single DataFrame.
+        Merges scenario-specific data with baseline data to provide a comprehensive view of carbon stocks under various management strategies.
 
         Returns:
-            pd.DataFrame: The carbon stock data for all scenarios.
+            pd.DataFrame: Aggregated carbon stock data across all scenarios.
         """
         forest_data = pd.DataFrame()
         aggregate_forest_data = pd.DataFrame()
@@ -214,7 +187,7 @@ class Runner:
             )
 
             # Add the values for selected columns where 'year' matches
-            columns_to_add = ["AGB", "BGB", "Deadwood", "Litter", "Soil", "Total Ecosystem"]
+            columns_to_add = ["AGB", "BGB", "Deadwood", "Litter", "Soil","Harvest", "Total Ecosystem"]
             for col in columns_to_add:
                 merged_data[col] = merged_data[col] + merged_data[col + "_baseline"]
 
@@ -236,10 +209,13 @@ class Runner:
 
     def run_flux_scenarios(self):
         """
-        Runs carbon flux scenarios for each index in self.INDEX.
+        Conducts CBM simulations to calculate and aggregate carbon flux data for various scenarios, including those with user-defined forest management strategies.
+
+        This process helps in understanding the impact of different management practices on carbon dynamics within forest ecosystems.
 
         Returns:
-            pandas.DataFrame: A DataFrame containing the merged and added data from each scenario.
+            pd.DataFrame: Aggregated carbon flux data across all scenarios.
+
         """
         forest_data = pd.DataFrame()
         fluxes_data = pd.DataFrame()
@@ -264,7 +240,7 @@ class Runner:
             )
 
             # Add the values for selected columns where 'year' matches
-            columns_to_add = ["AGB", "BGB", "Deadwood", "Litter", "Soil", "Total Ecosystem"]
+            columns_to_add = ["AGB", "BGB", "Deadwood", "Litter", "Soil","Harvest", "Total Ecosystem"]
             for col in columns_to_add:
                 merged_data[col] = merged_data[col] + merged_data[col + "_baseline"]
 

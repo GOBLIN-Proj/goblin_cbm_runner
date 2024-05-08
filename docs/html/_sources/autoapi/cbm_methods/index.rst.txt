@@ -1,0 +1,197 @@
+:py:mod:`cbm_methods`
+=====================
+
+.. py:module:: cbm_methods
+
+.. autoapi-nested-parse::
+
+   ============
+   CBM Methods
+   ============
+   This module contains methods for running the Carbon Budget Model (CBM) and generating carbon stocks and fluxes for different scenarios.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   cbm_methods.CBMSim
+
+
+
+
+.. py:class:: CBMSim
+
+
+   A class for running the Carbon Budget Model (CBM) and generating carbon stocks and fluxes for different scenarios.
+
+   This class provides functionalities to run the CBM model and generate carbon stocks and fluxes for different scenarios.
+   The CBM model is a widely used model for estimating carbon stocks and fluxes in forest ecosystems.
+   The model uses input data and parameters to simulate the carbon dynamics in forest ecosystems over time.
+
+   .. method:: cbm_baseline_forest_stock()
+
+      Runs a baseline forest simulation using the CBM model.
+
+   .. method:: cbm_aggregate_scenario_stock()
+
+      Generate carbon stocks for the CBM (Carbon Budget Model) scenario data.
+
+   .. method:: libcbm_scenario_fluxes()
+
+      Generate carbon Fluxes using the Libcbm method for the CBM (Carbon Budget Model) scenario data.
+
+   .. method:: cbm_scenario_fluxes()
+
+      Calculate the carbon fluxes for each scenario in the given forest data.
+
+   .. method:: spinup()
+
+      Spin up the CBM model.
+
+   .. method:: step()
+
+      Step the CBM model forward one timestep.
+
+   .. method:: baseline_simulate_stock()
+
+      Runs a baseline (managed) forest simulation using the CBM model.
+
+   .. method:: cbm_basic_validation()
+
+      Generate carbon stocks for the CBM (Carbon Budget Model) scenario data.
+      
+
+   .. attribute:: pools
+
+      An instance of the Pools class.
+
+   .. attribute:: Flux_class
+
+      An instance of the FluxManager class.
+
+   .. attribute:: AGB
+
+      A list of above-ground biomass pools.
+
+   .. attribute:: BGB
+
+      A list of below-ground biomass pools.
+
+   .. attribute:: deadwood
+
+      A list of deadwood pools.
+
+   .. attribute:: litter
+
+      A list of litter pools.
+
+   .. attribute:: soil
+
+      A list of soil organic matter pools.
+
+   .. py:method:: cbm_baseline_forest_stock(cbm_data_class, years, year_range, input_path, database_path)
+
+      Runs a baseline forest simulation using the CBM model.
+
+      :returns: DataFrame containing the calculated managed forest stocks.
+      :rtype: pandas.DataFrame
+
+
+   .. py:method:: cbm_aggregate_scenario_stock(sc, cbm_data_class, years, year_range, input_path, database_path)
+
+      Generate carbon stocks for the CBM (Carbon Budget Model) scenario data.
+
+      :param sc: The scenario name.
+      :type sc: str
+
+      :returns: DataFrame containing the calculated stocks.
+      :rtype: pandas.DataFrame
+
+
+   .. py:method:: libcbm_scenario_fluxes(sc, cbm_data_class, years, year_range, input_path, database_path)
+
+      Generate carbon Fluxes using the Libcbm method for the CBM (Carbon Budget Model) scenario data.
+
+      :param sc: The scenario name.
+      :type sc: str
+
+      :returns: DataFrame containing the calculated fluxes.
+      :rtype: pandas.DataFrame
+
+
+   .. py:method:: cbm_scenario_fluxes(forest_data)
+
+      Calculate the carbon fluxes for each scenario in the given forest data.
+
+      :param forest_data: DataFrame containing forest data.
+      :type forest_data: pd.DataFrame
+
+      :returns: DataFrame containing the calculated fluxes.
+      :rtype: pd.DataFrame
+
+
+   .. py:method:: spinup(sit: libcbm.input.sit.sit.SIT, classifiers: libcbm.storage.dataframe.DataFrame, inventory: libcbm.storage.dataframe.DataFrame) -> libcbm.model.cbm.cbm_variables.CBMVariables
+
+      Spin up the CBM model.
+
+      :param sit: The SIT object.
+      :type sit: SIT
+      :param classifiers: The classifiers.
+      :type classifiers: DataFrame
+      :param inventory: The inventory.
+      :type inventory: DataFrame
+
+
+   .. py:method:: step(time_step: int, sit: libcbm.input.sit.sit.SIT, cbm_vars: libcbm.model.cbm.cbm_variables.CBMVariables) -> libcbm.model.cbm.cbm_variables.CBMVariables
+
+      Step the CBM model forward one timestep.
+
+      :param time_step: The timestep.
+      :type time_step: int
+      :param sit: The SIT object.
+      :type sit: SIT
+      :param cbm_vars: The CBM variables.
+      :type cbm_vars: CBMVariables
+
+
+   .. py:method:: baseline_simulate_stock(cbm_data_class, years, year_range, input_path, database_path)
+
+      Runs a baseline (managed) forest simulation using the CBM model.
+
+      :param cbm_data_class: The CBM data class object.
+      :type cbm_data_class: CBMData
+      :param years: The number of years to simulate.
+      :type years: int
+      :param year_range: The range of years to simulate.
+      :type year_range: list
+      :param input_path: The path to the input data.
+      :type input_path: str
+      :param database_path: The path to the database.
+      :type database_path: str
+
+      :returns: DataFrame containing the calculated managed forest stocks.
+      :rtype: pandas.DataFrame
+
+
+   .. py:method:: cbm_basic_validation(years, input_path, database_path)
+
+      Generate validation data for the CBM model for a set of specified inputs.
+
+      :param years: The number of years to simulate.
+      :type years: int
+      :param input_path: The path to the SIT input data.
+      :type input_path: str
+      :param database_path: The path to the database.
+      :type database_path: str
+
+      :returns: A dictionary containing the generated validation data.
+      :rtype: dict
+
+
+

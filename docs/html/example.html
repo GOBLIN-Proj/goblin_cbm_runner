@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Example Usage &mdash; CBM_runner 0.3.3 documentation</title>
+  <title>Example Usage &mdash; CBM_runner 0.3.4 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -17,13 +17,13 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=d5a15cff"></script>
+        <script src="_static/documentation_options.js?v=1e28cc32"></script>
         <script src="_static/doctools.js?v=888ff710"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="cbm_runner.yield_curves" href="autoapi/cbm_runner/yield_curves/index.html" /> 
+    <link rel="prev" title="cbm_validation.validation_runner" href="autoapi/cbm_validation/validation_runner/index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -46,6 +46,8 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="INSTALLATION.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="autoapi/index.html">API Reference</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Example Usage</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#imports">Imports</a></li>
@@ -91,7 +93,7 @@
 <p>Firstly, we start of by importing the relevant classes.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cbm_runner.runner</span> <span class="kn">import</span> <span class="n">Runner</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cbm_runner.default_runner.runner</span> <span class="kn">import</span> <span class="n">Runner</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -100,7 +102,7 @@
 <span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="c1"># Filter out the RuntimeWarning related to unsupported linux distribution</span>
-<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;unsupported linux distribution:&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">RuntimeWarning</span><span class="p">)</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;untested linux distribution:&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">RuntimeWarning</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -362,6 +364,7 @@
       <th>Deadwood</th>
       <th>Litter</th>
       <th>Soil</th>
+      <th>Harvest</th>
       <th>Total Ecosystem</th>
       <th>Scenario</th>
     </tr>
@@ -369,57 +372,62 @@
   <tbody>
     <tr>
       <th>0</th>
-      <td>2019</td>
-      <td>4.510916e+07</td>
-      <td>1.007929e+07</td>
-      <td>5.314460e+07</td>
-      <td>8.386602e+06</td>
-      <td>3.874128e+07</td>
-      <td>1.554609e+08</td>
+      <td>2016</td>
+      <td>4.353641e+07</td>
+      <td>9.467238e+06</td>
+      <td>1.297036e+07</td>
+      <td>8.717575e+06</td>
+      <td>3.187995e+09</td>
+      <td>3.975884e+07</td>
+      <td>3.262686e+09</td>
       <td>-1</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>2020</td>
-      <td>4.608222e+07</td>
-      <td>1.028621e+07</td>
-      <td>5.210473e+07</td>
-      <td>8.823162e+06</td>
-      <td>3.877404e+07</td>
-      <td>1.560704e+08</td>
+      <td>2017</td>
+      <td>4.481042e+07</td>
+      <td>9.730952e+06</td>
+      <td>1.295526e+07</td>
+      <td>8.746507e+06</td>
+      <td>3.188005e+09</td>
+      <td>4.039706e+07</td>
+      <td>3.264249e+09</td>
       <td>-1</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>2021</td>
-      <td>4.743307e+07</td>
-      <td>1.057514e+07</td>
-      <td>5.106223e+07</td>
-      <td>9.033142e+06</td>
-      <td>3.880213e+07</td>
-      <td>1.569057e+08</td>
+      <td>2018</td>
+      <td>4.561618e+07</td>
+      <td>9.890900e+06</td>
+      <td>1.299681e+07</td>
+      <td>8.970390e+06</td>
+      <td>3.188022e+09</td>
+      <td>4.130728e+07</td>
+      <td>3.265496e+09</td>
       <td>-1</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>2022</td>
-      <td>4.838148e+07</td>
-      <td>1.077315e+07</td>
-      <td>5.010458e+07</td>
-      <td>9.336614e+06</td>
-      <td>3.883223e+07</td>
-      <td>1.574281e+08</td>
+      <td>2019</td>
+      <td>4.638572e+07</td>
+      <td>1.005378e+07</td>
+      <td>1.304870e+07</td>
+      <td>9.183550e+06</td>
+      <td>3.188039e+09</td>
+      <td>4.221897e+07</td>
+      <td>3.266711e+09</td>
       <td>-1</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>2023</td>
-      <td>4.948404e+07</td>
-      <td>1.100475e+07</td>
-      <td>4.916742e+07</td>
-      <td>9.535095e+06</td>
-      <td>3.885980e+07</td>
-      <td>1.580511e+08</td>
+      <td>2020</td>
+      <td>4.698689e+07</td>
+      <td>1.017019e+07</td>
+      <td>1.313437e+07</td>
+      <td>9.397001e+06</td>
+      <td>3.188058e+09</td>
+      <td>4.324669e+07</td>
+      <td>3.267746e+09</td>
       <td>-1</td>
     </tr>
     <tr>
@@ -432,65 +440,71 @@
       <td>...</td>
       <td>...</td>
       <td>...</td>
+      <td>...</td>
     </tr>
     <tr>
-      <th>91</th>
+      <th>100</th>
       <td>2046</td>
-      <td>1.460551e+08</td>
-      <td>3.529958e+07</td>
-      <td>3.792847e+07</td>
-      <td>2.825138e+07</td>
-      <td>4.334910e+07</td>
-      <td>2.908836e+08</td>
+      <td>1.147327e+08</td>
+      <td>2.907003e+07</td>
+      <td>1.759293e+07</td>
+      <td>2.593961e+07</td>
+      <td>6.649725e+10</td>
+      <td>8.108723e+07</td>
+      <td>6.668458e+10</td>
       <td>1</td>
     </tr>
     <tr>
-      <th>92</th>
+      <th>101</th>
       <td>2047</td>
-      <td>1.547092e+08</td>
-      <td>3.725572e+07</td>
-      <td>3.801433e+07</td>
-      <td>2.963645e+07</td>
-      <td>4.370707e+07</td>
-      <td>3.033227e+08</td>
+      <td>1.235130e+08</td>
+      <td>3.108401e+07</td>
+      <td>1.793873e+07</td>
+      <td>2.710238e+07</td>
+      <td>6.649742e+10</td>
+      <td>8.150824e+07</td>
+      <td>6.669706e+10</td>
       <td>1</td>
     </tr>
     <tr>
-      <th>93</th>
+      <th>102</th>
       <td>2048</td>
-      <td>1.636291e+08</td>
-      <td>3.925605e+07</td>
-      <td>3.817666e+07</td>
-      <td>3.110031e+07</td>
-      <td>4.407988e+07</td>
-      <td>3.162420e+08</td>
+      <td>1.325737e+08</td>
+      <td>3.314060e+07</td>
+      <td>1.836501e+07</td>
+      <td>2.839854e+07</td>
+      <td>6.649761e+10</td>
+      <td>8.197900e+07</td>
+      <td>6.671009e+10</td>
       <td>1</td>
     </tr>
     <tr>
-      <th>94</th>
+      <th>103</th>
       <td>2049</td>
-      <td>1.723052e+08</td>
-      <td>4.119695e+07</td>
-      <td>3.845604e+07</td>
-      <td>3.273397e+07</td>
-      <td>4.446908e+07</td>
-      <td>3.291613e+08</td>
+      <td>1.414176e+08</td>
+      <td>3.513919e+07</td>
+      <td>1.891210e+07</td>
+      <td>2.991472e+07</td>
+      <td>6.649781e+10</td>
+      <td>8.272308e+07</td>
+      <td>6.672319e+10</td>
       <td>1</td>
     </tr>
     <tr>
-      <th>95</th>
+      <th>104</th>
       <td>2050</td>
-      <td>1.809372e+08</td>
-      <td>4.312075e+07</td>
-      <td>3.882255e+07</td>
-      <td>3.440837e+07</td>
-      <td>4.487266e+07</td>
-      <td>3.421616e+08</td>
+      <td>1.503378e+08</td>
+      <td>3.714380e+07</td>
+      <td>1.953043e+07</td>
+      <td>3.147722e+07</td>
+      <td>6.649801e+10</td>
+      <td>8.354242e+07</td>
+      <td>6.673650e+10</td>
       <td>1</td>
     </tr>
   </tbody>
 </table>
-<p>96 rows × 8 columns</p>
+<p>105 rows × 9 columns</p>
 </div></div></div>
 </div>
 <div class="cell docutils container">
@@ -524,6 +538,7 @@
       <th>Deadwood</th>
       <th>Litter</th>
       <th>Soil</th>
+      <th>Harvest</th>
       <th>Total Ecosystem</th>
       <th>Scenario</th>
     </tr>
@@ -531,57 +546,62 @@
   <tbody>
     <tr>
       <th>0</th>
-      <td>2020</td>
-      <td>9.726413e+05</td>
-      <td>2.068256e+05</td>
-      <td>-1.039871e+06</td>
-      <td>4.351485e+05</td>
-      <td>32619.089763</td>
-      <td>6.073634e+05</td>
+      <td>2017</td>
+      <td>1.270638e+06</td>
+      <td>2.627851e+05</td>
+      <td>-15056.005571</td>
+      <td>2.946622e+04</td>
+      <td>10682.061424</td>
+      <td>6.382280e+05</td>
+      <td>1.558516e+06</td>
       <td>-1</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>2021</td>
-      <td>1.349893e+06</td>
-      <td>2.887134e+05</td>
-      <td>-1.041910e+06</td>
-      <td>2.091863e+05</td>
-      <td>28012.760245</td>
-      <td>8.338954e+05</td>
+      <td>2018</td>
+      <td>7.905569e+05</td>
+      <td>1.564327e+05</td>
+      <td>54632.015697</td>
+      <td>2.209811e+05</td>
+      <td>16680.314099</td>
+      <td>9.042365e+05</td>
+      <td>1.239283e+06</td>
       <td>-1</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>2022</td>
-      <td>9.463871e+05</td>
-      <td>1.975680e+05</td>
-      <td>-9.579670e+05</td>
-      <td>3.038594e+05</td>
-      <td>30041.569801</td>
-      <td>5.198891e+05</td>
+      <td>2019</td>
+      <td>7.454537e+05</td>
+      <td>1.581229e+05</td>
+      <td>60484.766709</td>
+      <td>2.159734e+05</td>
+      <td>16973.593293</td>
+      <td>9.165473e+05</td>
+      <td>1.197008e+06</td>
       <td>-1</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>2023</td>
-      <td>1.100535e+06</td>
-      <td>2.311516e+05</td>
-      <td>-9.373718e+05</td>
-      <td>1.993903e+05</td>
-      <td>27540.236136</td>
-      <td>6.212453e+05</td>
+      <td>2020</td>
+      <td>5.970606e+05</td>
+      <td>1.154251e+05</td>
+      <td>82579.128152</td>
+      <td>2.118282e+05</td>
+      <td>18201.503252</td>
+      <td>1.027711e+06</td>
+      <td>1.025095e+06</td>
       <td>-1</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>2024</td>
-      <td>1.021265e+06</td>
-      <td>2.121985e+05</td>
-      <td>-9.047883e+05</td>
-      <td>1.908804e+05</td>
-      <td>28507.890662</td>
-      <td>5.480632e+05</td>
+      <td>2021</td>
+      <td>6.205158e+05</td>
+      <td>1.174472e+05</td>
+      <td>89656.521036</td>
+      <td>1.648806e+05</td>
+      <td>17930.523535</td>
+      <td>1.010721e+06</td>
+      <td>1.010431e+06</td>
       <td>-1</td>
     </tr>
     <tr>
@@ -594,65 +614,71 @@
       <td>...</td>
       <td>...</td>
       <td>...</td>
+      <td>...</td>
     </tr>
     <tr>
-      <th>88</th>
+      <th>97</th>
       <td>2046</td>
-      <td>8.287421e+06</td>
-      <td>1.888994e+06</td>
-      <td>2.231939e+04</td>
-      <td>1.342672e+06</td>
-      <td>343953.991282</td>
-      <td>1.188536e+07</td>
+      <td>8.403404e+06</td>
+      <td>1.942403e+06</td>
+      <td>280501.106967</td>
+      <td>1.045386e+06</td>
+      <td>169414.671684</td>
+      <td>4.268004e+05</td>
+      <td>1.184111e+07</td>
       <td>1</td>
     </tr>
     <tr>
-      <th>89</th>
+      <th>98</th>
       <td>2047</td>
-      <td>8.656945e+06</td>
-      <td>1.956750e+06</td>
-      <td>8.634797e+04</td>
-      <td>1.383296e+06</td>
-      <td>357888.119588</td>
-      <td>1.244123e+07</td>
+      <td>8.787382e+06</td>
+      <td>2.015302e+06</td>
+      <td>340480.938625</td>
+      <td>1.160634e+06</td>
+      <td>177128.994675</td>
+      <td>4.177726e+05</td>
+      <td>1.248093e+07</td>
       <td>1</td>
     </tr>
     <tr>
-      <th>90</th>
+      <th>99</th>
       <td>2048</td>
-      <td>8.913795e+06</td>
-      <td>1.998952e+06</td>
-      <td>1.623462e+05</td>
-      <td>1.467136e+06</td>
-      <td>372767.009437</td>
-      <td>1.291500e+07</td>
+      <td>9.062207e+06</td>
+      <td>2.056804e+06</td>
+      <td>425172.366143</td>
+      <td>1.295840e+06</td>
+      <td>185600.142639</td>
+      <td>4.704495e+05</td>
+      <td>1.302562e+07</td>
       <td>1</td>
     </tr>
     <tr>
-      <th>91</th>
+      <th>100</th>
       <td>2049</td>
-      <td>8.680581e+06</td>
-      <td>1.941869e+06</td>
-      <td>2.772956e+05</td>
-      <td>1.631951e+06</td>
-      <td>389111.629786</td>
-      <td>1.292081e+07</td>
+      <td>8.833341e+06</td>
+      <td>1.996169e+06</td>
+      <td>554263.061943</td>
+      <td>1.517857e+06</td>
+      <td>195681.294312</td>
+      <td>7.461500e+05</td>
+      <td>1.309731e+07</td>
       <td>1</td>
     </tr>
     <tr>
-      <th>92</th>
+      <th>101</th>
       <td>2050</td>
-      <td>8.638411e+06</td>
-      <td>1.925177e+06</td>
-      <td>3.589237e+05</td>
-      <td>1.674942e+06</td>
-      <td>403510.399072</td>
-      <td>1.300096e+07</td>
+      <td>8.909102e+06</td>
+      <td>2.002356e+06</td>
+      <td>625202.959179</td>
+      <td>1.563289e+06</td>
+      <td>202353.846313</td>
+      <td>8.215768e+05</td>
+      <td>1.330230e+07</td>
       <td>1</td>
     </tr>
   </tbody>
 </table>
-<p>93 rows × 8 columns</p>
+<p>102 rows × 9 columns</p>
 </div></div></div>
 </div>
 </section>
@@ -687,7 +713,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/62b11e8071856f1434abf28b850202412a61cd989f263365b057f1652bdde4b0.png" src="_images/62b11e8071856f1434abf28b850202412a61cd989f263365b057f1652bdde4b0.png" />
+<img alt="_images/7ec03ae1957c84d29355aebb1af64f998334b09adb7eacac54db43770862cc11.png" src="_images/7ec03ae1957c84d29355aebb1af64f998334b09adb7eacac54db43770862cc11.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -721,7 +747,7 @@ Deleted file: ./jupyter_example/c_stock.csv
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="autoapi/cbm_runner/yield_curves/index.html" class="btn btn-neutral float-left" title="cbm_runner.yield_curves" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="autoapi/cbm_validation/validation_runner/index.html" class="btn btn-neutral float-left" title="cbm_validation.validation_runner" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>
