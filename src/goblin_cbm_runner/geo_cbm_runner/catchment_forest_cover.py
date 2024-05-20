@@ -54,14 +54,15 @@ class CatchmentForest:
         forest_df = self.api.get_catchment_forest_data_by_catchment_name(catchment)
 
         # Filter for specific types of forests and then group
-        forest_types = ['Broadleaved Forest and Woodland', 'Coniferous Forest', 'Mixed Forest']
+        forest_types = ['Broadleaved Forest and Woodland', 'Coniferous Forest', 'Mixed Forest', 'Transitional Forest']
         filtered_df = forest_df[forest_df['cover_type'].isin(forest_types)].copy()
 
         # Mapping for cover_type and soil_type
         cover_type_mapping = {
             'Mixed Forest': 'CBmix',
             'Coniferous Forest': 'Sitka',
-            'Broadleaved Forest and Woodland': 'SGB'
+            'Broadleaved Forest and Woodland': 'SGB',
+            'Transitional Forest': 'CBmix'
         }
 
         soil_type_mapping = {
@@ -88,5 +89,5 @@ class CatchmentForest:
 
         # Select only the required columns
         final_df = pivot_df[['species', 'peat', 'mineral']]
-
+ 
         return final_df
