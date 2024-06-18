@@ -111,7 +111,7 @@ class ForestSimRunner:
         """
         path = self.baseline_conf_path
 
-        if not self.paths_class.is_path_internal(path):
+        if self.paths_class.is_path_internal(path):
             self.cbm_data_class.clean_baseline_data_dir(path)
 
         self.cbm_data_class.make_base_classifiers(path)
