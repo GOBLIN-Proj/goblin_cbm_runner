@@ -274,7 +274,7 @@ class Paths:
         Returns:
             str: The path to the AIDB directory.
         """
-        return os.path.join(aidb_path.get_local_dir(), "ireland_cbm_defaults_v3.db")
+        return os.path.join(aidb_path.get_local_dir(), "ireland_cbm_defaults_v4.db")
 
     def retry_operation(self, function, max_attempts=5, wait_time=60):
         """

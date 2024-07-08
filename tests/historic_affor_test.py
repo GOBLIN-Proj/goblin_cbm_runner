@@ -36,6 +36,14 @@ def main():
 
     # generation of annual flux results libcbm 
     runner.run_libcbm_flux_scenarios().to_csv(os.path.join(results_path, "historic_c_flux_libcbm.csv"))
+
+    # generate raw scenario flux
+
+    # run base flux 
+    runner.run_baseline_summary_flux().to_csv(os.path.join(results_path, "historic_c_flux_summary_baseline_managed.csv"))
+
+    # run base flux libcbm
+    runner.run_baseline_raw().to_csv(os.path.join(results_path, "historic_c_stock_raw_baseline.csv"))
     
     print("done")
 
