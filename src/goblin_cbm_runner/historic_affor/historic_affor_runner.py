@@ -58,6 +58,14 @@ class HistoricAfforRunner:
         
         run_libcbm_flux_scenarios():
             Utilizes the libCBM tool own flux method to generate fluxes. 
+
+        run_baseline_raw():
+            Conducts a baseline flux simulation using the libcbm internal flux method.
+
+        run_baseline_summary_flux():
+            Generates baseline managed forest data, calculates the baseline stock, and then calculates the fluxes.
+
+            
     """
     def __init__(
         self,
@@ -67,7 +75,7 @@ class HistoricAfforRunner:
         scenario_data,
         sit_path=None
     ):  
-        self.paths_class = Paths(sit_path, gen_baseline=False)
+        self.paths_class = Paths(sit_path, gen_baseline=True)
         self.paths_class.setup_historic_affor_paths(sit_path)
         self.path = self.paths_class.get_generated_input_data_path()
         self.baseline_conf_path = self.paths_class.get_baseline_conf_path()
@@ -92,6 +100,38 @@ class HistoricAfforRunner:
 
         self.defaults_db = self.paths_class.get_aidb_path()
 
+        self.baseline_years = self.data_manager_class.get_baseline_years(self.forest_end_year)
+
+        self.baseline_year_range = self.data_manager_class.get_baseline_years_range(self.forest_end_year)
+
+
+    def _generate_base_input_data(self):
+        """
+        Generates the base input data for the CBM runner.
+
+        This method cleans the baseline data directory, and then generates various input files
+        required for the CBM runner, such as classifiers, configuration JSON, age classes,
+        yield curves, inventory, disturbance events, disturbance types, and transition rules.
+
+        Args:
+            None
+
+        Returns:
+            None
+        """
+        path = self.baseline_conf_path
+
+        if self.paths_class.is_path_internal(path):
+            self.cbm_data_class.clean_baseline_data_dir(path)
+
+        self.cbm_data_class.make_base_classifiers(path)
+        self.cbm_data_class.make_config_json(None, path)
+        self.cbm_data_class.make_base_age_classes(path)
+        self.cbm_data_class.make_base_yield_curves(path)
+        self.cbm_data_class.make_base_inventory(path)
+        self.cbm_data_class.make_base_disturbance_events(path)
+        self.cbm_data_class.make_base_disturbance_type(path)
+        self.cbm_data_class.make_base_transition_rules(path)
 
     def generate_input_data(self):
         """
@@ -206,3 +246,44 @@ class HistoricAfforRunner:
 
         return aggregate_forest_data
 
+
+    def run_baseline_raw(self):
+        """
+        Conducts a baseline flux simulation using the libcbm internal flux method.
+
+        Returns:
+            pd.DataFrame: carbon flux data for the baseline scenario.
+
+        """
+        self._generate_base_input_data()
+        forest_data = pd.DataFrame()
+        forest_data = self.SIM_class.baseline_simulate_stock_raw_output(self.cbm_data_class,
+                                                                self.baseline_years,
+                                                                self.baseline_year_range,
+                                                                self.baseline_conf_path,
+                                                                self.defaults_db)
+
+
+        return forest_data
+    
+
+    def run_baseline_summary_flux(self):
+        """
+        Generated the baseline managed forest data, calculates the baselines stock, before the fluxes are calculated
+
+        Returns:
+            pd.DataFrame: carbon flux data for the baseline managed forest.
+
+        """
+        self._generate_base_input_data()
+   
+        forest_data = self.SIM_class.baseline_simulate_stock(self.cbm_data_class,
+                                                             self.baseline_years,
+                                                                self.baseline_year_range,
+                                                                self.baseline_conf_path,
+                                                                self.defaults_db)
+        
+        fluxes_data = self.SIM_class.cbm_baseline_summary_fluxes(forest_data)
+
+        return fluxes_data
+    
