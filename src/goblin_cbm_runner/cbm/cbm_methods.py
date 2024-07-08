@@ -39,6 +39,9 @@ class CBMSim:
         step(): Step the CBM model forward one timestep.
         baseline_simulate_stock(): Runs a baseline (managed) forest simulation using the CBM model.
         cbm_basic_validation(): Generate carbon stocks for the CBM (Carbon Budget Model) scenario data.
+        forest_raw_fluxes(): Calculate the carbon fluxes in the given forest data. The categories are not aggregated.
+        cbm_baseline_summary_fluxes(): Calculate the carbon fluxes for baseline managed forest in the given forest data.
+        
 
     Attributes:
         pools: An instance of the Pools class.
@@ -232,14 +235,14 @@ class CBMSim:
 
         flux_results = self.Flux_class.flux_filter_and_aggregate(flux_dataframe)
         flux_results["Scenario"] = sc
-        flux_results["Year"] = year_range[1:]
+        flux_results["Year"] = year_range[:-1]
 
 
         annual_process_fluxes = pd.DataFrame(
             {
                 "Scenario": sc,
                 "Timestep":flux_results.index,
-                "Year": year_range[1:],
+                "Year": year_range[:-1],
                 "DeltaBIO": flux_results["DeltaBio"],
                 "DeltaDOM": flux_results["DeltaDOM"],
                 "Harvest": flux_results["Harvest"],
@@ -265,32 +268,31 @@ class CBMSim:
         """
         fluxes = pd.DataFrame(columns=forest_data.columns)
 
-        for i in forest_data.index:
-            if i > 0:
-                fluxes.loc[i - 1, "Year"] = int(forest_data.loc[i, "Year"])
-                fluxes.loc[i - 1, "Scenario"] = int(forest_data.loc[i, "Scenario"])
-                fluxes.loc[i - 1, "AGB"] = (
-                    forest_data.loc[i, "AGB"] - forest_data.loc[i - 1, "AGB"]
-                )
-                fluxes.loc[i - 1, "BGB"] = (
-                    forest_data.loc[i, "BGB"] - forest_data.loc[i - 1, "BGB"]
-                )
-                fluxes.loc[i - 1, "Deadwood"] = (
-                    forest_data.loc[i, "Deadwood"] - forest_data.loc[i - 1, "Deadwood"]
-                )
-                fluxes.loc[i - 1, "Litter"] = (
-                    forest_data.loc[i, "Litter"] - forest_data.loc[i - 1, "Litter"]
-                )
-                fluxes.loc[i - 1, "Soil"] = (
-                    forest_data.loc[i, "Soil"] - forest_data.loc[i - 1, "Soil"]
-                )
-                fluxes.loc[i - 1, "Harvest"] = (
-                    forest_data.loc[i, "Harvest"] - forest_data.loc[i - 1, "Harvest"]
-                )
-                fluxes.loc[i - 1, "Total Ecosystem"] = (
-                    forest_data.loc[i, "Total Ecosystem"]
-                    - forest_data.loc[i - 1, "Total Ecosystem"]
-                )
+        for i in forest_data.index[1:]:
+            fluxes.loc[i - 1, "Year"] = int(forest_data.loc[i-1, "Year"])
+            fluxes.loc[i - 1, "Scenario"] = int(forest_data.loc[i, "Scenario"])
+            fluxes.loc[i - 1, "AGB"] = (
+                forest_data.loc[i, "AGB"] - forest_data.loc[i - 1, "AGB"]
+            )
+            fluxes.loc[i - 1, "BGB"] = (
+                forest_data.loc[i, "BGB"] - forest_data.loc[i - 1, "BGB"]
+            )
+            fluxes.loc[i - 1, "Deadwood"] = (
+                forest_data.loc[i, "Deadwood"] - forest_data.loc[i - 1, "Deadwood"]
+            )
+            fluxes.loc[i - 1, "Litter"] = (
+                forest_data.loc[i, "Litter"] - forest_data.loc[i - 1, "Litter"]
+            )
+            fluxes.loc[i - 1, "Soil"] = (
+                forest_data.loc[i, "Soil"] - forest_data.loc[i - 1, "Soil"]
+            )
+            fluxes.loc[i - 1, "Harvest"] = (
+                forest_data.loc[i, "Harvest"] - forest_data.loc[i - 1, "Harvest"]
+            )
+            fluxes.loc[i - 1, "Total Ecosystem"] = (
+                forest_data.loc[i, "Total Ecosystem"]
+                - forest_data.loc[i - 1, "Total Ecosystem"]
+            )
 
         return fluxes
     
@@ -424,6 +426,47 @@ class CBMSim:
         return annual_carbon_stocks
     
 
+    def baseline_simulate_stock_raw_output(self, cbm_data_class, years, year_range, input_path, database_path):
+        """
+        Runs a baseline (managed) forest simulation using the CBM model.
+
+        Args:
+            cbm_data_class (CBMData): The CBM data class object.
+            years (int): The number of years to simulate.
+            year_range (list): The range of years to simulate.
+            input_path (str): The path to the input data.
+            database_path (str): The path to the database.
+
+        Returns:
+            pandas.DataFrame: DataFrame containing the calculated managed forest stocks.
+        """
+        spinup_sit, classifiers, inventory = cbm_data_class.set_spinup_baseline_input_data_dir(
+            input_path, database_path
+        )
+
+        step_sit, redundant_classifier, redundant_inventory = cbm_data_class.set_baseline_input_data_dir(
+            input_path, database_path
+        )
+
+        cbm_output = CBMOutput(
+            classifier_map=spinup_sit.classifier_value_names)
+            
+        cbm_vars = self.spinup(spinup_sit, classifiers, inventory)
+        # append the t=0 (post-spinup results)
+        cbm_output.append_simulation_result(0, cbm_vars)
+
+        for t in range(1, int(years) + 1):
+            # the t cbm_vars replace the t-1 cbm_vars
+            cbm_vars = self.step(t, step_sit, cbm_vars)
+            cbm_output.append_simulation_result(t, cbm_vars)
+
+
+        pi =  cbm_output.classifiers.to_pandas().merge(cbm_output.pools.to_pandas(), left_on=["identifier", "timestep"], right_on=["identifier", "timestep"])
+
+
+        return pi
+    
+
     def cbm_basic_validation(self,years, input_path, database_path):
         """
         Generate validation data for the CBM model for a set of specified inputs. 
@@ -484,3 +527,102 @@ class CBMSim:
             "linked_events":linked_events}
     
         return results
+    
+
+    def forest_raw_fluxes(self, forest_data):
+        """
+        Calculate the carbon fluxes in the given forest data. The categories are not aggregated.
+
+        Args:
+            forest_data (pd.DataFrame): DataFrame containing forest data.
+
+        Returns:
+            pd.DataFrame: DataFrame containing the calculated fluxes.
+        """
+        fluxes = pd.DataFrame(columns=forest_data.columns)
+
+        columns = ["SoftwoodMerch", 
+                   "SoftwoodFoliage", 
+                   "SoftwoodOther", 
+                   "SoftwoodCoarseRoots", 
+                   "SoftwoodFineRoots", 
+                   "HardwoodMerch", 
+                   "HardwoodFoliage", 
+                   "HardwoodOther", 
+                   "HardwoodCoarseRoots", 
+                   "HardwoodFineRoots", 
+                   "AboveGroundVeryFastSoil", 
+                   "BelowGroundVeryFastSoil", 
+                   "AboveGroundFastSoil", 
+                   "BelowGroundFastSoil", 
+                   "MediumSoil", 
+                   "AboveGroundSlowSoil", 
+                   "BelowGroundSlowSoil", 
+                   "SoftwoodStemSnag", 
+                   "SoftwoodBranchSnag", 
+                   "HardwoodStemSnag", 
+                   "HardwoodBranchSnag", 
+                   "CO2", 
+                   "CH4", 
+                   "CO", 
+                   "NO2", 
+                   "Products"]
+        
+        for i in forest_data.index:
+
+            if i > 0:
+                for col in forest_data.columns:
+                    if col not in columns:
+                        fluxes.loc[i, col] = forest_data.loc[i, col]
+                        
+                fluxes.loc[i - 1, "timestep"] = int(forest_data.loc[i, "timestep"]) -1
+                for column in columns:
+                    fluxes.loc[i - 1, column] = (
+                        forest_data.loc[i, column] - forest_data.loc[i - 1, column]
+                    )
+            else:
+                fluxes.loc[i , "timestep"] = int(forest_data.loc[i, "timestep"])
+                for column in columns:
+                    fluxes.loc[i, column] = forest_data.loc[i, column]
+
+        return fluxes
+    
+
+    def cbm_baseline_summary_fluxes(self, forest_data):
+        """
+        Calculate the carbon fluxes for baseline managed forest in the given forest data.
+
+        Args:
+            forest_data (pd.DataFrame): DataFrame containing forest data.
+
+        Returns:
+            pd.DataFrame: DataFrame containing the calculated fluxes.
+        """
+        fluxes = pd.DataFrame(columns=forest_data.columns)
+
+        for i in forest_data.index[1:]:
+            fluxes.loc[i - 1, "Year"] = int(forest_data.loc[i-1, "Year"])
+            fluxes.loc[i - 1, "AGB"] = (
+                forest_data.loc[i, "AGB"] - forest_data.loc[i - 1, "AGB"]
+            )
+            fluxes.loc[i - 1, "BGB"] = (
+                forest_data.loc[i, "BGB"] - forest_data.loc[i - 1, "BGB"]
+            )
+            fluxes.loc[i - 1, "Deadwood"] = (
+                forest_data.loc[i, "Deadwood"] - forest_data.loc[i - 1, "Deadwood"]
+            )
+            fluxes.loc[i - 1, "Litter"] = (
+                forest_data.loc[i, "Litter"] - forest_data.loc[i - 1, "Litter"]
+            )
+            fluxes.loc[i - 1, "Soil"] = (
+                forest_data.loc[i, "Soil"] - forest_data.loc[i - 1, "Soil"]
+            )
+            fluxes.loc[i - 1, "Harvest"] = (
+                forest_data.loc[i, "Harvest"] - forest_data.loc[i - 1, "Harvest"]
+            )
+            fluxes.loc[i - 1, "Total Ecosystem"] = (
+                forest_data.loc[i, "Total Ecosystem"]
+                - forest_data.loc[i - 1, "Total Ecosystem"]
+            )
+
+        return fluxes

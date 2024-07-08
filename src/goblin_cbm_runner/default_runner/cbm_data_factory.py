@@ -400,6 +400,7 @@ class DataFactory:
         else:
             growth_df.to_csv(os.path.join(path, "growth.csv"), index=False)
 
+
     def make_inventory(self, scenario, path):
         """
         Create an inventory DataFrame based on the given scenario and path.
@@ -430,6 +431,7 @@ class DataFactory:
             )
             inventory_df.to_csv(os.path.join(path, "inventory.csv"), index=False)
 
+
     def make_disturbance_events(self, scenario, path):
         """
         Generate disturbance events data and save it as a CSV file.
@@ -451,6 +453,7 @@ class DataFactory:
             disturbance_events.to_csv(
                 os.path.join(path, "disturbance_events.csv"), index=False
             )
+
 
     def make_disturbance_type(self, scenario, path):
         """
@@ -493,6 +496,7 @@ class DataFactory:
                 os.path.join(path, "disturbance_types.csv"),
                 index=False,
             )
+
 
     def make_transition_rules(self, scenario, path):
         """

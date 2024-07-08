@@ -116,3 +116,17 @@ class ValRunner:
             
         return data
 
+
+    def run_flux_validation(self, forest_data):
+        """
+        Runs the CBM validation for the specified years.
+
+        Returns:
+            dict: A dictionary containing the validation dataframes
+        """
+
+        forest_data.groupby("timestep").sum()
+        
+        data = self.SIM_class.forest_raw_fluxes(forest_data)
+            
+        return data
