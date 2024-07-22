@@ -2,8 +2,10 @@
 __pycache__/
 *.py[cod]
 *$py.class
+
 # Specific folders
 artifact/
+hpc/
 
 # C extensions
 *.so

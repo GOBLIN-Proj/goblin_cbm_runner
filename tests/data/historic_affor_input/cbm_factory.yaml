@@ -1,8 +1,12 @@
 Classifiers:
 
   harvest:
-    clearfell: 0.01
-    thinning: 0.01
+    clearfell:
+      - conifer: 0.95
+      - broadleaf: 0.6
+    thinning:
+      - conifer: 0.5
+      - broadleaf: 0.9
 
   age_classes:
     max_age: 100

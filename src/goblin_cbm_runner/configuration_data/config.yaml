@@ -66,7 +66,7 @@ classifiers:
       Sitka: "Sitka spruce"
       SGB: "Slow Growing Unspecified broadleaved species - Genus type"
       FGB: "Fast Growing Unspecified broadleaved species - Genus type"
-      CBmix: "Mix Spruce"
+      CBmix: "Mixed Unspecified broadleaved species - Genus type"
       OC: "Other Spruce"
     Yield classes:
       YC6: "Yield class 6"
@@ -83,7 +83,7 @@ classifiers:
       Sitka: "Sitka spruce"
       SGB: "Slow Growing Unspecified broadleaved species - Genus type"
       FGB: "Fast Growing Unspecified broadleaved species - Genus type"
-      CBmix: "Mix Spruce"
+      CBmix: "Mixed Unspecified broadleaved species - Genus type"
       OC: "Other Spruce"
       NFPine_mineral: "NonForestPineMineral"
       NFSitka_mineral: "NonForestSitkaMineral"
@@ -320,11 +320,11 @@ mapping:
       user_species: "Fast Growing Unspecified broadleaved species - Genus type"
       default_species: "Unspecified broadleaved species - Genus type"
     CBmix:
-      user_species: "Mix Spruce"
-      default_species: "Spruce"
+      user_species: "Mixed Unspecified broadleaved species - Genus type"
+      default_species: "Unspecified broadleaved species - Genus type"
     OC:
       user_species: "Other Spruce"
-      default_species: "Spruce"
+      default_species: "Other spruce"
     NFPine_mineral:
       user_species: "NonForestPineMineral"
       default_species: "Unknown (Ireland)"

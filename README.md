@@ -16,7 +16,7 @@
 Install from git hub. 
 
 ```bash
-pip install "cbm_runner@git+https://github.com/GOBLIN-Proj/goblin_cbm_runner.git@main" 
+pip install "goblin_cbm_runner@git+https://github.com/GOBLIN-Proj/goblin_cbm_runner.git@main" 
 
 ```
 

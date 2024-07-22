@@ -13,10 +13,10 @@ classifier_id,name,description
 3,_CLASSIFIER,Species
 3,Pine,Other pine
 3,FGB,Fast Growing Unspecified broadleaved species - Genus type
-3,Sitka,Other Spruce
+3,Sitka,Sitka spruce
 3,SGB,Slow Growing Unspecified broadleaved species - Genus type
 3,OC,Other Spruce
-3,CBmix,Mix Spruce
+3,CBmix,Mixed Unspecified broadleaved species - Genus type
 4,_CLASSIFIER,Yield classes
 4,YC4_12,Yield class 4 to 12
 4,YC12_20,Yield class 12 to 20

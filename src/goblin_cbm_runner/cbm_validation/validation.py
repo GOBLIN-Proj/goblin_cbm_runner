@@ -100,6 +100,36 @@ class ValidationData:
         data = pd.DataFrame(data_merge)
 
         return data
+    
+    @staticmethod
+    def merge_disturbances_and_parse(stocks, time_step_params):
+        """
+        Merges disturbance and stock data and parses the result.
+
+        Args:
+            stocks: The stocks data.
+            disturbances: The disturbances data.
+
+        Returns:
+            A pandas DataFrame containing the merged and parsed data.
+        """
+        disturbances = ["Thinning","Clearcut"]
+        data_merge = []
+
+        for i in time_step_params.index:
+            if time_step_params.at[i,"disturbance_type"] in disturbances:
+
+                row = {"Species": stocks.at[i, "Species"],
+                       "Forest type": stocks.at[i, "Forest_type"],
+                        "Soil classes": stocks.at[i, "Soil_classes"],
+                        "Yield classes": stocks.at[i, "Yield_classes"],
+                        "Disturbance type": time_step_params.at[i,"disturbance_type"],
+                        "Year": stocks.at[i,"timestep"] + 1989,
+                        "Area": stocks.at[i,"Input"],}
+
+                data_merge.append(row)
+
+        return pd.DataFrame(data_merge).groupby(["Species", "Forest type", "Soil classes", "Yield classes", "Year","Disturbance type"]).sum().sort_values(by=["Year"])
 
 
     

@@ -235,7 +235,7 @@ class DataManager:
         Returns:
             pandas.DataFrame: A DataFrame containing the disturbance data.
         """
-        table = "KB_Disturbance_data_original"
+        table = "KB_Disturbance_default"
         dataframe = pd.read_sql(
             "SELECT * FROM '%s'" % (table),
             self.engine,

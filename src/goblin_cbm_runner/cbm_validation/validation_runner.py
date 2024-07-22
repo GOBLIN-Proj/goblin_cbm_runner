@@ -5,7 +5,6 @@ This module is responsible for orchestrating the execution of Carbon Budget Mode
 including baseline and afforestation projects. 
 
 """
-from goblin_cbm_runner.default_runner.cbm_data_factory import DataFactory
 from goblin_cbm_runner.resource_manager.cbm_runner_data_manager import DataManager
 from goblin_cbm_runner.resource_manager.scenario_data_fetcher import ScenarioDataFetcher
 from goblin_cbm_runner.resource_manager.paths import Paths
@@ -115,6 +114,21 @@ class ValRunner:
                                                     )
             
         return data
+    
+    def run_disturbance_area_validation(self):
+        """
+        Runs the CBM validation for the specified years.
+
+        Returns:
+            dict: A dictionary containing the validation dataframes
+        """
+        data = self.SIM_class.cbm_disturbance_area_validation(self.years, 
+                                                    self.path,
+                                                    self.defaults_db
+                                                    )
+        
+        return data
+    
 
 
     def run_flux_validation(self, forest_data):

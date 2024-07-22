@@ -512,6 +512,7 @@ class CBMSim:
         parameters = cbm_output.parameters.to_pandas()
         area = cbm_output.area.to_pandas()
 
+
         state_by_timestep = ValidationData.gen_disturbance_statistics(rule_based_processor, years)
 
         events = ValidationData.gen_sit_events(rule_based_processor)
@@ -519,15 +520,66 @@ class CBMSim:
         linked_events = ValidationData.merge_events(events, state_by_timestep)
 
         results= {
-            "data_area":area,
+           "data_area":area,
             "data_flux":flux,
             "data_params":parameters,
             "data_pools":pools,
             "data_state":si,
+            "events":events,
+            "state_by_timestep":state_by_timestep,
             "linked_events":linked_events}
     
         return results
     
+    def cbm_disturbance_area_validation(self,years, input_path, database_path):
+        """
+        Generate validation data for the CBM model for a set of specified inputs. 
+
+        Args:
+            years (int): The number of years to simulate.
+            input_path (str): The path to the SIT input data.
+            database_path (str): The path to the database.
+        
+        Returns:
+            dict: A dictionary containing the generated validation data.
+        """
+        sit_config_path = os.path.join(input_path, "sit_config.json")
+
+        sit = sit_cbm_factory.load_sit(sit_config_path, database_path)
+
+        classifiers, inventory = sit_cbm_factory.initialize_inventory(sit)
+
+        cbm_output = CBMOutput(
+            classifier_map=sit.classifier_value_names,
+            disturbance_type_map=sit.disturbance_name_map)
+
+        # Simulation
+        with sit_cbm_factory.initialize_cbm(sit) as cbm:
+            # Create a function to apply rule based disturbance events and transition rules based on the SIT input
+            rule_based_processor = sit_cbm_factory.create_sit_rule_based_processor(
+                sit, cbm
+            )
+            # The following line of code spins up the CBM inventory and runs it through 200 timesteps.
+            cbm_simulator.simulate(
+                cbm,
+                n_steps=years,
+                classifiers=classifiers,
+                inventory=inventory,
+                pre_dynamics_func=rule_based_processor.pre_dynamics_func,
+                reporting_func=cbm_output.append_simulation_result,
+                backend_type=BackendType.numpy
+            )
+
+        parameters = cbm_output.parameters.to_pandas()
+ 
+        pi =  cbm_output.classifiers.to_pandas().merge(cbm_output.pools.to_pandas(), left_on=["identifier", "timestep"], right_on=["identifier", "timestep"])
+
+
+        merge_disturbances_and_parse = ValidationData.merge_disturbances_and_parse(pi,parameters)
+
+
+        return {"merge_disturbances_and_parse":merge_disturbances_and_parse}
+   
 
     def forest_raw_fluxes(self, forest_data):
         """
