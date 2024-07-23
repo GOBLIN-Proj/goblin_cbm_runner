@@ -5,7 +5,7 @@ This module is responsible for orchestrating the execution of Carbon Budget Mode
 including baseline and afforestation projects. 
 
 """
-from goblin_cbm_runner.default_runner.cbm_data_factory import DataFactory
+from goblin_cbm_runner.cbm.cbm_data_factory import DataFactory
 from goblin_cbm_runner.resource_manager.cbm_runner_data_manager import DataManager
 from goblin_cbm_runner.resource_manager.scenario_data_fetcher import ScenarioDataFetcher
 from goblin_cbm_runner.resource_manager.paths import Paths

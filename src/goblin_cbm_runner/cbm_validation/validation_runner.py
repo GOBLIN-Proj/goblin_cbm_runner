@@ -129,7 +129,19 @@ class ValRunner:
         
         return data
     
+    def run_baseline_disturbance_area_validation(self):
+        """
+        Runs the CBM validation for the specified years.
 
+        Returns:
+            dict: A dictionary containing the validation dataframes
+        """
+        data = self.SIM_class.cbm_baseline_disturbance_area_validation(self.years, 
+                                                    self.path,
+                                                    self.defaults_db
+                                                    )
+        
+        return data
 
     def run_flux_validation(self, forest_data):
         """

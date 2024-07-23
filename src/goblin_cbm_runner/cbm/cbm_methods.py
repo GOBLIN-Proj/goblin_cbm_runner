@@ -531,6 +531,7 @@ class CBMSim:
     
         return results
     
+
     def cbm_disturbance_area_validation(self,years, input_path, database_path):
         """
         Generate validation data for the CBM model for a set of specified inputs. 
@@ -580,6 +581,54 @@ class CBMSim:
 
         return {"merge_disturbances_and_parse":merge_disturbances_and_parse}
    
+
+
+    def cbm_baseline_disturbance_area_validation(self, years, input_path, database_path):
+        """
+        Runs a baseline (managed) forest simulation using the CBM model.
+
+        Args:
+            cbm_data_class (CBMData): The CBM data class object.
+            years (int): The number of years to simulate.
+            year_range (list): The range of years to simulate.
+            input_path (str): The path to the input data.
+            database_path (str): The path to the database.
+
+        Returns:
+            pandas.DataFrame: DataFrame containing the calculated managed forest stocks.
+        """
+        spinup_sit_config_path = os.path.join(input_path, "spinup_config.json")
+
+        sit_config_path = os.path.join(input_path, "sit_config.json")
+
+        
+        step_sit = sit_cbm_factory.load_sit(sit_config_path, database_path)
+
+        spinup_sit = sit_cbm_factory.load_sit(spinup_sit_config_path, database_path)
+
+
+        classifiers, inventory = sit_cbm_factory.initialize_inventory(spinup_sit)
+
+        cbm_output = CBMOutput(
+            classifier_map=spinup_sit.classifier_value_names)
+            
+        cbm_vars = self.spinup(spinup_sit, classifiers, inventory)
+        # append the t=0 (post-spinup results)
+        cbm_output.append_simulation_result(0, cbm_vars)
+
+        for t in range(1, int(years) + 1):
+            # the t cbm_vars replace the t-1 cbm_vars
+            cbm_vars = self.step(t, step_sit, cbm_vars)
+            cbm_output.append_simulation_result(t, cbm_vars)
+
+        parameters = cbm_output.parameters.to_pandas()
+        pi =  cbm_output.classifiers.to_pandas().merge(cbm_output.pools.to_pandas(), left_on=["identifier", "timestep"], right_on=["identifier", "timestep"])
+
+        merge_disturbances_and_parse = ValidationData.merge_baseline_disturbances_and_parse(pi,parameters)
+
+
+        return {"merge_baseline_disturbances_and_parse":merge_disturbances_and_parse}
+    
 
     def forest_raw_fluxes(self, forest_data):
         """

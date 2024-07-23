@@ -133,6 +133,34 @@ class ValidationData:
 
 
     
+    @staticmethod
+    def merge_baseline_disturbances_and_parse(stocks, time_step_params):
+        """
+        Merges disturbance and stock data and parses the result.
+
+        Args:
+            stocks: The stocks data.
+            disturbances: The disturbances data.
+
+        Returns:
+            A pandas DataFrame containing the merged and parsed data.
+        """
+        disturbances = [1,2]
+        data_merge = []
+
+        for i in time_step_params.index:
+            if time_step_params.at[i,"disturbance_type"] in disturbances:
+
+                row = {"Species": stocks.at[i, "Species"],
+                        "Yield classes": stocks.at[i, "Yield_classes"],
+                        "Disturbance type": time_step_params.at[i,"disturbance_type"],
+                        "Year": stocks.at[i,"timestep"],
+                        "Area": stocks.at[i,"Input"],}
+
+                data_merge.append(row)
+
+        return pd.DataFrame(data_merge).groupby(["Species", "Yield classes", "Year","Disturbance type"]).sum().sort_values(by=["Year"])
+
 
 
 
