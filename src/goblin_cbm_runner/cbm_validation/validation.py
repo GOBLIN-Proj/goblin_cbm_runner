@@ -151,7 +151,9 @@ class ValidationData:
         for i in time_step_params.index:
             if time_step_params.at[i,"disturbance_type"] in disturbances:
 
-                row = {"Species": stocks.at[i, "Species"],
+                row = {"Climate unit": stocks.at[i, "Climate_unit"],
+                       "Forest management types": stocks.at[i, "Forest_management_types"],
+                        "Species": stocks.at[i, "Species"],
                         "Yield classes": stocks.at[i, "Yield_classes"],
                         "Disturbance type": time_step_params.at[i,"disturbance_type"],
                         "Year": stocks.at[i,"timestep"],
@@ -159,7 +161,7 @@ class ValidationData:
 
                 data_merge.append(row)
 
-        return pd.DataFrame(data_merge).groupby(["Species", "Yield classes", "Year","Disturbance type"]).sum().sort_values(by=["Year"])
+        return pd.DataFrame(data_merge).groupby(["Climate unit", "Forest management types", "Species", "Yield classes", "Year","Disturbance type"]).sum().sort_values(by=["Year"])
 
 
 

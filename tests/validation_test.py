@@ -4,7 +4,7 @@ def main():
     path = "./data/validation_data/"
     results_path = "./data/validation_results/"
     start = 1990
-    end = 2050
+    end = 2030
     val = ValRunner(start, end, path, None)
 
     data = val.run_validation()
