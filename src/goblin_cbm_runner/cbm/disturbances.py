@@ -9,7 +9,7 @@ disturbance structures, and filling data for legacy and scenario-based disturban
 import goblin_cbm_runner.resource_manager.parser as parser
 from goblin_cbm_runner.resource_manager.cbm_runner_data_manager import DataManager
 from goblin_cbm_runner.resource_manager.loader import Loader
-from goblin_cbm_runner.default_runner.inventory import Inventory
+from goblin_cbm_runner.cbm.inventory import Inventory
 import pandas as pd
 import itertools
 from goblin_cbm_runner.harvest_manager.harvest import AfforestationTracker

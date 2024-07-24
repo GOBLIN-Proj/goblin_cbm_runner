@@ -280,7 +280,7 @@ class DataManager:
         Returns:
             pandas.DataFrame: A DataFrame containing the baseline disturbance events.
         """
-        table = "base_disturbance_events_2016_to_2050"
+        table = "default_base_disturbance_events_2016_to_2100"
         dataframe = pd.read_sql(
             "SELECT * FROM '%s'" % (table),
             self.engine,

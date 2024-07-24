@@ -22,7 +22,7 @@ def main():
     # calibration and end point
     calibration_year = 2020
 
-    forest_end_year = 2050
+    forest_end_year = 2100
 
     af_disturbances = ARDisturbances(config, calibration_year, forest_end_year, afforest_data, sc_data)
 
