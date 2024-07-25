@@ -1,4 +1,4 @@
-from goblin_cbm_runner.cbm.AF_disturbances import ARDisturbances
+from goblin_cbm_runner.cbm.AF_disturbances import AFDisturbances
 from goblin_cbm_runner.cbm.SC_disturbances import SCDisturbances
 import pandas as pd
 import os
@@ -24,7 +24,7 @@ def main():
 
     forest_end_year = 2100
 
-    af_disturbances = ARDisturbances(config, calibration_year, forest_end_year, afforest_data, sc_data)
+    af_disturbances = AFDisturbances(config, calibration_year, forest_end_year, afforest_data, sc_data)
 
     af_disturbances.fill_baseline_forest().to_csv(os.path.join(results_path, "af_disturbances.csv"), index=False)
     print("finished AF disturbance test")

@@ -148,7 +148,7 @@ class SCDisturbances:
 
         data = []
 
-        for yr in range(0, (scenario_years + 1)):
+        for yr in range(1, (scenario_years + 1)):
             for dist in disturbances:
                 if dist == "DISTID4":
                     for species in parser.get_inventory_species(configuration_classifiers):
@@ -180,7 +180,7 @@ class SCDisturbances:
                             data.append(row_data)
             tracker.move_to_next_age()
 
-        for yr in range(0, (scenario_years + 1)):
+        for yr in range(1, (scenario_years + 1)):
             for stand in tracker.disturbed_stands:
                 if stand.year == yr:
                     

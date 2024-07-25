@@ -6,6 +6,7 @@ __pycache__/
 # Specific folders
 artifact/
 hpc/
+tests/validation_results/*.csv
 
 # C extensions
 *.so

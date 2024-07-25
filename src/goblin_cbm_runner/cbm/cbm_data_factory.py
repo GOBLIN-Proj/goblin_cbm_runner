@@ -22,7 +22,8 @@ from goblin_cbm_runner.resource_manager.cbm_runner_data_manager import DataManag
 from goblin_cbm_runner.cbm.create_json import CreateJSON
 from goblin_cbm_runner.cbm.yield_curves import YieldCurves
 from goblin_cbm_runner.cbm.inventory import Inventory
-from goblin_cbm_runner.cbm.disturbances import Disturbances
+from goblin_cbm_runner.cbm.AF_disturbances import AFDisturbances
+from goblin_cbm_runner.cbm.SC_disturbances import SCDisturbances
 from goblin_cbm_runner.cbm.transition import Transition
 import goblin_cbm_runner.resource_manager.parser as parser
 
@@ -81,13 +82,22 @@ class DataFactory:
         self.inventory_class = Inventory(
             calibration_year, config_path, afforestation_data
         )
-        self.disturbance_class = Disturbances(
+        self.AF_disturbance_class = AFDisturbances(
             config_path,
             calibration_year,
             forest_end_year,
             afforestation_data,
             scenario_data,
         )
+
+
+        self.SC_disturbance_class = SCDisturbances(
+            config_path,
+            calibration_year,
+            forest_end_year,
+            afforestation_data,
+            scenario_data,
+        )   
         self.transition_class = Transition(calibration_year, config_path)
         self.afforestation_data = afforestation_data
 
@@ -443,15 +453,20 @@ class DataFactory:
         Returns:
             None
         """
-        if scenario is not None:
-            disturbance_events = self.disturbance_class.fill_scenario_data(scenario)
+        if scenario is None:
+            disturbance_events = self.AF_disturbance_class.fill_baseline_forest()
+            disturbance_events.to_csv(
+                os.path.join(path, "disturbance_events.csv"), index=False
+            )
+        elif scenario == -1:
+            disturbance_events = self.AF_disturbance_class.fill_baseline_forest()
             disturbance_events.to_csv(
                 os.path.join(path, str(scenario), "disturbance_events.csv"), index=False
             )
-        else:
-            disturbance_events = self.disturbance_class.fill_baseline_forest()
+        else: 
+            disturbance_events = self.SC_disturbance_class.fill_scenario_data(scenario)
             disturbance_events.to_csv(
-                os.path.join(path, "disturbance_events.csv"), index=False
+                os.path.join(path, str(scenario), "disturbance_events.csv"), index=False
             )
 
 

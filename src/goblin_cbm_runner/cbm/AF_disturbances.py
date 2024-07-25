@@ -14,7 +14,7 @@ from goblin_cbm_runner.harvest_manager.harvest import AfforestationTracker
 
 
 
-class ARDisturbances:
+class AFDisturbances:
     """
     Manages disturbances within a CBM (Carbon Budget Model) model, addressing both legacy and scenario-based disturbances. 
     This class plays a pivotal role in simulating the impact of disturbances on forest carbon stocks and fluxes, 

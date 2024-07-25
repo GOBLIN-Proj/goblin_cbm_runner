@@ -20,7 +20,7 @@ def main():
     sc_data = pd.read_csv(os.path.join(path, "scenario_dataframe.csv"))
 
     # calibration and end point
-    calibration_year = 2022
+    calibration_year = 2020
 
     # instance of the Runner class
     runner = HistoricAfforRunner(config, calibration_year, afforest_data, sc_data)
@@ -29,13 +29,13 @@ def main():
     runner.generate_input_data()
 
     # generation of aggregated results
-    runner.run_aggregate_scenarios().to_csv(os.path.join(results_path, "historic_aggregate.csv"))
+    #runner.run_aggregate_scenarios().to_csv(os.path.join(results_path, "historic_aggregate.csv"))
 
     # generation of annual flux results
     runner.run_flux_scenarios().to_csv(os.path.join(results_path, "historic_c_flux.csv"))
 
     # generation of annual flux results libcbm 
-    runner.run_libcbm_flux_scenarios().to_csv(os.path.join(results_path, "historic_c_flux_libcbm.csv"))
+    #runner.run_libcbm_flux_scenarios().to_csv(os.path.join(results_path, "historic_c_flux_libcbm.csv"))
 
     # generate raw scenario flux
 
