@@ -70,7 +70,6 @@ class FluxManager:
 
         return flux_filtered
     
-
     def flux_results_dataframes(self, flux, state, parameters, area):
         """
         Combines scaled and filtered carbon flux data.

@@ -2,7 +2,7 @@ classifier_id,name,description
 1,_CLASSIFIER,Species
 1,Sitka,Sitka spruce
 1,SGB,Slow Growing Unspecified broadleaved species - Genus type
-1,CBmix,Mix Spruce
+1,CBmix,Mixed Unspecified broadleaved species - Genus type
 2,_CLASSIFIER,Forest type
 2,L,Legacy
 3,_CLASSIFIER,Soil classes

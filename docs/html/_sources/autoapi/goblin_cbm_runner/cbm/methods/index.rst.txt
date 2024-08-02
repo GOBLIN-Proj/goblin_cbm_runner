@@ -1,0 +1,15 @@
+:py:mod:`goblin_cbm_runner.cbm.methods`
+=======================================
+
+.. py:module:: goblin_cbm_runner.cbm.methods
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   cbm_methods/index.rst
+
+

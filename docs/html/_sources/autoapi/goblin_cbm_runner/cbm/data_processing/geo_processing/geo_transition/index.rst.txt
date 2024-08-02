@@ -1,0 +1,70 @@
+:py:mod:`goblin_cbm_runner.cbm.data_processing.geo_processing.geo_transition`
+=============================================================================
+
+.. py:module:: goblin_cbm_runner.cbm.data_processing.geo_processing.geo_transition
+
+.. autoapi-nested-parse::
+
+   Geo Transition Module
+   =====================
+   This module provides functionalities to generate transition rules structure based on given scenario.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   goblin_cbm_runner.cbm.data_processing.geo_processing.geo_transition.Transition
+
+
+
+
+.. py:class:: Transition(calibration_year, config_path)
+
+
+   Represents a transition object that generates transition rules structure based on given scenario.
+
+   :param calibration_year: The calibration year.
+   :type calibration_year: int
+   :param config_path: The path to the configuration file.
+   :type config_path: str
+
+   .. attribute:: data_manager_class
+
+      The data manager class instance.
+
+      :type: DataManager
+
+   .. attribute:: baseline_forest_classifiers
+
+      The baseline forest classifiers.
+
+      :type: dict
+
+   .. attribute:: scenario_forest_classifiers
+
+      The scenario forest classifiers.
+
+      :type: dict
+
+   .. method:: make_transition_rules_structure
+
+      Generates the transition rules structure based on the given scenario.
+      
+      
+
+   .. py:method:: make_transition_rules_structure(scenario)
+
+      Generates a transition rules structure based on the given scenario.
+
+      :param scenario: The scenario to generate the transition rules structure for.
+
+      :returns: The transition rules structure as a pandas DataFrame.
+
+
+

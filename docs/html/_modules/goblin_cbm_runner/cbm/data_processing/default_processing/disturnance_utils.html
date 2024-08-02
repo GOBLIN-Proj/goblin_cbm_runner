@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>goblin_cbm_runner.cbm.data_processing.default_processing.disturnance_utils &mdash; goblin_cbm_runner 0.4.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css?v=eafc0fe6" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../../../_static/documentation_options.js?v=6c02275b"></script>
+        <script src="../../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../../index.html" class="icon icon-home">
+            goblin_cbm_runner
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../INSTALLATION.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../autoapi/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../example.html">Example Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../example.html#plot-fluxes-for-baseline">Plot Fluxes for Baseline</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">goblin_cbm_runner</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">goblin_cbm_runner.cbm.data_processing.default_processing.disturnance_utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for goblin_cbm_runner.cbm.data_processing.default_processing.disturnance_utils</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Disturbance Utils</span>
+<span class="sd">=================</span>
+
+<span class="sd">This module contains the DisturbUtils class, which is used to process disturbance data for the CBM model.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">goblin_cbm_runner.resource_manager.cbm_runner_data_manager</span> <span class="kn">import</span> <span class="n">DataManager</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+
+<div class="viewcode-block" id="DisturbUtils">
+<a class="viewcode-back" href="../../../../../autoapi/goblin_cbm_runner/cbm/data_processing/default_processing/disturnance_utils/index.html#goblin_cbm_runner.cbm.data_processing.default_processing.disturnance_utils.DisturbUtils">[docs]</a>
+<span class="k">class</span> <span class="nc">DisturbUtils</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The DisturbUtils class is responsible for processing disturbance data for the CBM model.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        forest_end_year (int): The final year for simulation, defining the temporal boundary for scenario execution.</span>
+<span class="sd">        calibration_year (int): The initial year for data calibration.</span>
+<span class="sd">        data_manager_class (DataManager): Instance of DataManager for managing simulation data and configurations.</span>
+<span class="sd">        forest_baseline_year (int): The baseline year for forest data.</span>
+<span class="sd">        baseline_forest_classifiers (dict): Dictionary containing baseline forest classifiers.</span>
+<span class="sd">        scenario_forest_classifiers (dict): Dictionary containing scenario forest classifiers.</span>
+<span class="sd">        yield_name_dict (dict): Dictionary containing yield names.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        config_path (str): Configuration path for setting up CBM simulations.</span>
+<span class="sd">        calibration_year (int): The initial year for data calibration.</span>
+<span class="sd">        forest_end_year (int): The final year for simulation, defining the temporal boundary for scenario execution.</span>
+<span class="sd">        scenario_data (DataFrame): Detailed data of afforestation activities per scenario.</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">        disturbance_structure():</span>
+<span class="sd">            Creates a dataframe structure for disturbances.</span>
+<span class="sd">        _process_scenario_harvest_data(tracker, row_data, context):</span>
+<span class="sd">            Process the harvest data for a scenario.</span>
+<span class="sd">        _track_scenario_harvest(tracker, row_data, context):</span>
+<span class="sd">            Track the harvest scenario in the forest model.</span>
+<span class="sd">        _drop_zero_area_rows(disturbance_df):</span>
+<span class="sd">            Drops rows from the disturbance dataframe where the &#39;Amount&#39; column is zero.</span>
+<span class="sd">        _get_legacy_classifier_combinations():</span>
+<span class="sd">            Returns all possible combinations of forest keys, soil keys, and yield keys.</span>
+<span class="sd">        _get_scenario_classifier_combinations():</span>
+<span class="sd">            Generates combinations of scenario, forest, soil, and yield classifiers.</span>
+<span class="sd">        _get_classifier_combinations(species, disturbance=None):</span>
+<span class="sd">            Generates all possible combinations of forest types, soil classes, and yield classes.</span>
+<span class="sd">        _get_static_defaults():</span>
+<span class="sd">            Get the default values for static disturbance columns.</span>
+<span class="sd">        _generate_row(species, forest_type, soil, yield_class, dist, yr):</span>
+<span class="sd">            Generates a row of data for a disturbance event.</span>
+<span class="sd">        _process_scenario_row_data(row_data, context, dataframes):</span>
+<span class="sd">            Process the row data for a scenario based on the given context and dataframes.</span>
+<span class="sd">        _process_row_data(row_data, context, dataframes):  </span>
+<span class="sd">            Process the row data based on the given context and dataframes.</span>
+<span class="sd">        _handle_legacy_scenario_forest(row_data, context, dataframes):</span>
+<span class="sd">            Handles the legacy scenario forest by updating the disturbance timing and setting the amount based on the area.</span>
+<span class="sd">        _handle_scenario_afforestation(row_data, context, dataframes):</span>
+<span class="sd">            Handle the scenario of afforestation.</span>
+<span class="sd">        _handle_legacy_afforestation(row_data, context, dataframes):</span>
+<span class="sd">            Handles legacy afforestation by updating the row data with the appropriate classifier and amount.</span>
+<span class="sd">        _handle_legacy_forest(row_data, context, dataframes):</span>
+<span class="sd">            Handles legacy forest data by updating disturbance timing and populating row data with relevant information.</span>
+<span class="sd">        _update_disturbance_timing(row_data, context, dataframes):</span>
+<span class="sd">            Retrieve disturbance timing information from the disturbance_timing DataFrame.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">config_path</span><span class="p">,</span>
+        <span class="n">calibration_year</span><span class="p">,</span>
+        <span class="n">forest_end_year</span><span class="p">,</span>
+        <span class="n">scenario_data</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">forest_end_year</span> <span class="o">=</span> <span class="n">forest_end_year</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span> <span class="o">=</span> <span class="n">calibration_year</span>
+    
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span> <span class="o">=</span> <span class="n">DataManager</span><span class="p">(</span>
+            <span class="n">calibration_year</span><span class="o">=</span><span class="n">calibration_year</span><span class="p">,</span> <span class="n">config_file</span><span class="o">=</span><span class="n">config_path</span><span class="p">,</span> <span class="n">scenario_data</span><span class="o">=</span><span class="n">scenario_data</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">forest_baseline_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_afforestation_baseline</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">baseline_forest_classifiers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_classifiers</span><span class="p">()[</span>
+            <span class="s2">&quot;Baseline&quot;</span>
+        <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scenario_forest_classifiers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_classifiers</span><span class="p">()[</span>
+            <span class="s2">&quot;Scenario&quot;</span>
+        <span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">yield_name_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_yield_name_dict</span><span class="p">()</span>
+
+<div class="viewcode-block" id="DisturbUtils.disturbance_structure">
+<a class="viewcode-back" href="../../../../../autoapi/goblin_cbm_runner/cbm/data_processing/default_processing/disturnance_utils/index.html#goblin_cbm_runner.cbm.data_processing.default_processing.disturnance_utils.DisturbUtils.disturbance_structure">[docs]</a>
+    <span class="k">def</span> <span class="nf">disturbance_structure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a dataframe structure for disturbances.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            DataFrame: A dataframe with the structure for disturbances.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">columns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_disturbance_cols</span><span class="p">()</span>
+        <span class="n">disturbance_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">disturbance_df</span></div>
+
+    
+<div class="viewcode-block" id="DisturbUtils._process_scenario_harvest_data">
+<a class="viewcode-back" href="../../../../../autoapi/goblin_cbm_runner/cbm/data_processing/default_processing/disturnance_utils/index.html#goblin_cbm_runner.cbm.data_processing.default_processing.disturnance_utils.DisturbUtils._process_scenario_harvest_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">_process_scenario_harvest_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tracker</span><span class="p">,</span> <span class="n">row_data</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Process the harvest data for a scenario.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            tracker (Tracker): The tracker object used to track forest changes.</span>
+<span class="sd">            row_data (dict): The data for a single row.</span>
+<span class="sd">            context (dict): The context containing additional information.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dist</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;dist&quot;</span><span class="p">]</span>
+        <span class="n">area</span> <span class="o">=</span> <span class="n">row_data</span><span class="p">[</span><span class="s2">&quot;Amount&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">dist</span> <span class="o">==</span> <span class="s2">&quot;DISTID4&quot;</span> <span class="ow">and</span> <span class="n">area</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_track_scenario_harvest</span><span class="p">(</span><span class="n">tracker</span><span class="p">,</span> <span class="n">row_data</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="DisturbUtils._track_scenario_harvest">
+<a class="viewcode-back" href="../../../../../autoapi/goblin_cbm_runner/cbm/data_processing/default_processing/disturnance_utils/index.html#goblin_cbm_runner.cbm.data_processing.default_processing.disturnance_utils.DisturbUtils._track_scenario_harvest">[docs]</a>
+    <span class="k">def</span> <span class="nf">_track_scenario_harvest</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tracker</span><span class="p">,</span> <span class="n">row_data</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Track the harvest scenario in the forest model.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            tracker (Tracker): The tracker object used to track forest changes.</span>
+<span class="sd">            row_data (dict): The data for the current row.</span>
+<span class="sd">            context (dict): The context containing species, yield class, soil, year, harvest proportion, and age.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">area</span> <span class="o">=</span> <span class="n">row_data</span><span class="p">[</span><span class="s2">&quot;Amount&quot;</span><span class="p">]</span>
+        <span class="n">species</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">]</span>
+        <span class="n">yield_class</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;yield_class&quot;</span><span class="p">]</span>
+        <span class="n">soil</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;soil&quot;</span><span class="p">]</span>
+        <span class="n">time</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]</span>
+        <span class="n">factor</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;harvest_proportion&quot;</span><span class="p">]</span>
+        <span class="n">age</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">]</span>
+
+        <span class="n">tracker</span><span class="o">.</span><span class="n">afforest</span><span class="p">(</span><span class="n">area</span><span class="p">,</span> <span class="n">species</span><span class="p">,</span> <span class="n">yield_class</span><span class="p">,</span> <span class="n">soil</span><span class="p">,</span> <span class="n">age</span><span class="p">)</span>
+        <span class="n">tracker</span><span class="o">.</span><span class="n">forest_disturbance</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">species</span><span class="p">,</span> <span class="n">yield_class</span><span class="p">,</span> <span class="n">soil</span><span class="p">,</span> <span class="n">factor</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="DisturbUtils._drop_zero_area_rows">
+<a class="viewcode-back" href="../../../../../autoapi/goblin_cbm_runner/cbm/data_processing/default_processing/disturnance_utils/index.html#goblin_cbm_runner.cbm.data_processing.default_processing.disturnance_utils.DisturbUtils._drop_zero_area_rows">[docs]</a>
+    <span class="k">def</span> <span class="nf">_drop_zero_area_rows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">disturbance_df</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Drops rows from the disturbance dataframe where the &#39;Amount&#39; column is zero.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters:</span>
+<span class="sd">            disturbance_df (pandas.DataFrame): The disturbance dataframe.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame: The disturbance dataframe with zero area rows dropped.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">disturbance_df</span> <span class="o">=</span> <span class="n">disturbance_df</span><span class="p">[</span><span class="n">disturbance_df</span><span class="p">[</span><span class="s2">&quot;Amount&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">disturbance_df</span> <span class="o">=</span> <span class="n">disturbance_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">disturbance_df</span> <span class="o">=</span> <span class="n">disturbance_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Year&quot;</span><span class="p">],</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">disturbance_df</span></div>
+
+
+
+<div class="viewcode-block" id="DisturbUtils._get_legacy_classifier_combinations">
+<a class="viewcode-back" href="../../../../../autoapi/goblin_cbm_runner/cbm/data_processing/default_processing/disturnance_utils/index.html#goblin_cbm_runner.cbm.data_processing.default_processing.disturnance_utils.DisturbUtils._get_legacy_classifier_combinations">[docs]</a>
+    <span class="k">def</span> <span class="nf">_get_legacy_classifier_combinations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns all possible combinations of forest keys, soil keys, and yield keys.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters:</span>
+<span class="sd">            self (Disturbances): The Disturbances object.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            combinations (generator): A generator that yields all possible combinations of forest keys, soil keys, and yield keys.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">classifiers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenario_forest_classifiers</span>
+        <span class="n">forest_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;L&quot;</span><span class="p">]</span>
+        <span class="n">soil_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">classifiers</span><span class="p">[</span><span class="s2">&quot;Soil classes&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="n">yield_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">classifiers</span><span class="p">[</span><span class="s2">&quot;Yield classes&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">forest_keys</span><span class="p">,</span> <span class="n">soil_keys</span><span class="p">,</span> <span class="n">yield_keys</span><span class="p">)</span></div>
+
+    
+
+<div class="viewcode-block" id="DisturbUtils._get_scenario_classifier_combinations">
+<a class="viewcode-back" href="../../../../../autoapi/goblin_cbm_runner/cbm/data_processing/default_processing/disturnance_utils/index.html#goblin_cbm_runner.cbm.data_processing.default_processing.disturnance_utils.DisturbUtils._get_scenario_classifier_combinations">[docs]</a>
+    <span class="k">def</span> <span class="nf">_get_scenario_classifier_combinations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generates combinations of scenario, forest, soil, and yield classifiers.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A generator that yields combinations of scenario, forest, soil, and yield classifiers.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">classifiers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenario_forest_classifiers</span>
+        <span class="n">forest_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;A&quot;</span><span class="p">]</span>
+        <span class="n">soil_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;mineral&quot;</span><span class="p">]</span>
+        <span class="n">yield_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">classifiers</span><span class="p">[</span><span class="s2">&quot;Yield classes&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">forest_keys</span><span class="p">,</span> <span class="n">soil_keys</span><span class="p">,</span> <span class="n">yield_keys</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="DisturbUtils._get_classifier_combinations">
+<a class="viewcode-back" href="../../../../../autoapi/goblin_cbm_runner/cbm/data_processing/default_processing/disturnance_utils/index.html#goblin_cbm_runner.cbm.data_processing.default_processing.disturnance_utils.DisturbUtils._get_classifier_combinations">[docs]</a>
+    <span class="k">def</span> <span class="nf">_get_classifier_combinations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">species</span><span class="p">,</span> <span class="n">disturbance</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generates all possible combinations of forest types, soil classes, and yield classes.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A generator that yields tuples representing the combinations of forest types, soil classes, and yield classes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">classifiers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenario_forest_classifiers</span>
+
+        <span class="k">if</span> <span class="n">disturbance</span> <span class="o">==</span> <span class="s2">&quot;DISTID1&quot;</span> <span class="ow">or</span> <span class="n">disturbance</span> <span class="o">==</span> <span class="s2">&quot;DISTID2&quot;</span><span class="p">:</span>
+            <span class="n">forest_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;L&quot;</span><span class="p">]</span>
+            <span class="n">soil_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;?&quot;</span><span class="p">]</span>
+            <span class="n">yield_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">yield_name_dict</span><span class="p">[</span><span class="n">species</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="k">return</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">forest_keys</span><span class="p">,</span> <span class="n">soil_keys</span><span class="p">,</span> <span class="n">yield_keys</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">forest_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">classifiers</span><span class="p">[</span><span class="s2">&quot;Forest type&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="n">soil_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">classifiers</span><span class="p">[</span><span class="s2">&quot;Soil classes&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="n">yield_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">yield_name_dict</span><span class="p">[</span><span class="n">species</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="k">return</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">forest_keys</span><span class="p">,</span> <span class="n">soil_keys</span><span class="p">,</span> <span class="n">yield_keys</span><span class="p">)</span></div>
+
+    
+
+<div class="viewcode-block" id="DisturbUtils._get_static_defaults">
+<a class="viewcode-back" href="../../../../../autoapi/goblin_cbm_runner/cbm/data_processing/default_processing/disturnance_utils/index.html#goblin_cbm_runner.cbm.data_processing.default_processing.disturnance_utils.DisturbUtils._get_static_defaults">[docs]</a>
+    <span class="k">def</span> <span class="nf">_get_static_defaults</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the default values for static disturbance columns.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary containing the default values for each static disturbance column.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">static_cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_static_disturbance_cols</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">col</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">static_cols</span><span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="DisturbUtils._generate_row">
+<a class="viewcode-back" href="../../../../../autoapi/goblin_cbm_runner/cbm/data_processing/default_processing/disturnance_utils/index.html#goblin_cbm_runner.cbm.data_processing.default_processing.disturnance_utils.DisturbUtils._generate_row">[docs]</a>
+    <span class="k">def</span> <span class="nf">_generate_row</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">species</span><span class="p">,</span> <span class="n">forest_type</span><span class="p">,</span> <span class="n">soil</span><span class="p">,</span> <span class="n">yield_class</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">yr</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generates a row of data for a disturbance event.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            species (str): The species of the forest.</span>
+<span class="sd">            forest_type (str): The type of forest.</span>
+<span class="sd">            soil (str): The type of soil.</span>
+<span class="sd">            yield_class (str): The yield class of the forest.</span>
+<span class="sd">            dist (int): The disturbance type ID.</span>
+<span class="sd">            yr (int): The year of the disturbance event.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary containing the row data for the disturbance event.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">static_defaults</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_static_defaults</span><span class="p">()</span>
+        <span class="n">row_data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;Classifier1&quot;</span><span class="p">:</span> <span class="n">species</span><span class="p">,</span>
+            <span class="s2">&quot;Classifier2&quot;</span><span class="p">:</span> <span class="n">forest_type</span><span class="p">,</span>
+            <span class="s2">&quot;Classifier3&quot;</span><span class="p">:</span> <span class="n">soil</span><span class="p">,</span>
+            <span class="s2">&quot;Classifier4&quot;</span><span class="p">:</span> <span class="n">yield_class</span><span class="p">,</span>
+            <span class="s2">&quot;UsingID&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">&quot;sw_age_min&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">&quot;sw_age_max&quot;</span><span class="p">:</span> <span class="mi">210</span><span class="p">,</span>
+            <span class="s2">&quot;hw_age_min&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">&quot;hw_age_max&quot;</span><span class="p">:</span> <span class="mi">210</span><span class="p">,</span>
+            <span class="s2">&quot;MinYearsSinceDist&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">static_defaults</span><span class="p">,</span>
+            <span class="s2">&quot;Efficiency&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;SortType&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="s2">&quot;MeasureType&quot;</span><span class="p">:</span> <span class="s2">&quot;A&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Amount&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">&quot;DistTypeID&quot;</span><span class="p">:</span> <span class="n">dist</span><span class="p">,</span>
+            <span class="s2">&quot;Year&quot;</span><span class="p">:</span> <span class="n">yr</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">row_data</span></div>
+
+    
+<div class="viewcode-block" id="DisturbUtils._process_scenario_row_data">
+<a class="viewcode-back" href="../../../../../autoapi/goblin_cbm_runner/cbm/data_processing/default_processing/disturnance_utils/index.html#goblin_cbm_runner.cbm.data_processing.default_processing.disturnance_utils.DisturbUtils._process_scenario_row_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">_process_scenario_row_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row_data</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">dataframes</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Process the row data for a scenario based on the given context and dataframes.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            row_data (dict): The row data for the scenario.</span>
+<span class="sd">            context (dict): The context containing forest type and disturbance information.</span>
+<span class="sd">            dataframes (dict): The dataframes containing relevant data.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">forest_type</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;forest_type&quot;</span><span class="p">]</span>
+        <span class="n">dist</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;dist&quot;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">forest_type</span> <span class="o">==</span> <span class="s2">&quot;A&quot;</span> <span class="ow">and</span> <span class="n">dist</span> <span class="o">==</span> <span class="s2">&quot;DISTID4&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_handle_scenario_afforestation</span><span class="p">(</span><span class="n">row_data</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">dataframes</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">forest_type</span> <span class="o">==</span> <span class="s2">&quot;L&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_handle_legacy_scenario_forest</span><span class="p">(</span><span class="n">row_data</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">dataframes</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="DisturbUtils._process_row_data">
+<a class="viewcode-back" href="../../../../../autoapi/goblin_cbm_runner/cbm/data_processing/default_processing/disturnance_utils/index.html#goblin_cbm_runner.cbm.data_processing.default_processing.disturnance_utils.DisturbUtils._process_row_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">_process_row_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row_data</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">dataframes</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Process the row data based on the given context and dataframes.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            row_data (dict): The row data to be processed.</span>
+<span class="sd">            context (dict): The context containing forest type and disturbance information.</span>
+<span class="sd">            dataframes (dict): The dataframes used for processing.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">legacy_afforestation_end_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">forest_baseline_year</span>
+        <span class="n">forest_type</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;forest_type&quot;</span><span class="p">]</span>
+        <span class="n">dist</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;dist&quot;</span><span class="p">]</span>
+        <span class="n">year</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">forest_type</span> <span class="o">==</span> <span class="s2">&quot;A&quot;</span> <span class="ow">and</span> <span class="n">dist</span> <span class="o">==</span> <span class="s2">&quot;DISTID4&quot;</span> <span class="ow">and</span> <span class="n">year</span> <span class="o">&lt;</span> <span class="n">legacy_afforestation_end_year</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_handle_legacy_afforestation</span><span class="p">(</span><span class="n">row_data</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">dataframes</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">forest_type</span> <span class="o">==</span> <span class="s2">&quot;L&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_handle_legacy_forest</span><span class="p">(</span><span class="n">row_data</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">dataframes</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="DisturbUtils._handle_legacy_scenario_forest">
+<a class="viewcode-back" href="../../../../../autoapi/goblin_cbm_runner/cbm/data_processing/default_processing/disturnance_utils/index.html#goblin_cbm_runner.cbm.data_processing.default_processing.disturnance_utils.DisturbUtils._handle_legacy_scenario_forest">[docs]</a>
+    <span class="k">def</span> <span class="nf">_handle_legacy_scenario_forest</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row_data</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">dataframes</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handles the legacy scenario forest by updating the disturbance timing and setting the amount based on the area.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            row_data (dict): The row data for the disturbance.</span>
+<span class="sd">            context (dict): The context information for the disturbance.</span>
+<span class="sd">            dataframes (dict): The dataframes containing additional data.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;dist&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;DISTID4&quot;</span><span class="p">:</span>
+            <span class="n">row_data</span><span class="p">[</span><span class="s2">&quot;Amount&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_update_disturbance_timing</span><span class="p">(</span><span class="n">row_data</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">dataframes</span><span class="p">)</span>
+            <span class="n">area</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;area&quot;</span><span class="p">]</span>
+
+            <span class="n">row_data</span><span class="p">[</span><span class="s2">&quot;Amount&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">area</span></div>
+
+
+
+<div class="viewcode-block" id="DisturbUtils._handle_scenario_afforestation">
+<a class="viewcode-back" href="../../../../../autoapi/goblin_cbm_runner/cbm/data_processing/default_processing/disturnance_utils/index.html#goblin_cbm_runner.cbm.data_processing.default_processing.disturnance_utils.DisturbUtils._handle_scenario_afforestation">[docs]</a>
+    <span class="k">def</span> <span class="nf">_handle_scenario_afforestation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row_data</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">dataframes</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handle the scenario of afforestation.</span>
+
+<span class="sd">        This method calculates the amount of afforestation based on the given row data, context, and dataframes.</span>
+<span class="sd">        It retrieves the afforestation inventory, non-forest dictionary, species, yield class, soil, and configuration classifiers from the context and dataframes.</span>
+<span class="sd">        The amount of afforestation is calculated based on the afforestation value, yield class proportions, and classifier3 value.</span>
+<span class="sd">        If the classifier3 value matches the soil value, the amount is calculated using the afforestation value and yield class proportions.</span>
+<span class="sd">        If there is a TypeError during the calculation, the amount is set to 0.</span>
+<span class="sd">        If the classifier3 value does not match the soil value, the amount is set to 0.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        - row_data (dict): The row data for the afforestation scenario.</span>
+<span class="sd">        - context (dict): The context containing additional information for the calculation.</span>
+<span class="sd">        - dataframes (dict): The dataframes containing the afforestation inventory.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        - None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">afforestation_inventory</span> <span class="o">=</span> <span class="n">dataframes</span><span class="p">[</span><span class="s2">&quot;afforestation_inventory&quot;</span><span class="p">]</span>
+        <span class="n">non_forest_dict</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;non_forest_dict&quot;</span><span class="p">]</span>
+        <span class="n">species</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">]</span>
+        <span class="n">yield_class</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;yield_class&quot;</span><span class="p">]</span>
+        <span class="n">soil</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;soil&quot;</span><span class="p">]</span>
+        <span class="c1">#configuration_classifiers = context[&quot;configuration_classifiers&quot;]</span>
+
+        <span class="c1"># Safely get the value for species and soil, with a default of an empty dictionary</span>
+        <span class="n">species_dict</span> <span class="o">=</span> <span class="n">non_forest_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">species</span><span class="p">,</span> <span class="p">{})</span>
+
+        <span class="n">row_data</span><span class="p">[</span><span class="s2">&quot;Classifier1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">species_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">soil</span><span class="p">,</span> <span class="s2">&quot;Species not found&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">row_data</span><span class="p">[</span><span class="s2">&quot;Classifier3&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">soil</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># Navigate through the nested dictionaries safely with .get</span>
+                <span class="n">species_inventory</span> <span class="o">=</span> <span class="n">afforestation_inventory</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">species</span><span class="p">,</span> <span class="p">{})</span>
+                <span class="n">yield_class_dict</span> <span class="o">=</span> <span class="n">species_inventory</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">yield_class</span><span class="p">,</span> <span class="p">{})</span>
+                <span class="n">afforestation_value</span> <span class="o">=</span> <span class="n">yield_class_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">soil</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># Default to 0 if soil key is not found</span>
+
+                <span class="n">row_data</span><span class="p">[</span><span class="s2">&quot;Amount&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">afforestation_value</span>
+
+            <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+                <span class="n">row_data</span><span class="p">[</span><span class="s2">&quot;Amount&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">row_data</span><span class="p">[</span><span class="s2">&quot;Amount&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span></div>
+
+
+
+<div class="viewcode-block" id="DisturbUtils._handle_legacy_afforestation">
+<a class="viewcode-back" href="../../../../../autoapi/goblin_cbm_runner/cbm/data_processing/default_processing/disturnance_utils/index.html#goblin_cbm_runner.cbm.data_processing.default_processing.disturnance_utils.DisturbUtils._handle_legacy_afforestation">[docs]</a>
+    <span class="k">def</span> <span class="nf">_handle_legacy_afforestation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row_data</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">dataframes</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handles legacy afforestation by updating the row data with the appropriate classifier and amount.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            row_data (dict): The row data to be updated.</span>
+<span class="sd">            context (dict): The context containing species, yield class, year, and soil information.</span>
+<span class="sd">            dataframes (dict): A dictionary of dataframes containing the legacy afforestation inventory.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">non_forest_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_non_forest_dict</span><span class="p">()</span>
+        <span class="n">legacy_afforestation_inventory</span> <span class="o">=</span> <span class="n">dataframes</span><span class="p">[</span><span class="s2">&quot;legacy_afforestation_inventory&quot;</span><span class="p">]</span>
+        <span class="n">species</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">]</span>
+        <span class="n">yield_class</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;yield_class&quot;</span><span class="p">]</span>
+        <span class="n">yr</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]</span>
+        <span class="n">soil</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;soil&quot;</span><span class="p">]</span>
+
+        <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">legacy_afforestation_inventory</span><span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">species</span><span class="p">)</span>
+            <span class="o">&amp;</span> <span class="p">(</span><span class="n">legacy_afforestation_inventory</span><span class="p">[</span><span class="s2">&quot;yield_class&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">yield_class</span><span class="p">)</span>
+            <span class="o">&amp;</span> <span class="p">(</span><span class="n">legacy_afforestation_inventory</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">yr</span><span class="p">)</span>
+            <span class="o">&amp;</span> <span class="p">(</span><span class="n">legacy_afforestation_inventory</span><span class="p">[</span><span class="s2">&quot;soil&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">soil</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">row_data</span><span class="p">[</span><span class="s2">&quot;Classifier1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">non_forest_dict</span><span class="p">[</span><span class="n">species</span><span class="p">][</span><span class="n">soil</span><span class="p">]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">row_data</span><span class="p">[</span><span class="s2">&quot;Amount&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">legacy_afforestation_inventory</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="s2">&quot;area_ha&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="n">row_data</span><span class="p">[</span><span class="s2">&quot;Amount&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span></div>
+
+      
+
+<div class="viewcode-block" id="DisturbUtils._handle_legacy_forest">
+<a class="viewcode-back" href="../../../../../autoapi/goblin_cbm_runner/cbm/data_processing/default_processing/disturnance_utils/index.html#goblin_cbm_runner.cbm.data_processing.default_processing.disturnance_utils.DisturbUtils._handle_legacy_forest">[docs]</a>
+    <span class="k">def</span> <span class="nf">_handle_legacy_forest</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row_data</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">dataframes</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handles legacy forest data by updating disturbance timing and populating row data with relevant information.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            row_data (dict): The row data to be updated with disturbance information.</span>
+<span class="sd">            context (dict): The context containing relevant information for the disturbance handling.</span>
+<span class="sd">            dataframes (dict): A dictionary of dataframes containing disturbance data.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># ... logic for legacy forest ...</span>
+        <span class="c1"># This includes your logic for DISTID3, DISTID1, DISTID2, and the else block</span>
+
+        <span class="n">dist</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;dist&quot;</span><span class="p">]</span>
+        <span class="n">disturbance_dataframe</span> <span class="o">=</span> <span class="n">dataframes</span><span class="p">[</span><span class="s2">&quot;disturbance_dataframe&quot;</span><span class="p">]</span>
+        <span class="n">species</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">]</span>
+        <span class="n">yield_class</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;yield_class&quot;</span><span class="p">]</span>
+        <span class="n">yr</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]</span>
+        <span class="n">forest_baseline_year</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;forest_baseline_year&quot;</span><span class="p">]</span>
+
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_update_disturbance_timing</span><span class="p">(</span><span class="n">row_data</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">dataframes</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">dist</span> <span class="o">==</span> <span class="s2">&quot;DISTID3&quot;</span><span class="p">:</span>
+            <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="p">(</span><span class="n">disturbance_dataframe</span><span class="p">[</span><span class="s2">&quot;Species&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;?&quot;</span><span class="p">)</span>
+                <span class="o">&amp;</span> <span class="p">(</span><span class="n">disturbance_dataframe</span><span class="p">[</span><span class="s2">&quot;Yield_class&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;?&quot;</span><span class="p">)</span>
+                <span class="o">&amp;</span> <span class="p">(</span>
+                    <span class="n">disturbance_dataframe</span><span class="p">[</span><span class="s2">&quot;Year&quot;</span><span class="p">]</span>
+                    <span class="o">==</span> <span class="p">(</span><span class="n">forest_baseline_year</span> <span class="o">+</span> <span class="n">yr</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="o">&amp;</span> <span class="p">(</span><span class="n">disturbance_dataframe</span><span class="p">[</span><span class="s2">&quot;Disturbance_id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">dist</span><span class="p">)</span>
+            <span class="p">)</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">row_data</span><span class="p">[</span><span class="s2">&quot;Amount&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">disturbance_dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+                    <span class="n">mask</span><span class="p">,</span> <span class="s2">&quot;Amount&quot;</span>
+                <span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+                <span class="n">row_data</span><span class="p">[</span><span class="s2">&quot;MeasureType&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">disturbance_dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+                    <span class="n">mask</span><span class="p">,</span> <span class="s2">&quot;M_type&quot;</span>
+                <span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+                <span class="n">row_data</span><span class="p">[</span><span class="s2">&quot;SortType&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">disturbance_dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+                    <span class="n">mask</span><span class="p">,</span> <span class="s2">&quot;SortType&quot;</span>
+                <span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="n">row_data</span><span class="p">[</span><span class="s2">&quot;Amount&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+            
+
+
+        <span class="k">elif</span> <span class="p">(</span>
+                <span class="n">dist</span> <span class="o">==</span> <span class="s2">&quot;DISTID1&quot;</span> <span class="ow">or</span> <span class="n">dist</span> <span class="o">==</span> <span class="s2">&quot;DISTID2&quot;</span>
+            <span class="p">):</span>
+            <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="p">(</span><span class="n">disturbance_dataframe</span><span class="p">[</span><span class="s2">&quot;Species&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">species</span><span class="p">)</span>
+                    <span class="o">&amp;</span> <span class="p">(</span><span class="n">disturbance_dataframe</span><span class="p">[</span><span class="s2">&quot;Yield_class&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">yield_class</span><span class="p">)</span>
+                    <span class="o">&amp;</span> <span class="p">(</span>
+                        <span class="n">disturbance_dataframe</span><span class="p">[</span><span class="s2">&quot;Year&quot;</span><span class="p">]</span>
+                        <span class="o">==</span> <span class="p">(</span><span class="n">forest_baseline_year</span> <span class="o">+</span> <span class="n">yr</span><span class="p">)</span>
+                    <span class="p">)</span>
+                    <span class="o">&amp;</span> <span class="p">(</span><span class="n">disturbance_dataframe</span><span class="p">[</span><span class="s2">&quot;Disturbance_id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">dist</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="n">row_data</span><span class="p">[</span><span class="s2">&quot;Classifier1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">species</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">row_data</span><span class="p">[</span><span class="s2">&quot;Amount&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">disturbance_dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+                    <span class="n">mask</span><span class="p">,</span> <span class="s2">&quot;Amount&quot;</span>
+                <span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+                <span class="n">row_data</span><span class="p">[</span><span class="s2">&quot;MeasureType&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">disturbance_dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+                    <span class="n">mask</span><span class="p">,</span> <span class="s2">&quot;M_type&quot;</span>
+                <span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+                <span class="n">row_data</span><span class="p">[</span><span class="s2">&quot;SortType&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">disturbance_dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+                    <span class="n">mask</span><span class="p">,</span> <span class="s2">&quot;SortType&quot;</span>
+                <span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+                
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="n">row_data</span><span class="p">[</span><span class="s2">&quot;Amount&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">row_data</span><span class="p">[</span><span class="s2">&quot;Classifier1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">species</span>
+            <span class="n">row_data</span><span class="p">[</span><span class="s2">&quot;Amount&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span></div>
+
+
+    
+<div class="viewcode-block" id="DisturbUtils._update_disturbance_timing">
+<a class="viewcode-back" href="../../../../../autoapi/goblin_cbm_runner/cbm/data_processing/default_processing/disturnance_utils/index.html#goblin_cbm_runner.cbm.data_processing.default_processing.disturnance_utils.DisturbUtils._update_disturbance_timing">[docs]</a>
+    <span class="k">def</span> <span class="nf">_update_disturbance_timing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row_data</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">dataframes</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve disturbance timing information from the disturbance_timing DataFrame.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            row_data (dict): The dictionary containing row data.</span>
+<span class="sd">            context (dict): The dictionary containing context information.</span>
+<span class="sd">            dataframes (dict): The dictionary containing dataframes.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If any of the operations fail due to invalid values.</span>
+<span class="sd">            KeyError: If any of the required keys are not found.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">yield_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">yield_name_dict</span>
+        <span class="n">species</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">]</span>
+        <span class="n">yield_class</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;yield_class&quot;</span><span class="p">]</span>
+        <span class="n">dist</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;dist&quot;</span><span class="p">]</span>
+        <span class="n">disturbance_timing</span> <span class="o">=</span> <span class="n">dataframes</span><span class="p">[</span><span class="s2">&quot;disturbance_timing&quot;</span><span class="p">]</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">timing_info</span> <span class="o">=</span> <span class="n">disturbance_timing</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+                <span class="p">(</span><span class="n">disturbance_timing</span><span class="o">.</span><span class="n">index</span> <span class="o">==</span> <span class="n">yield_name</span><span class="p">[</span><span class="n">species</span><span class="p">][</span><span class="n">yield_class</span><span class="p">])</span>
+                <span class="o">&amp;</span> <span class="p">(</span><span class="n">disturbance_timing</span><span class="p">[</span><span class="s2">&quot;disturbance_id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">dist</span><span class="p">)</span>
+            <span class="p">]</span>
+           
+            <span class="n">row_data</span><span class="p">[</span><span class="s1">&#39;sw_age_min&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">timing_info</span><span class="p">[</span><span class="s1">&#39;sw_age_min&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+            <span class="n">row_data</span><span class="p">[</span><span class="s1">&#39;sw_age_max&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">timing_info</span><span class="p">[</span><span class="s1">&#39;sw_age_max&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+            <span class="n">row_data</span><span class="p">[</span><span class="s1">&#39;hw_age_min&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">timing_info</span><span class="p">[</span><span class="s1">&#39;hw_age_min&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+            <span class="n">row_data</span><span class="p">[</span><span class="s1">&#39;hw_age_max&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">timing_info</span><span class="p">[</span><span class="s1">&#39;hw_age_max&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+            <span class="n">row_data</span><span class="p">[</span><span class="s1">&#39;MinYearsSinceDist&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">timing_info</span><span class="p">[</span><span class="s1">&#39;min years since dist&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+          
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">KeyError</span><span class="p">):</span>
+            <span class="c1"># Default values if any of the above operations fail</span>
+            
+            <span class="n">row_data</span><span class="p">[</span><span class="s1">&#39;sw_age_min&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">row_data</span><span class="p">[</span><span class="s1">&#39;sw_age_max&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">210</span>
+            <span class="n">row_data</span><span class="p">[</span><span class="s1">&#39;hw_age_min&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">row_data</span><span class="p">[</span><span class="s1">&#39;hw_age_max&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">210</span>
+            <span class="n">row_data</span><span class="p">[</span><span class="s1">&#39;MinYearsSinceDist&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Colm Duffy.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

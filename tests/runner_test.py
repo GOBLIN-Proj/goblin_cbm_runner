@@ -26,13 +26,19 @@ def main():
     runner = Runner(config, calibration_year, afforest_data, sc_data)
 
     # generation of data for each of the scenarios
-    runner.generate_input_data()
+    #runner.generate_input_data()
 
     # generation of aggregated results
-    runner.run_aggregate_scenarios().to_csv(os.path.join(results_path, "c_aggregate.csv"))
+    #runner.run_aggregate_scenarios().to_csv(os.path.join(results_path, "c_aggregate.csv"))
 
     # generation of annual flux results
     runner.run_flux_scenarios().to_csv(os.path.join(results_path, "c_flux.csv"))
+
+
+    sep_runs = runner.run_sep_flux_scenarios()
+
+    for key, value in sep_runs.items():
+        value.to_csv(os.path.join(results_path, key + ".csv"))
 
 
 if __name__ == "__main__":

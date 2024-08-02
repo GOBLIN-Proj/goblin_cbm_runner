@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Example Usage &mdash; goblin_cbm_runner 0.3.5 documentation</title>
+  <title>Example Usage &mdash; goblin_cbm_runner 0.4.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -17,13 +17,13 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=ba50482b"></script>
+        <script src="_static/documentation_options.js?v=6c02275b"></script>
         <script src="_static/doctools.js?v=888ff710"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="cbm_validation.validation_runner" href="autoapi/cbm_validation/validation_runner/index.html" /> 
+    <link rel="prev" title="goblin_cbm_runner.resource_manager.scenario_data_fetcher" href="autoapi/goblin_cbm_runner/resource_manager/scenario_data_fetcher/index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -137,6 +137,19 @@
 <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="s2">&quot;jupyter_example&quot;</span><span class="p">)</span>
 
 <span class="n">data_path</span> <span class="o">=</span> <span class="s2">&quot;./jupyter_example/&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">FileExistsError</span><span class="g g-Whitespace">                           </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">21</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span> <span class="n">calibration_year</span> <span class="o">=</span> <span class="mi">2020</span>
+<span class="g g-Whitespace">     </span><span class="mi">19</span> <span class="c1">#Make directory to store exported file</span>
+<span class="ne">---&gt; </span><span class="mi">21</span> <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="s2">&quot;jupyter_example&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">23</span> <span class="n">data_path</span> <span class="o">=</span> <span class="s2">&quot;./jupyter_example/&quot;</span>
+
+<span class="ne">FileExistsError</span>: [Errno 17] File exists: &#39;jupyter_example&#39;
 </pre></div>
 </div>
 </div>
@@ -308,10 +321,7 @@
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># generation of data for each of the scenarios</span>
-<span class="n">runner</span><span class="o">.</span><span class="n">generate_input_data</span><span class="p">()</span>
-
-<span class="c1"># generation of aggregated results</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># generation of aggregated results</span>
 <span class="n">runner</span><span class="o">.</span><span class="n">run_aggregate_scenarios</span><span class="p">()</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="s2">&quot;c_stock.csv&quot;</span><span class="p">))</span>
 
 <span class="c1"># generation of annual flux results</span>
@@ -364,7 +374,6 @@
       <th>Deadwood</th>
       <th>Litter</th>
       <th>Soil</th>
-      <th>Harvest</th>
       <th>Total Ecosystem</th>
       <th>Scenario</th>
     </tr>
@@ -372,62 +381,57 @@
   <tbody>
     <tr>
       <th>0</th>
-      <td>2016</td>
-      <td>4.357770e+07</td>
-      <td>9.475189e+06</td>
-      <td>1.294692e+07</td>
-      <td>8.716852e+06</td>
-      <td>3.187994e+09</td>
-      <td>3.975884e+07</td>
-      <td>3.262711e+09</td>
+      <td>2019</td>
+      <td>4.514063e+07</td>
+      <td>1.008655e+07</td>
+      <td>5.315835e+07</td>
+      <td>8.388287e+06</td>
+      <td>3.874221e+07</td>
+      <td>1.555160e+08</td>
       <td>-1</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>2017</td>
-      <td>4.484903e+07</td>
-      <td>9.738191e+06</td>
-      <td>1.293360e+07</td>
-      <td>8.746179e+06</td>
-      <td>3.188005e+09</td>
-      <td>4.039706e+07</td>
-      <td>3.264272e+09</td>
+      <td>2020</td>
+      <td>4.610093e+07</td>
+      <td>1.029068e+07</td>
+      <td>5.211839e+07</td>
+      <td>8.830165e+06</td>
+      <td>3.877506e+07</td>
+      <td>1.561152e+08</td>
       <td>-1</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>2018</td>
-      <td>4.560355e+07</td>
-      <td>9.886674e+06</td>
-      <td>1.301318e+07</td>
-      <td>8.968899e+06</td>
-      <td>3.188022e+09</td>
-      <td>4.130728e+07</td>
-      <td>3.265494e+09</td>
+      <td>2021</td>
+      <td>4.745335e+07</td>
+      <td>1.057998e+07</td>
+      <td>5.107502e+07</td>
+      <td>9.038926e+06</td>
+      <td>3.880305e+07</td>
+      <td>1.569503e+08</td>
       <td>-1</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>2019</td>
-      <td>4.635889e+07</td>
-      <td>1.004693e+07</td>
-      <td>1.306540e+07</td>
-      <td>9.184969e+06</td>
-      <td>3.188039e+09</td>
-      <td>4.222309e+07</td>
-      <td>3.266695e+09</td>
+      <td>2022</td>
+      <td>4.841501e+07</td>
+      <td>1.078096e+07</td>
+      <td>5.011462e+07</td>
+      <td>9.337436e+06</td>
+      <td>3.883307e+07</td>
+      <td>1.574811e+08</td>
       <td>-1</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>2020</td>
-      <td>4.695653e+07</td>
-      <td>1.016251e+07</td>
-      <td>1.314828e+07</td>
-      <td>9.397031e+06</td>
-      <td>3.188057e+09</td>
-      <td>4.325081e+07</td>
-      <td>3.267721e+09</td>
+      <td>2023</td>
+      <td>4.951853e+07</td>
+      <td>1.101266e+07</td>
+      <td>4.917845e+07</td>
+      <td>9.538436e+06</td>
+      <td>3.886076e+07</td>
+      <td>1.581088e+08</td>
       <td>-1</td>
     </tr>
     <tr>
@@ -440,71 +444,65 @@
       <td>...</td>
       <td>...</td>
       <td>...</td>
-      <td>...</td>
     </tr>
     <tr>
-      <th>100</th>
+      <th>91</th>
       <td>2046</td>
-      <td>1.147703e+08</td>
-      <td>2.907897e+07</td>
-      <td>1.758812e+07</td>
-      <td>2.594163e+07</td>
-      <td>6.649725e+10</td>
-      <td>8.109952e+07</td>
-      <td>6.668463e+10</td>
+      <td>1.459660e+08</td>
+      <td>3.527904e+07</td>
+      <td>3.796185e+07</td>
+      <td>2.825003e+07</td>
+      <td>4.334884e+07</td>
+      <td>2.908057e+08</td>
       <td>1</td>
     </tr>
     <tr>
-      <th>101</th>
+      <th>92</th>
       <td>2047</td>
-      <td>1.235569e+08</td>
-      <td>3.109408e+07</td>
-      <td>1.792991e+07</td>
-      <td>2.710534e+07</td>
-      <td>6.649743e+10</td>
-      <td>8.152053e+07</td>
-      <td>6.669711e+10</td>
+      <td>1.546247e+08</td>
+      <td>3.723611e+07</td>
+      <td>3.804406e+07</td>
+      <td>2.963456e+07</td>
+      <td>4.370675e+07</td>
+      <td>3.032462e+08</td>
       <td>1</td>
     </tr>
     <tr>
-      <th>102</th>
+      <th>93</th>
       <td>2048</td>
-      <td>1.326264e+08</td>
-      <td>3.315247e+07</td>
-      <td>1.835296e+07</td>
-      <td>2.840177e+07</td>
-      <td>6.649761e+10</td>
-      <td>8.199062e+07</td>
-      <td>6.671014e+10</td>
+      <td>1.635621e+08</td>
+      <td>3.924021e+07</td>
+      <td>3.819754e+07</td>
+      <td>3.109648e+07</td>
+      <td>4.407945e+07</td>
+      <td>3.161758e+08</td>
       <td>1</td>
     </tr>
     <tr>
-      <th>103</th>
+      <th>94</th>
       <td>2049</td>
-      <td>1.414677e+08</td>
-      <td>3.515031e+07</td>
-      <td>1.890815e+07</td>
-      <td>2.991879e+07</td>
-      <td>6.649781e+10</td>
-      <td>8.273417e+07</td>
-      <td>6.672325e+10</td>
+      <td>1.722594e+08</td>
+      <td>4.118567e+07</td>
+      <td>3.846841e+07</td>
+      <td>3.272559e+07</td>
+      <td>4.446854e+07</td>
+      <td>3.291076e+08</td>
       <td>1</td>
     </tr>
     <tr>
-      <th>104</th>
+      <th>95</th>
       <td>2050</td>
-      <td>1.503909e+08</td>
-      <td>3.715540e+07</td>
-      <td>1.952795e+07</td>
-      <td>3.148199e+07</td>
-      <td>6.649801e+10</td>
-      <td>8.355354e+07</td>
-      <td>6.673657e+10</td>
+      <td>1.808983e+08</td>
+      <td>4.311082e+07</td>
+      <td>3.882851e+07</td>
+      <td>3.440283e+07</td>
+      <td>4.487209e+07</td>
+      <td>3.421125e+08</td>
       <td>1</td>
     </tr>
   </tbody>
 </table>
-<p>105 rows × 9 columns</p>
+<p>96 rows × 8 columns</p>
 </div></div></div>
 </div>
 <div class="cell docutils container">
@@ -538,7 +536,6 @@
       <th>Deadwood</th>
       <th>Litter</th>
       <th>Soil</th>
-      <th>Harvest</th>
       <th>Total Ecosystem</th>
       <th>Scenario</th>
     </tr>
@@ -546,62 +543,57 @@
   <tbody>
     <tr>
       <th>0</th>
-      <td>2017</td>
-      <td>1.271791e+06</td>
-      <td>2.630409e+05</td>
-      <td>-13093.930295</td>
-      <td>2.887134e+04</td>
-      <td>10663.417037</td>
-      <td>6.382280e+05</td>
-      <td>1.561273e+06</td>
+      <td>2020</td>
+      <td>9.587128e+05</td>
+      <td>2.043476e+05</td>
+      <td>-1.040299e+06</td>
+      <td>4.458754e+05</td>
+      <td>33049.974730</td>
+      <td>6.016866e+05</td>
       <td>-1</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>2018</td>
-      <td>7.675901e+05</td>
-      <td>1.507352e+05</td>
-      <td>74533.140737</td>
-      <td>2.216735e+05</td>
-      <td>16853.028902</td>
-      <td>9.102110e+05</td>
-      <td>1.231385e+06</td>
+      <td>2021</td>
+      <td>1.350651e+06</td>
+      <td>2.892071e+05</td>
+      <td>-1.039965e+06</td>
+      <td>2.098019e+05</td>
+      <td>28173.676362</td>
+      <td>8.378685e+05</td>
       <td>-1</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>2019</td>
-      <td>7.657093e+05</td>
-      <td>1.627728e+05</td>
-      <td>49928.958854</td>
-      <td>2.127998e+05</td>
-      <td>16955.364481</td>
-      <td>9.138811e+05</td>
-      <td>1.208166e+06</td>
+      <td>2022</td>
+      <td>9.518484e+05</td>
+      <td>1.992411e+05</td>
+      <td>-9.578365e+05</td>
+      <td>3.046261e+05</td>
+      <td>30219.430345</td>
+      <td>5.280986e+05</td>
       <td>-1</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>2020</td>
-      <td>5.978100e+05</td>
-      <td>1.160772e+05</td>
-      <td>82325.277008</td>
-      <td>2.148134e+05</td>
-      <td>18409.620003</td>
-      <td>1.027711e+06</td>
-      <td>1.029436e+06</td>
+      <td>2023</td>
+      <td>1.103163e+06</td>
+      <td>2.320931e+05</td>
+      <td>-9.367093e+05</td>
+      <td>2.014862e+05</td>
+      <td>27734.597669</td>
+      <td>6.277673e+05</td>
       <td>-1</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>2021</td>
-      <td>6.318957e+05</td>
-      <td>1.202313e+05</td>
-      <td>90129.252695</td>
-      <td>1.610438e+05</td>
-      <td>17940.149045</td>
-      <td>1.004946e+06</td>
-      <td>1.021240e+06</td>
+      <td>2024</td>
+      <td>1.026164e+06</td>
+      <td>2.137390e+05</td>
+      <td>-9.062663e+05</td>
+      <td>1.911245e+05</td>
+      <td>28610.325672</td>
+      <td>5.533716e+05</td>
       <td>-1</td>
     </tr>
     <tr>
@@ -614,71 +606,65 @@
       <td>...</td>
       <td>...</td>
       <td>...</td>
-      <td>...</td>
     </tr>
     <tr>
-      <th>97</th>
+      <th>88</th>
       <td>2046</td>
-      <td>8.406250e+06</td>
-      <td>1.943085e+06</td>
-      <td>279334.683151</td>
-      <td>1.046269e+06</td>
-      <td>169454.640335</td>
-      <td>4.268020e+05</td>
-      <td>1.184439e+07</td>
+      <td>8.292969e+06</td>
+      <td>1.890187e+06</td>
+      <td>1.869218e+04</td>
+      <td>1.341082e+06</td>
+      <td>343976.729581</td>
+      <td>1.188691e+07</td>
       <td>1</td>
     </tr>
     <tr>
-      <th>98</th>
+      <th>89</th>
       <td>2047</td>
-      <td>8.786350e+06</td>
-      <td>2.015134e+06</td>
-      <td>344560.890410</td>
-      <td>1.161404e+06</td>
-      <td>177185.587791</td>
-      <td>4.173122e+05</td>
-      <td>1.248464e+07</td>
+      <td>8.661906e+06</td>
+      <td>1.957859e+06</td>
+      <td>7.975046e+04</td>
+      <td>1.383848e+06</td>
+      <td>357918.851730</td>
+      <td>1.244128e+07</td>
       <td>1</td>
     </tr>
     <tr>
-      <th>99</th>
+      <th>90</th>
       <td>2048</td>
-      <td>9.060956e+06</td>
-      <td>2.056556e+06</td>
-      <td>428634.287667</td>
-      <td>1.296681e+06</td>
-      <td>185663.315460</td>
-      <td>4.702737e+05</td>
-      <td>1.302849e+07</td>
+      <td>8.910767e+06</td>
+      <td>1.998299e+06</td>
+      <td>1.658827e+05</td>
+      <td>1.467204e+06</td>
+      <td>372833.721457</td>
+      <td>1.291499e+07</td>
       <td>1</td>
     </tr>
     <tr>
-      <th>100</th>
+      <th>91</th>
       <td>2049</td>
-      <td>8.838059e+06</td>
-      <td>1.997216e+06</td>
-      <td>551019.470591</td>
-      <td>1.518530e+06</td>
-      <td>195733.277328</td>
-      <td>7.465091e+05</td>
-      <td>1.310056e+07</td>
+      <td>8.663388e+06</td>
+      <td>1.938492e+06</td>
+      <td>2.822577e+05</td>
+      <td>1.636610e+06</td>
+      <td>389239.147685</td>
+      <td>1.290999e+07</td>
       <td>1</td>
     </tr>
     <tr>
-      <th>101</th>
+      <th>92</th>
       <td>2050</td>
-      <td>8.913428e+06</td>
-      <td>2.003023e+06</td>
-      <td>624493.089891</td>
-      <td>1.562793e+06</td>
-      <td>202408.515152</td>
-      <td>8.191217e+05</td>
-      <td>1.330615e+07</td>
+      <td>8.619472e+06</td>
+      <td>1.921057e+06</td>
+      <td>3.584862e+05</td>
+      <td>1.680380e+06</td>
+      <td>403651.873974</td>
+      <td>1.298305e+07</td>
       <td>1</td>
     </tr>
   </tbody>
 </table>
-<p>102 rows × 9 columns</p>
+<p>93 rows × 8 columns</p>
 </div></div></div>
 </div>
 </section>
@@ -713,7 +699,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/2db3b99f0be6dee3011b4fc2bb2905c4d5e5f090f77432810d2512c7fe3babf7.png" src="_images/2db3b99f0be6dee3011b4fc2bb2905c4d5e5f090f77432810d2512c7fe3babf7.png" />
+<img alt="_images/ccfaed4450a2ed9992c53ba4ccc31291c68e28a1c7fb867c2ffa707a12b2fc18.png" src="_images/ccfaed4450a2ed9992c53ba4ccc31291c68e28a1c7fb867c2ffa707a12b2fc18.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -747,7 +733,7 @@ Deleted file: ./jupyter_example/c_stock.csv
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="autoapi/cbm_validation/validation_runner/index.html" class="btn btn-neutral float-left" title="cbm_validation.validation_runner" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="autoapi/goblin_cbm_runner/resource_manager/scenario_data_fetcher/index.html" class="btn btn-neutral float-left" title="goblin_cbm_runner.resource_manager.scenario_data_fetcher" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

@@ -6,7 +6,19 @@ __pycache__/
 # Specific folders
 artifact/
 hpc/
-tests/validation_results/*.csv
+tests/data/validation_results/*.csv
+tests/data/validation_results/*.png
+tests/data/geo_cbm_results/*.csv
+tests/data/geo_cbm_results/*.png
+tests/data/runner_results/*.csv
+tests/data/runner_results/*.png
+tests/data/historic_affor_results/*.csv
+tests/data/historic_affor_results/*.png
+tests/data/dist_test_results/*.csv
+tests/data/dist_test_results/*.png
+tests/data/cbm_afforestation_results/*.csv
+tests/data/cbm_afforestation_results/*.png
+
 
 # C extensions
 *.so

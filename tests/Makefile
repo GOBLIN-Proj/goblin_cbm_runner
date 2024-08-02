@@ -1,6 +1,6 @@
 PYTHON = python
 
-test: historic_test example geo_example runner_test forsim_example
+test: historic_test example geo_example runner_test
 
 
 historic_test:		
@@ -11,5 +11,3 @@ geo_example:
 	$(PYTHON) geo_example.py
 runner_test:
 	$(PYTHON) runner_test.py
-forsim_example:
-	$(PYTHON) forsim_example.py

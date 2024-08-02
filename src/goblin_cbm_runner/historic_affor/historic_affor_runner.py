@@ -7,11 +7,11 @@ This class is designed to facilitate the execution of Carbon Budget Model (CBM) 
 
 The module is intended largely for validation of historic afforestation input data, leveraging a suite of data management and simulation tools to prepare, execute, and analyze CBM simulations.
 """
-from goblin_cbm_runner.cbm.cbm_data_factory import DataFactory
+from goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory import DataFactory
 from goblin_cbm_runner.resource_manager.cbm_runner_data_manager import DataManager
 from goblin_cbm_runner.resource_manager.scenario_data_fetcher import ScenarioDataFetcher
 from goblin_cbm_runner.resource_manager.paths import Paths
-from goblin_cbm_runner.cbm.cbm_methods import CBMSim
+from goblin_cbm_runner.cbm.methods.cbm_methods import CBMSim
 
 
 import pandas as pd

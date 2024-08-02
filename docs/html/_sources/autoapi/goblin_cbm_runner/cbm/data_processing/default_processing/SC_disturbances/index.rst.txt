@@ -1,0 +1,120 @@
+:py:mod:`goblin_cbm_runner.cbm.data_processing.default_processing.SC_disturbances`
+==================================================================================
+
+.. py:module:: goblin_cbm_runner.cbm.data_processing.default_processing.SC_disturbances
+
+.. autoapi-nested-parse::
+
+   SC Disturbances Module
+   ======================
+   This module is responsible for managing disturbances within a CBM (Carbon Budget Modeling) model.
+
+   It manages the creation of the disturbance input for land use areas generated as part of scenarios.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   goblin_cbm_runner.cbm.data_processing.default_processing.SC_disturbances.SCDisturbances
+
+
+
+
+.. py:class:: SCDisturbances(config_path, calibration_year, forest_end_year, afforestation_data, scenario_data)
+
+
+   Manages disturbances within a CBM (Carbon Budget Model) model, addressing both legacy and scenario-based disturbances.
+   This class plays a pivotal role in simulating the impact of disturbances on forest carbon stocks and fluxes,
+   adapting to user-defined management strategies and afforestation scenarios.
+
+   .. attribute:: forest_end_year
+
+      The final year for simulation, defining the temporal boundary for scenario execution.
+
+      :type: int
+
+   .. attribute:: calibration_year
+
+      The initial year for data calibration.
+
+      :type: int
+
+   .. attribute:: loader_class
+
+      Instance of Loader for loading data from various sources.
+
+      :type: Loader
+
+   .. attribute:: utils_class
+
+      Instance of DisturbUtils for managing disturbance data.
+
+      :type: DisturbUtils
+
+   .. attribute:: data_manager_class
+
+      Instance of DataManager for managing simulation data and configurations.
+
+      :type: DataManager
+
+   .. attribute:: afforestation_data
+
+      Detailed data of afforestation activities per scenario.
+
+      :type: DataFrame
+
+   .. attribute:: inventory_class
+
+      Instance of Inventory for managing inventory data.
+
+      :type: Inventory
+
+   .. attribute:: disturbance_timing
+
+      Dataframe containing disturbance timing information.
+
+      :type: DataFrame
+
+   .. attribute:: scenario_disturbance_dict
+
+      Dictionary containing scenario disturbance data.
+
+      :type: dict
+
+   :param config_path: Configuration path for setting up CBM simulations.
+   :type config_path: str
+   :param calibration_year: The initial year for data calibration.
+   :type calibration_year: int
+   :param forest_end_year: The final year for simulation, defining the temporal boundary for scenario execution.
+   :type forest_end_year: int
+   :param afforestation_data: Detailed data of afforestation activities per scenario.
+   :type afforestation_data: DataFrame
+
+   .. py:method:: scenario_afforestation_area(scenario)
+
+      Calculates the afforestation area for a given scenario.
+
+      :param scenario: The scenario to calculate afforestation for.
+      :type scenario: str
+
+      :returns: A dictionary with species as keys and afforestation areas as values.
+      :rtype: dict
+
+
+   .. py:method:: fill_scenario_data(scenario)
+
+      Fills the disturbance data for a given scenario. The final dataframe will include the data from legacy afforestation (afforestation from 1990)
+      as well as user defined scenario data.
+
+      :param scenario: The scenario for which to fill the disturbance data.
+
+      :returns: The disturbance data DataFrame after filling with scenario data.
+
+
+

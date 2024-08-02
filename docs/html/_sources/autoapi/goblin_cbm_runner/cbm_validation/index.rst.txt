@@ -1,0 +1,16 @@
+:py:mod:`goblin_cbm_runner.cbm_validation`
+==========================================
+
+.. py:module:: goblin_cbm_runner.cbm_validation
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   validation/index.rst
+   validation_runner/index.rst
+
+

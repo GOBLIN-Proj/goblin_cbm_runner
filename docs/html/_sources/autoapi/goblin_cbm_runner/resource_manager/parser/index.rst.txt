@@ -1,0 +1,149 @@
+:py:mod:`goblin_cbm_runner.resource_manager.parser`
+===================================================
+
+.. py:module:: goblin_cbm_runner.resource_manager.parser
+
+.. autoapi-nested-parse::
+
+   Parser
+   ======
+   The parser module contains functions for parsing the classifiers dictionary.
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   goblin_cbm_runner.resource_manager.parser.get_classifier_list
+   goblin_cbm_runner.resource_manager.parser.get_age_classifier
+   goblin_cbm_runner.resource_manager.parser.get_inventory_species
+   goblin_cbm_runner.resource_manager.parser.get_yield_class_proportions
+   goblin_cbm_runner.resource_manager.parser.get_disturbance_type
+   goblin_cbm_runner.resource_manager.parser.get_runner_clearfell_baseline
+   goblin_cbm_runner.resource_manager.parser.get_runner_clearfell_scenario
+   goblin_cbm_runner.resource_manager.parser.get_runner_thinning_baseline
+   goblin_cbm_runner.resource_manager.parser.get_runner_thinning_scenario
+
+
+
+.. py:function:: get_classifier_list(classifiers)
+
+   Get a list of classifiers.
+
+   :param classifiers: A dictionary containing classifiers.
+   :type classifiers: dict
+
+   :returns: A list of classifiers.
+   :rtype: list
+
+
+.. py:function:: get_age_classifier(classifiers)
+
+   Get the age classifier.
+
+   :param classifiers: A dictionary containing classifiers.
+   :type classifiers: dict
+
+   :returns: A dictionary representing the age classifier.
+   :rtype: dict
+
+
+.. py:function:: get_inventory_species(classifiers)
+
+   Get the inventory species.
+
+   :param classifiers: A dictionary containing classifiers.
+   :type classifiers: dict
+
+   :returns: A list of inventory species.
+   :rtype: list
+
+
+.. py:function:: get_yield_class_proportions(classifiers, species_name, yield_class)
+
+   Get the yield class proportions for a given species and yield class.
+
+   :param classifiers: A dictionary containing classifiers.
+   :type classifiers: dict
+   :param species_name: The name of the species.
+   :type species_name: str
+   :param yield_class: The yield class.
+   :type yield_class: str
+
+   :returns: The yield class proportions.
+   :rtype: float
+
+
+.. py:function:: get_disturbance_type(classifiers)
+
+   Get the disturbance types.
+
+   :param classifiers: A dictionary containing classifiers.
+   :type classifiers: dict
+
+   :returns: A dictionary representing the disturbance types.
+   :rtype: dict
+
+
+.. py:function:: get_runner_clearfell_baseline(classifiers, species_type)
+
+   Get the clearfell baseline.
+
+   :param classifiers: A dictionary containing classifiers.
+   :type classifiers: dict
+   :param species_type: The species type.
+   :type species_type: str
+
+   :returns: The clearfell baseline value for the specified species type.
+             None: Returns None if the species type is not found or if an error occurs.
+   :rtype: float
+
+
+.. py:function:: get_runner_clearfell_scenario(classifiers, species_type)
+
+   Get the clearfell scenario.
+
+   :param classifiers: A dictionary containing classifiers.
+   :type classifiers: dict
+   :param species_type: The species type.
+   :type species_type: str
+
+   :returns: The clearfell baseline value for the specified species type.
+             None: Returns None if the species type is not found or if an error occurs.
+   :rtype: float
+
+
+.. py:function:: get_runner_thinning_baseline(classifiers, species_type)
+
+   Get the thinning baseline.
+
+   :param classifiers: A dictionary containing classifiers.
+   :type classifiers: dict
+   :param species_type: The species type.
+   :type species_type: str
+
+   :returns: The thinning baseline value for the specified species type.
+             None: Returns None if the species type is not found or if an error occurs.
+   :rtype: float
+
+
+.. py:function:: get_runner_thinning_scenario(classifiers, species_type)
+
+   Get the thinning scenario.
+
+   :param classifiers: A dictionary containing classifiers.
+   :type classifiers: dict
+   :param species_type: The species type.
+   :type species_type: str
+
+   :returns: The thinning baseline value for the specified species type.
+             None: Returns None if the species type is not found or if an error occurs.
+   :rtype: float
+
+

@@ -28,6 +28,10 @@ def main():
     # generation of data for each of the scenarios
     runner.generate_input_data()
 
+    # running the simulation
+
+    runner.run_flux_scenarios().to_csv(os.path.join(results_path,"c_flux.csv"))
+
 
 if __name__ == "__main__":
     main()

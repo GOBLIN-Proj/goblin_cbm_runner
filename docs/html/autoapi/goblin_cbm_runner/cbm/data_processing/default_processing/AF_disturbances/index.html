@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances &mdash; goblin_cbm_runner 0.4.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="../../../../../../_static/graphviz.css?v=eafc0fe6" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../../../../_static/documentation_options.js?v=6c02275b"></script>
+        <script src="../../../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../search.html" />
+    <link rel="next" title="goblin_cbm_runner.cbm.data_processing.default_processing.SC_disturbances" href="../SC_disturbances/index.html" />
+    <link rel="prev" title="goblin_cbm_runner.cbm.data_processing.default_processing" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../../../index.html" class="icon icon-home">
+            goblin_cbm_runner
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../INSTALLATION.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../../../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner</span></code></a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../../../../index.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="../../../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.cbm</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../cbm_validation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.cbm_validation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../configuration_data/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.configuration_data</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../database/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.database</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../default_runner/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.default_runner</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../geo_cbm_runner/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.geo_cbm_runner</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../harvest_manager/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.harvest_manager</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../historic_affor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.historic_affor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../resource_manager/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.resource_manager</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../example.html">Example Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../example.html#plot-fluxes-for-baseline">Plot Fluxes for Baseline</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../index.html">goblin_cbm_runner</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../../index.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="../../../../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner</span></code></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.cbm</span></code></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.cbm.data_processing</span></code></a></li>
+          <li class="breadcrumb-item"><a href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.cbm.data_processing.default_processing</span></code></a></li>
+      <li class="breadcrumb-item active"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../_sources/autoapi/goblin_cbm_runner/cbm/data_processing/default_processing/AF_disturbances/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances">
+<span id="goblin-cbm-runner-cbm-data-processing-default-processing-af-disturbances"></span><h1><a class="reference internal" href="#module-goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances" title="goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances</span></code></a><a class="headerlink" href="#module-goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances" title="Link to this heading"></a></h1>
+<section id="af-disturbances-module">
+<p>This module is responsible for managing disturbances within a CBM (Carbon Budget Modeling) model.</p>
+<p>It manages the creation of the disturbance input for legacy afforesation since 1990.</p>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Link to this heading"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances.AFDisturbances" title="goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances.AFDisturbances"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AFDisturbances</span></code></a></p></td>
+<td><p>Manages disturbances within a CBM (Carbon Budget Model) model, addressing both legacy and scenario-based disturbances.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances.AFDisturbances">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances.</span></span><span class="sig-name descname"><span class="pre">AFDisturbances</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibration_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forest_end_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">afforestation_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/AF_disturbances.html#AFDisturbances"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances.AFDisturbances" title="Link to this definition"></a></dt>
+<dd><p>Manages disturbances within a CBM (Carbon Budget Model) model, addressing both legacy and scenario-based disturbances.
+This class plays a pivotal role in simulating the impact of disturbances on forest carbon stocks and fluxes,
+adapting to user-defined management strategies and afforestation scenarios.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances.AFDisturbances.forest_end_year">
+<span class="sig-name descname"><span class="pre">forest_end_year</span></span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances.AFDisturbances.forest_end_year" title="Link to this definition"></a></dt>
+<dd><p>The final year for simulation, defining the temporal boundary for scenario execution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances.AFDisturbances.calibration_year">
+<span class="sig-name descname"><span class="pre">calibration_year</span></span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances.AFDisturbances.calibration_year" title="Link to this definition"></a></dt>
+<dd><p>The initial year for data calibration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances.AFDisturbances.loader_class">
+<span class="sig-name descname"><span class="pre">loader_class</span></span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances.AFDisturbances.loader_class" title="Link to this definition"></a></dt>
+<dd><p>Instance of Loader for loading and processing data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../../../../resource_manager/loader/index.html#goblin_cbm_runner.resource_manager.loader.Loader" title="goblin_cbm_runner.resource_manager.loader.Loader">Loader</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances.AFDisturbances.data_manager_class">
+<span class="sig-name descname"><span class="pre">data_manager_class</span></span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances.AFDisturbances.data_manager_class" title="Link to this definition"></a></dt>
+<dd><p>Instance of DataManager for managing simulation data and configurations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../../../../resource_manager/cbm_runner_data_manager/index.html#goblin_cbm_runner.resource_manager.cbm_runner_data_manager.DataManager" title="goblin_cbm_runner.resource_manager.cbm_runner_data_manager.DataManager">DataManager</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances.AFDisturbances.utils_class">
+<span class="sig-name descname"><span class="pre">utils_class</span></span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances.AFDisturbances.utils_class" title="Link to this definition"></a></dt>
+<dd><p>Instance of DisturbUtils for managing disturbance data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../disturnance_utils/index.html#goblin_cbm_runner.cbm.data_processing.default_processing.disturnance_utils.DisturbUtils" title="goblin_cbm_runner.cbm.data_processing.default_processing.disturnance_utils.DisturbUtils">DisturbUtils</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances.AFDisturbances.forest_baseline_year">
+<span class="sig-name descname"><span class="pre">forest_baseline_year</span></span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances.AFDisturbances.forest_baseline_year" title="Link to this definition"></a></dt>
+<dd><p>The baseline year for afforestation data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances.AFDisturbances.scenario_forest_classifiers">
+<span class="sig-name descname"><span class="pre">scenario_forest_classifiers</span></span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances.AFDisturbances.scenario_forest_classifiers" title="Link to this definition"></a></dt>
+<dd><p>A dictionary containing classifiers for scenario-based forest data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances.AFDisturbances.afforestation_data">
+<span class="sig-name descname"><span class="pre">afforestation_data</span></span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances.AFDisturbances.afforestation_data" title="Link to this definition"></a></dt>
+<dd><p>Detailed data of afforestation activities per scenario.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances.AFDisturbances.inventory_class">
+<span class="sig-name descname"><span class="pre">inventory_class</span></span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances.AFDisturbances.inventory_class" title="Link to this definition"></a></dt>
+<dd><p>Instance of Inventory for managing forest inventory data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../inventory/index.html#goblin_cbm_runner.cbm.data_processing.default_processing.inventory.Inventory" title="goblin_cbm_runner.cbm.data_processing.default_processing.inventory.Inventory">Inventory</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances.AFDisturbances.disturbance_timing">
+<span class="sig-name descname"><span class="pre">disturbance_timing</span></span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances.AFDisturbances.disturbance_timing" title="Link to this definition"></a></dt>
+<dd><p>A dictionary containing disturbance timing data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances.AFDisturbances.disturbance_dataframe">
+<span class="sig-name descname"><span class="pre">disturbance_dataframe</span></span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances.AFDisturbances.disturbance_dataframe" title="Link to this definition"></a></dt>
+<dd><p>A DataFrame containing disturbance data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances.AFDisturbances.yield_name_dict">
+<span class="sig-name descname"><span class="pre">yield_name_dict</span></span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances.AFDisturbances.yield_name_dict" title="Link to this definition"></a></dt>
+<dd><p>A dictionary containing yield names for forest data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config_path</strong> (<em>str</em>) – Configuration path for setting up CBM simulations.</p></li>
+<li><p><strong>calibration_year</strong> (<em>int</em>) – The initial year for data calibration.</p></li>
+<li><p><strong>forest_end_year</strong> (<em>int</em>) – The final year for simulation, defining the temporal boundary for scenario execution.</p></li>
+<li><p><strong>afforestation_data</strong> (<em>DataFrame</em>) – Detailed data of afforestation activities per scenario.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances.AFDisturbances.legacy_disturbance_afforestation_area">
+<span class="sig-name descname"><span class="pre">legacy_disturbance_afforestation_area</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">years</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/AF_disturbances.html#AFDisturbances.legacy_disturbance_afforestation_area"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances.AFDisturbances.legacy_disturbance_afforestation_area" title="Link to this definition"></a></dt>
+<dd><p>Calculates the afforestation area for legacy forest over a number of years from 1990.</p>
+<p>This afforestation data pertains to private afforestation in Ireland.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>years</strong> (<em>int</em>) – The number of years to calculate afforestation for.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dataframe with calculated afforestation areas.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances.AFDisturbances.fill_baseline_forest">
+<span class="sig-name descname"><span class="pre">fill_baseline_forest</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/AF_disturbances.html#AFDisturbances.fill_baseline_forest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances.AFDisturbances.fill_baseline_forest" title="Link to this definition"></a></dt>
+<dd><p>Fills the disturbance data for legacy years based on the given configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The disturbance data for legacy years.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances.AFDisturbances.get_legacy_forest_area_breakdown">
+<span class="sig-name descname"><span class="pre">get_legacy_forest_area_breakdown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/AF_disturbances.html#AFDisturbances.get_legacy_forest_area_breakdown"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances.AFDisturbances.get_legacy_forest_area_breakdown" title="Link to this definition"></a></dt>
+<dd><p>Calculate the breakdown of legacy forest area based on species, yield class, soil type, and age.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame containing the breakdown of legacy forest area.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="goblin_cbm_runner.cbm.data_processing.default_processing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../SC_disturbances/index.html" class="btn btn-neutral float-right" title="goblin_cbm_runner.cbm.data_processing.default_processing.SC_disturbances" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Colm Duffy.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

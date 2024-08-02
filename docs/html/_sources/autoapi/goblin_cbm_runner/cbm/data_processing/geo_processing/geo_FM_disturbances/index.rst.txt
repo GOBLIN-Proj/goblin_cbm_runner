@@ -1,0 +1,128 @@
+:py:mod:`goblin_cbm_runner.cbm.data_processing.geo_processing.geo_FM_disturbances`
+==================================================================================
+
+.. py:module:: goblin_cbm_runner.cbm.data_processing.geo_processing.geo_FM_disturbances
+
+.. autoapi-nested-parse::
+
+   Geo Disturbances Module
+   =======================
+   This module manages disturbances within the Carbon Budget Modeling (CBM) framework, specifically tailored for scenarios
+   involving afforestation areas at the catchment level, both legacy and scenario-specific disturbances. It organizes and processes
+   disturbance data to support the simulation of forest dynamics under varying management and disturbance scenarios.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   goblin_cbm_runner.cbm.data_processing.geo_processing.geo_FM_disturbances.FMDisturbances
+
+
+
+
+.. py:class:: FMDisturbances(config_path, calibration_year, forest_end_year, afforestation_data, scenario_data)
+
+
+   Manages disturbances within the Carbon Budget Modeling (CBM) framework, specifically tailored for scenarios
+   involving afforestation areas at the catchment level, both legacy and scenario-specific disturbances. It organizes and processes
+   disturbance data to support the simulation of forest dynamics under varying management and disturbance scenarios.
+
+   .. attribute:: forest_end_year
+
+      Target end year for forest simulation data.
+
+      :type: int
+
+   .. attribute:: calibration_year
+
+      Base year for data calibration within the simulation.
+
+      :type: int
+
+   .. attribute:: loader_class
+
+      Instance responsible for loading external data resources.
+
+      :type: Loader
+
+   .. attribute:: data_manager_class
+
+      Manages retrieval and organization of simulation data.
+
+      :type: DataManager
+
+   .. attribute:: afforestation_data
+
+      Contains data on afforestation activities, including species and areas.
+
+      :type: DataFrame
+
+   .. attribute:: inventory_class
+
+      Manages the preparation and structuring of forest inventory data.
+
+      :type: Inventory
+
+   .. attribute:: disturbance_timing
+
+      Contains information on the timing and type of disturbances.
+
+      :type: DataFrame
+
+   .. attribute:: disturbance_dataframe
+
+      Central repository of disturbance event data.
+
+      :type: DataFrame
+
+   .. attribute:: scenario_disturbance_dict
+
+      Holds scenario-specific disturbance information.
+
+      :type: dict
+
+   .. attribute:: legacy_disturbance_dict
+
+      Stores information on disturbances in legacy forests.
+
+      :type: dict
+
+   .. attribute:: yield_name_dict
+
+      Maps yield classes to their corresponding names for easier reference.
+
+      :type: dict
+
+   :param config_path: Path to the configuration file guiding the simulation setup.
+   :type config_path: str
+   :param calibration_year: Reference year from which simulation data is calibrated.
+   :type calibration_year: int
+   :param forest_end_year: Designated end year for the simulation's forest data.
+   :type forest_end_year: int
+   :param afforestation_data: Data detailing afforestation projects, including species and area.
+   :type afforestation_data: DataFrame
+   :param scenario_data: Data defining various simulation scenarios.
+   :type scenario_data: DataFrame
+
+   .. method:: fill_baseline_forest()
+
+      
+      Populates disturbance data for the baseline forest, considering historical disturbances.
+      
+      
+
+   .. py:method:: fill_baseline_forest()
+
+      Fills the baseline (managed) forest with disturbance data.
+
+      :returns: DataFrame containing disturbance data.
+      :rtype: pandas.DataFrame
+
+
+

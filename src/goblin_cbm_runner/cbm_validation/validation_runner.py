@@ -5,10 +5,10 @@ This module is responsible for orchestrating the execution of Carbon Budget Mode
 including baseline and afforestation projects. 
 
 """
-from goblin_cbm_runner.resource_manager.cbm_runner_data_manager import DataManager
-from goblin_cbm_runner.resource_manager.scenario_data_fetcher import ScenarioDataFetcher
 from goblin_cbm_runner.resource_manager.paths import Paths
-from goblin_cbm_runner.cbm.cbm_methods import CBMSim
+from goblin_cbm_runner.cbm.methods.cbm_methods import CBMSim
+from goblin_cbm_runner.resource_manager.cbm_pools import Pools
+
 
 import pandas as pd
 
@@ -129,6 +129,20 @@ class ValRunner:
         
         return data
     
+    def run_scenario_disturbance_area_validation(self):
+        """
+        Runs the CBM validation for the specified years.
+
+        Returns:
+            dict: A dictionary containing the validation dataframes
+        """
+        data = self.SIM_class.scenario_cbm_disturbance_area_validation(self.years, 
+                                                    self.path,
+                                                    self.defaults_db
+                                                    )
+        
+        return data
+    
     def run_baseline_disturbance_area_validation(self):
         """
         Runs the CBM validation for the specified years.
@@ -143,7 +157,7 @@ class ValRunner:
         
         return data
 
-    def run_flux_validation(self, forest_data):
+    def run_flux_validation_raw(self, forest_data):
         """
         Runs the CBM validation for the specified years.
 
@@ -156,3 +170,44 @@ class ValRunner:
         data = self.SIM_class.forest_raw_fluxes(forest_data)
             
         return data
+    
+
+    def run_flux_validation_agg(self, forest_data):
+        """
+        Runs the CBM flux validation based on raw simulation results as input.
+
+        Returns:
+            dict: A dictionary containing the validation dataframes
+        """
+        df = self.run_flux_validation_raw(forest_data)
+
+        pools = Pools()
+
+        AGB = pools.get_above_ground_biomass_pools()
+        BGB = pools.get_below_ground_biomass_pools()
+        deadwood = pools.get_deadwood_pools()
+        litter = pools.get_litter_pools()
+        soil = pools.get_soil_organic_matter_pools()
+
+        annual_carbon_stocks = pd.DataFrame(
+            {
+                "Year": df["timestep"],
+                "AGB": df[AGB].sum(axis=1),
+                "BGB": df[BGB].sum(axis=1),
+                "Deadwood": df[deadwood].sum(axis=1),
+                "Litter": df[litter].sum(axis=1),
+                "Soil": df[soil].sum(axis=1),
+                "Harvest": df["Products"],
+                "Total Ecosystem": df[AGB
+                                      + BGB
+                                      + deadwood
+                                      + litter
+                                      + soil].sum(axis=1),
+            }
+        )
+
+        annual_carbon_stocks = annual_carbon_stocks.groupby(["Year"], as_index=False)[
+            ["AGB", "BGB", "Deadwood", "Litter", "Soil","Harvest", "Total Ecosystem"]
+        ].sum()
+
+        return annual_carbon_stocks

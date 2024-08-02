@@ -5,11 +5,11 @@ This module provides functionalities to run CBM simulations focused on Irish his
 utilizing geo-specific data preparation and management for Irish catchment data.
 
 """
-from goblin_cbm_runner.geo_cbm_runner.geo_cbm_data_factory import DataFactory
+from goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory import DataFactory
 from goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager import GeoDataManager
 from goblin_cbm_runner.resource_manager.scenario_data_fetcher import ScenarioDataFetcher
 from goblin_cbm_runner.resource_manager.paths import Paths
-from goblin_cbm_runner.cbm.cbm_methods import CBMSim
+from goblin_cbm_runner.cbm.methods.cbm_methods import CBMSim
 
 
 import pandas as pd
@@ -159,6 +159,16 @@ class GeoRunner:
             self.cbm_data_class.make_disturbance_type(i, path)
             self.cbm_data_class.make_transition_rules(i, path)
 
+    @property
+    def get_forest_baseline_dataframe(self):
+        """
+        Returns the forest baseline DataFrame.
+
+        Returns:
+            pd.DataFrame: Forest baseline DataFrame.
+        """
+        return self.forest_baseline_dataframe
+
 
     def run_aggregate_scenarios(self):
         """
@@ -172,7 +182,14 @@ class GeoRunner:
         forest_data = pd.DataFrame()
         aggregate_forest_data = pd.DataFrame()
 
+        forest_baseline = self.get_forest_baseline_dataframe.copy(deep=True)
+
+        # Add the values for selected columns where 'year' matches
+        columns_to_add = ["AGB", "BGB", "Deadwood", "Litter", "Soil", "Harvest", "Total Ecosystem"]
+
+
         for i in self.INDEX:
+
             forest_data = self.SIM_class.cbm_aggregate_scenario_stock(i, self.cbm_data_class, 
                                                                       self.baseline_years, 
                                                                       self.baseline_year_range, 
@@ -185,14 +202,13 @@ class GeoRunner:
             # Assuming 'year' is the common column
             merged_data = pd.merge(
                 forest_data,
-                self.forest_baseline_dataframe,
+                forest_baseline,
                 on="Year",
                 how="inner",
                 suffixes=("", "_baseline"),
             )
 
-            # Add the values for selected columns where 'year' matches
-            columns_to_add = ["AGB", "BGB", "Deadwood", "Litter", "Soil", "Harvest", "Total Ecosystem"]
+
             for col in columns_to_add:
                 merged_data[col] = merged_data[col] + merged_data[col + "_baseline"]
 
@@ -204,14 +220,12 @@ class GeoRunner:
             # Update the original 'forest_data' DataFrame with the merged and added data
             forest_data = merged_data
 
-            forest_data_copy = forest_data.copy(deep=True)
-
-
             aggregate_forest_data = pd.concat(
-                [aggregate_forest_data, forest_data_copy], ignore_index=True
+                [aggregate_forest_data, forest_data], ignore_index=True
             )
 
         return aggregate_forest_data
+    
 
     def run_flux_scenarios(self):
         """
@@ -227,7 +241,13 @@ class GeoRunner:
         fluxes_data = pd.DataFrame()
         fluxes_forest_data = pd.DataFrame()
 
+        forest_baseline = self.get_forest_baseline_dataframe.copy(deep=True)
+
+        # Add the values for selected columns where 'year' matches
+        columns_to_add = ["AGB", "BGB", "Deadwood", "Litter", "Soil", "Harvest", "Total Ecosystem"]
+
         for i in self.INDEX:
+
             forest_data = self.SIM_class.cbm_aggregate_scenario_stock(i, self.cbm_data_class, 
                                                                       self.baseline_years, 
                                                                       self.baseline_year_range, 
@@ -239,14 +259,12 @@ class GeoRunner:
             # Assuming 'year' is the common column
             merged_data = pd.merge(
                 forest_data,
-                self.forest_baseline_dataframe,
+                forest_baseline,
                 on="Year",
                 how="inner",
                 suffixes=("", "_baseline"),
             )
 
-            # Add the values for selected columns where 'year' matches
-            columns_to_add = ["AGB", "BGB", "Deadwood", "Litter", "Soil", "Harvest", "Total Ecosystem"]
             for col in columns_to_add:
                 merged_data[col] = merged_data[col] + merged_data[col + "_baseline"]
 

@@ -1,0 +1,23 @@
+:py:mod:`goblin_cbm_runner`
+===========================
+
+.. py:module:: goblin_cbm_runner
+
+
+Subpackages
+-----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 3
+
+   cbm/index.rst
+   cbm_validation/index.rst
+   configuration_data/index.rst
+   database/index.rst
+   default_runner/index.rst
+   geo_cbm_runner/index.rst
+   harvest_manager/index.rst
+   historic_affor/index.rst
+   resource_manager/index.rst
+
+

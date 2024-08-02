@@ -65,12 +65,12 @@
                     "default_species": "Unspecified broadleaved species - Genus type"
                 },
                 {
-                    "user_species": "Mix Spruce",
-                    "default_species": "Spruce"
+                    "user_species": "Mixed Unspecified broadleaved species - Genus type",
+                    "default_species": "Unspecified broadleaved species - Genus type"
                 },
                 {
                     "user_species": "Other Spruce",
-                    "default_species": "Spruce"
+                    "default_species": "Other spruce"
                 }
             ]
         },
