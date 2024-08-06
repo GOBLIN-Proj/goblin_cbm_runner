@@ -9,7 +9,7 @@ from goblin_cbm_runner.cbm.data_processing.default_processing.disturnance_utils 
 import goblin_cbm_runner.resource_manager.parser as parser
 from goblin_cbm_runner.resource_manager.cbm_runner_data_manager import DataManager
 from goblin_cbm_runner.resource_manager.loader import Loader
-from goblin_cbm_runner.cbm.data_processing.default_processing.inventory import Inventory
+from goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory import SCInventory
 import pandas as pd
 from goblin_cbm_runner.harvest_manager.harvest import AfforestationTracker
 
@@ -28,7 +28,6 @@ class SCDisturbances:
         utils_class (DisturbUtils): Instance of DisturbUtils for managing disturbance data.
         data_manager_class (DataManager): Instance of DataManager for managing simulation data and configurations.
         afforestation_data (DataFrame): Detailed data of afforestation activities per scenario.
-        inventory_class (Inventory): Instance of Inventory for managing inventory data.
         disturbance_timing (DataFrame): Dataframe containing disturbance timing information.
         scenario_disturbance_dict (dict): Dictionary containing scenario disturbance data.
 
@@ -61,9 +60,6 @@ class SCDisturbances:
         )
 
         self.afforestation_data = afforestation_data
-        self.inventory_class = Inventory(
-            calibration_year, config_path, afforestation_data
-        )
 
         self.disturbance_timing = self.loader_class.disturbance_time()
         self.scenario_disturbance_dict = self.data_manager_class.get_scenario_disturbance_dict()

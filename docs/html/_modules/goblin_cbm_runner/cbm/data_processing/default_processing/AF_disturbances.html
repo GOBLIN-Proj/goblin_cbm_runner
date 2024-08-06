@@ -86,7 +86,7 @@
 <span class="kn">from</span> <span class="nn">goblin_cbm_runner.cbm.data_processing.default_processing.disturnance_utils</span> <span class="kn">import</span> <span class="n">DisturbUtils</span>
 <span class="kn">from</span> <span class="nn">goblin_cbm_runner.resource_manager.cbm_runner_data_manager</span> <span class="kn">import</span> <span class="n">DataManager</span>
 <span class="kn">from</span> <span class="nn">goblin_cbm_runner.resource_manager.loader</span> <span class="kn">import</span> <span class="n">Loader</span>
-<span class="kn">from</span> <span class="nn">goblin_cbm_runner.cbm.data_processing.default_processing.inventory</span> <span class="kn">import</span> <span class="n">Inventory</span>
+<span class="kn">from</span> <span class="nn">goblin_cbm_runner.cbm.data_processing.default_processing.AF_inventory</span> <span class="kn">import</span> <span class="n">AFInventory</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 
@@ -145,8 +145,8 @@
             <span class="s2">&quot;Scenario&quot;</span>
         <span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">afforestation_data</span> <span class="o">=</span> <span class="n">afforestation_data</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">inventory_class</span> <span class="o">=</span> <span class="n">Inventory</span><span class="p">(</span>
-            <span class="n">calibration_year</span><span class="p">,</span> <span class="n">config_path</span><span class="p">,</span> <span class="n">afforestation_data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inventory_class</span> <span class="o">=</span> <span class="n">AFInventory</span><span class="p">(</span>
+            <span class="n">calibration_year</span><span class="p">,</span> <span class="n">config_path</span>
         <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">disturbance_timing</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loader_class</span><span class="o">.</span><span class="n">disturbance_time</span><span class="p">()</span>
@@ -296,42 +296,6 @@
         <span class="n">disturbance_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="n">disturbance_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">utils_class</span><span class="o">.</span><span class="n">_drop_zero_area_rows</span><span class="p">(</span><span class="n">disturbance_df</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">disturbance_df</span></div>
-
-    
-
-
-<div class="viewcode-block" id="AFDisturbances.get_legacy_forest_area_breakdown">
-<a class="viewcode-back" href="../../../../../autoapi/goblin_cbm_runner/cbm/data_processing/default_processing/AF_disturbances/index.html#goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances.AFDisturbances.get_legacy_forest_area_breakdown">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_legacy_forest_area_breakdown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculate the breakdown of legacy forest area based on species, yield class, soil type, and age.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            pandas.DataFrame: DataFrame containing the breakdown of legacy forest area.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">age_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loader_class</span><span class="o">.</span><span class="n">forest_age_structure</span><span class="p">()</span>
-        <span class="n">data_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inventory_class</span><span class="o">.</span><span class="n">legacy_forest_inventory</span><span class="p">()</span>
-        <span class="n">yield_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_yield_baseline_dict</span><span class="p">()</span>
-
-        <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">species</span> <span class="ow">in</span> <span class="n">data_df</span><span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
-            <span class="k">for</span> <span class="n">soil</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;mineral&quot;</span><span class="p">,</span> <span class="s2">&quot;peat&quot;</span><span class="p">]:</span>
-                <span class="k">for</span> <span class="n">yc</span> <span class="ow">in</span> <span class="n">yield_dict</span><span class="p">[</span><span class="n">species</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                    <span class="k">for</span> <span class="n">age</span> <span class="ow">in</span> <span class="n">age_df</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
-
-                        <span class="n">data_mask</span> <span class="o">=</span> <span class="n">data_df</span><span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">species</span>
-                        <span class="n">age_mask</span> <span class="o">=</span> <span class="n">age_df</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">age</span>
-
-                        <span class="n">row_data</span> <span class="o">=</span> <span class="p">{</span>
-                            <span class="s2">&quot;species&quot;</span><span class="p">:</span> <span class="n">species</span><span class="p">,</span>
-                            <span class="s2">&quot;yield_class&quot;</span><span class="p">:</span> <span class="n">yc</span><span class="p">,</span>
-                            <span class="s2">&quot;soil&quot;</span><span class="p">:</span> <span class="n">soil</span><span class="p">,</span>
-                            <span class="s2">&quot;age&quot;</span><span class="p">:</span> <span class="n">age</span><span class="p">,</span>
-                            <span class="s2">&quot;area&quot;</span><span class="p">:</span> <span class="n">data_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">data_mask</span><span class="p">,</span> <span class="n">soil</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">*</span> <span class="n">yield_dict</span><span class="p">[</span><span class="n">species</span><span class="p">][</span><span class="n">yc</span><span class="p">]</span> <span class="o">*</span> <span class="n">age_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">age_mask</span><span class="p">,</span> <span class="s2">&quot;aggregate&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
-                        <span class="p">}</span>
-                        <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row_data</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
 </div>
 
     

@@ -7,7 +7,7 @@
   <title>Example Usage &mdash; goblin_cbm_runner 0.4.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
       <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=eafc0fe6" />
 
   
@@ -140,19 +140,6 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">FileExistsError</span><span class="g g-Whitespace">                           </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">21</span>
-<span class="g g-Whitespace">     </span><span class="mi">16</span> <span class="n">calibration_year</span> <span class="o">=</span> <span class="mi">2020</span>
-<span class="g g-Whitespace">     </span><span class="mi">19</span> <span class="c1">#Make directory to store exported file</span>
-<span class="ne">---&gt; </span><span class="mi">21</span> <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="s2">&quot;jupyter_example&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">23</span> <span class="n">data_path</span> <span class="o">=</span> <span class="s2">&quot;./jupyter_example/&quot;</span>
-
-<span class="ne">FileExistsError</span>: [Errno 17] File exists: &#39;jupyter_example&#39;
-</pre></div>
-</div>
-</div>
 </div>
 </section>
 <section id="data-inputs-example">
@@ -173,10 +160,10 @@
 3         -1     SGB         YC6       0.000000
 4         -1     SGB         YC6       0.000000
 5         -1     SGB         YC6       0.000000
-6          0   Sitka     YC24_30  417595.058325
-7          0     SGB         YC6  715935.503074
-8          0   Sitka     YC20_24  208791.204651
-9          0     SGB         YC6  357956.908635
+6          0   Sitka     YC24_30       0.000000
+7          0     SGB         YC6       0.000000
+8          0   Sitka     YC20_24       0.000000
+9          0     SGB         YC6       0.000000
 10         0   Sitka     YC17_20       0.000000
 11         0     SGB         YC6       0.000000
 12         1   Sitka     YC24_30  418877.449812
@@ -201,11 +188,21 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Classifiers:
-
-  harvest:
-    clearfell: 0.05
-    thinning: 0.05
-
+  baseline:
+    harvest:
+      clearfell:
+        - conifer: 0.95
+        - broadleaf: 0.6
+      thinning:
+        - conifer: 0.5
+        - broadleaf: 0.9
+  scenario:
+    harvest:
+      clearfell:
+        - broadleaf: 0.0
+      thinning:
+        - broadleaf: 0.5
+        
   age_classes:
     max_age: 100
     age_interval: 5
@@ -291,18 +288,18 @@
 11                  0                   0                   136.870525   
 
     Beef Pasture fertilisation  Broadleaf proportion  Afforest Year  
-0                   105.001711              0.591629           2050  
-1                   105.001711              0.591629           2050  
-2                   105.001711              0.591629           2050  
-3                   105.001711              0.591629           2050  
-4                   105.001711              0.591629           2050  
-5                   105.001711              0.591629           2050  
-6                   105.001711              0.591629           2050  
-7                   105.001711              0.591629           2050  
-8                   105.001711              0.591629           2050  
-9                   105.001711              0.591629           2050  
-10                  105.001711              0.591629           2050  
-11                  105.001711              0.591629           2050  
+0                   105.001711              0.591629           2051  
+1                   105.001711              0.591629           2051  
+2                   105.001711              0.591629           2051  
+3                   105.001711              0.591629           2051  
+4                   105.001711              0.591629           2051  
+5                   105.001711              0.591629           2051  
+6                   105.001711              0.591629           2051  
+7                   105.001711              0.591629           2051  
+8                   105.001711              0.591629           2051  
+9                   105.001711              0.591629           2051  
+10                  105.001711              0.591629           2051  
+11                  105.001711              0.591629           2051  
 
 [12 rows x 29 columns]
 </pre></div>
@@ -315,6 +312,11 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># instance of the Runner class</span>
 <span class="n">runner</span> <span class="o">=</span> <span class="n">Runner</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">calibration_year</span><span class="p">,</span> <span class="n">afforest_data</span><span class="p">,</span> <span class="n">sc_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cleaning scenario SIT data directories
 </pre></div>
 </div>
 </div>
@@ -369,70 +371,76 @@
     <tr style="text-align: right;">
       <th></th>
       <th>Year</th>
+      <th>Scenario</th>
       <th>AGB</th>
       <th>BGB</th>
       <th>Deadwood</th>
       <th>Litter</th>
       <th>Soil</th>
+      <th>Harvest</th>
       <th>Total Ecosystem</th>
-      <th>Scenario</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>0</th>
-      <td>2019</td>
-      <td>4.514063e+07</td>
-      <td>1.008655e+07</td>
-      <td>5.315835e+07</td>
-      <td>8.388287e+06</td>
-      <td>3.874221e+07</td>
-      <td>1.555160e+08</td>
+      <td>2016</td>
       <td>-1</td>
+      <td>4.436733e+07</td>
+      <td>9.584676e+06</td>
+      <td>1.369044e+07</td>
+      <td>8.582175e+06</td>
+      <td>3.297041e+07</td>
+      <td>2.936301e+07</td>
+      <td>1.091950e+08</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>2020</td>
-      <td>4.610093e+07</td>
-      <td>1.029068e+07</td>
-      <td>5.211839e+07</td>
-      <td>8.830165e+06</td>
-      <td>3.877506e+07</td>
-      <td>1.561152e+08</td>
+      <td>2017</td>
       <td>-1</td>
+      <td>4.571837e+07</td>
+      <td>9.857651e+06</td>
+      <td>1.367815e+07</td>
+      <td>8.692247e+06</td>
+      <td>3.299024e+07</td>
+      <td>3.000124e+07</td>
+      <td>1.109367e+08</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>2021</td>
-      <td>4.745335e+07</td>
-      <td>1.057998e+07</td>
-      <td>5.107502e+07</td>
-      <td>9.038926e+06</td>
-      <td>3.880305e+07</td>
-      <td>1.569503e+08</td>
+      <td>2018</td>
       <td>-1</td>
+      <td>4.658415e+07</td>
+      <td>1.002339e+07</td>
+      <td>1.372907e+07</td>
+      <td>8.982206e+06</td>
+      <td>3.301614e+07</td>
+      <td>3.091145e+07</td>
+      <td>1.123349e+08</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>2022</td>
-      <td>4.841501e+07</td>
-      <td>1.078096e+07</td>
-      <td>5.011462e+07</td>
-      <td>9.337436e+06</td>
-      <td>3.883307e+07</td>
-      <td>1.574811e+08</td>
+      <td>2019</td>
       <td>-1</td>
+      <td>4.741969e+07</td>
+      <td>1.019180e+07</td>
+      <td>1.379422e+07</td>
+      <td>9.243864e+06</td>
+      <td>3.304247e+07</td>
+      <td>3.182804e+07</td>
+      <td>1.136920e+08</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>2023</td>
-      <td>4.951853e+07</td>
-      <td>1.101266e+07</td>
-      <td>4.917845e+07</td>
-      <td>9.538436e+06</td>
-      <td>3.886076e+07</td>
-      <td>1.581088e+08</td>
+      <td>2020</td>
       <td>-1</td>
+      <td>4.810399e+07</td>
+      <td>1.031664e+07</td>
+      <td>1.387675e+07</td>
+      <td>9.504479e+06</td>
+      <td>3.307018e+07</td>
+      <td>3.285575e+07</td>
+      <td>1.148720e+08</td>
     </tr>
     <tr>
       <th>...</th>
@@ -444,65 +452,71 @@
       <td>...</td>
       <td>...</td>
       <td>...</td>
-    </tr>
-    <tr>
-      <th>91</th>
-      <td>2046</td>
-      <td>1.459660e+08</td>
-      <td>3.527904e+07</td>
-      <td>3.796185e+07</td>
-      <td>2.825003e+07</td>
-      <td>4.334884e+07</td>
-      <td>2.908057e+08</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>92</th>
-      <td>2047</td>
-      <td>1.546247e+08</td>
-      <td>3.723611e+07</td>
-      <td>3.804406e+07</td>
-      <td>2.963456e+07</td>
-      <td>4.370675e+07</td>
-      <td>3.032462e+08</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>93</th>
-      <td>2048</td>
-      <td>1.635621e+08</td>
-      <td>3.924021e+07</td>
-      <td>3.819754e+07</td>
-      <td>3.109648e+07</td>
-      <td>4.407945e+07</td>
-      <td>3.161758e+08</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>94</th>
-      <td>2049</td>
-      <td>1.722594e+08</td>
-      <td>4.118567e+07</td>
-      <td>3.846841e+07</td>
-      <td>3.272559e+07</td>
-      <td>4.446854e+07</td>
-      <td>3.291076e+08</td>
-      <td>1</td>
+      <td>...</td>
     </tr>
     <tr>
       <th>95</th>
-      <td>2050</td>
-      <td>1.808983e+08</td>
-      <td>4.311082e+07</td>
-      <td>3.882851e+07</td>
-      <td>3.440283e+07</td>
-      <td>4.487209e+07</td>
-      <td>3.421125e+08</td>
+      <td>2047</td>
       <td>1</td>
+      <td>1.006519e+08</td>
+      <td>2.621444e+07</td>
+      <td>1.823040e+07</td>
+      <td>2.707563e+07</td>
+      <td>9.886669e+07</td>
+      <td>8.445019e+07</td>
+      <td>2.710391e+08</td>
+    </tr>
+    <tr>
+      <th>96</th>
+      <td>2048</td>
+      <td>1</td>
+      <td>1.076381e+08</td>
+      <td>2.783490e+07</td>
+      <td>1.859396e+07</td>
+      <td>2.851466e+07</td>
+      <td>9.906397e+07</td>
+      <td>8.604140e+07</td>
+      <td>2.816456e+08</td>
+    </tr>
+    <tr>
+      <th>97</th>
+      <td>2049</td>
+      <td>1</td>
+      <td>1.121386e+08</td>
+      <td>2.889211e+07</td>
+      <td>1.934227e+07</td>
+      <td>3.085233e+07</td>
+      <td>9.927978e+07</td>
+      <td>8.915474e+07</td>
+      <td>2.905051e+08</td>
+    </tr>
+    <tr>
+      <th>98</th>
+      <td>2050</td>
+      <td>1</td>
+      <td>1.162604e+08</td>
+      <td>2.986011e+07</td>
+      <td>2.014587e+07</td>
+      <td>3.315017e+07</td>
+      <td>9.949184e+07</td>
+      <td>9.243459e+07</td>
+      <td>2.989084e+08</td>
+    </tr>
+    <tr>
+      <th>99</th>
+      <td>2051</td>
+      <td>1</td>
+      <td>1.211671e+08</td>
+      <td>3.098863e+07</td>
+      <td>2.086588e+07</td>
+      <td>3.490239e+07</td>
+      <td>9.969150e+07</td>
+      <td>9.550380e+07</td>
+      <td>3.076155e+08</td>
     </tr>
   </tbody>
 </table>
-<p>96 rows × 8 columns</p>
+<p>100 rows × 9 columns</p>
 </div></div></div>
 </div>
 <div class="cell docutils container">
@@ -531,70 +545,76 @@
     <tr style="text-align: right;">
       <th></th>
       <th>Year</th>
+      <th>Scenario</th>
       <th>AGB</th>
       <th>BGB</th>
       <th>Deadwood</th>
       <th>Litter</th>
       <th>Soil</th>
+      <th>Harvest</th>
       <th>Total Ecosystem</th>
-      <th>Scenario</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>0</th>
-      <td>2020</td>
-      <td>9.587128e+05</td>
-      <td>2.043476e+05</td>
-      <td>-1.040299e+06</td>
-      <td>4.458754e+05</td>
-      <td>33049.974730</td>
-      <td>6.016866e+05</td>
+      <td>2016</td>
       <td>-1</td>
+      <td>1.351035e+06</td>
+      <td>2.729750e+05</td>
+      <td>-12291.256705</td>
+      <td>1.100720e+05</td>
+      <td>19837.294547</td>
+      <td>6.382280e+05</td>
+      <td>1.741628e+06</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>2021</td>
-      <td>1.350651e+06</td>
-      <td>2.892071e+05</td>
-      <td>-1.039965e+06</td>
-      <td>2.098019e+05</td>
-      <td>28173.676362</td>
-      <td>8.378685e+05</td>
+      <td>2017</td>
       <td>-1</td>
+      <td>8.657793e+05</td>
+      <td>1.657403e+05</td>
+      <td>50916.956563</td>
+      <td>2.899591e+05</td>
+      <td>25892.836055</td>
+      <td>9.102110e+05</td>
+      <td>1.398288e+06</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>2022</td>
-      <td>9.518484e+05</td>
-      <td>1.992411e+05</td>
-      <td>-9.578365e+05</td>
-      <td>3.046261e+05</td>
-      <td>30219.430345</td>
-      <td>5.280986e+05</td>
+      <td>2018</td>
       <td>-1</td>
+      <td>8.355454e+05</td>
+      <td>1.684089e+05</td>
+      <td>65150.414926</td>
+      <td>2.616584e+05</td>
+      <td>26335.641826</td>
+      <td>9.165912e+05</td>
+      <td>1.357099e+06</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>2023</td>
-      <td>1.103163e+06</td>
-      <td>2.320931e+05</td>
-      <td>-9.367093e+05</td>
-      <td>2.014862e+05</td>
-      <td>27734.597669</td>
-      <td>6.277673e+05</td>
+      <td>2019</td>
       <td>-1</td>
+      <td>6.842979e+05</td>
+      <td>1.248428e+05</td>
+      <td>82527.773083</td>
+      <td>2.606146e+05</td>
+      <td>27712.479956</td>
+      <td>1.027711e+06</td>
+      <td>1.179995e+06</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>2024</td>
-      <td>1.026164e+06</td>
-      <td>2.137390e+05</td>
-      <td>-9.062663e+05</td>
-      <td>1.911245e+05</td>
-      <td>28610.325672</td>
-      <td>5.533716e+05</td>
+      <td>2020</td>
       <td>-1</td>
+      <td>7.178443e+05</td>
+      <td>1.330972e+05</td>
+      <td>82270.042262</td>
+      <td>1.996919e+05</td>
+      <td>27258.897202</td>
+      <td>1.007701e+06</td>
+      <td>1.160162e+06</td>
     </tr>
     <tr>
       <th>...</th>
@@ -606,65 +626,71 @@
       <td>...</td>
       <td>...</td>
       <td>...</td>
-    </tr>
-    <tr>
-      <th>88</th>
-      <td>2046</td>
-      <td>8.292969e+06</td>
-      <td>1.890187e+06</td>
-      <td>1.869218e+04</td>
-      <td>1.341082e+06</td>
-      <td>343976.729581</td>
-      <td>1.188691e+07</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>89</th>
-      <td>2047</td>
-      <td>8.661906e+06</td>
-      <td>1.957859e+06</td>
-      <td>7.975046e+04</td>
-      <td>1.383848e+06</td>
-      <td>357918.851730</td>
-      <td>1.244128e+07</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>90</th>
-      <td>2048</td>
-      <td>8.910767e+06</td>
-      <td>1.998299e+06</td>
-      <td>1.658827e+05</td>
-      <td>1.467204e+06</td>
-      <td>372833.721457</td>
-      <td>1.291499e+07</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>91</th>
-      <td>2049</td>
-      <td>8.663388e+06</td>
-      <td>1.938492e+06</td>
-      <td>2.822577e+05</td>
-      <td>1.636610e+06</td>
-      <td>389239.147685</td>
-      <td>1.290999e+07</td>
-      <td>1</td>
+      <td>...</td>
     </tr>
     <tr>
       <th>92</th>
-      <td>2050</td>
-      <td>8.619472e+06</td>
-      <td>1.921057e+06</td>
-      <td>3.584862e+05</td>
-      <td>1.680380e+06</td>
-      <td>403651.873974</td>
-      <td>1.298305e+07</td>
+      <td>2046</td>
       <td>1</td>
+      <td>7.713381e+06</td>
+      <td>1.801837e+06</td>
+      <td>146362.379159</td>
+      <td>9.681296e+05</td>
+      <td>184390.256660</td>
+      <td>9.362750e+05</td>
+      <td>1.081410e+07</td>
+    </tr>
+    <tr>
+      <th>93</th>
+      <td>2047</td>
+      <td>1</td>
+      <td>6.986165e+06</td>
+      <td>1.620463e+06</td>
+      <td>363565.212736</td>
+      <td>1.439027e+06</td>
+      <td>197278.837555</td>
+      <td>1.591212e+06</td>
+      <td>1.060650e+07</td>
+    </tr>
+    <tr>
+      <th>94</th>
+      <td>2048</td>
+      <td>1</td>
+      <td>4.500547e+06</td>
+      <td>1.057205e+06</td>
+      <td>748308.683019</td>
+      <td>2.337671e+06</td>
+      <td>215812.882780</td>
+      <td>3.113345e+06</td>
+      <td>8.859545e+06</td>
+    </tr>
+    <tr>
+      <th>95</th>
+      <td>2049</td>
+      <td>1</td>
+      <td>4.121802e+06</td>
+      <td>9.679973e+05</td>
+      <td>803600.115442</td>
+      <td>2.297837e+06</td>
+      <td>212059.694200</td>
+      <td>3.279848e+06</td>
+      <td>8.403296e+06</td>
+    </tr>
+    <tr>
+      <th>96</th>
+      <td>2050</td>
+      <td>1</td>
+      <td>4.906678e+06</td>
+      <td>1.128523e+06</td>
+      <td>720005.090123</td>
+      <td>1.752219e+06</td>
+      <td>199656.736390</td>
+      <td>3.069204e+06</td>
+      <td>8.707081e+06</td>
     </tr>
   </tbody>
 </table>
-<p>93 rows × 8 columns</p>
+<p>97 rows × 9 columns</p>
 </div></div></div>
 </div>
 </section>
@@ -699,7 +725,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/ccfaed4450a2ed9992c53ba4ccc31291c68e28a1c7fb867c2ffa707a12b2fc18.png" src="_images/ccfaed4450a2ed9992c53ba4ccc31291c68e28a1c7fb867c2ffa707a12b2fc18.png" />
+<img alt="_images/ab587f76d222c6c692a81add0b5eb0ac523d85b837ad359e10320d2b9b878133.png" src="_images/ab587f76d222c6c692a81add0b5eb0ac523d85b837ad359e10320d2b9b878133.png" />
 </div>
 </div>
 <div class="cell docutils container">

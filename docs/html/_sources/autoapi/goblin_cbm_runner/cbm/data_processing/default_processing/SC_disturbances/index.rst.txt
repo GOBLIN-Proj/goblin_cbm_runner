@@ -69,12 +69,6 @@ Classes
 
       :type: DataFrame
 
-   .. attribute:: inventory_class
-
-      Instance of Inventory for managing inventory data.
-
-      :type: Inventory
-
    .. attribute:: disturbance_timing
 
       Dataframe containing disturbance timing information.

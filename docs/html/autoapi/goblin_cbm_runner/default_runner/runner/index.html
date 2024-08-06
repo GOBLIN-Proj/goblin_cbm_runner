@@ -7,7 +7,7 @@
   <title>goblin_cbm_runner.default_runner.runner &mdash; goblin_cbm_runner 0.4.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=eafc0fe6" />
 
   
@@ -304,9 +304,7 @@ Cleans the data directory, creates necessary subdirectories, and prepares scenar
 <dl class="py property">
 <dt class="sig sig-object py" id="goblin_cbm_runner.default_runner.runner.Runner.get_merged_forest_AF_FM_dataframes">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_merged_forest_AF_FM_dataframes</span></span><a class="headerlink" href="#goblin_cbm_runner.default_runner.runner.Runner.get_merged_forest_AF_FM_dataframes" title="Link to this definition"></a></dt>
-<dd><p>Merges the baseline data for afforestation and user-defined forest management scenarios.</p>
-<p>This method merges the afforestation and forest management baseline dataframes on the ‘Year’ column,
-and sums the specified columns for the shared years.</p>
+<dd><p>Returns the merged data for afforestation and user-defined forest management scenarios.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Merged data for afforestation and forest management baseline scenarios.</p>
@@ -346,6 +344,22 @@ and generates various input files required for the CBM runner.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.default_runner.runner.Runner.merge_forest_AF_FM_dataframes">
+<span class="sig-name descname"><span class="pre">merge_forest_AF_FM_dataframes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/default_runner/runner.html#Runner.merge_forest_AF_FM_dataframes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.default_runner.runner.Runner.merge_forest_AF_FM_dataframes" title="Link to this definition"></a></dt>
+<dd><p>Merges the baseline data for afforestation and user-defined forest management scenarios.</p>
+<p>This method merges the afforestation and forest management baseline dataframes on the ‘Year’ column,
+and sums the specified columns for the shared years.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Merged data for afforestation and forest management baseline scenarios.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pd.DataFrame</p>
 </dd>
 </dl>
 </dd></dl>

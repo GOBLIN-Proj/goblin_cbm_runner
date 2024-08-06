@@ -130,9 +130,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">CBMpools</span> <span class="o">=</span> <span class="n">Pools</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_config_data</span><span class="p">(</span><span class="n">config_file</span><span class="p">)</span> <span class="k">if</span> <span class="n">config_file</span> <span class="k">else</span> <span class="kc">None</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">forest_baseline_year</span> <span class="o">=</span> <span class="mi">2016</span> <span class="c1">#(</span>
-            <span class="c1">#(int(calibration_year)) if calibration_year is not None else None</span>
-        <span class="c1">#)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">forest_baseline_year</span> <span class="o">=</span> <span class="mi">2016</span> 
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span> <span class="o">=</span> <span class="n">calibration_year</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">afforestation_baseline</span> <span class="o">=</span> <span class="mi">1990</span>
 
@@ -505,11 +505,11 @@
         <span class="k">return</span> <span class="n">legacy_dist</span></div>
 
     
-<div class="viewcode-block" id="DataManager.get_scenario_years">
-<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/cbm_runner_data_manager/index.html#goblin_cbm_runner.resource_manager.cbm_runner_data_manager.DataManager.get_scenario_years">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_scenario_years</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">forestry_end_year</span><span class="p">):</span>
+<div class="viewcode-block" id="DataManager.get_full_scenario_years">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/cbm_runner_data_manager/index.html#goblin_cbm_runner.resource_manager.cbm_runner_data_manager.DataManager.get_full_scenario_years">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_full_scenario_years</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">forestry_end_year</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get the scenario years.</span>
+<span class="sd">        Get total number of scenario years from 1990.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            int: The number of years in the scenario.</span>
@@ -521,11 +521,49 @@
         <span class="k">return</span> <span class="n">years</span></div>
 
     
-<div class="viewcode-block" id="DataManager.get_scenario_years_range">
-<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/cbm_runner_data_manager/index.html#goblin_cbm_runner.resource_manager.cbm_runner_data_manager.DataManager.get_scenario_years_range">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_scenario_years_range</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">forestry_end_year</span><span class="p">):</span>
+<div class="viewcode-block" id="DataManager.calculate_scenario_years">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/cbm_runner_data_manager/index.html#goblin_cbm_runner.resource_manager.cbm_runner_data_manager.DataManager.calculate_scenario_years">[docs]</a>
+    <span class="k">def</span> <span class="nf">calculate_scenario_years</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">forestry_end_year</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get the scenario years range.</span>
+<span class="sd">        Calculate the number of years in the scenario from the calibration year.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            calibration_year (int): The year used for calibration.</span>
+<span class="sd">            forestry_end_year (int): The year at the end of the scenario.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int: The number of years in the scenario.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">years</span> <span class="o">=</span> <span class="n">forestry_end_year</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span>
+
+        <span class="k">return</span> <span class="n">years</span></div>
+
+    
+<div class="viewcode-block" id="DataManager.calculate_scenario_years_range">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/cbm_runner_data_manager/index.html#goblin_cbm_runner.resource_manager.cbm_runner_data_manager.DataManager.calculate_scenario_years_range">[docs]</a>
+    <span class="k">def</span> <span class="nf">calculate_scenario_years_range</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">forestry_end_year</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the range of years in the scenario from the calibration year.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            calibration_year (int): The year used for calibration.</span>
+<span class="sd">            forestry_end_year (int): The year at the end of the scenario.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: The range of years in the scenario.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">years_range</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span><span class="p">,</span> <span class="n">forestry_end_year</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">years_range</span></div>
+
+
+
+<div class="viewcode-block" id="DataManager.get_full_scenario_years_range">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/cbm_runner_data_manager/index.html#goblin_cbm_runner.resource_manager.cbm_runner_data_manager.DataManager.get_full_scenario_years_range">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_full_scenario_years_range</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">forestry_end_year</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the scenario years range, including afforestation from 1990.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            list: The range of years in the scenario.</span>
@@ -536,6 +574,7 @@
 
         <span class="k">return</span> <span class="n">years_range</span></div>
 
+    
     
 <div class="viewcode-block" id="DataManager.get_baseline_years">
 <a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/cbm_runner_data_manager/index.html#goblin_cbm_runner.resource_manager.cbm_runner_data_manager.DataManager.get_baseline_years">[docs]</a>
@@ -552,6 +591,7 @@
 
         <span class="k">return</span> <span class="n">years</span></div>
 
+    
     
 <div class="viewcode-block" id="DataManager.get_baseline_years_range">
 <a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/cbm_runner_data_manager/index.html#goblin_cbm_runner.resource_manager.cbm_runner_data_manager.DataManager.get_baseline_years_range">[docs]</a>

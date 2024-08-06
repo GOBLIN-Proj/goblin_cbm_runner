@@ -1,7 +1,7 @@
 """
-Inventory Module 
-================
-This module is responsible for managing inventory data for forest simulation in a CBM (Carbon Budget Modeling) context.
+Afforesation Inventory Module 
+==============================
+This module is responsible for managing historic afforestation inventory data for forest simulation in a CBM (Carbon Budget Modeling) context.
 It handles the creation and structuring of inventory data for both baseline and scenario-based simulations.
 """
 import pandas as pd
@@ -11,7 +11,7 @@ from goblin_cbm_runner.resource_manager.loader import Loader
 from goblin_cbm_runner.resource_manager.cbm_runner_data_manager import DataManager
 
 
-class Inventory:
+class AFInventory:
     """
     Manages the inventory data for forest simulation in a CBM (Carbon Budget Modeling) context.
 
@@ -29,21 +29,16 @@ class Inventory:
         yield_baseline_dict (dict): Dictionary mapping yield classes to their respective baseline proportions nationally.
 
     Methods:
-        legacy_forest_inventory(): Generates inventory data for legacy forests.
-        make_inventory_structure(scenario, path, ID, delay, UNFCCCLC): Creates the structure of the inventory based on specified parameters.
-        fill_baseline_inventory(scenario, inventory_df, forest_type, species, soil, yield_class, ageID): Fills the baseline inventory with specific data.
-        inventory_iterator(scenario, inventory_df): Iterates over the inventory data and populates it with relevant information.
-        afforestation_inventory(scenario, inventory_df): Generates inventory data for afforestation.
-        scenario_afforestation_dict(scenario_afforestation_areas): Generates a dictionary for scenario-based afforestation areas.
-        combined_mineral_afforestation_dict(scenario_afforestation_areas): Combines mineral afforestation and legacy afforestation.
-        legacy_afforestation(): Retrieves and processes legacy afforestation data.
-        legacy_afforestation_annual(): Processes annual legacy afforestation data.
-        afforestation_annual_dict(afforestation_df): Converts afforestation data into an annual dictionary format.
+        make_inventory_structure: Creates an inventory structure based on the given scenario and parameters.
+        afforestation_inventory: Calculate the afforestation inventory based on the given scenario and inventory dataframe.
+        legacy_afforestation: Calculate the afforestation areas for legacy years.
+        legacy_afforestation_annual: Calculate the annual afforestation for legacy years.
+        afforestation_annual_dict: Generate a dictionary containing annual afforestation data.
+    
     """
-    def __init__(self, calibration_year, config_path, afforestation_data):
+    def __init__(self, calibration_year, config_path):
         self.loader_class = Loader()
         self.data_manager_class = DataManager(calibration_year=calibration_year, config_file=config_path)
-        self.afforestation_data = afforestation_data
         self.age_df = self.loader_class.forest_age_structure()
         self.baseline_forest_classifiers = self.data_manager_class.get_classifiers()[
             "Baseline"
@@ -55,38 +50,6 @@ class Inventory:
         self.soils_dict = self.data_manager_class.get_soils_dict()
         self.yield_baseline_dict = self.data_manager_class.get_yield_baseline_dict()
 
-
-    def legacy_forest_inventory(self):
-        """
-        Calculate the legacy forest inventory data based on National Inventory Report forest data and Central Statistics Office species proportion.
-
-        Returns:
-            pandas.DataFrame: Dataframe containing the species, peat, and mineral columns.
-        """
-        legacy_data = self.loader_class.NIR_forest_data_ha()
-
-        species_proportion = self.loader_class.cso_species_breakdown()
-
-        legacy_year = self.legacy_year
-
-        species = {"Sitka": "conifer", "SGB": "broadleaf"}
-
-        cols = ["species", "peat", "mineral"]
-
-        data = pd.DataFrame(columns=cols)
-
-        for i, key in enumerate(species.keys()):
-            data.loc[i, "species"] = key
-            data.loc[i, "peat"] = (
-                legacy_data.loc[legacy_year, "organic_kha"].item()
-                * species_proportion.at[legacy_year, species[key]]
-            )
-            data.loc[i, "mineral"] = (
-                legacy_data.loc[legacy_year, "mineral_kha"].item()
-                * species_proportion.at[legacy_year, species[key]]
-            )
-
-        return data
 
     def make_inventory_structure(self, scenario, path, ID="False", delay=0, UNFCCCLC=2):
         """
@@ -188,113 +151,8 @@ class Inventory:
 
         return inventory_df
 
-    def fill_baseline_inventory(
-        self,
-        scenario,
-        inventory_df,
-        forest_type,
-        species,
-        soil,
-        yield_class,
-        ageID,
-    ):
-        """
-        Fills the baseline inventory dataframe with calculated values based on the given parameters.
 
-        Parameters:
-            scenario (str): The scenario for the inventory.
-            inventory_df (pandas.DataFrame): The baseline inventory dataframe to be filled.
-            forest_type (str): The forest type (L, A).
-            species (str): The species of the forest.
-            soil (str): The soil type.
-            yield_class (str): The yield class.
-            ageID (int): The age ID.
-
-        Returns:
-            pandas.DataFrame: The filled baseline inventory dataframe.
-        """
-
-        age_df = self.age_df
-        data_df = self.legacy_forest_inventory()
-
-        mask = (
-            (inventory_df["Classifier1"] == species)
-            & (inventory_df["Classifier2"] == forest_type)
-            & (inventory_df["Classifier3"] == soil)
-            & (inventory_df["Classifier4"] == yield_class)
-            & (inventory_df["Age"] == ageID)
-        )
-
-        species_exists = species in data_df["species"].unique()
-
-        data_mask = data_df["species"] == species
-
-        age_mask = age_df["year"] == ageID
-
-        if species in self.yield_baseline_dict:
-            yield_dict = self.yield_baseline_dict[species]
-        else:
-            yield_dict = None
-
-        if species_exists and yield_class in yield_dict:
-            if forest_type == "L":
-                inventory_df.loc[mask, "Area"] = (
-                    data_df.loc[data_mask, soil].item()
-                    * yield_dict[yield_class]
-                    * age_df.loc[age_mask, "aggregate"].item()
-                )
-                inventory_df.loc[mask, "HistDist"] = "DISTID3"
-
-                inventory_df.loc[mask, "LastDist"] = "DISTID3"
-        else:
-            inventory_df.loc[mask, "Area"] = 0.0
-
-        return inventory_df
-
-    def inventory_iterator(self, scenario, inventory_df):
-        """
-        Iterates over different combinations of age, species, forest type, soil class, and yield class
-        to fill the baseline inventory dataframe for a given scenario.
-
-        Args:
-            scenario (str): The scenario for which the baseline inventory is being filled.
-            inventory_df (pandas.DataFrame): The baseline inventory dataframe.
-
-        Returns:
-            pandas.DataFrame: The updated baseline inventory dataframe.
-        """
-
-        classifiers = self.baseline_forest_classifiers
-
-        age_df = self.age_df
-
-        # Extract the keys from classifiers
-        species_keys = list(classifiers["Species"].keys())
-        forest_keys = list(classifiers["Forest type"].keys())
-        soil_keys = list(classifiers["Soil classes"].keys())
-        yield_keys = list(classifiers["Yield classes"].keys())
-
-        combinations = itertools.product(
-            age_df["year"], species_keys, forest_keys, soil_keys, yield_keys
-        )
-
-        for AgeID, species, forest, soil, yield_class in combinations:
-            inventory_df = self.fill_baseline_inventory(
-                scenario,
-                inventory_df,
-                forest,
-                species,
-                soil,
-                yield_class,
-                AgeID,
-            )
-
-        inventory_df = inventory_df[inventory_df["Area"] != 0]
-
-        return inventory_df
-
-
-    def afforestation_inventory(self, scenario, inventory_df):
+    def afforestation_inventory(self, scenario, path):
         """
         Calculate the afforestation inventory based on the given scenario and inventory dataframe.
 
@@ -305,22 +163,12 @@ class Inventory:
         Returns:
             pd.DataFrame: The updated inventory dataframe with afforestation areas calculated.
         """
+        inventory_df = self.make_inventory_structure(scenario, path)
+
         classifiers = self.scenario_forest_classifiers
 
-        scenario_afforestation_data = self.afforestation_data
-
-        mask = scenario_afforestation_data["scenario"] == scenario
-
-        afforestation_areas = scenario_afforestation_data.copy(deep=True)
-
-        scenario_afforestation_areas = afforestation_areas.loc[mask]
-
-        mineral_areas_dicts = self.combined_mineral_afforestation_dict(
-            scenario_afforestation_areas
-        )
-        legacy_afforestation_peat_dict = self.legacy_afforestation()[
-            "peat_afforestation"
-        ]
+        mineral_areas_dicts = self.legacy_afforestation()["mineral_afforestation"]
+        legacy_afforestation_peat_dict = self.legacy_afforestation()["peat_afforestation"]
 
         non_forest_dict = self.data_manager_class.get_non_forest_dict()
 
@@ -337,72 +185,19 @@ class Inventory:
                     if soil == "peat":
                         inventory_df.loc[
                             inventory_mask, "Area"
-                        ] = legacy_afforestation_peat_dict[yield_class][species] * 2
+                        ] = legacy_afforestation_peat_dict[yield_class][species]
                     else:
                         inventory_df.loc[inventory_mask, "Area"] = mineral_areas_dicts[
                             yield_class
-                        ][species] * 1e3
+                        ][species] 
 
         inventory_df["HistDist"] = "DISTID5"
 
         inventory_df["LastDist"] = "DISTID5"
 
         return inventory_df
-
-    def scenario_afforesation_dict(self, scenario_afforestation_areas):
-        """
-        Calculate the areas of afforestation for each yield class and species based on the scenario afforestation areas.
-
-        Args:
-            scenario_afforestation_areas (ScenarioAfforestationAreas): An object containing the species and total area of afforestation for each species.
-
-        Returns:
-            dict: A dictionary containing the areas of afforestation for each yield class and species.
-        """
-        areas_dict ={}
-
-        for yield_class, species, total_area in zip(scenario_afforestation_areas.yield_class, scenario_afforestation_areas.species, scenario_afforestation_areas.total_area):
-            if yield_class not in areas_dict:
-                areas_dict[yield_class] = {}
-            if species not in areas_dict[yield_class]:
-                areas_dict[yield_class][species] = 0
-            areas_dict[yield_class][species] += total_area
-
-        return areas_dict
     
-
-    def combined_mineral_afforestation_dict(self, scenario_afforestation_areas):
-        """
-        Combines the afforestation areas from the scenario afforestation dictionary
-        with the legacy afforestation areas for mineral afforestation.
-
-        Args:
-            scenario_afforestation_areas (dict): A dictionary containing the afforestation
-                areas for different yield classes and species in the scenario.
-
-        Returns:
-            dict: A dictionary containing the combined afforestation areas for different
-                yield classes and species, including both scenario and legacy afforestation.
-        """
-        scenarios_afforesation_dict = self.scenario_afforesation_dict(
-            scenario_afforestation_areas
-        )
-        legacy_afforestation_mineral_dict = self.legacy_afforestation()[
-            "mineral_afforestation"
-        ]
-
-        areas_dicts = {
-            yield_class: {
-                species: scenarios_afforesation_dict.get(yield_class, {}).get(
-                    species, 0
-                )
-                + legacy_afforestation_mineral_dict[yield_class][species]
-                for species in legacy_afforestation_mineral_dict[yield_class]
-            }
-            for yield_class in legacy_afforestation_mineral_dict.keys()
-        }
-
-        return areas_dicts
+    
 
     def legacy_afforestation(self):
         """

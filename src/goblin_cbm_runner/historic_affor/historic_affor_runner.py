@@ -94,9 +94,9 @@ class HistoricAfforRunner:
 
         self.SIM_class = CBMSim()
 
-        self.years = self.data_manager_class.get_scenario_years(self.forest_end_year)
+        self.years = self.data_manager_class.get_full_scenario_years(self.forest_end_year)
 
-        self.year_range = self.data_manager_class.get_scenario_years_range(self.forest_end_year)
+        self.year_range = self.data_manager_class.get_full_scenario_years_range(self.forest_end_year)
 
         self.defaults_db = self.paths_class.get_aidb_path()
 
@@ -149,6 +149,7 @@ class HistoricAfforRunner:
         path = self.path
 
         if self.paths_class.is_path_internal(path):
+            print("Cleaning scenario SIT data directories")
             self.cbm_data_class.clean_data_dir(path)
 
         self.cbm_data_class.make_data_dirs(self.INDEX, path)

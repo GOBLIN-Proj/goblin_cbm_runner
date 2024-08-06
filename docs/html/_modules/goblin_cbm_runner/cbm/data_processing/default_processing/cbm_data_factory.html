@@ -99,7 +99,8 @@
 <span class="kn">from</span> <span class="nn">goblin_cbm_runner.resource_manager.cbm_runner_data_manager</span> <span class="kn">import</span> <span class="n">DataManager</span>
 <span class="kn">from</span> <span class="nn">goblin_cbm_runner.cbm.data_processing.default_processing.create_json</span> <span class="kn">import</span> <span class="n">CreateJSON</span>
 <span class="kn">from</span> <span class="nn">goblin_cbm_runner.cbm.data_processing.default_processing.yield_curves</span> <span class="kn">import</span> <span class="n">YieldCurves</span>
-<span class="kn">from</span> <span class="nn">goblin_cbm_runner.cbm.data_processing.default_processing.inventory</span> <span class="kn">import</span> <span class="n">Inventory</span>
+<span class="kn">from</span> <span class="nn">goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory</span> <span class="kn">import</span> <span class="n">SCInventory</span>
+<span class="kn">from</span> <span class="nn">goblin_cbm_runner.cbm.data_processing.default_processing.AF_inventory</span> <span class="kn">import</span> <span class="n">AFInventory</span>
 <span class="kn">from</span> <span class="nn">goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances</span> <span class="kn">import</span> <span class="n">AFDisturbances</span>
 <span class="kn">from</span> <span class="nn">goblin_cbm_runner.cbm.data_processing.default_processing.SC_disturbances</span> <span class="kn">import</span> <span class="n">SCDisturbances</span>
 <span class="kn">from</span> <span class="nn">goblin_cbm_runner.cbm.data_processing.default_processing.transition</span> <span class="kn">import</span> <span class="n">Transition</span>
@@ -159,8 +160,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">loader_class</span> <span class="o">=</span> <span class="n">Loader</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span> <span class="o">=</span> <span class="n">DataManager</span><span class="p">(</span><span class="n">calibration_year</span><span class="o">=</span><span class="n">calibration_year</span><span class="p">,</span> <span class="n">config_file</span><span class="o">=</span><span class="n">config_path</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">json_creator_class</span> <span class="o">=</span> <span class="n">CreateJSON</span><span class="p">(</span><span class="n">config_path</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">inventory_class</span> <span class="o">=</span> <span class="n">Inventory</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SC_inventory_class</span> <span class="o">=</span> <span class="n">SCInventory</span><span class="p">(</span>
             <span class="n">calibration_year</span><span class="p">,</span> <span class="n">config_path</span><span class="p">,</span> <span class="n">afforestation_data</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">AF_inventory_class</span> <span class="o">=</span> <span class="n">AFInventory</span><span class="p">(</span>
+            <span class="n">calibration_year</span><span class="p">,</span> <span class="n">config_path</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">AF_disturbance_class</span> <span class="o">=</span> <span class="n">AFDisturbances</span><span class="p">(</span>
             <span class="n">config_path</span><span class="p">,</span>
@@ -179,6 +184,7 @@
             <span class="n">scenario_data</span><span class="p">,</span>
         <span class="p">)</span>   
         <span class="bp">self</span><span class="o">.</span><span class="n">transition_class</span> <span class="o">=</span> <span class="n">Transition</span><span class="p">(</span><span class="n">calibration_year</span><span class="p">,</span> <span class="n">config_path</span><span class="p">)</span>
+        
         <span class="bp">self</span><span class="o">.</span><span class="n">afforestation_data</span> <span class="o">=</span> <span class="n">afforestation_data</span>
 
 <div class="viewcode-block" id="DataFactory.set_input_data_dir">
@@ -538,20 +544,19 @@
 <span class="sd">            None</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">inventory_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inventory_class</span><span class="o">.</span><span class="n">make_inventory_structure</span><span class="p">(</span><span class="n">scenario</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">scenario</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">inventory_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inventory_class</span><span class="o">.</span><span class="n">afforestation_inventory</span><span class="p">(</span>
-                <span class="n">scenario</span><span class="p">,</span> <span class="n">inventory_df</span>
+        <span class="k">if</span> <span class="n">scenario</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">inventory_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">AF_inventory_class</span><span class="o">.</span><span class="n">afforestation_inventory</span><span class="p">(</span>
+                <span class="n">scenario</span><span class="p">,</span> <span class="n">path</span>
             <span class="p">)</span>
             <span class="n">inventory_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span>
                 <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">scenario</span><span class="p">),</span> <span class="s2">&quot;inventory.csv&quot;</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">inventory_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inventory_class</span><span class="o">.</span><span class="n">inventory_iterator</span><span class="p">(</span>
-                <span class="n">scenario</span><span class="p">,</span> <span class="n">inventory_df</span>
+
+            <span class="n">inventory_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">SC_inventory_class</span><span class="o">.</span><span class="n">scenario_inventory</span><span class="p">(</span>
+                <span class="n">scenario</span><span class="p">,</span> <span class="n">path</span>
             <span class="p">)</span>
-            <span class="n">inventory_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;inventory.csv&quot;</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+            <span class="n">inventory_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">scenario</span><span class="p">),</span> <span class="s2">&quot;inventory.csv&quot;</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
 
 

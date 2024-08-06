@@ -174,9 +174,9 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">SIM_class</span> <span class="o">=</span> <span class="n">CBMSim</span><span class="p">()</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">years</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_scenario_years</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">forest_end_year</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">years</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_full_scenario_years</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">forest_end_year</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">year_range</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_scenario_years_range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">forest_end_year</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">year_range</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_full_scenario_years_range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">forest_end_year</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">defaults_db</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">paths_class</span><span class="o">.</span><span class="n">get_aidb_path</span><span class="p">()</span>
 
@@ -234,6 +234,7 @@
         <span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">paths_class</span><span class="o">.</span><span class="n">is_path_internal</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Cleaning scenario SIT data directories&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">clean_data_dir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">make_data_dirs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">INDEX</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>

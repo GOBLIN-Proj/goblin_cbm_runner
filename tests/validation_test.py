@@ -9,14 +9,14 @@ def main():
 
     data = val.run_validation()
 
-    #for key, value in data.items():
-        #if value is not None:
-           #value.to_csv(results_path + key + ".csv")
+    for key, value in data.items():
+        if value is not None:
+           value.to_csv(results_path + key + ".csv")
 
-    #df = val.run_scenario_disturbance_area_validation()
+    df = val.run_scenario_disturbance_area_validation()
     
-    #df["merge_disturbances_and_parse"].to_csv(results_path + "merge_parse.csv")
-    #df["summary_disturbances"].to_csv(results_path + "dist_sum.csv")
+    df["merge_disturbances_and_parse"].to_csv(results_path + "merge_parse.csv")
+    df["summary_disturbances"].to_csv(results_path + "dist_sum.csv")
 
     for key, value in data.items():
         if key == "primary_data":

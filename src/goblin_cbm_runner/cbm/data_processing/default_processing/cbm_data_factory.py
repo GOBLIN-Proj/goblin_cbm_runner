@@ -21,7 +21,8 @@ from goblin_cbm_runner.resource_manager.loader import Loader
 from goblin_cbm_runner.resource_manager.cbm_runner_data_manager import DataManager
 from goblin_cbm_runner.cbm.data_processing.default_processing.create_json import CreateJSON
 from goblin_cbm_runner.cbm.data_processing.default_processing.yield_curves import YieldCurves
-from goblin_cbm_runner.cbm.data_processing.default_processing.inventory import Inventory
+from goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory import SCInventory
+from goblin_cbm_runner.cbm.data_processing.default_processing.AF_inventory import AFInventory
 from goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances import AFDisturbances
 from goblin_cbm_runner.cbm.data_processing.default_processing.SC_disturbances import SCDisturbances
 from goblin_cbm_runner.cbm.data_processing.default_processing.transition import Transition
@@ -79,8 +80,12 @@ class DataFactory:
         self.loader_class = Loader()
         self.data_manager_class = DataManager(calibration_year=calibration_year, config_file=config_path)
         self.json_creator_class = CreateJSON(config_path)
-        self.inventory_class = Inventory(
+        self.SC_inventory_class = SCInventory(
             calibration_year, config_path, afforestation_data
+        )
+
+        self.AF_inventory_class = AFInventory(
+            calibration_year, config_path
         )
         self.AF_disturbance_class = AFDisturbances(
             config_path,
@@ -99,6 +104,7 @@ class DataFactory:
             scenario_data,
         )   
         self.transition_class = Transition(calibration_year, config_path)
+        
         self.afforestation_data = afforestation_data
 
     def set_input_data_dir(self, sc, path, db_path):
@@ -426,20 +432,19 @@ class DataFactory:
             None
 
         """
-        inventory_df = self.inventory_class.make_inventory_structure(scenario, path)
-
-        if scenario is not None:
-            inventory_df = self.inventory_class.afforestation_inventory(
-                scenario, inventory_df
+        if scenario == -1:
+            inventory_df = self.AF_inventory_class.afforestation_inventory(
+                scenario, path
             )
             inventory_df.to_csv(
                 os.path.join(path, str(scenario), "inventory.csv"), index=False
             )
         else:
-            inventory_df = self.inventory_class.inventory_iterator(
-                scenario, inventory_df
+
+            inventory_df = self.SC_inventory_class.scenario_inventory(
+                scenario, path
             )
-            inventory_df.to_csv(os.path.join(path, "inventory.csv"), index=False)
+            inventory_df.to_csv(os.path.join(path,str(scenario), "inventory.csv"), index=False)
 
 
     def make_disturbance_events(self, scenario, path):

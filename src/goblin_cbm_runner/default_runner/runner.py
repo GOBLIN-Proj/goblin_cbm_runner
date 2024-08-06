@@ -82,13 +82,17 @@ class Runner:
         
         self.SIM_class = CBMSim()
 
-        self.scenario_years = self.data_manager_class.get_scenario_years(self.forest_end_year)
+        self.historic_scenario_years = self.data_manager_class.get_full_scenario_years(self.forest_end_year)
 
-        self.scenario_year_range = self.data_manager_class.get_scenario_years_range(self.forest_end_year)
+        self.historic_scenario_year_range = self.data_manager_class.get_full_scenario_years_range(self.forest_end_year)
 
         self.baseline_years = self.data_manager_class.get_baseline_years(self.forest_end_year)
 
         self.baseline_year_range = self.data_manager_class.get_baseline_years_range(self.forest_end_year)
+
+        self.scenario_years = self.data_manager_class.calculate_scenario_years(self.forest_end_year)
+
+        self.scenario_year_range = self.data_manager_class.calculate_scenario_years_range(self.forest_end_year)
 
         self._generate_base_input_data()
         self.forest_FM_baseline_dataframe = self.SIM_class.baseline_simulate_stock(self.cbm_data_class,
@@ -100,13 +104,13 @@ class Runner:
         self._generate_input_data()
 
         self.forest_AF_baseline_dataframe = self.SIM_class.cbm_aggregate_scenario_stock(-1, self.cbm_data_class, 
-                                                                                        self.scenario_years, 
-                                                                                        self.scenario_year_range, 
+                                                                                        self.historic_scenario_years, 
+                                                                                        self.historic_scenario_year_range, 
                                                                                         self.path,
                                                                                         self.defaults_db
                                                                                         )
 
-
+        self.merged_AF_FM_forest_data = self.merge_forest_AF_FM_dataframes()
 
     def _generate_base_input_data(self):
         """
@@ -153,6 +157,7 @@ class Runner:
         path = self.path
     
         if self.paths_class.is_path_internal(path):
+            print("Cleaning scenario SIT data directories")
             self.cbm_data_class.clean_data_dir(path)
             
         self.cbm_data_class.make_data_dirs(self.INDEX, path)
@@ -188,8 +193,19 @@ class Runner:
         """
         return self.forest_FM_baseline_dataframe
     
+
     @property
     def get_merged_forest_AF_FM_dataframes(self):
+        """
+        Returns the merged data for afforestation and user-defined forest management scenarios.
+
+        Returns:
+            pd.DataFrame: Merged data for afforestation and forest management baseline scenarios.
+        """
+        return self.merged_AF_FM_forest_data
+    
+
+    def merge_forest_AF_FM_dataframes(self):
         """
         Merges the baseline data for afforestation and user-defined forest management scenarios.
 

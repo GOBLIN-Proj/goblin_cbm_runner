@@ -135,12 +135,4 @@ Classes
       :rtype: pandas.DataFrame
 
 
-   .. py:method:: get_legacy_forest_area_breakdown()
-
-      Calculate the breakdown of legacy forest area based on species, yield class, soil type, and age.
-
-      :returns: DataFrame containing the breakdown of legacy forest area.
-      :rtype: pandas.DataFrame
-
-
 

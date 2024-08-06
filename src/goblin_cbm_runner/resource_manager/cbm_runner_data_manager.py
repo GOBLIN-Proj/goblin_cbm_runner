@@ -50,9 +50,9 @@ class DataManager:
         self.CBMpools = Pools()
         self.config_data = self.get_config_data(config_file) if config_file else None
 
-        self.forest_baseline_year = 2016 #(
-            #(int(calibration_year)) if calibration_year is not None else None
-        #)
+        self.forest_baseline_year = 2016 
+
+        self.calibration_year = calibration_year
 
         self.afforestation_baseline = 1990
 
@@ -359,9 +359,9 @@ class DataManager:
 
         return legacy_dist
     
-    def get_scenario_years(self, forestry_end_year):
+    def get_full_scenario_years(self, forestry_end_year):
         """
-        Get the scenario years.
+        Get total number of scenario years from 1990.
 
         Returns:
             int: The number of years in the scenario.
@@ -372,9 +372,41 @@ class DataManager:
 
         return years
     
-    def get_scenario_years_range(self, forestry_end_year):
+    def calculate_scenario_years(self,forestry_end_year):
         """
-        Get the scenario years range.
+        Calculate the number of years in the scenario from the calibration year.
+
+        Args:
+            calibration_year (int): The year used for calibration.
+            forestry_end_year (int): The year at the end of the scenario.
+
+        Returns:
+            int: The number of years in the scenario.
+        """
+
+        years = forestry_end_year - self.calibration_year
+
+        return years
+    
+    def calculate_scenario_years_range(self, forestry_end_year):
+        """
+        Calculate the range of years in the scenario from the calibration year.
+
+        Args:
+            calibration_year (int): The year used for calibration.
+            forestry_end_year (int): The year at the end of the scenario.
+
+        Returns:
+            list: The range of years in the scenario.
+        """
+        years_range = list(range(self.calibration_year, forestry_end_year + 1))
+
+        return years_range
+
+
+    def get_full_scenario_years_range(self, forestry_end_year):
+        """
+        Get the scenario years range, including afforestation from 1990.
 
         Returns:
             list: The range of years in the scenario.
@@ -384,6 +416,7 @@ class DataManager:
         years_range = list(range(forest_baseline_year, forestry_end_year + 1))
 
         return years_range
+    
     
     def get_baseline_years(self, forestry_end_year):
         """
@@ -397,6 +430,7 @@ class DataManager:
         years = forestry_end_year - forest_baseline_year
 
         return years
+    
     
     def get_baseline_years_range(self, forestry_end_year):
         """

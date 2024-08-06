@@ -147,10 +147,7 @@ Classes
 
    .. py:property:: get_merged_forest_AF_FM_dataframes
 
-      Merges the baseline data for afforestation and user-defined forest management scenarios.
-
-      This method merges the afforestation and forest management baseline dataframes on the 'Year' column,
-      and sums the specified columns for the shared years.
+      Returns the merged data for afforestation and user-defined forest management scenarios.
 
       :returns: Merged data for afforestation and forest management baseline scenarios.
       :rtype: pd.DataFrame
@@ -178,6 +175,17 @@ Classes
       :param None:
 
       :returns: None
+
+
+   .. py:method:: merge_forest_AF_FM_dataframes()
+
+      Merges the baseline data for afforestation and user-defined forest management scenarios.
+
+      This method merges the afforestation and forest management baseline dataframes on the 'Year' column,
+      and sums the specified columns for the shared years.
+
+      :returns: Merged data for afforestation and forest management baseline scenarios.
+      :rtype: pd.DataFrame
 
 
    .. py:method:: run_aggregate_scenarios()

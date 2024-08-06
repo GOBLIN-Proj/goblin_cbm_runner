@@ -8,7 +8,7 @@ It manages the creation of the disturbance input for legacy afforesation since 1
 from goblin_cbm_runner.cbm.data_processing.default_processing.disturnance_utils import DisturbUtils
 from goblin_cbm_runner.resource_manager.cbm_runner_data_manager import DataManager
 from goblin_cbm_runner.resource_manager.loader import Loader
-from goblin_cbm_runner.cbm.data_processing.default_processing.inventory import Inventory
+from goblin_cbm_runner.cbm.data_processing.default_processing.AF_inventory import AFInventory
 import pandas as pd
 
 
@@ -65,8 +65,8 @@ class AFDisturbances:
             "Scenario"
         ]
         self.afforestation_data = afforestation_data
-        self.inventory_class = Inventory(
-            calibration_year, config_path, afforestation_data
+        self.inventory_class = AFInventory(
+            calibration_year, config_path
         )
 
         self.disturbance_timing = self.loader_class.disturbance_time()
@@ -211,39 +211,6 @@ class AFDisturbances:
         disturbance_df = pd.DataFrame(data)
         disturbance_df = self.utils_class._drop_zero_area_rows(disturbance_df)
         return disturbance_df
-    
-
-
-    def get_legacy_forest_area_breakdown(self):
-        """
-        Calculate the breakdown of legacy forest area based on species, yield class, soil type, and age.
-
-        Returns:
-            pandas.DataFrame: DataFrame containing the breakdown of legacy forest area.
-        """
-        age_df = self.loader_class.forest_age_structure()
-        data_df = self.inventory_class.legacy_forest_inventory()
-        yield_dict = self.data_manager_class.get_yield_baseline_dict()
-
-        data = []
-        for species in data_df["species"].unique():
-            for soil in ["mineral", "peat"]:
-                for yc in yield_dict[species].keys():
-                    for age in age_df["year"].unique():
-
-                        data_mask = data_df["species"] == species
-                        age_mask = age_df["year"] == age
-
-                        row_data = {
-                            "species": species,
-                            "yield_class": yc,
-                            "soil": soil,
-                            "age": age,
-                            "area": data_df.loc[data_mask, soil].item() * yield_dict[species][yc] * age_df.loc[age_mask, "aggregate"].item()
-                        }
-                        data.append(row_data)
-
-        return pd.DataFrame(data)
     
             
 

@@ -146,6 +146,7 @@ class GeoRunner:
 
         
         if self.paths_class.is_path_internal(path):
+            print("Cleaning scenario SIT data directories")
             self.cbm_data_class.clean_data_dir(path)
             self.cbm_data_class.make_data_dirs(self.INDEX, path)
 

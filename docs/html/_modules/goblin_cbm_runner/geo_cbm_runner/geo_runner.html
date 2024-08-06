@@ -231,6 +231,7 @@
 
         
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">paths_class</span><span class="o">.</span><span class="n">is_path_internal</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Cleaning scenario SIT data directories&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">clean_data_dir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">make_data_dirs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">INDEX</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
 

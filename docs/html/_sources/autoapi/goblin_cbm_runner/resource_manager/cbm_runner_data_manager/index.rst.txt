@@ -343,17 +343,43 @@ Classes
       :rtype: dict
 
 
-   .. py:method:: get_scenario_years(forestry_end_year)
+   .. py:method:: get_full_scenario_years(forestry_end_year)
 
-      Get the scenario years.
+      Get total number of scenario years from 1990.
 
       :returns: The number of years in the scenario.
       :rtype: int
 
 
-   .. py:method:: get_scenario_years_range(forestry_end_year)
+   .. py:method:: calculate_scenario_years(forestry_end_year)
 
-      Get the scenario years range.
+      Calculate the number of years in the scenario from the calibration year.
+
+      :param calibration_year: The year used for calibration.
+      :type calibration_year: int
+      :param forestry_end_year: The year at the end of the scenario.
+      :type forestry_end_year: int
+
+      :returns: The number of years in the scenario.
+      :rtype: int
+
+
+   .. py:method:: calculate_scenario_years_range(forestry_end_year)
+
+      Calculate the range of years in the scenario from the calibration year.
+
+      :param calibration_year: The year used for calibration.
+      :type calibration_year: int
+      :param forestry_end_year: The year at the end of the scenario.
+      :type forestry_end_year: int
+
+      :returns: The range of years in the scenario.
+      :rtype: list
+
+
+   .. py:method:: get_full_scenario_years_range(forestry_end_year)
+
+      Get the scenario years range, including afforestation from 1990.
 
       :returns: The range of years in the scenario.
       :rtype: list

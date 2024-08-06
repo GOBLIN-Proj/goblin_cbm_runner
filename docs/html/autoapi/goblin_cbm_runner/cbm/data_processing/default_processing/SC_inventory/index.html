@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory &mdash; goblin_cbm_runner 0.4.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+      <link rel="stylesheet" type="text/css" href="../../../../../../_static/graphviz.css?v=eafc0fe6" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../../../../_static/documentation_options.js?v=6c02275b"></script>
+        <script src="../../../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../search.html" />
+    <link rel="next" title="goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory" href="../cbm_data_factory/index.html" />
+    <link rel="prev" title="goblin_cbm_runner.cbm.data_processing.default_processing.SC_disturbances" href="../SC_disturbances/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../../../index.html" class="icon icon-home">
+            goblin_cbm_runner
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../INSTALLATION.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../../../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner</span></code></a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../../../../index.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="../../../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.cbm</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../cbm_validation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.cbm_validation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../configuration_data/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.configuration_data</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../database/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.database</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../default_runner/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.default_runner</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../geo_cbm_runner/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.geo_cbm_runner</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../harvest_manager/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.harvest_manager</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../historic_affor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.historic_affor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../resource_manager/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.resource_manager</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../example.html">Example Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../example.html#plot-fluxes-for-baseline">Plot Fluxes for Baseline</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../index.html">goblin_cbm_runner</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../../index.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="../../../../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner</span></code></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.cbm</span></code></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.cbm.data_processing</span></code></a></li>
+          <li class="breadcrumb-item"><a href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.cbm.data_processing.default_processing</span></code></a></li>
+      <li class="breadcrumb-item active"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../_sources/autoapi/goblin_cbm_runner/cbm/data_processing/default_processing/SC_inventory/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory">
+<span id="goblin-cbm-runner-cbm-data-processing-default-processing-sc-inventory"></span><h1><a class="reference internal" href="#module-goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory" title="goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory</span></code></a><a class="headerlink" href="#module-goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory" title="Link to this heading"></a></h1>
+<section id="scenario-inventory-module">
+<p>This module is responsible for managing scenario inventory data for forest simulation in a CBM (Carbon Budget Modeling) context.
+It handles the creation and structuring of inventory data for both baseline and scenario-based simulations.</p>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Link to this heading"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory.SCInventory" title="goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory.SCInventory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SCInventory</span></code></a></p></td>
+<td><p>Manages the inventory data for forest simulation in a CBM (Carbon Budget Modeling) context.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory.SCInventory">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory.</span></span><span class="sig-name descname"><span class="pre">SCInventory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">calibration_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">afforestation_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/SC_inventory.html#SCInventory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory.SCInventory" title="Link to this definition"></a></dt>
+<dd><p>Manages the inventory data for forest simulation in a CBM (Carbon Budget Modeling) context.</p>
+<p>This class is responsible for managing and processing inventory data, including legacy forest inventory and afforestation data. It handles the creation and structuring of inventory data for both baseline and scenario-based simulations.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory.SCInventory.loader_class">
+<span class="sig-name descname"><span class="pre">loader_class</span></span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory.SCInventory.loader_class" title="Link to this definition"></a></dt>
+<dd><p>Instance of the Loader class for loading various data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../../../../resource_manager/loader/index.html#goblin_cbm_runner.resource_manager.loader.Loader" title="goblin_cbm_runner.resource_manager.loader.Loader">Loader</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory.SCInventory.data_manager_class">
+<span class="sig-name descname"><span class="pre">data_manager_class</span></span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory.SCInventory.data_manager_class" title="Link to this definition"></a></dt>
+<dd><p>Instance of the DataManager class for managing configuration and data retrieval.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../../../../resource_manager/cbm_runner_data_manager/index.html#goblin_cbm_runner.resource_manager.cbm_runner_data_manager.DataManager" title="goblin_cbm_runner.resource_manager.cbm_runner_data_manager.DataManager">DataManager</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory.SCInventory.afforestation_data">
+<span class="sig-name descname"><span class="pre">afforestation_data</span></span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory.SCInventory.afforestation_data" title="Link to this definition"></a></dt>
+<dd><p>Data related to afforestation events.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory.SCInventory.age_df">
+<span class="sig-name descname"><span class="pre">age_df</span></span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory.SCInventory.age_df" title="Link to this definition"></a></dt>
+<dd><p>Data structure containing information about forest age.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory.SCInventory.baseline_forest_classifiers">
+<span class="sig-name descname"><span class="pre">baseline_forest_classifiers</span></span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory.SCInventory.baseline_forest_classifiers" title="Link to this definition"></a></dt>
+<dd><p>Classifiers for the baseline forest scenario.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory.SCInventory.scenario_forest_classifiers">
+<span class="sig-name descname"><span class="pre">scenario_forest_classifiers</span></span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory.SCInventory.scenario_forest_classifiers" title="Link to this definition"></a></dt>
+<dd><p>Classifiers for different scenario-based forests.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory.SCInventory.legacy_year">
+<span class="sig-name descname"><span class="pre">legacy_year</span></span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory.SCInventory.legacy_year" title="Link to this definition"></a></dt>
+<dd><p>The calibration year.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory.SCInventory.soils_dict">
+<span class="sig-name descname"><span class="pre">soils_dict</span></span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory.SCInventory.soils_dict" title="Link to this definition"></a></dt>
+<dd><p>Dictionary containing information about different soil types.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory.SCInventory.yield_baseline_dict">
+<span class="sig-name descname"><span class="pre">yield_baseline_dict</span></span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory.SCInventory.yield_baseline_dict" title="Link to this definition"></a></dt>
+<dd><p>Dictionary mapping yield classes to their respective baseline proportions nationally.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory.SCInventory.make_inventory_structure">
+<span class="sig-name descname"><span class="pre">make_inventory_structure</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/SC_inventory.html#SCInventory.make_inventory_structure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory.SCInventory.make_inventory_structure" title="Link to this definition"></a></dt>
+<dd><p>Creates an inventory structure based on the given scenario and parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory.SCInventory.scenario_inventory">
+<span class="sig-name descname"><span class="pre">scenario_inventory</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/SC_inventory.html#SCInventory.scenario_inventory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory.SCInventory.scenario_inventory" title="Link to this definition"></a></dt>
+<dd><p>Calculate the afforestation inventory based on the given scenario and inventory dataframe.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory.SCInventory.scenario_afforesation_dict">
+<span class="sig-name descname"><span class="pre">scenario_afforesation_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/SC_inventory.html#SCInventory.scenario_afforesation_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory.SCInventory.scenario_afforesation_dict" title="Link to this definition"></a></dt>
+<dd><p>Calculate the areas of afforestation for each yield class and species based on the scenario afforestation areas.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">make_inventory_structure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ID</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'False'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">UNFCCCLC</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/SC_inventory.html#SCInventory.make_inventory_structure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dd><p>Creates an inventory structure based on the given scenario and parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scenario</strong> (<em>str</em>) – The scenario for which the inventory is being created.</p></li>
+<li><p><strong>path</strong> (<em>str</em>) – The path where the inventory will be saved.</p></li>
+<li><p><strong>ID</strong> (<em>str</em><em>, </em><em>optional</em>) – Fills the UsingID column, defaults to False.</p></li>
+<li><p><strong>delay</strong> (<em>int</em><em>, </em><em>optional</em>) – The delay in years for the inventory. Defaults to 0.</p></li>
+<li><p><strong>UNFCCCLC</strong> (<em>int</em><em>, </em><em>optional</em>) – The UNFCCC land class code for the inventory. Defaults to 2.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The inventory structure as a DataFrame.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">scenario_inventory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/SC_inventory.html#SCInventory.scenario_inventory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
+<dd><p>Calculate the afforestation inventory based on the given scenario and inventory dataframe.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scenario</strong> (<em>str</em>) – The scenario for which the afforestation inventory is calculated.</p></li>
+<li><p><strong>inventory_df</strong> (<em>pd.DataFrame</em>) – The inventory dataframe containing the classifier information.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The updated inventory dataframe with afforestation areas calculated.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">scenario_afforesation_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/SC_inventory.html#SCInventory.scenario_afforesation_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
+<dd><p>Calculate the areas of afforestation for each yield class and species based on the scenario afforestation areas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>scenario_afforestation_areas</strong> (<em>ScenarioAfforestationAreas</em>) – An object containing the species and total area of afforestation for each species.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary containing the areas of afforestation for each yield class and species.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../SC_disturbances/index.html" class="btn btn-neutral float-left" title="goblin_cbm_runner.cbm.data_processing.default_processing.SC_disturbances" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../cbm_data_factory/index.html" class="btn btn-neutral float-right" title="goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Colm Duffy.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

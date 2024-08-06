@@ -87,7 +87,7 @@
 <span class="kn">import</span> <span class="nn">goblin_cbm_runner.resource_manager.parser</span> <span class="k">as</span> <span class="nn">parser</span>
 <span class="kn">from</span> <span class="nn">goblin_cbm_runner.resource_manager.cbm_runner_data_manager</span> <span class="kn">import</span> <span class="n">DataManager</span>
 <span class="kn">from</span> <span class="nn">goblin_cbm_runner.resource_manager.loader</span> <span class="kn">import</span> <span class="n">Loader</span>
-<span class="kn">from</span> <span class="nn">goblin_cbm_runner.cbm.data_processing.default_processing.inventory</span> <span class="kn">import</span> <span class="n">Inventory</span>
+<span class="kn">from</span> <span class="nn">goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory</span> <span class="kn">import</span> <span class="n">SCInventory</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">goblin_cbm_runner.harvest_manager.harvest</span> <span class="kn">import</span> <span class="n">AfforestationTracker</span>
 
@@ -108,7 +108,6 @@
 <span class="sd">        utils_class (DisturbUtils): Instance of DisturbUtils for managing disturbance data.</span>
 <span class="sd">        data_manager_class (DataManager): Instance of DataManager for managing simulation data and configurations.</span>
 <span class="sd">        afforestation_data (DataFrame): Detailed data of afforestation activities per scenario.</span>
-<span class="sd">        inventory_class (Inventory): Instance of Inventory for managing inventory data.</span>
 <span class="sd">        disturbance_timing (DataFrame): Dataframe containing disturbance timing information.</span>
 <span class="sd">        scenario_disturbance_dict (dict): Dictionary containing scenario disturbance data.</span>
 
@@ -141,9 +140,6 @@
         <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">afforestation_data</span> <span class="o">=</span> <span class="n">afforestation_data</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">inventory_class</span> <span class="o">=</span> <span class="n">Inventory</span><span class="p">(</span>
-            <span class="n">calibration_year</span><span class="p">,</span> <span class="n">config_path</span><span class="p">,</span> <span class="n">afforestation_data</span>
-        <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">disturbance_timing</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loader_class</span><span class="o">.</span><span class="n">disturbance_time</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scenario_disturbance_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_scenario_disturbance_dict</span><span class="p">()</span>

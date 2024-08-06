@@ -13,6 +13,8 @@ def main():
         os.path.join(path, "cbm_afforestation.csv"), index_col=0
     )
 
+    print(afforest_data)
+
     # basic configuration file
     config = os.path.join(path, "cbm_factory.yaml")
 

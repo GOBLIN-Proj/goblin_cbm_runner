@@ -7,7 +7,7 @@
   <title>goblin_cbm_runner.resource_manager.cbm_runner_data_manager &mdash; goblin_cbm_runner 0.4.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=eafc0fe6" />
 
   
@@ -664,9 +664,9 @@ including configurations, disturbance data, and scenario information.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.cbm_runner_data_manager.DataManager.get_scenario_years">
-<span class="sig-name descname"><span class="pre">get_scenario_years</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">forestry_end_year</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/cbm_runner_data_manager.html#DataManager.get_scenario_years"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.cbm_runner_data_manager.DataManager.get_scenario_years" title="Link to this definition"></a></dt>
-<dd><p>Get the scenario years.</p>
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.cbm_runner_data_manager.DataManager.get_full_scenario_years">
+<span class="sig-name descname"><span class="pre">get_full_scenario_years</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">forestry_end_year</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/cbm_runner_data_manager.html#DataManager.get_full_scenario_years"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.cbm_runner_data_manager.DataManager.get_full_scenario_years" title="Link to this definition"></a></dt>
+<dd><p>Get total number of scenario years from 1990.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The number of years in the scenario.</p>
@@ -678,9 +678,49 @@ including configurations, disturbance data, and scenario information.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.cbm_runner_data_manager.DataManager.get_scenario_years_range">
-<span class="sig-name descname"><span class="pre">get_scenario_years_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">forestry_end_year</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/cbm_runner_data_manager.html#DataManager.get_scenario_years_range"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.cbm_runner_data_manager.DataManager.get_scenario_years_range" title="Link to this definition"></a></dt>
-<dd><p>Get the scenario years range.</p>
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.cbm_runner_data_manager.DataManager.calculate_scenario_years">
+<span class="sig-name descname"><span class="pre">calculate_scenario_years</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">forestry_end_year</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/cbm_runner_data_manager.html#DataManager.calculate_scenario_years"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.cbm_runner_data_manager.DataManager.calculate_scenario_years" title="Link to this definition"></a></dt>
+<dd><p>Calculate the number of years in the scenario from the calibration year.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>calibration_year</strong> (<em>int</em>) – The year used for calibration.</p></li>
+<li><p><strong>forestry_end_year</strong> (<em>int</em>) – The year at the end of the scenario.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The number of years in the scenario.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.cbm_runner_data_manager.DataManager.calculate_scenario_years_range">
+<span class="sig-name descname"><span class="pre">calculate_scenario_years_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">forestry_end_year</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/cbm_runner_data_manager.html#DataManager.calculate_scenario_years_range"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.cbm_runner_data_manager.DataManager.calculate_scenario_years_range" title="Link to this definition"></a></dt>
+<dd><p>Calculate the range of years in the scenario from the calibration year.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>calibration_year</strong> (<em>int</em>) – The year used for calibration.</p></li>
+<li><p><strong>forestry_end_year</strong> (<em>int</em>) – The year at the end of the scenario.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The range of years in the scenario.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.cbm_runner_data_manager.DataManager.get_full_scenario_years_range">
+<span class="sig-name descname"><span class="pre">get_full_scenario_years_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">forestry_end_year</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/cbm_runner_data_manager.html#DataManager.get_full_scenario_years_range"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.cbm_runner_data_manager.DataManager.get_full_scenario_years_range" title="Link to this definition"></a></dt>
+<dd><p>Get the scenario years range, including afforestation from 1990.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The range of years in the scenario.</p>
