@@ -99,6 +99,8 @@ class GeoRunner:
                                                                             self.baseline_conf_path,
                                                                             self.defaults_db)
 
+        self._generate_input_data()
+
 
     def _generate_base_input_data(self):
         """
@@ -129,7 +131,7 @@ class GeoRunner:
         self.cbm_data_class.make_transition_rules(None, path)
 
 
-    def generate_input_data(self):
+    def _generate_input_data(self):
         """
         Generates input data for the CBM runner.
 

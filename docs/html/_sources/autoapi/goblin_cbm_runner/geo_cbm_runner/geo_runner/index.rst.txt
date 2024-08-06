@@ -151,7 +151,7 @@ Classes
       :returns: None
 
 
-   .. py:method:: generate_input_data()
+   .. py:method:: _generate_input_data()
 
       Generates input data for the CBM runner.
 
