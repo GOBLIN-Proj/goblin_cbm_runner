@@ -55,7 +55,7 @@ class DataManager:
             sqlalchemy.engine.Engine: The SQLAlchemy engine object.
         """
         database_path = os.path.abspath(
-            os.path.join(self.database_dir, "cbm_runner_database.db")
+            os.path.join(self.database_dir, "cbm_runner_database_0.4.0.db")
         )
         engine_url = f"sqlite:///{database_path}"
 
