@@ -30,9 +30,6 @@ class TestGenerateData(unittest.TestCase):
             # instance of the Runner class
             runner = Runner(config, calibration_year, afforest_data, sc_data)
 
-            # generation of data for each of the scenarios
-            runner.generate_input_data()
-
             # path to results
             expected_file_name = "c_aggregate.csv"
             expected_file_path = os.path.join(tmp_dir, expected_file_name)
@@ -76,12 +73,10 @@ class TestGenerateData(unittest.TestCase):
             # instance of the Runner class
             runner = GeoRunner(config, calibration_year, afforest_data, sc_data)
 
-            # generation of data for each of the scenarios
-            runner.generate_input_data()
-
             # path to results
             expected_file_name = "c_aggregate.csv"
             expected_file_path = os.path.join(tmp_dir, expected_file_name)
+
 
             # generation of aggregated results
             runner.run_aggregate_scenarios().to_csv(expected_file_path)

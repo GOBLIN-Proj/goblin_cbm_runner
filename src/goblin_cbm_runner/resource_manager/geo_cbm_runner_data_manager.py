@@ -258,8 +258,6 @@ class GeoDataManager:
         """
         return self.scenario_disturbance_dict
 
-
-
     def gen_scenario_disturbance_dict(self, scenario_data):
         """
         Generate a dictionary of disturbance data for each scenario.
@@ -274,6 +272,9 @@ class GeoDataManager:
             subset=["Scenarios", "Conifer harvest", "Conifer thinned"]
         ).reset_index(drop=True)
 
+        clearfell_broadleaf = parser.get_runner_clearfell_scenario(self.config_data, "broadleaf")
+        broadleaf_thinning = parser.get_runner_thinning_scenario(self.config_data, "broadleaf")
+
         scenario_disturbance_dict = {}
 
         for sc in grouped_data.Scenarios:
@@ -287,12 +288,12 @@ class GeoDataManager:
             scenario_disturbance_dict[scenario]["Sitka"]["DISTID1"] = grouped_data.loc[
                 mask, "Conifer harvest"
             ].item()
-            scenario_disturbance_dict[scenario]["SGB"]["DISTID1"] = 0
+            scenario_disturbance_dict[scenario]["SGB"]["DISTID1"] = clearfell_broadleaf
 
             scenario_disturbance_dict[scenario]["Sitka"]["DISTID2"] = grouped_data.loc[
                 mask, "Conifer thinned"
             ].item()
-            scenario_disturbance_dict[scenario]["SGB"]["DISTID2"] = 0
+            scenario_disturbance_dict[scenario]["SGB"]["DISTID2"] = broadleaf_thinning
 
         scenario_disturbance_dict = self.get_baseline_disturbance_dict(
             scenario_disturbance_dict
@@ -310,10 +311,10 @@ class GeoDataManager:
         Returns:
             dict: The updated scenario disturbance dictionary with baseline disturbances.
         """
-        clearfell_conifer = parser.get_geo_runner_clearfell_baseline(self.config_data, "conifer")
-        clearfell_broadleaf = parser.get_geo_runner_clearfell_baseline(self.config_data, "broadleaf")
-        conifer_thinning = parser.get_geo_runner_thinning_baseline(self.config_data, "conifer")
-        broadleaf_thinning = parser.get_geo_runner_thinning_baseline(self.config_data, "broadleaf")
+        clearfell_conifer = parser.get_runner_clearfell_baseline(self.config_data, "conifer")
+        clearfell_broadleaf = parser.get_runner_clearfell_baseline(self.config_data, "broadleaf")
+        conifer_thinning = parser.get_runner_thinning_baseline(self.config_data, "conifer")
+        broadleaf_thinning = parser.get_runner_thinning_baseline(self.config_data, "broadleaf")
 
         scenario_dist[-1] = {}
         scenario_dist[-1]["Sitka"] = {}
@@ -332,10 +333,10 @@ class GeoDataManager:
         Returns:
             dict: The legacy disturbance dictionary containing clearfell and thinning data.
         """
-        conifer_clearfell = parser.get_geo_runner_clearfell_baseline(self.config_data, "conifer")
-        broadleaf_clearfell = parser.get_geo_runner_clearfell_baseline(self.config_data, "broadleaf")
-        conifer_thinning = parser.get_geo_runner_thinning_baseline(self.config_data, "conifer")
-        broadleaf_thinning = parser.get_geo_runner_thinning_baseline(self.config_data, "broadleaf")
+        conifer_clearfell = parser.get_runner_clearfell_baseline(self.config_data, "conifer")
+        broadleaf_clearfell = parser.get_runner_clearfell_baseline(self.config_data, "broadleaf")
+        conifer_thinning = parser.get_runner_thinning_baseline(self.config_data, "conifer")
+        broadleaf_thinning = parser.get_runner_thinning_baseline(self.config_data, "broadleaf")
 
         legacy_dist = {}
         legacy_dist["conifer"] = {}

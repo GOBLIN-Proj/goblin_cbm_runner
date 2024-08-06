@@ -100,16 +100,114 @@ class ValidationData:
         data = pd.DataFrame(data_merge)
 
         return data
+    
+    @staticmethod
+    def merge_disturbances_and_parse(stocks, time_step_params):
+        """
+        Merges disturbance and stock data and parses the result.
+
+        Args:
+            stocks: The stocks data.
+            disturbances: The disturbances data.
+
+        Returns:
+            A pandas DataFrame containing the merged and parsed data.
+        """
+        disturbances = ["Thinning","Clearcut"]
+        data_merge = []
+
+        for i in time_step_params.index:
+            if time_step_params.at[i,"disturbance_type"] in disturbances:
+
+                row = {"Species": stocks.at[i, "Species"],
+                       "Forest type": stocks.at[i, "Forest_type"],
+                        "Soil classes": stocks.at[i, "Soil_classes"],
+                        "Yield classes": stocks.at[i, "Yield_classes"],
+                        "Disturbance type": time_step_params.at[i,"disturbance_type"],
+                        "Year": stocks.at[i,"timestep"] + 1989,
+                        "Area": stocks.at[i,"Input"],}
+
+                data_merge.append(row)
+
+        return pd.DataFrame(data_merge).groupby(["Species", "Forest type", "Soil classes", "Yield classes", "Year","Disturbance type"]).sum().sort_values(by=["Year"])
 
 
     
+    @staticmethod
+    def merge_baseline_disturbances_and_parse(stocks, time_step_params):
+        """
+        Merges disturbance and stock data and parses the result.
+
+        Args:
+            stocks: The stocks data.
+            disturbances: The disturbances data.
+
+        Returns:
+            A pandas DataFrame containing the merged and parsed data.
+        """
+        disturbances = [1,2]
+        data_merge = []
+
+        for i in time_step_params.index:
+            if time_step_params.at[i,"disturbance_type"] in disturbances:
+
+                row = {"Climate unit": stocks.at[i, "Climate_unit"],
+                       "Forest management types": stocks.at[i, "Forest_management_types"],
+                        "Species": stocks.at[i, "Species"],
+                        "Yield classes": stocks.at[i, "Yield_classes"],
+                        "Disturbance type": time_step_params.at[i,"disturbance_type"],
+                        "Year": stocks.at[i,"timestep"],
+                        "Area": stocks.at[i,"Input"],}
+
+                data_merge.append(row)
+
+        return pd.DataFrame(data_merge).groupby(["Climate unit", "Forest management types", "Species", "Yield classes", "Year","Disturbance type"]).sum().sort_values(by=["Year"])
 
 
+    @staticmethod
+    def default_merge_disturbances_and_parse(stocks, time_step_params):
+        """
+        Merges disturbance and stock data and parses the result.
 
-        
+        Args:
+            stocks: The stocks data.
+            disturbances: The disturbances data.
+
+        Returns:
+            A pandas DataFrame containing the merged and parsed data.
+        """
+        disturbances = ["Afforestation","Thinning","Clearcut"]
+        data_merge = []
+
+        for i in time_step_params.index:
+            if time_step_params.at[i,"disturbance_type"] in disturbances:
+
+                row = {"Species": stocks.at[i, "Species"],
+                       "Forest type": stocks.at[i, "Forest_type"],
+                        "Soil classes": stocks.at[i, "Soil_classes"],
+                        "Yield classes": stocks.at[i, "Yield_classes"],
+                        "Disturbance type": time_step_params.at[i,"disturbance_type"],
+                        "Year": stocks.at[i,"timestep"],
+                        "Area": stocks.at[i,"Input"],}
+
+                data_merge.append(row)
+
+        return pd.DataFrame(data_merge).groupby(["Species", "Forest type", "Soil classes", "Yield classes", "Year","Disturbance type"]).sum().sort_values(by=["Year"])
 
 
-        
+    @staticmethod
+    def disturbance_summary(stocks, time_step_params):
+        data = ValidationData.default_merge_disturbances_and_parse(stocks, time_step_params)
+        pivot_table = data.pivot_table(
+            values='Area', 
+            index=['Species', 'Forest type', 'Soil classes', 'Yield classes', 'Year'], 
+            columns='Disturbance type', 
+            aggfunc='sum', 
+            fill_value=0
+        )
+        return pivot_table
+
+  
   
         
 

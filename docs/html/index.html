@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🌲 GOBLIN_CBM_runner, a CBM CFS3 interface for the GOBLIN model &mdash; goblin_cbm_runner 0.3.5 documentation</title>
+  <title>🌲 GOBLIN_CBM_runner, a CBM CFS3 interface for the GOBLIN model &mdash; goblin_cbm_runner 0.4.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -17,7 +17,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=ba50482b"></script>
+        <script src="_static/documentation_options.js?v=6c02275b"></script>
         <script src="_static/doctools.js?v=888ff710"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -88,7 +88,7 @@
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
 <p>Install from git hub.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;cbm_runner@git+https://github.com/GOBLIN-Proj/goblin_cbm_runner.git@main&quot;</span><span class="w"> </span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;goblin_cbm_runner@git+https://github.com/GOBLIN-Proj/goblin_cbm_runner.git@main&quot;</span><span class="w"> </span>
 </pre></div>
 </div>
 <p>Install from PyPI</p>
@@ -125,9 +125,6 @@
 
     <span class="c1"># instance of the Runner class</span>
     <span class="n">runner</span> <span class="o">=</span> <span class="n">Runner</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">calibration_year</span><span class="p">,</span> <span class="n">afforest_data</span><span class="p">,</span> <span class="n">sc_data</span><span class="p">)</span>
-
-    <span class="c1"># generation of data for each of the scenarios</span>
-    <span class="n">runner</span><span class="o">.</span><span class="n">generate_input_data</span><span class="p">()</span>
 
     <span class="c1"># generation of aggregated results</span>
     <span class="n">runner</span><span class="o">.</span><span class="n">run_aggregate_scenarios</span><span class="p">()</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">results_path</span><span class="p">,</span> <span class="s2">&quot;c_aggregate.csv&quot;</span><span class="p">))</span>

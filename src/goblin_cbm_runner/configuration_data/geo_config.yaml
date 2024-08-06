@@ -33,7 +33,7 @@ classifiers:
     Species:
       Sitka: "Sitka spruce"
       SGB: "Slow Growing Unspecified broadleaved species - Genus type"
-      CBmix: "Mix Spruce"
+      CBmix: "Mixed Unspecified broadleaved species - Genus type"
     Forest type:
       L: "Legacy"
     Soil classes:
@@ -232,8 +232,8 @@ mapping:
       user_species: "Slow Growing Unspecified broadleaved species - Genus type"
       default_species: "Unspecified broadleaved species - Genus type"
     CBmix:
-      user_species: "Mix Spruce"
-      default_species: "Spruce"
+      user_species: "Mixed Unspecified broadleaved species - Genus type"
+      default_species: "Unspecified broadleaved species - Genus type"
     NFSitka_mineral:
       user_species: "NonForestSitkaMineral"
       default_species: "Unknown (Ireland)"

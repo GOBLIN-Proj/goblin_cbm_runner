@@ -1,0 +1,107 @@
+:py:mod:`goblin_cbm_runner.cbm_validation.validation`
+=====================================================
+
+.. py:module:: goblin_cbm_runner.cbm_validation.validation
+
+.. autoapi-nested-parse::
+
+   Validation Module
+   =================
+   This module is responsible for the generation of validation data for specified SIT inputs.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   goblin_cbm_runner.cbm_validation.validation.ValidationData
+
+
+
+
+.. py:class:: ValidationData
+
+
+   The ValidationData class is responsible for generating validation data for specified SIT inputs.
+
+   .. py:method:: gen_disturbance_statistics(object, years)
+      :staticmethod:
+
+      Gets disturbance statistics and returns a pandas dataframe.
+
+      :param object: An object containing the disturbance statistics data.
+      :param years: The number of years of data.
+
+      :returns: A pandas DataFrame containing the disturbance statistics data.
+
+
+   .. py:method:: gen_sit_events(object)
+      :staticmethod:
+
+      Gets SIT events data and saves it to a CSV file.
+
+      :param output_data_path: The path to save the CSV file.
+      :param object: An object containing the SIT events data.
+
+
+   .. py:method:: gen_baseline_forest(output_data_path, data)
+      :staticmethod:
+
+      Saves baseline forest data to a CSV file.
+
+      :param output_data_path: The path to save the CSV file.
+      :param data: The baseline forest data (pandas DataFrame).
+
+
+   .. py:method:: merge_events(sit_events, events_data_by_timestep)
+      :staticmethod:
+
+      Merges SIT events and event statistics (by timestep) data and saves the
+      result as a CSV file.
+
+      :param output_data_path: The path to save the CSV file.
+
+
+   .. py:method:: merge_disturbances_and_parse(stocks, time_step_params)
+      :staticmethod:
+
+      Merges disturbance and stock data and parses the result.
+
+      :param stocks: The stocks data.
+      :param disturbances: The disturbances data.
+
+      :returns: A pandas DataFrame containing the merged and parsed data.
+
+
+   .. py:method:: merge_baseline_disturbances_and_parse(stocks, time_step_params)
+      :staticmethod:
+
+      Merges disturbance and stock data and parses the result.
+
+      :param stocks: The stocks data.
+      :param disturbances: The disturbances data.
+
+      :returns: A pandas DataFrame containing the merged and parsed data.
+
+
+   .. py:method:: default_merge_disturbances_and_parse(stocks, time_step_params)
+      :staticmethod:
+
+      Merges disturbance and stock data and parses the result.
+
+      :param stocks: The stocks data.
+      :param disturbances: The disturbances data.
+
+      :returns: A pandas DataFrame containing the merged and parsed data.
+
+
+   .. py:method:: disturbance_summary(stocks, time_step_params)
+      :staticmethod:
+
+
+

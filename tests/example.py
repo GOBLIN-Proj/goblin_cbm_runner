@@ -13,6 +13,8 @@ def main():
         os.path.join(path, "cbm_afforestation.csv"), index_col=0
     )
 
+    print(afforest_data)
+
     # basic configuration file
     config = os.path.join(path, "cbm_factory.yaml")
 
@@ -26,7 +28,7 @@ def main():
     runner = Runner(config, calibration_year, afforest_data, sc_data)
 
     # generation of data for each of the scenarios
-    runner.generate_input_data()
+    #runner.generate_input_data()
 
     # generation of aggregated results
     runner.run_aggregate_scenarios().to_csv(os.path.join(results_path, "c_aggregate.csv"))

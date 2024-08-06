@@ -7,11 +7,11 @@ This class is designed to facilitate the execution of Carbon Budget Model (CBM) 
 
 The module is intended largely for validation of historic afforestation input data, leveraging a suite of data management and simulation tools to prepare, execute, and analyze CBM simulations.
 """
-from goblin_cbm_runner.default_runner.cbm_data_factory import DataFactory
+from goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory import DataFactory
 from goblin_cbm_runner.resource_manager.cbm_runner_data_manager import DataManager
 from goblin_cbm_runner.resource_manager.scenario_data_fetcher import ScenarioDataFetcher
 from goblin_cbm_runner.resource_manager.paths import Paths
-from goblin_cbm_runner.cbm.cbm_methods import CBMSim
+from goblin_cbm_runner.cbm.methods.cbm_methods import CBMSim
 
 
 import pandas as pd
@@ -94,9 +94,9 @@ class HistoricAfforRunner:
 
         self.SIM_class = CBMSim()
 
-        self.years = self.data_manager_class.get_scenario_years(self.forest_end_year)
+        self.years = self.data_manager_class.get_full_scenario_years(self.forest_end_year)
 
-        self.year_range = self.data_manager_class.get_scenario_years_range(self.forest_end_year)
+        self.year_range = self.data_manager_class.get_full_scenario_years_range(self.forest_end_year)
 
         self.defaults_db = self.paths_class.get_aidb_path()
 
@@ -149,6 +149,7 @@ class HistoricAfforRunner:
         path = self.path
 
         if self.paths_class.is_path_internal(path):
+            print("Cleaning scenario SIT data directories")
             self.cbm_data_class.clean_data_dir(path)
 
         self.cbm_data_class.make_data_dirs(self.INDEX, path)

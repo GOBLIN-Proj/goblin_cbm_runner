@@ -1,0 +1,25 @@
+:py:mod:`goblin_cbm_runner.default_runner`
+==========================================
+
+.. py:module:: goblin_cbm_runner.default_runner
+
+
+Subpackages
+-----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 3
+
+   baseline_input_conf/index.rst
+   generated_input_data/index.rst
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   runner/index.rst
+
+

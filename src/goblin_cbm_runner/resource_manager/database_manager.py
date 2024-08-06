@@ -55,7 +55,7 @@ class DataManager:
             sqlalchemy.engine.Engine: The SQLAlchemy engine object.
         """
         database_path = os.path.abspath(
-            os.path.join(self.database_dir, "cbm_runner_database.db")
+            os.path.join(self.database_dir, "cbm_runner_database_0.4.0.db")
         )
         engine_url = f"sqlite:///{database_path}"
 
@@ -235,7 +235,7 @@ class DataManager:
         Returns:
             pandas.DataFrame: A DataFrame containing the disturbance data.
         """
-        table = "KB_Disturbance_data_original"
+        table = "KB_Disturbance_default"
         dataframe = pd.read_sql(
             "SELECT * FROM '%s'" % (table),
             self.engine,
@@ -280,7 +280,7 @@ class DataManager:
         Returns:
             pandas.DataFrame: A DataFrame containing the baseline disturbance events.
         """
-        table = "base_disturbance_events_2016_to_2050"
+        table = "default_base_disturbance_events_2016_to_2100"
         dataframe = pd.read_sql(
             "SELECT * FROM '%s'" % (table),
             self.engine,

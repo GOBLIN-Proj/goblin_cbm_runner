@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>goblin_cbm_runner.historic_affor.historic_affor_runner &mdash; goblin_cbm_runner 0.4.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=eafc0fe6" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=6c02275b"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            goblin_cbm_runner
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../INSTALLATION.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../autoapi/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../example.html">Example Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../example.html#plot-fluxes-for-baseline">Plot Fluxes for Baseline</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">goblin_cbm_runner</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">goblin_cbm_runner.historic_affor.historic_affor_runner</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for goblin_cbm_runner.historic_affor.historic_affor_runner</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Historic Afforestation Runner Module</span>
+<span class="sd">====================================</span>
+<span class="sd">This module provides functionalities to run historic afforestation simulations using the Carbon Budget Model (CBM).</span>
+
+<span class="sd">This class is designed to facilitate the execution of Carbon Budget Model (CBM) simulations for assessing historic afforestation efforts in Ireland.</span>
+
+<span class="sd">The module is intended largely for validation of historic afforestation input data, leveraging a suite of data management and simulation tools to prepare, execute, and analyze CBM simulations.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory</span> <span class="kn">import</span> <span class="n">DataFactory</span>
+<span class="kn">from</span> <span class="nn">goblin_cbm_runner.resource_manager.cbm_runner_data_manager</span> <span class="kn">import</span> <span class="n">DataManager</span>
+<span class="kn">from</span> <span class="nn">goblin_cbm_runner.resource_manager.scenario_data_fetcher</span> <span class="kn">import</span> <span class="n">ScenarioDataFetcher</span>
+<span class="kn">from</span> <span class="nn">goblin_cbm_runner.resource_manager.paths</span> <span class="kn">import</span> <span class="n">Paths</span>
+<span class="kn">from</span> <span class="nn">goblin_cbm_runner.cbm.methods.cbm_methods</span> <span class="kn">import</span> <span class="n">CBMSim</span>
+
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+
+<div class="viewcode-block" id="HistoricAfforRunner">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/historic_affor/historic_affor_runner/index.html#goblin_cbm_runner.historic_affor.historic_affor_runner.HistoricAfforRunner">[docs]</a>
+<span class="k">class</span> <span class="nc">HistoricAfforRunner</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Facilitates the execution of Carbon Budget Model (CBM) simulations for assessing historic afforestation efforts in Ireland. </span>
+<span class="sd">    Designed primarily for the validation of historic afforestation input data, this class leverages a suite of data management and </span>
+<span class="sd">    simulation tools to prepare, execute, and analyze CBM simulations. It focuses on generating outputs such as carbon stocks </span>
+<span class="sd">    and fluxes across various afforestation scenarios, offering insights into the carbon budget implications of past afforestation activities.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        config_path (str): The path to the configuration file.</span>
+<span class="sd">        calibration_year (int): The year to calibrate the CBM model.</span>
+<span class="sd">        afforest_data (dict): A dictionary containing afforestation data.</span>
+<span class="sd">        scenario_data (dict): A dictionary containing scenario data.</span>
+<span class="sd">        sit_path (str): The path to the SIT file.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        paths_class (Paths): An instance of the Paths class for managing file paths.</span>
+<span class="sd">        path (str): The path to the generated input data.</span>
+<span class="sd">        baseline_conf_path (str): The path to the baseline configuration file.</span>
+<span class="sd">        sc_fetcher (ScenarioDataFetcher): An instance of the ScenarioDataFetcher class for fetching scenario data.</span>
+<span class="sd">        forest_end_year (int): The end year of the afforestation period.</span>
+<span class="sd">        cbm_data_class (DataFactory): An instance of the DataFactory class for generating CBM input data.</span>
+<span class="sd">        data_manager_class (DataManager): An instance of the DataManager class for managing data.</span>
+<span class="sd">        INDEX (list): A list of scenario indices.</span>
+<span class="sd">        SIM_class (CBMSim): An instance of the CBMSim class for running CBM simulations.</span>
+<span class="sd">        years (list): A list of scenario years.</span>
+<span class="sd">        year_range (list): A list of scenario years range.</span>
+<span class="sd">        defaults_db (str): The path to the defaults database.</span>
+
+
+<span class="sd">    Methods:</span>
+<span class="sd">        generate_input_data():</span>
+<span class="sd">            Prepares the input data necessary for CBM simulations, establishing a clean and organized data environment for scenario execution.        </span>
+<span class="sd">        </span>
+<span class="sd">        run_flux_scenarios():</span>
+<span class="sd">            Executes simulations to calculate carbon flux data across different scenarios, merging and aggregating results to analyze carbon dynamics.</span>
+<span class="sd">        </span>
+<span class="sd">        run_aggregate_scenarios():</span>
+<span class="sd">            Conducts simulations to generate aggregate carbon stock data from various scenarios.</span>
+<span class="sd">        </span>
+<span class="sd">        run_libcbm_flux_scenarios():</span>
+<span class="sd">            Utilizes the libCBM tool own flux method to generate fluxes. </span>
+
+<span class="sd">        run_baseline_raw():</span>
+<span class="sd">            Conducts a baseline flux simulation using the libcbm internal flux method.</span>
+
+<span class="sd">        run_baseline_summary_flux():</span>
+<span class="sd">            Generates baseline managed forest data, calculates the baseline stock, and then calculates the fluxes.</span>
+
+<span class="sd">            </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">config_path</span><span class="p">,</span>
+        <span class="n">calibration_year</span><span class="p">,</span>
+        <span class="n">afforest_data</span><span class="p">,</span>
+        <span class="n">scenario_data</span><span class="p">,</span>
+        <span class="n">sit_path</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>  
+        <span class="bp">self</span><span class="o">.</span><span class="n">paths_class</span> <span class="o">=</span> <span class="n">Paths</span><span class="p">(</span><span class="n">sit_path</span><span class="p">,</span> <span class="n">gen_baseline</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">paths_class</span><span class="o">.</span><span class="n">setup_historic_affor_paths</span><span class="p">(</span><span class="n">sit_path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">paths_class</span><span class="o">.</span><span class="n">get_generated_input_data_path</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">baseline_conf_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">paths_class</span><span class="o">.</span><span class="n">get_baseline_conf_path</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sc_fetcher</span> <span class="o">=</span> <span class="n">ScenarioDataFetcher</span><span class="p">(</span><span class="n">scenario_data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">forest_end_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sc_fetcher</span><span class="o">.</span><span class="n">get_afforestation_end_year</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span> <span class="o">=</span> <span class="n">DataFactory</span><span class="p">(</span>
+            <span class="n">config_path</span><span class="p">,</span> <span class="n">calibration_year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">forest_end_year</span><span class="p">,</span> <span class="n">afforest_data</span><span class="p">,</span> <span class="n">scenario_data</span>
+        <span class="p">)</span>
+
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span> <span class="o">=</span> <span class="n">DataManager</span><span class="p">(</span><span class="n">calibration_year</span><span class="p">,</span> <span class="n">config_path</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">INDEX</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sc_fetcher</span><span class="o">.</span><span class="n">get_afforest_scenario_index</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">SIM_class</span> <span class="o">=</span> <span class="n">CBMSim</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">years</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_full_scenario_years</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">forest_end_year</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">year_range</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_full_scenario_years_range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">forest_end_year</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">defaults_db</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">paths_class</span><span class="o">.</span><span class="n">get_aidb_path</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">baseline_years</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_baseline_years</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">forest_end_year</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">baseline_year_range</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_baseline_years_range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">forest_end_year</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="HistoricAfforRunner._generate_base_input_data">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/historic_affor/historic_affor_runner/index.html#goblin_cbm_runner.historic_affor.historic_affor_runner.HistoricAfforRunner._generate_base_input_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">_generate_base_input_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generates the base input data for the CBM runner.</span>
+
+<span class="sd">        This method cleans the baseline data directory, and then generates various input files</span>
+<span class="sd">        required for the CBM runner, such as classifiers, configuration JSON, age classes,</span>
+<span class="sd">        yield curves, inventory, disturbance events, disturbance types, and transition rules.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            None</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">baseline_conf_path</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">paths_class</span><span class="o">.</span><span class="n">is_path_internal</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">clean_baseline_data_dir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">make_base_classifiers</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">make_config_json</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">make_base_age_classes</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">make_base_yield_curves</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">make_base_inventory</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">make_base_disturbance_events</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">make_base_disturbance_type</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">make_base_transition_rules</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="HistoricAfforRunner.generate_input_data">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/historic_affor/historic_affor_runner/index.html#goblin_cbm_runner.historic_affor.historic_affor_runner.HistoricAfforRunner.generate_input_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">generate_input_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generates input data for the CBM runner.</span>
+
+<span class="sd">        This method cleans the data directory, creates necessary directories,</span>
+<span class="sd">        and generates various input files required for the CBM runner.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            None</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">paths_class</span><span class="o">.</span><span class="n">is_path_internal</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Cleaning scenario SIT data directories&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">clean_data_dir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">make_data_dirs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">INDEX</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">INDEX</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">make_classifiers</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">make_config_json</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">make_age_classes</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">make_yield_curves</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">make_inventory</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">make_disturbance_events</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">make_disturbance_type</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="o">.</span><span class="n">make_transition_rules</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="HistoricAfforRunner.run_flux_scenarios">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/historic_affor/historic_affor_runner/index.html#goblin_cbm_runner.historic_affor.historic_affor_runner.HistoricAfforRunner.run_flux_scenarios">[docs]</a>
+    <span class="k">def</span> <span class="nf">run_flux_scenarios</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Conducts CBM simulations to calculate and aggregate carbon flux data.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pd.DataFrame: Aggregated carbon flux data across all scenarios.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">forest_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="n">fluxes_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="n">fluxes_forest_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">INDEX</span><span class="p">:</span>
+            <span class="n">forest_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">SIM_class</span><span class="o">.</span><span class="n">cbm_aggregate_scenario_stock</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="p">,</span> 
+                                                                      <span class="bp">self</span><span class="o">.</span><span class="n">years</span><span class="p">,</span> 
+                                                                      <span class="bp">self</span><span class="o">.</span><span class="n">year_range</span><span class="p">,</span> 
+                                                                      <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span>
+                                                                      <span class="bp">self</span><span class="o">.</span><span class="n">defaults_db</span>
+                                                                      <span class="p">)</span>
+
+
+            <span class="n">fluxes_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">SIM_class</span><span class="o">.</span><span class="n">cbm_scenario_fluxes</span><span class="p">(</span><span class="n">forest_data</span><span class="p">)</span>
+
+            <span class="n">fluxes_forest_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">fluxes_forest_data</span><span class="p">,</span> <span class="n">fluxes_data</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">fluxes_forest_data</span></div>
+
+
+
+<div class="viewcode-block" id="HistoricAfforRunner.run_aggregate_scenarios">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/historic_affor/historic_affor_runner/index.html#goblin_cbm_runner.historic_affor.historic_affor_runner.HistoricAfforRunner.run_aggregate_scenarios">[docs]</a>
+    <span class="k">def</span> <span class="nf">run_aggregate_scenarios</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Executes CBM simulations for a set of scenarios, generating and aggregating carbon stock data across scenarios.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pd.DataFrame: Aggregated carbon stock data across all scenarios.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">forest_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="n">aggregate_forest_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">INDEX</span><span class="p">:</span>
+            <span class="n">forest_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">SIM_class</span><span class="o">.</span><span class="n">cbm_aggregate_scenario_stock</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="p">,</span> 
+                                                                      <span class="bp">self</span><span class="o">.</span><span class="n">years</span><span class="p">,</span> 
+                                                                      <span class="bp">self</span><span class="o">.</span><span class="n">year_range</span><span class="p">,</span> 
+                                                                      <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span>
+                                                                      <span class="bp">self</span><span class="o">.</span><span class="n">defaults_db</span>
+                                                                      <span class="p">)</span>
+
+            <span class="n">forest_data_copy</span> <span class="o">=</span> <span class="n">forest_data</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="n">aggregate_forest_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">aggregate_forest_data</span><span class="p">,</span> <span class="n">forest_data_copy</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">aggregate_forest_data</span></div>
+
+
+<div class="viewcode-block" id="HistoricAfforRunner.run_libcbm_flux_scenarios">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/historic_affor/historic_affor_runner/index.html#goblin_cbm_runner.historic_affor.historic_affor_runner.HistoricAfforRunner.run_libcbm_flux_scenarios">[docs]</a>
+    <span class="k">def</span> <span class="nf">run_libcbm_flux_scenarios</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Conducts CBM simulations using the libcbm internal flux method.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pd.DataFrame: Aggregated carbon flux data across all scenarios.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">forest_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="n">aggregate_forest_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">INDEX</span><span class="p">:</span>
+            <span class="n">forest_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">SIM_class</span><span class="o">.</span><span class="n">libcbm_scenario_fluxes</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="p">,</span> 
+                                                                      <span class="bp">self</span><span class="o">.</span><span class="n">years</span><span class="p">,</span> 
+                                                                      <span class="bp">self</span><span class="o">.</span><span class="n">year_range</span><span class="p">,</span> 
+                                                                      <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span>
+                                                                      <span class="bp">self</span><span class="o">.</span><span class="n">defaults_db</span><span class="p">)</span>
+
+            <span class="n">forest_data_copy</span> <span class="o">=</span> <span class="n">forest_data</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="n">aggregate_forest_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">aggregate_forest_data</span><span class="p">,</span> <span class="n">forest_data_copy</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">aggregate_forest_data</span></div>
+
+
+
+<div class="viewcode-block" id="HistoricAfforRunner.run_baseline_raw">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/historic_affor/historic_affor_runner/index.html#goblin_cbm_runner.historic_affor.historic_affor_runner.HistoricAfforRunner.run_baseline_raw">[docs]</a>
+    <span class="k">def</span> <span class="nf">run_baseline_raw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Conducts a baseline flux simulation using the libcbm internal flux method.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pd.DataFrame: carbon flux data for the baseline scenario.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_generate_base_input_data</span><span class="p">()</span>
+        <span class="n">forest_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="n">forest_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">SIM_class</span><span class="o">.</span><span class="n">baseline_simulate_stock_raw_output</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="p">,</span>
+                                                                <span class="bp">self</span><span class="o">.</span><span class="n">baseline_years</span><span class="p">,</span>
+                                                                <span class="bp">self</span><span class="o">.</span><span class="n">baseline_year_range</span><span class="p">,</span>
+                                                                <span class="bp">self</span><span class="o">.</span><span class="n">baseline_conf_path</span><span class="p">,</span>
+                                                                <span class="bp">self</span><span class="o">.</span><span class="n">defaults_db</span><span class="p">)</span>
+
+
+        <span class="k">return</span> <span class="n">forest_data</span></div>
+
+    
+
+<div class="viewcode-block" id="HistoricAfforRunner.run_baseline_summary_flux">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/historic_affor/historic_affor_runner/index.html#goblin_cbm_runner.historic_affor.historic_affor_runner.HistoricAfforRunner.run_baseline_summary_flux">[docs]</a>
+    <span class="k">def</span> <span class="nf">run_baseline_summary_flux</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generated the baseline managed forest data, calculates the baselines stock, before the fluxes are calculated</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pd.DataFrame: carbon flux data for the baseline managed forest.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_generate_base_input_data</span><span class="p">()</span>
+   
+        <span class="n">forest_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">SIM_class</span><span class="o">.</span><span class="n">baseline_simulate_stock</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cbm_data_class</span><span class="p">,</span>
+                                                             <span class="bp">self</span><span class="o">.</span><span class="n">baseline_years</span><span class="p">,</span>
+                                                                <span class="bp">self</span><span class="o">.</span><span class="n">baseline_year_range</span><span class="p">,</span>
+                                                                <span class="bp">self</span><span class="o">.</span><span class="n">baseline_conf_path</span><span class="p">,</span>
+                                                                <span class="bp">self</span><span class="o">.</span><span class="n">defaults_db</span><span class="p">)</span>
+        
+        <span class="n">fluxes_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">SIM_class</span><span class="o">.</span><span class="n">cbm_baseline_summary_fluxes</span><span class="p">(</span><span class="n">forest_data</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">fluxes_data</span></div>
+</div>
+
+    
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Colm Duffy.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

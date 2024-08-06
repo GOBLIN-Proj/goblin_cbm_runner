@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>goblin_cbm_runner.cbm.methods.cbm_methods &mdash; goblin_cbm_runner 0.4.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=eafc0fe6" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../../_static/documentation_options.js?v=6c02275b"></script>
+        <script src="../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            goblin_cbm_runner
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../INSTALLATION.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../autoapi/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../example.html">Example Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../example.html#plot-fluxes-for-baseline">Plot Fluxes for Baseline</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">goblin_cbm_runner</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">goblin_cbm_runner.cbm.methods.cbm_methods</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for goblin_cbm_runner.cbm.methods.cbm_methods</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">============</span>
+<span class="sd">CBM Methods</span>
+<span class="sd">============</span>
+<span class="sd">This module contains methods for running the Carbon Budget Model (CBM) and generating carbon stocks and fluxes for different scenarios.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">libcbm.model.cbm</span> <span class="kn">import</span> <span class="n">cbm_simulator</span>
+<span class="kn">from</span> <span class="nn">libcbm.input.sit</span> <span class="kn">import</span> <span class="n">sit_cbm_factory</span>
+<span class="kn">from</span> <span class="nn">libcbm.model.cbm</span> <span class="kn">import</span> <span class="n">cbm_variables</span>
+<span class="kn">from</span> <span class="nn">libcbm.model.cbm.cbm_output</span> <span class="kn">import</span> <span class="n">CBMOutput</span>
+<span class="kn">from</span> <span class="nn">libcbm.storage.backends</span> <span class="kn">import</span> <span class="n">BackendType</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">goblin_cbm_runner.resource_manager.cbm_pools</span> <span class="kn">import</span> <span class="n">Pools</span>
+<span class="kn">from</span> <span class="nn">goblin_cbm_runner.resource_manager.flux_manager</span> <span class="kn">import</span> <span class="n">FluxManager</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+<span class="kn">from</span> <span class="nn">libcbm.storage.dataframe</span> <span class="kn">import</span> <span class="n">DataFrame</span>
+<span class="kn">from</span> <span class="nn">libcbm.model.cbm.cbm_variables</span> <span class="kn">import</span> <span class="n">CBMVariables</span>
+<span class="kn">from</span> <span class="nn">libcbm.model.cbm.cbm_model</span> <span class="kn">import</span> <span class="n">CBM</span>
+<span class="kn">from</span> <span class="nn">libcbm.input.sit.sit</span> <span class="kn">import</span> <span class="n">SIT</span>
+<span class="kn">from</span> <span class="nn">goblin_cbm_runner.cbm_validation.validation</span> <span class="kn">import</span> <span class="n">ValidationData</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+
+
+<div class="viewcode-block" id="CBMSim">
+<a class="viewcode-back" href="../../../../autoapi/goblin_cbm_runner/cbm/methods/cbm_methods/index.html#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim">[docs]</a>
+<span class="k">class</span> <span class="nc">CBMSim</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class for running the Carbon Budget Model (CBM) and generating carbon stocks and fluxes for different scenarios.</span>
+
+<span class="sd">    This class provides functionalities to run the CBM model and generate carbon stocks and fluxes for different scenarios. </span>
+<span class="sd">    The CBM model is a widely used model for estimating carbon stocks and fluxes in forest ecosystems. </span>
+<span class="sd">    The model uses input data and parameters to simulate the carbon dynamics in forest ecosystems over time.</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">        cbm_baseline_forest_stock(cbm_data_class, years, year_range, input_path, database_path):</span>
+<span class="sd">            Runs a baseline forest simulation using the CBM model.</span>
+<span class="sd">        cbm_aggregate_scenario_stock(sc, cbm_data_class, years, year_range, input_path, database_path):</span>
+<span class="sd">            Generate carbon stocks for the CBM scenario data.</span>
+<span class="sd">        libcbm_scenario_fluxes(sc, cbm_data_class, years, year_range, input_path, database_path):</span>
+<span class="sd">            Generate carbon Fluxes using the Libcbm method for the CBM scenario data.</span>
+<span class="sd">        cbm_scenario_fluxes(forest_data):</span>
+<span class="sd">            Calculate the carbon fluxes for each scenario in the given forest data.</span>
+<span class="sd">        spinup(sit, classifiers, inventory):</span>
+<span class="sd">            Spin up the CBM model.</span>
+<span class="sd">        step(time_step, sit, cbm_vars):</span>
+<span class="sd">            Step the CBM model forward one timestep.</span>
+<span class="sd">        baseline_simulate_stock(cbm_data_class, years, year_range, input_path, database_path):</span>
+<span class="sd">            Runs a baseline (managed) forest simulation using the CBM model.</span>
+<span class="sd">        baseline_simulate_stock_raw_output(cbm_data_class, years, year_range, input_path, database_path):</span>
+<span class="sd">            Runs a baseline (managed) forest simulation using the CBM model.</span>
+<span class="sd">        cbm_basic_validation(years, input_path, database_path):</span>
+<span class="sd">            Generate validation data for the CBM model for a set of specified inputs.</span>
+<span class="sd">        cbm_disturbance_area_validation(years, input_path, database_path):</span>
+<span class="sd">            Generate validation data for area and disturbances from the CBM model for a set of specified inputs.</span>
+<span class="sd">        scenario_cbm_disturbance_area_validation(years, input_path, database_path):</span>
+<span class="sd">            Generate validation data for area and disturbances for the CBM model for a set of specified inputs for scenarios.</span>
+<span class="sd">        cbm_baseline_disturbance_area_validation(years, input_path, database_path):</span>
+<span class="sd">            Generate validation data for area and disturbances for the CBM model for a set of specified inputs for baseline.</span>
+<span class="sd">        forest_raw_fluxes(forest_data):</span>
+<span class="sd">            Generate raw fluxes for the given forest data.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        pools: An instance of the Pools class.</span>
+<span class="sd">        Flux_class: An instance of the FluxManager class.</span>
+<span class="sd">        AGB: A list of above-ground biomass pools.</span>
+<span class="sd">        BGB: A list of below-ground biomass pools.</span>
+<span class="sd">        deadwood: A list of deadwood pools.</span>
+<span class="sd">        litter: A list of litter pools.</span>
+<span class="sd">        soil: A list of soil organic matter pools.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pools</span> <span class="o">=</span> <span class="n">Pools</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Flux_class</span> <span class="o">=</span> <span class="n">FluxManager</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">AGB</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pools</span><span class="o">.</span><span class="n">get_above_ground_biomass_pools</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">BGB</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pools</span><span class="o">.</span><span class="n">get_below_ground_biomass_pools</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deadwood</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pools</span><span class="o">.</span><span class="n">get_deadwood_pools</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">litter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pools</span><span class="o">.</span><span class="n">get_litter_pools</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">soil</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pools</span><span class="o">.</span><span class="n">get_soil_organic_matter_pools</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="CBMSim.cbm_baseline_forest_stock">
+<a class="viewcode-back" href="../../../../autoapi/goblin_cbm_runner/cbm/methods/cbm_methods/index.html#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_baseline_forest_stock">[docs]</a>
+    <span class="k">def</span> <span class="nf">cbm_baseline_forest_stock</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cbm_data_class</span><span class="p">,</span> <span class="n">years</span><span class="p">,</span> <span class="n">year_range</span><span class="p">,</span> <span class="n">input_path</span><span class="p">,</span> <span class="n">database_path</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Runs a baseline forest simulation using the CBM model.</span>
+
+<span class="sd">            Returns:</span>
+<span class="sd">                pandas.DataFrame: DataFrame containing the calculated managed forest stocks.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            
+            
+            <span class="n">sit</span><span class="p">,</span> <span class="n">classifiers</span><span class="p">,</span> <span class="n">inventory</span> <span class="o">=</span> <span class="n">cbm_data_class</span><span class="o">.</span><span class="n">set_baseline_input_data_dir</span><span class="p">(</span>
+                <span class="n">input_path</span><span class="p">,</span> <span class="n">database_path</span>
+            <span class="p">)</span>
+
+            <span class="n">cbm_output</span> <span class="o">=</span> <span class="n">CBMOutput</span><span class="p">(</span>
+                <span class="n">classifier_map</span><span class="o">=</span><span class="n">sit</span><span class="o">.</span><span class="n">classifier_value_names</span><span class="p">,</span>
+                <span class="n">disturbance_type_map</span><span class="o">=</span><span class="n">sit</span><span class="o">.</span><span class="n">disturbance_name_map</span><span class="p">)</span>
+            
+
+            <span class="c1"># Simulation</span>
+            <span class="k">with</span> <span class="n">sit_cbm_factory</span><span class="o">.</span><span class="n">initialize_cbm</span><span class="p">(</span><span class="n">sit</span><span class="p">)</span> <span class="k">as</span> <span class="n">cbm</span><span class="p">:</span>
+                <span class="c1"># Create a function to apply rule based disturbance events and transition rules based on the SIT input</span>
+                <span class="n">rule_based_processor</span> <span class="o">=</span> <span class="n">sit_cbm_factory</span><span class="o">.</span><span class="n">create_sit_rule_based_processor</span><span class="p">(</span>
+                    <span class="n">sit</span><span class="p">,</span> <span class="n">cbm</span>
+                <span class="p">)</span>
+                <span class="c1"># The following line of code spins up the CBM inventory and runs it through 200 timesteps.</span>
+                <span class="n">cbm_simulator</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span>
+                    <span class="n">cbm</span><span class="p">,</span>
+                    <span class="n">n_steps</span><span class="o">=</span><span class="n">years</span><span class="p">,</span>
+                    <span class="n">classifiers</span><span class="o">=</span><span class="n">classifiers</span><span class="p">,</span>
+                    <span class="n">inventory</span><span class="o">=</span><span class="n">inventory</span><span class="p">,</span>
+                    <span class="n">pre_dynamics_func</span><span class="o">=</span><span class="n">rule_based_processor</span><span class="o">.</span><span class="n">pre_dynamics_func</span><span class="p">,</span>
+                    <span class="n">reporting_func</span><span class="o">=</span><span class="n">cbm_output</span><span class="o">.</span><span class="n">append_simulation_result</span><span class="p">,</span>
+                    <span class="n">backend_type</span><span class="o">=</span><span class="n">BackendType</span><span class="o">.</span><span class="n">numpy</span>
+                <span class="p">)</span>
+
+            <span class="n">pi</span> <span class="o">=</span>  <span class="n">cbm_output</span><span class="o">.</span><span class="n">classifiers</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">cbm_output</span><span class="o">.</span><span class="n">pools</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">(),</span> <span class="n">left_on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;identifier&quot;</span><span class="p">,</span> <span class="s2">&quot;timestep&quot;</span><span class="p">],</span> <span class="n">right_on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;identifier&quot;</span><span class="p">,</span> <span class="s2">&quot;timestep&quot;</span><span class="p">])</span>
+
+
+            <span class="n">annual_carbon_stocks</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;Year&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="s2">&quot;timestep&quot;</span><span class="p">],</span>
+                    <span class="s2">&quot;AGB&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">AGB</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                    <span class="s2">&quot;BGB&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">BGB</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                    <span class="s2">&quot;Deadwood&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">deadwood</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                    <span class="s2">&quot;Litter&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">litter</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                    <span class="s2">&quot;Soil&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">soil</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                    <span class="s2">&quot;Total Ecosystem&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">AGB</span>
+                                          <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">BGB</span>
+                                          <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">deadwood</span>
+                                          <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">litter</span>
+                                          <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">soil</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+
+                <span class="p">}</span>
+            <span class="p">)</span>
+
+            <span class="n">annual_carbon_stocks</span> <span class="o">=</span> <span class="n">annual_carbon_stocks</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;Year&quot;</span><span class="p">],</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)[</span>
+                <span class="p">[</span><span class="s2">&quot;AGB&quot;</span><span class="p">,</span> <span class="s2">&quot;BGB&quot;</span><span class="p">,</span> <span class="s2">&quot;Deadwood&quot;</span><span class="p">,</span> <span class="s2">&quot;Litter&quot;</span><span class="p">,</span> <span class="s2">&quot;Soil&quot;</span><span class="p">,</span> <span class="s2">&quot;Total Ecosystem&quot;</span><span class="p">]</span>
+            <span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+            <span class="n">annual_carbon_stocks</span><span class="p">[</span><span class="s2">&quot;Year&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">year_range</span>
+
+            <span class="k">return</span> <span class="n">annual_carbon_stocks</span>  </div>
+
+    
+
+<div class="viewcode-block" id="CBMSim.cbm_aggregate_scenario_stock">
+<a class="viewcode-back" href="../../../../autoapi/goblin_cbm_runner/cbm/methods/cbm_methods/index.html#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_aggregate_scenario_stock">[docs]</a>
+    <span class="k">def</span> <span class="nf">cbm_aggregate_scenario_stock</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sc</span><span class="p">,</span> <span class="n">cbm_data_class</span><span class="p">,</span> <span class="n">years</span><span class="p">,</span> <span class="n">year_range</span><span class="p">,</span> <span class="n">input_path</span><span class="p">,</span> <span class="n">database_path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate carbon stocks for the CBM (Carbon Budget Model) scenario data.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            sc (str): The scenario name.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame: DataFrame containing the calculated stocks.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">sit</span><span class="p">,</span> <span class="n">classifiers</span><span class="p">,</span> <span class="n">inventory</span> <span class="o">=</span> <span class="n">cbm_data_class</span><span class="o">.</span><span class="n">set_input_data_dir</span><span class="p">(</span><span class="n">sc</span><span class="p">,</span> <span class="n">input_path</span><span class="p">,</span> <span class="n">db_path</span><span class="o">=</span><span class="n">database_path</span><span class="p">)</span>
+
+        <span class="n">cbm_output</span> <span class="o">=</span> <span class="n">CBMOutput</span><span class="p">(</span>
+            <span class="n">classifier_map</span><span class="o">=</span><span class="n">sit</span><span class="o">.</span><span class="n">classifier_value_names</span><span class="p">,</span>
+            <span class="n">disturbance_type_map</span><span class="o">=</span><span class="n">sit</span><span class="o">.</span><span class="n">disturbance_name_map</span><span class="p">)</span>
+
+        <span class="c1"># Simulation</span>
+        <span class="k">with</span> <span class="n">sit_cbm_factory</span><span class="o">.</span><span class="n">initialize_cbm</span><span class="p">(</span><span class="n">sit</span><span class="p">)</span> <span class="k">as</span> <span class="n">cbm</span><span class="p">:</span>
+            <span class="c1"># Create a function to apply rule based disturbance events and transition rules based on the SIT input</span>
+            <span class="n">rule_based_processor</span> <span class="o">=</span> <span class="n">sit_cbm_factory</span><span class="o">.</span><span class="n">create_sit_rule_based_processor</span><span class="p">(</span>
+                <span class="n">sit</span><span class="p">,</span> <span class="n">cbm</span>
+            <span class="p">)</span>
+            <span class="c1"># The following line of code spins up the CBM inventory and runs it through 200 timesteps.</span>
+            <span class="n">cbm_simulator</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span>
+                <span class="n">cbm</span><span class="p">,</span>
+                <span class="n">n_steps</span><span class="o">=</span><span class="n">years</span><span class="p">,</span>
+                <span class="n">classifiers</span><span class="o">=</span><span class="n">classifiers</span><span class="p">,</span>
+                <span class="n">inventory</span><span class="o">=</span><span class="n">inventory</span><span class="p">,</span>
+                <span class="n">pre_dynamics_func</span><span class="o">=</span><span class="n">rule_based_processor</span><span class="o">.</span><span class="n">pre_dynamics_func</span><span class="p">,</span>
+                <span class="n">reporting_func</span><span class="o">=</span><span class="n">cbm_output</span><span class="o">.</span><span class="n">append_simulation_result</span><span class="p">,</span>
+                <span class="n">backend_type</span><span class="o">=</span><span class="n">BackendType</span><span class="o">.</span><span class="n">numpy</span>
+            <span class="p">)</span>
+
+        <span class="n">pi</span> <span class="o">=</span>  <span class="n">cbm_output</span><span class="o">.</span><span class="n">classifiers</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">cbm_output</span><span class="o">.</span><span class="n">pools</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">(),</span> <span class="n">left_on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;identifier&quot;</span><span class="p">,</span> <span class="s2">&quot;timestep&quot;</span><span class="p">],</span> <span class="n">right_on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;identifier&quot;</span><span class="p">,</span> <span class="s2">&quot;timestep&quot;</span><span class="p">])</span>
+
+       
+        <span class="n">annual_carbon_stocks</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;Year&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="s2">&quot;timestep&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;AGB&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">AGB</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                <span class="s2">&quot;BGB&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">BGB</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                <span class="s2">&quot;Deadwood&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">deadwood</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                <span class="s2">&quot;Litter&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">litter</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                <span class="s2">&quot;Soil&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">soil</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                <span class="s2">&quot;Harvest&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="s2">&quot;Products&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;Total Ecosystem&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">AGB</span>
+                                      <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">BGB</span>
+                                      <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">deadwood</span>
+                                      <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">litter</span>
+                                      <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">soil</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+
+            <span class="p">}</span>
+        <span class="p">)</span>
+
+        <span class="n">annual_carbon_stocks</span> <span class="o">=</span> <span class="n">annual_carbon_stocks</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;Year&quot;</span><span class="p">],</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)[</span>
+            <span class="p">[</span><span class="s2">&quot;AGB&quot;</span><span class="p">,</span> <span class="s2">&quot;BGB&quot;</span><span class="p">,</span> <span class="s2">&quot;Deadwood&quot;</span><span class="p">,</span> <span class="s2">&quot;Litter&quot;</span><span class="p">,</span> <span class="s2">&quot;Soil&quot;</span><span class="p">,</span> <span class="s2">&quot;Harvest&quot;</span><span class="p">,</span><span class="s2">&quot;Total Ecosystem&quot;</span><span class="p">]</span>
+        <span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+        <span class="n">annual_carbon_stocks</span><span class="p">[</span><span class="s2">&quot;Year&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">year_range</span>
+        <span class="n">annual_carbon_stocks</span><span class="p">[</span><span class="s2">&quot;Scenario&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sc</span>
+
+        <span class="k">return</span> <span class="n">annual_carbon_stocks</span></div>
+
+    
+
+<div class="viewcode-block" id="CBMSim.libcbm_scenario_fluxes">
+<a class="viewcode-back" href="../../../../autoapi/goblin_cbm_runner/cbm/methods/cbm_methods/index.html#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.libcbm_scenario_fluxes">[docs]</a>
+    <span class="k">def</span> <span class="nf">libcbm_scenario_fluxes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sc</span><span class="p">,</span>  <span class="n">cbm_data_class</span><span class="p">,</span> <span class="n">years</span><span class="p">,</span> <span class="n">year_range</span><span class="p">,</span> <span class="n">input_path</span><span class="p">,</span> <span class="n">database_path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate carbon Fluxes using the Libcbm method for the CBM (Carbon Budget Model) scenario data.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            sc (str): The scenario name.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame: DataFrame containing the calculated fluxes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">sit</span><span class="p">,</span> <span class="n">classifiers</span><span class="p">,</span> <span class="n">inventory</span> <span class="o">=</span> <span class="n">cbm_data_class</span><span class="o">.</span><span class="n">set_input_data_dir</span><span class="p">(</span><span class="n">sc</span><span class="p">,</span> <span class="n">input_path</span><span class="p">,</span> <span class="n">db_path</span><span class="o">=</span><span class="n">database_path</span><span class="p">)</span>
+
+
+        <span class="n">cbm_output</span> <span class="o">=</span> <span class="n">CBMOutput</span><span class="p">(</span>
+            <span class="n">classifier_map</span><span class="o">=</span><span class="n">sit</span><span class="o">.</span><span class="n">classifier_value_names</span><span class="p">,</span>
+            <span class="n">disturbance_type_map</span><span class="o">=</span><span class="n">sit</span><span class="o">.</span><span class="n">disturbance_name_map</span><span class="p">)</span>
+
+        <span class="c1"># Simulation</span>
+        <span class="k">with</span> <span class="n">sit_cbm_factory</span><span class="o">.</span><span class="n">initialize_cbm</span><span class="p">(</span><span class="n">sit</span><span class="p">)</span> <span class="k">as</span> <span class="n">cbm</span><span class="p">:</span>
+            <span class="c1"># Create a function to apply rule based disturbance events and transition rules based on the SIT input</span>
+            <span class="n">rule_based_processor</span> <span class="o">=</span> <span class="n">sit_cbm_factory</span><span class="o">.</span><span class="n">create_sit_rule_based_processor</span><span class="p">(</span>
+                <span class="n">sit</span><span class="p">,</span> <span class="n">cbm</span>
+            <span class="p">)</span>
+            <span class="c1"># The following line of code spins up the CBM inventory and runs it through 200 timesteps.</span>
+            <span class="n">cbm_simulator</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span>
+                <span class="n">cbm</span><span class="p">,</span>
+                <span class="n">n_steps</span><span class="o">=</span><span class="n">years</span><span class="p">,</span>
+                <span class="n">classifiers</span><span class="o">=</span><span class="n">classifiers</span><span class="p">,</span>
+                <span class="n">inventory</span><span class="o">=</span><span class="n">inventory</span><span class="p">,</span>
+                <span class="n">pre_dynamics_func</span><span class="o">=</span><span class="n">rule_based_processor</span><span class="o">.</span><span class="n">pre_dynamics_func</span><span class="p">,</span>
+                <span class="n">reporting_func</span><span class="o">=</span><span class="n">cbm_output</span><span class="o">.</span><span class="n">append_simulation_result</span><span class="p">,</span>
+                <span class="n">backend_type</span><span class="o">=</span><span class="n">BackendType</span><span class="o">.</span><span class="n">numpy</span>
+            <span class="p">)</span>
+        <span class="n">flux</span> <span class="o">=</span> <span class="n">cbm_output</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="n">cbm_output</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+        <span class="n">parameters</span> <span class="o">=</span> <span class="n">cbm_output</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+        <span class="n">area</span> <span class="o">=</span> <span class="n">cbm_output</span><span class="o">.</span><span class="n">area</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+
+        <span class="c1">#flux_dataframe </span>
+        <span class="n">flux_dataframe</span><span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Flux_class</span><span class="o">.</span><span class="n">concatenated_fluxes_data</span><span class="p">(</span><span class="n">flux</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">area</span><span class="p">)</span><span class="c1">#.groupby([&quot;TimeStep&quot;]).sum()</span>
+
+        <span class="n">flux_results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Flux_class</span><span class="o">.</span><span class="n">flux_filter_and_aggregate</span><span class="p">(</span><span class="n">flux_dataframe</span><span class="p">)</span>
+        <span class="n">flux_results</span><span class="p">[</span><span class="s2">&quot;Scenario&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sc</span>
+        <span class="n">flux_results</span><span class="p">[</span><span class="s2">&quot;Year&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">year_range</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+
+        <span class="n">annual_process_fluxes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;Scenario&quot;</span><span class="p">:</span> <span class="n">sc</span><span class="p">,</span>
+                <span class="s2">&quot;Timestep&quot;</span><span class="p">:</span><span class="n">flux_results</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+                <span class="s2">&quot;Year&quot;</span><span class="p">:</span> <span class="n">year_range</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                <span class="s2">&quot;DeltaBIO&quot;</span><span class="p">:</span> <span class="n">flux_results</span><span class="p">[</span><span class="s2">&quot;DeltaBio&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;DeltaDOM&quot;</span><span class="p">:</span> <span class="n">flux_results</span><span class="p">[</span><span class="s2">&quot;DeltaDOM&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;Harvest&quot;</span><span class="p">:</span> <span class="n">flux_results</span><span class="p">[</span><span class="s2">&quot;Harvest&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;Total Ecosystem_delta&quot;</span><span class="p">:</span> <span class="n">flux_results</span><span class="p">[</span><span class="s2">&quot;Delta_Ecos&quot;</span><span class="p">],</span>
+
+            <span class="p">}</span>
+        <span class="p">)</span>
+
+      
+
+        <span class="k">return</span> <span class="n">annual_process_fluxes</span></div>
+
+    
+
+<div class="viewcode-block" id="CBMSim.cbm_scenario_fluxes">
+<a class="viewcode-back" href="../../../../autoapi/goblin_cbm_runner/cbm/methods/cbm_methods/index.html#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_scenario_fluxes">[docs]</a>
+    <span class="k">def</span> <span class="nf">cbm_scenario_fluxes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">forest_data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the carbon fluxes for each scenario in the given forest data.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            forest_data (pd.DataFrame): DataFrame containing forest data.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pd.DataFrame: DataFrame containing the calculated fluxes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fluxes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">forest_data</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">forest_data</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+            <span class="n">fluxes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Year&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Year&quot;</span><span class="p">])</span>
+            <span class="n">fluxes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Scenario&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="s2">&quot;Scenario&quot;</span><span class="p">])</span>
+            <span class="n">fluxes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;AGB&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="s2">&quot;AGB&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;AGB&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">fluxes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;BGB&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="s2">&quot;BGB&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;BGB&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">fluxes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Deadwood&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="s2">&quot;Deadwood&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Deadwood&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">fluxes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Litter&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="s2">&quot;Litter&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Litter&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">fluxes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Soil&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="s2">&quot;Soil&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Soil&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">fluxes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Harvest&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="s2">&quot;Harvest&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Harvest&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">fluxes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Total Ecosystem&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="s2">&quot;Total Ecosystem&quot;</span><span class="p">]</span>
+                <span class="o">-</span> <span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Total Ecosystem&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">fluxes</span></div>
+
+    
+
+
+<div class="viewcode-block" id="CBMSim.spinup">
+<a class="viewcode-back" href="../../../../autoapi/goblin_cbm_runner/cbm/methods/cbm_methods/index.html#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.spinup">[docs]</a>
+    <span class="k">def</span> <span class="nf">spinup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sit</span><span class="p">:</span> <span class="n">SIT</span><span class="p">,</span>
+                <span class="n">classifiers</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span>
+                <span class="n">inventory</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CBMVariables</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Spin up the CBM model.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            sit (SIT): The SIT object.</span>
+<span class="sd">            classifiers (DataFrame): The classifiers.</span>
+<span class="sd">            inventory (DataFrame): The inventory.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="k">with</span> <span class="n">sit_cbm_factory</span><span class="o">.</span><span class="n">initialize_cbm</span><span class="p">(</span><span class="n">sit</span><span class="p">)</span> <span class="k">as</span> <span class="n">cbm</span><span class="p">:</span>
+
+            <span class="n">cbm_vars</span> <span class="o">=</span> <span class="n">cbm_variables</span><span class="o">.</span><span class="n">initialize_simulation_variables</span><span class="p">(</span>
+                <span class="n">classifiers</span><span class="p">,</span>
+                <span class="n">inventory</span><span class="p">,</span>
+                <span class="n">cbm</span><span class="o">.</span><span class="n">pool_codes</span><span class="p">,</span>
+                <span class="n">cbm</span><span class="o">.</span><span class="n">flux_indicator_codes</span><span class="p">,</span>
+                <span class="n">inventory</span><span class="o">.</span><span class="n">backend_type</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="n">spinup_vars</span> <span class="o">=</span> <span class="n">cbm_variables</span><span class="o">.</span><span class="n">initialize_spinup_variables</span><span class="p">(</span>
+                <span class="n">cbm_vars</span><span class="p">,</span>
+                <span class="n">inventory</span><span class="o">.</span><span class="n">backend_type</span><span class="p">,</span>
+                <span class="n">spinup_params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="c1"># if you are setting non-default mean annual temperature this may be important</span>
+                <span class="n">include_flux</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="n">cbm</span><span class="o">.</span><span class="n">spinup</span><span class="p">(</span><span class="n">spinup_vars</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="s2">&quot;mean_annual_temp&quot;</span> <span class="ow">in</span> <span class="n">spinup_vars</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                <span class="c1"># since the mean_annual_temp appears in the spinup parameters, carry</span>
+                <span class="c1"># it forward to the simulation period so that we have consistent</span>
+                <span class="c1"># columns in the outputs</span>
+                <span class="n">cbm_vars</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span>
+                    <span class="n">spinup_vars</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;mean_annual_temp&quot;</span><span class="p">],</span>
+                    <span class="n">cbm_vars</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">n_cols</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="n">cbm_vars</span> <span class="o">=</span> <span class="n">cbm</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">cbm_vars</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">cbm_vars</span></div>
+
+        
+        
+<div class="viewcode-block" id="CBMSim.step">
+<a class="viewcode-back" href="../../../../autoapi/goblin_cbm_runner/cbm/methods/cbm_methods/index.html#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.step">[docs]</a>
+    <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time_step</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">sit</span><span class="p">:</span> <span class="n">SIT</span><span class="p">,</span> <span class="n">cbm_vars</span><span class="p">:</span> <span class="n">CBMVariables</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CBMVariables</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Step the CBM model forward one timestep.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            time_step (int): The timestep.</span>
+<span class="sd">            sit (SIT): The SIT object.</span>
+<span class="sd">            cbm_vars (CBMVariables): The CBM variables.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">sit_cbm_factory</span><span class="o">.</span><span class="n">initialize_cbm</span><span class="p">(</span><span class="n">sit</span><span class="p">)</span> <span class="k">as</span> <span class="n">cbm</span><span class="p">:</span>
+            <span class="n">rule_based_processor</span> <span class="o">=</span> <span class="n">sit_cbm_factory</span><span class="o">.</span><span class="n">create_sit_rule_based_processor</span><span class="p">(</span><span class="n">sit</span><span class="p">,</span> <span class="n">cbm</span><span class="p">)</span>
+            <span class="c1"># apply rule based disturbances to the cbm_vars for this timestep</span>
+            <span class="n">cbm_vars</span> <span class="o">=</span> <span class="n">rule_based_processor</span><span class="o">.</span><span class="n">pre_dynamics_func</span><span class="p">(</span><span class="n">time_step</span><span class="p">,</span> <span class="n">cbm_vars</span><span class="p">)</span>
+            <span class="c1"># advance the C dynamics</span>
+            <span class="n">cbm_vars</span> <span class="o">=</span> <span class="n">cbm</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">cbm_vars</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">cbm_vars</span></div>
+
+        
+
+
+<div class="viewcode-block" id="CBMSim.baseline_simulate_stock">
+<a class="viewcode-back" href="../../../../autoapi/goblin_cbm_runner/cbm/methods/cbm_methods/index.html#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.baseline_simulate_stock">[docs]</a>
+    <span class="k">def</span> <span class="nf">baseline_simulate_stock</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cbm_data_class</span><span class="p">,</span> <span class="n">years</span><span class="p">,</span> <span class="n">year_range</span><span class="p">,</span> <span class="n">input_path</span><span class="p">,</span> <span class="n">database_path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Runs a baseline (managed) forest simulation using the CBM model.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            cbm_data_class (CBMData): The CBM data class object.</span>
+<span class="sd">            years (int): The number of years to simulate.</span>
+<span class="sd">            year_range (list): The range of years to simulate.</span>
+<span class="sd">            input_path (str): The path to the input data.</span>
+<span class="sd">            database_path (str): The path to the database.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame: DataFrame containing the calculated managed forest stocks.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">spinup_sit</span><span class="p">,</span> <span class="n">classifiers</span><span class="p">,</span> <span class="n">inventory</span> <span class="o">=</span> <span class="n">cbm_data_class</span><span class="o">.</span><span class="n">set_spinup_baseline_input_data_dir</span><span class="p">(</span>
+            <span class="n">input_path</span><span class="p">,</span> <span class="n">database_path</span>
+        <span class="p">)</span>
+
+        <span class="n">step_sit</span><span class="p">,</span> <span class="n">redundant_classifier</span><span class="p">,</span> <span class="n">redundant_inventory</span> <span class="o">=</span> <span class="n">cbm_data_class</span><span class="o">.</span><span class="n">set_baseline_input_data_dir</span><span class="p">(</span>
+            <span class="n">input_path</span><span class="p">,</span> <span class="n">database_path</span>
+        <span class="p">)</span>
+
+        <span class="n">cbm_output</span> <span class="o">=</span> <span class="n">CBMOutput</span><span class="p">(</span>
+            <span class="n">classifier_map</span><span class="o">=</span><span class="n">spinup_sit</span><span class="o">.</span><span class="n">classifier_value_names</span><span class="p">)</span>
+            
+        <span class="n">cbm_vars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spinup</span><span class="p">(</span><span class="n">spinup_sit</span><span class="p">,</span> <span class="n">classifiers</span><span class="p">,</span> <span class="n">inventory</span><span class="p">)</span>
+        <span class="c1"># append the t=0 (post-spinup results)</span>
+        <span class="n">cbm_output</span><span class="o">.</span><span class="n">append_simulation_result</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">cbm_vars</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">years</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="c1"># the t cbm_vars replace the t-1 cbm_vars</span>
+            <span class="n">cbm_vars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">step_sit</span><span class="p">,</span> <span class="n">cbm_vars</span><span class="p">)</span>
+            <span class="n">cbm_output</span><span class="o">.</span><span class="n">append_simulation_result</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">cbm_vars</span><span class="p">)</span>
+
+
+        <span class="n">pi</span> <span class="o">=</span>  <span class="n">cbm_output</span><span class="o">.</span><span class="n">classifiers</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">cbm_output</span><span class="o">.</span><span class="n">pools</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">(),</span> <span class="n">left_on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;identifier&quot;</span><span class="p">,</span> <span class="s2">&quot;timestep&quot;</span><span class="p">],</span> <span class="n">right_on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;identifier&quot;</span><span class="p">,</span> <span class="s2">&quot;timestep&quot;</span><span class="p">])</span>
+
+       
+        <span class="n">annual_carbon_stocks</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;Year&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="s2">&quot;timestep&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;AGB&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">AGB</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                <span class="s2">&quot;BGB&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">BGB</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                <span class="s2">&quot;Deadwood&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">deadwood</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                <span class="s2">&quot;Litter&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">litter</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                <span class="s2">&quot;Soil&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">soil</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                <span class="s2">&quot;Harvest&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="s2">&quot;Products&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;Total Ecosystem&quot;</span><span class="p">:</span> <span class="n">pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">AGB</span>
+                                      <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">BGB</span>
+                                      <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">deadwood</span>
+                                      <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">litter</span>
+                                      <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">soil</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+
+            <span class="p">}</span>
+        <span class="p">)</span>
+
+        <span class="n">annual_carbon_stocks</span> <span class="o">=</span> <span class="n">annual_carbon_stocks</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;Year&quot;</span><span class="p">],</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)[</span>
+            <span class="p">[</span><span class="s2">&quot;AGB&quot;</span><span class="p">,</span> <span class="s2">&quot;BGB&quot;</span><span class="p">,</span> <span class="s2">&quot;Deadwood&quot;</span><span class="p">,</span> <span class="s2">&quot;Litter&quot;</span><span class="p">,</span> <span class="s2">&quot;Soil&quot;</span><span class="p">,</span><span class="s2">&quot;Harvest&quot;</span><span class="p">,</span> <span class="s2">&quot;Total Ecosystem&quot;</span><span class="p">]</span>
+        <span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+        <span class="n">annual_carbon_stocks</span><span class="p">[</span><span class="s2">&quot;Year&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">year_range</span>
+
+        <span class="k">return</span> <span class="n">annual_carbon_stocks</span></div>
+
+    
+
+<div class="viewcode-block" id="CBMSim.baseline_simulate_stock_raw_output">
+<a class="viewcode-back" href="../../../../autoapi/goblin_cbm_runner/cbm/methods/cbm_methods/index.html#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.baseline_simulate_stock_raw_output">[docs]</a>
+    <span class="k">def</span> <span class="nf">baseline_simulate_stock_raw_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cbm_data_class</span><span class="p">,</span> <span class="n">years</span><span class="p">,</span> <span class="n">year_range</span><span class="p">,</span> <span class="n">input_path</span><span class="p">,</span> <span class="n">database_path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Runs a baseline (managed) forest simulation using the CBM model.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            cbm_data_class (CBMData): The CBM data class object.</span>
+<span class="sd">            years (int): The number of years to simulate.</span>
+<span class="sd">            year_range (list): The range of years to simulate.</span>
+<span class="sd">            input_path (str): The path to the input data.</span>
+<span class="sd">            database_path (str): The path to the database.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame: DataFrame containing the calculated managed forest stocks.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">spinup_sit</span><span class="p">,</span> <span class="n">classifiers</span><span class="p">,</span> <span class="n">inventory</span> <span class="o">=</span> <span class="n">cbm_data_class</span><span class="o">.</span><span class="n">set_spinup_baseline_input_data_dir</span><span class="p">(</span>
+            <span class="n">input_path</span><span class="p">,</span> <span class="n">database_path</span>
+        <span class="p">)</span>
+
+        <span class="n">step_sit</span><span class="p">,</span> <span class="n">redundant_classifier</span><span class="p">,</span> <span class="n">redundant_inventory</span> <span class="o">=</span> <span class="n">cbm_data_class</span><span class="o">.</span><span class="n">set_baseline_input_data_dir</span><span class="p">(</span>
+            <span class="n">input_path</span><span class="p">,</span> <span class="n">database_path</span>
+        <span class="p">)</span>
+
+        <span class="n">cbm_output</span> <span class="o">=</span> <span class="n">CBMOutput</span><span class="p">(</span>
+            <span class="n">classifier_map</span><span class="o">=</span><span class="n">spinup_sit</span><span class="o">.</span><span class="n">classifier_value_names</span><span class="p">)</span>
+            
+        <span class="n">cbm_vars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spinup</span><span class="p">(</span><span class="n">spinup_sit</span><span class="p">,</span> <span class="n">classifiers</span><span class="p">,</span> <span class="n">inventory</span><span class="p">)</span>
+        <span class="c1"># append the t=0 (post-spinup results)</span>
+        <span class="n">cbm_output</span><span class="o">.</span><span class="n">append_simulation_result</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">cbm_vars</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">years</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="c1"># the t cbm_vars replace the t-1 cbm_vars</span>
+            <span class="n">cbm_vars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">step_sit</span><span class="p">,</span> <span class="n">cbm_vars</span><span class="p">)</span>
+            <span class="n">cbm_output</span><span class="o">.</span><span class="n">append_simulation_result</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">cbm_vars</span><span class="p">)</span>
+
+
+        <span class="n">pi</span> <span class="o">=</span>  <span class="n">cbm_output</span><span class="o">.</span><span class="n">classifiers</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">cbm_output</span><span class="o">.</span><span class="n">pools</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">(),</span> <span class="n">left_on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;identifier&quot;</span><span class="p">,</span> <span class="s2">&quot;timestep&quot;</span><span class="p">],</span> <span class="n">right_on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;identifier&quot;</span><span class="p">,</span> <span class="s2">&quot;timestep&quot;</span><span class="p">])</span>
+
+
+        <span class="k">return</span> <span class="n">pi</span></div>
+
+    
+
+<div class="viewcode-block" id="CBMSim.cbm_basic_validation">
+<a class="viewcode-back" href="../../../../autoapi/goblin_cbm_runner/cbm/methods/cbm_methods/index.html#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_basic_validation">[docs]</a>
+    <span class="k">def</span> <span class="nf">cbm_basic_validation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">years</span><span class="p">,</span> <span class="n">input_path</span><span class="p">,</span> <span class="n">database_path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate validation data for the CBM model for a set of specified inputs. </span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            years (int): The number of years to simulate.</span>
+<span class="sd">            input_path (str): The path to the SIT input data.</span>
+<span class="sd">            database_path (str): The path to the database.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary containing the generated validation data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sit_config_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">input_path</span><span class="p">,</span> <span class="s2">&quot;sit_config.json&quot;</span><span class="p">)</span>
+
+        <span class="n">sit</span> <span class="o">=</span> <span class="n">sit_cbm_factory</span><span class="o">.</span><span class="n">load_sit</span><span class="p">(</span><span class="n">sit_config_path</span><span class="p">,</span> <span class="n">database_path</span><span class="p">)</span>
+
+        <span class="n">classifiers</span><span class="p">,</span> <span class="n">inventory</span> <span class="o">=</span> <span class="n">sit_cbm_factory</span><span class="o">.</span><span class="n">initialize_inventory</span><span class="p">(</span><span class="n">sit</span><span class="p">)</span>
+
+        <span class="n">cbm_output</span> <span class="o">=</span> <span class="n">CBMOutput</span><span class="p">(</span>
+            <span class="n">classifier_map</span><span class="o">=</span><span class="n">sit</span><span class="o">.</span><span class="n">classifier_value_names</span><span class="p">,</span>
+            <span class="n">disturbance_type_map</span><span class="o">=</span><span class="n">sit</span><span class="o">.</span><span class="n">disturbance_name_map</span><span class="p">)</span>
+
+        <span class="c1"># Simulation</span>
+        <span class="k">with</span> <span class="n">sit_cbm_factory</span><span class="o">.</span><span class="n">initialize_cbm</span><span class="p">(</span><span class="n">sit</span><span class="p">)</span> <span class="k">as</span> <span class="n">cbm</span><span class="p">:</span>
+            <span class="c1"># Create a function to apply rule based disturbance events and transition rules based on the SIT input</span>
+            <span class="n">rule_based_processor</span> <span class="o">=</span> <span class="n">sit_cbm_factory</span><span class="o">.</span><span class="n">create_sit_rule_based_processor</span><span class="p">(</span>
+                <span class="n">sit</span><span class="p">,</span> <span class="n">cbm</span>
+            <span class="p">)</span>
+            <span class="c1"># The following line of code spins up the CBM inventory and runs it through 200 timesteps.</span>
+            <span class="n">cbm_simulator</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span>
+                <span class="n">cbm</span><span class="p">,</span>
+                <span class="n">n_steps</span><span class="o">=</span><span class="n">years</span><span class="p">,</span>
+                <span class="n">classifiers</span><span class="o">=</span><span class="n">classifiers</span><span class="p">,</span>
+                <span class="n">inventory</span><span class="o">=</span><span class="n">inventory</span><span class="p">,</span>
+                <span class="n">pre_dynamics_func</span><span class="o">=</span><span class="n">rule_based_processor</span><span class="o">.</span><span class="n">pre_dynamics_func</span><span class="p">,</span>
+                <span class="n">reporting_func</span><span class="o">=</span><span class="n">cbm_output</span><span class="o">.</span><span class="n">append_simulation_result</span><span class="p">,</span>
+                <span class="n">backend_type</span><span class="o">=</span><span class="n">BackendType</span><span class="o">.</span><span class="n">numpy</span>
+            <span class="p">)</span>
+
+        <span class="n">pi</span> <span class="o">=</span>  <span class="n">cbm_output</span><span class="o">.</span><span class="n">classifiers</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">cbm_output</span><span class="o">.</span><span class="n">pools</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">(),</span> <span class="n">left_on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;identifier&quot;</span><span class="p">,</span> <span class="s2">&quot;timestep&quot;</span><span class="p">],</span> <span class="n">right_on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;identifier&quot;</span><span class="p">,</span> <span class="s2">&quot;timestep&quot;</span><span class="p">])</span>
+
+
+        <span class="n">si</span> <span class="o">=</span>  <span class="n">cbm_output</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+        <span class="n">pools</span> <span class="o">=</span> <span class="n">cbm_output</span><span class="o">.</span><span class="n">pools</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+        <span class="n">flux</span> <span class="o">=</span> <span class="n">cbm_output</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+        <span class="n">parameters</span> <span class="o">=</span> <span class="n">cbm_output</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+        <span class="n">area</span> <span class="o">=</span> <span class="n">cbm_output</span><span class="o">.</span><span class="n">area</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+
+
+        <span class="n">state_by_timestep</span> <span class="o">=</span> <span class="n">ValidationData</span><span class="o">.</span><span class="n">gen_disturbance_statistics</span><span class="p">(</span><span class="n">rule_based_processor</span><span class="p">,</span> <span class="n">years</span><span class="p">)</span>
+
+        <span class="n">events</span> <span class="o">=</span> <span class="n">ValidationData</span><span class="o">.</span><span class="n">gen_sit_events</span><span class="p">(</span><span class="n">rule_based_processor</span><span class="p">)</span>
+
+        <span class="c1"># Merge events and parse, if errors occur, linked_eevents will be None</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">linked_events</span> <span class="o">=</span> <span class="n">ValidationData</span><span class="o">.</span><span class="n">merge_disturbances_and_parse</span><span class="p">(</span><span class="n">pi</span><span class="p">,</span><span class="n">parameters</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">linked_events</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">results</span><span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;primary_data&quot;</span><span class="p">:</span><span class="n">pi</span><span class="p">,</span>
+           <span class="s2">&quot;data_area&quot;</span><span class="p">:</span><span class="n">area</span><span class="p">,</span>
+            <span class="s2">&quot;data_flux&quot;</span><span class="p">:</span><span class="n">flux</span><span class="p">,</span>
+            <span class="s2">&quot;data_params&quot;</span><span class="p">:</span><span class="n">parameters</span><span class="p">,</span>
+            <span class="s2">&quot;data_pools&quot;</span><span class="p">:</span><span class="n">pools</span><span class="p">,</span>
+            <span class="s2">&quot;data_state&quot;</span><span class="p">:</span><span class="n">si</span><span class="p">,</span>
+            <span class="s2">&quot;events&quot;</span><span class="p">:</span><span class="n">events</span><span class="p">,</span>
+            <span class="s2">&quot;state_by_timestep&quot;</span><span class="p">:</span><span class="n">state_by_timestep</span><span class="p">,</span>
+            <span class="s2">&quot;linked_events&quot;</span><span class="p">:</span><span class="n">linked_events</span><span class="p">}</span>
+    
+        <span class="k">return</span> <span class="n">results</span></div>
+
+    
+
+<div class="viewcode-block" id="CBMSim.cbm_disturbance_area_validation">
+<a class="viewcode-back" href="../../../../autoapi/goblin_cbm_runner/cbm/methods/cbm_methods/index.html#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_disturbance_area_validation">[docs]</a>
+    <span class="k">def</span> <span class="nf">cbm_disturbance_area_validation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">years</span><span class="p">,</span> <span class="n">input_path</span><span class="p">,</span> <span class="n">database_path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate validation data for area and disturbances from the CBM model for a set of specified inputs.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            years (int): The number of years to simulate.</span>
+<span class="sd">            input_path (str): The path to the SIT input data.</span>
+<span class="sd">            database_path (str): The path to the database.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary containing the generated validation data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sit_config_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">input_path</span><span class="p">,</span> <span class="s2">&quot;sit_config.json&quot;</span><span class="p">)</span>
+
+        <span class="n">sit</span> <span class="o">=</span> <span class="n">sit_cbm_factory</span><span class="o">.</span><span class="n">load_sit</span><span class="p">(</span><span class="n">sit_config_path</span><span class="p">,</span> <span class="n">database_path</span><span class="p">)</span>
+
+        <span class="n">classifiers</span><span class="p">,</span> <span class="n">inventory</span> <span class="o">=</span> <span class="n">sit_cbm_factory</span><span class="o">.</span><span class="n">initialize_inventory</span><span class="p">(</span><span class="n">sit</span><span class="p">)</span>
+
+        <span class="n">cbm_output</span> <span class="o">=</span> <span class="n">CBMOutput</span><span class="p">(</span>
+            <span class="n">classifier_map</span><span class="o">=</span><span class="n">sit</span><span class="o">.</span><span class="n">classifier_value_names</span><span class="p">,</span>
+            <span class="n">disturbance_type_map</span><span class="o">=</span><span class="n">sit</span><span class="o">.</span><span class="n">disturbance_name_map</span><span class="p">)</span>
+
+        <span class="c1"># Simulation</span>
+        <span class="k">with</span> <span class="n">sit_cbm_factory</span><span class="o">.</span><span class="n">initialize_cbm</span><span class="p">(</span><span class="n">sit</span><span class="p">)</span> <span class="k">as</span> <span class="n">cbm</span><span class="p">:</span>
+            <span class="c1"># Create a function to apply rule based disturbance events and transition rules based on the SIT input</span>
+            <span class="n">rule_based_processor</span> <span class="o">=</span> <span class="n">sit_cbm_factory</span><span class="o">.</span><span class="n">create_sit_rule_based_processor</span><span class="p">(</span>
+                <span class="n">sit</span><span class="p">,</span> <span class="n">cbm</span>
+            <span class="p">)</span>
+            <span class="c1"># The following line of code spins up the CBM inventory and runs it through 200 timesteps.</span>
+            <span class="n">cbm_simulator</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span>
+                <span class="n">cbm</span><span class="p">,</span>
+                <span class="n">n_steps</span><span class="o">=</span><span class="n">years</span><span class="p">,</span>
+                <span class="n">classifiers</span><span class="o">=</span><span class="n">classifiers</span><span class="p">,</span>
+                <span class="n">inventory</span><span class="o">=</span><span class="n">inventory</span><span class="p">,</span>
+                <span class="n">pre_dynamics_func</span><span class="o">=</span><span class="n">rule_based_processor</span><span class="o">.</span><span class="n">pre_dynamics_func</span><span class="p">,</span>
+                <span class="n">reporting_func</span><span class="o">=</span><span class="n">cbm_output</span><span class="o">.</span><span class="n">append_simulation_result</span><span class="p">,</span>
+                <span class="n">backend_type</span><span class="o">=</span><span class="n">BackendType</span><span class="o">.</span><span class="n">numpy</span>
+            <span class="p">)</span>
+
+        <span class="n">parameters</span> <span class="o">=</span> <span class="n">cbm_output</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+ 
+        <span class="n">pi</span> <span class="o">=</span>  <span class="n">cbm_output</span><span class="o">.</span><span class="n">classifiers</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">cbm_output</span><span class="o">.</span><span class="n">pools</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">(),</span> <span class="n">left_on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;identifier&quot;</span><span class="p">,</span> <span class="s2">&quot;timestep&quot;</span><span class="p">],</span> <span class="n">right_on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;identifier&quot;</span><span class="p">,</span> <span class="s2">&quot;timestep&quot;</span><span class="p">])</span>
+
+
+        <span class="n">merge_disturbances_and_parse</span> <span class="o">=</span> <span class="n">ValidationData</span><span class="o">.</span><span class="n">merge_disturbances_and_parse</span><span class="p">(</span><span class="n">pi</span><span class="p">,</span><span class="n">parameters</span><span class="p">)</span>
+
+
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;merge_disturbances_and_parse&quot;</span><span class="p">:</span><span class="n">merge_disturbances_and_parse</span><span class="p">}</span></div>
+
+    
+
+
+<div class="viewcode-block" id="CBMSim.scenario_cbm_disturbance_area_validation">
+<a class="viewcode-back" href="../../../../autoapi/goblin_cbm_runner/cbm/methods/cbm_methods/index.html#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.scenario_cbm_disturbance_area_validation">[docs]</a>
+    <span class="k">def</span> <span class="nf">scenario_cbm_disturbance_area_validation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">years</span><span class="p">,</span> <span class="n">input_path</span><span class="p">,</span> <span class="n">database_path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate validation data for area and disturbances for the CBM model for a set of specified inputs</span>
+<span class="sd">        scenarios. </span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            years (int): The number of years to simulate.</span>
+<span class="sd">            input_path (str): The path to the SIT input data.</span>
+<span class="sd">            database_path (str): The path to the database.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary containing the generated validation data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sit_config_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">input_path</span><span class="p">,</span> <span class="s2">&quot;sit_config.json&quot;</span><span class="p">)</span>
+
+        <span class="n">sit</span> <span class="o">=</span> <span class="n">sit_cbm_factory</span><span class="o">.</span><span class="n">load_sit</span><span class="p">(</span><span class="n">sit_config_path</span><span class="p">,</span> <span class="n">database_path</span><span class="p">)</span>
+
+        <span class="n">classifiers</span><span class="p">,</span> <span class="n">inventory</span> <span class="o">=</span> <span class="n">sit_cbm_factory</span><span class="o">.</span><span class="n">initialize_inventory</span><span class="p">(</span><span class="n">sit</span><span class="p">)</span>
+
+        <span class="n">cbm_output</span> <span class="o">=</span> <span class="n">CBMOutput</span><span class="p">(</span>
+            <span class="n">classifier_map</span><span class="o">=</span><span class="n">sit</span><span class="o">.</span><span class="n">classifier_value_names</span><span class="p">,</span>
+            <span class="n">disturbance_type_map</span><span class="o">=</span><span class="n">sit</span><span class="o">.</span><span class="n">disturbance_name_map</span><span class="p">)</span>
+
+        <span class="c1"># Simulation</span>
+        <span class="k">with</span> <span class="n">sit_cbm_factory</span><span class="o">.</span><span class="n">initialize_cbm</span><span class="p">(</span><span class="n">sit</span><span class="p">)</span> <span class="k">as</span> <span class="n">cbm</span><span class="p">:</span>
+            <span class="c1"># Create a function to apply rule based disturbance events and transition rules based on the SIT input</span>
+            <span class="n">rule_based_processor</span> <span class="o">=</span> <span class="n">sit_cbm_factory</span><span class="o">.</span><span class="n">create_sit_rule_based_processor</span><span class="p">(</span>
+                <span class="n">sit</span><span class="p">,</span> <span class="n">cbm</span>
+            <span class="p">)</span>
+            <span class="c1"># The following line of code spins up the CBM inventory and runs it through 200 timesteps.</span>
+            <span class="n">cbm_simulator</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span>
+                <span class="n">cbm</span><span class="p">,</span>
+                <span class="n">n_steps</span><span class="o">=</span><span class="n">years</span><span class="p">,</span>
+                <span class="n">classifiers</span><span class="o">=</span><span class="n">classifiers</span><span class="p">,</span>
+                <span class="n">inventory</span><span class="o">=</span><span class="n">inventory</span><span class="p">,</span>
+                <span class="n">pre_dynamics_func</span><span class="o">=</span><span class="n">rule_based_processor</span><span class="o">.</span><span class="n">pre_dynamics_func</span><span class="p">,</span>
+                <span class="n">reporting_func</span><span class="o">=</span><span class="n">cbm_output</span><span class="o">.</span><span class="n">append_simulation_result</span><span class="p">,</span>
+                <span class="n">backend_type</span><span class="o">=</span><span class="n">BackendType</span><span class="o">.</span><span class="n">numpy</span>
+            <span class="p">)</span>
+
+        <span class="n">parameters</span> <span class="o">=</span> <span class="n">cbm_output</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+
+
+        <span class="n">pi</span> <span class="o">=</span>  <span class="n">cbm_output</span><span class="o">.</span><span class="n">classifiers</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">cbm_output</span><span class="o">.</span><span class="n">pools</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">(),</span> <span class="n">left_on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;identifier&quot;</span><span class="p">,</span> <span class="s2">&quot;timestep&quot;</span><span class="p">],</span> <span class="n">right_on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;identifier&quot;</span><span class="p">,</span> <span class="s2">&quot;timestep&quot;</span><span class="p">])</span>
+
+
+        <span class="n">merge_disturbances_and_parse</span> <span class="o">=</span> <span class="n">ValidationData</span><span class="o">.</span><span class="n">default_merge_disturbances_and_parse</span><span class="p">(</span><span class="n">pi</span><span class="p">,</span><span class="n">parameters</span><span class="p">)</span>
+
+        <span class="n">summary_disturbances</span> <span class="o">=</span> <span class="n">ValidationData</span><span class="o">.</span><span class="n">disturbance_summary</span><span class="p">(</span><span class="n">pi</span><span class="p">,</span><span class="n">parameters</span><span class="p">)</span>
+
+
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;merge_disturbances_and_parse&quot;</span><span class="p">:</span><span class="n">merge_disturbances_and_parse</span><span class="p">,</span>
+                <span class="s2">&quot;summary_disturbances&quot;</span><span class="p">:</span><span class="n">summary_disturbances</span><span class="p">}</span></div>
+
+   
+
+
+<div class="viewcode-block" id="CBMSim.cbm_baseline_disturbance_area_validation">
+<a class="viewcode-back" href="../../../../autoapi/goblin_cbm_runner/cbm/methods/cbm_methods/index.html#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_baseline_disturbance_area_validation">[docs]</a>
+    <span class="k">def</span> <span class="nf">cbm_baseline_disturbance_area_validation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">years</span><span class="p">,</span> <span class="n">input_path</span><span class="p">,</span> <span class="n">database_path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Runs a baseline (managed) forest simulation using the CBM model.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            cbm_data_class (CBMData): The CBM data class object.</span>
+<span class="sd">            years (int): The number of years to simulate.</span>
+<span class="sd">            year_range (list): The range of years to simulate.</span>
+<span class="sd">            input_path (str): The path to the input data.</span>
+<span class="sd">            database_path (str): The path to the database.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame: DataFrame containing the calculated managed forest stocks.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">spinup_sit_config_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">input_path</span><span class="p">,</span> <span class="s2">&quot;spinup_config.json&quot;</span><span class="p">)</span>
+
+        <span class="n">sit_config_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">input_path</span><span class="p">,</span> <span class="s2">&quot;sit_config.json&quot;</span><span class="p">)</span>
+
+        
+        <span class="n">step_sit</span> <span class="o">=</span> <span class="n">sit_cbm_factory</span><span class="o">.</span><span class="n">load_sit</span><span class="p">(</span><span class="n">sit_config_path</span><span class="p">,</span> <span class="n">database_path</span><span class="p">)</span>
+
+        <span class="n">spinup_sit</span> <span class="o">=</span> <span class="n">sit_cbm_factory</span><span class="o">.</span><span class="n">load_sit</span><span class="p">(</span><span class="n">spinup_sit_config_path</span><span class="p">,</span> <span class="n">database_path</span><span class="p">)</span>
+
+
+        <span class="n">classifiers</span><span class="p">,</span> <span class="n">inventory</span> <span class="o">=</span> <span class="n">sit_cbm_factory</span><span class="o">.</span><span class="n">initialize_inventory</span><span class="p">(</span><span class="n">spinup_sit</span><span class="p">)</span>
+
+        <span class="n">cbm_output</span> <span class="o">=</span> <span class="n">CBMOutput</span><span class="p">(</span>
+            <span class="n">classifier_map</span><span class="o">=</span><span class="n">spinup_sit</span><span class="o">.</span><span class="n">classifier_value_names</span><span class="p">)</span>
+            
+        <span class="n">cbm_vars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spinup</span><span class="p">(</span><span class="n">spinup_sit</span><span class="p">,</span> <span class="n">classifiers</span><span class="p">,</span> <span class="n">inventory</span><span class="p">)</span>
+        <span class="c1"># append the t=0 (post-spinup results)</span>
+        <span class="n">cbm_output</span><span class="o">.</span><span class="n">append_simulation_result</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">cbm_vars</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">years</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="c1"># the t cbm_vars replace the t-1 cbm_vars</span>
+            <span class="n">cbm_vars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">step_sit</span><span class="p">,</span> <span class="n">cbm_vars</span><span class="p">)</span>
+            <span class="n">cbm_output</span><span class="o">.</span><span class="n">append_simulation_result</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">cbm_vars</span><span class="p">)</span>
+
+        <span class="n">parameters</span> <span class="o">=</span> <span class="n">cbm_output</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+        <span class="n">pi</span> <span class="o">=</span>  <span class="n">cbm_output</span><span class="o">.</span><span class="n">classifiers</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">cbm_output</span><span class="o">.</span><span class="n">pools</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">(),</span> <span class="n">left_on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;identifier&quot;</span><span class="p">,</span> <span class="s2">&quot;timestep&quot;</span><span class="p">],</span> <span class="n">right_on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;identifier&quot;</span><span class="p">,</span> <span class="s2">&quot;timestep&quot;</span><span class="p">])</span>
+
+        <span class="n">merge_disturbances_and_parse</span> <span class="o">=</span> <span class="n">ValidationData</span><span class="o">.</span><span class="n">merge_baseline_disturbances_and_parse</span><span class="p">(</span><span class="n">pi</span><span class="p">,</span><span class="n">parameters</span><span class="p">)</span>
+
+
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;merge_baseline_disturbances_and_parse&quot;</span><span class="p">:</span><span class="n">merge_disturbances_and_parse</span><span class="p">}</span></div>
+
+    
+
+
+<div class="viewcode-block" id="CBMSim.forest_raw_fluxes">
+<a class="viewcode-back" href="../../../../autoapi/goblin_cbm_runner/cbm/methods/cbm_methods/index.html#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.forest_raw_fluxes">[docs]</a>
+    <span class="k">def</span> <span class="nf">forest_raw_fluxes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">forest_data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the carbon fluxes in the given forest data. The categories are not aggregated.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            forest_data (pd.DataFrame): DataFrame containing forest data.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pd.DataFrame: DataFrame containing the calculated fluxes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fluxes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">forest_data</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+
+        <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;SoftwoodMerch&quot;</span><span class="p">,</span> 
+                   <span class="s2">&quot;SoftwoodFoliage&quot;</span><span class="p">,</span> 
+                   <span class="s2">&quot;SoftwoodOther&quot;</span><span class="p">,</span> 
+                   <span class="s2">&quot;SoftwoodCoarseRoots&quot;</span><span class="p">,</span> 
+                   <span class="s2">&quot;SoftwoodFineRoots&quot;</span><span class="p">,</span> 
+                   <span class="s2">&quot;HardwoodMerch&quot;</span><span class="p">,</span> 
+                   <span class="s2">&quot;HardwoodFoliage&quot;</span><span class="p">,</span> 
+                   <span class="s2">&quot;HardwoodOther&quot;</span><span class="p">,</span> 
+                   <span class="s2">&quot;HardwoodCoarseRoots&quot;</span><span class="p">,</span> 
+                   <span class="s2">&quot;HardwoodFineRoots&quot;</span><span class="p">,</span> 
+                   <span class="s2">&quot;AboveGroundVeryFastSoil&quot;</span><span class="p">,</span> 
+                   <span class="s2">&quot;BelowGroundVeryFastSoil&quot;</span><span class="p">,</span> 
+                   <span class="s2">&quot;AboveGroundFastSoil&quot;</span><span class="p">,</span> 
+                   <span class="s2">&quot;BelowGroundFastSoil&quot;</span><span class="p">,</span> 
+                   <span class="s2">&quot;MediumSoil&quot;</span><span class="p">,</span> 
+                   <span class="s2">&quot;AboveGroundSlowSoil&quot;</span><span class="p">,</span> 
+                   <span class="s2">&quot;BelowGroundSlowSoil&quot;</span><span class="p">,</span> 
+                   <span class="s2">&quot;SoftwoodStemSnag&quot;</span><span class="p">,</span> 
+                   <span class="s2">&quot;SoftwoodBranchSnag&quot;</span><span class="p">,</span> 
+                   <span class="s2">&quot;HardwoodStemSnag&quot;</span><span class="p">,</span> 
+                   <span class="s2">&quot;HardwoodBranchSnag&quot;</span><span class="p">,</span> 
+                   <span class="s2">&quot;CO2&quot;</span><span class="p">,</span> 
+                   <span class="s2">&quot;CH4&quot;</span><span class="p">,</span> 
+                   <span class="s2">&quot;CO&quot;</span><span class="p">,</span> 
+                   <span class="s2">&quot;NO2&quot;</span><span class="p">,</span> 
+                   <span class="s2">&quot;Products&quot;</span><span class="p">]</span>
+        
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">forest_data</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+
+            <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">forest_data</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">:</span>
+                        <span class="n">fluxes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">col</span><span class="p">]</span>
+                        
+                <span class="n">fluxes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;timestep&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="s2">&quot;timestep&quot;</span><span class="p">])</span> <span class="o">-</span><span class="mi">1</span>
+                <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">:</span>
+                    <span class="n">fluxes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">column</span><span class="p">]</span> <span class="o">-</span> <span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="p">]</span>
+                    <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">fluxes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span> <span class="p">,</span> <span class="s2">&quot;timestep&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="s2">&quot;timestep&quot;</span><span class="p">])</span>
+                <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">:</span>
+                    <span class="n">fluxes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">column</span><span class="p">]</span> <span class="o">=</span> <span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">column</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">fluxes</span></div>
+
+    
+
+<div class="viewcode-block" id="CBMSim.cbm_baseline_summary_fluxes">
+<a class="viewcode-back" href="../../../../autoapi/goblin_cbm_runner/cbm/methods/cbm_methods/index.html#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_baseline_summary_fluxes">[docs]</a>
+    <span class="k">def</span> <span class="nf">cbm_baseline_summary_fluxes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">forest_data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the carbon fluxes for baseline managed forest in the given forest data.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            forest_data (pd.DataFrame): DataFrame containing forest data.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pd.DataFrame: DataFrame containing the calculated fluxes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fluxes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">forest_data</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">forest_data</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+            <span class="n">fluxes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Year&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Year&quot;</span><span class="p">])</span>
+            <span class="n">fluxes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;AGB&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="s2">&quot;AGB&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;AGB&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">fluxes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;BGB&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="s2">&quot;BGB&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;BGB&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">fluxes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Deadwood&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="s2">&quot;Deadwood&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Deadwood&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">fluxes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Litter&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="s2">&quot;Litter&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Litter&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">fluxes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Soil&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="s2">&quot;Soil&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Soil&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">fluxes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Harvest&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="s2">&quot;Harvest&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Harvest&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">fluxes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Total Ecosystem&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="s2">&quot;Total Ecosystem&quot;</span><span class="p">]</span>
+                <span class="o">-</span> <span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Total Ecosystem&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">fluxes</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Colm Duffy.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

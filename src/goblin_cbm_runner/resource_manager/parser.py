@@ -106,20 +106,7 @@ def get_disturbance_type(classifiers):
 
     return disturbance_type
 
-
-def get_clearfell_baseline(classifiers):
-    """
-    Get the clearfell baseline.
-
-    Args:
-        classifiers (dict): A dictionary containing classifiers.
-
-    Returns:
-        str: The clearfell baseline.
-    """
-    return classifiers["Classifiers"]["harvest"]["clearfell"]
-
-def get_geo_runner_clearfell_baseline(classifiers, species_type):
+def get_runner_clearfell_baseline(classifiers, species_type):
     """
     Get the clearfell baseline.
 
@@ -132,7 +119,31 @@ def get_geo_runner_clearfell_baseline(classifiers, species_type):
         None: Returns None if the species type is not found or if an error occurs.
     """
     try:
-        clearfell_list = classifiers["Classifiers"]["harvest"]["clearfell"]
+        clearfell_list = classifiers["Classifiers"]["baseline"]["harvest"]["clearfell"]
+        for item in clearfell_list:
+            if species_type in item:
+                return item[species_type]
+        print(f"Error: '{species_type}' is not found in the clearfell list.")
+        return None
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return None
+    
+
+def get_runner_clearfell_scenario(classifiers, species_type):
+    """
+    Get the clearfell scenario.
+
+    Args:
+        classifiers (dict): A dictionary containing classifiers.
+        species_type (str): The species type.
+
+    Returns:
+        float: The clearfell baseline value for the specified species type.
+        None: Returns None if the species type is not found or if an error occurs.
+    """
+    try:
+        clearfell_list = classifiers["Classifiers"]["scenario"]["harvest"]["clearfell"]
         for item in clearfell_list:
             if species_type in item:
                 return item[species_type]
@@ -143,19 +154,7 @@ def get_geo_runner_clearfell_baseline(classifiers, species_type):
         return None
 
 
-def get_thinning_baseline(classifiers):
-    """
-    Get the thinning baseline.
-
-    Args:
-        classifiers (dict): A dictionary containing classifiers.
-
-    Returns:
-        str: The thinning baseline.
-    """
-    return classifiers["Classifiers"]["harvest"]["thinning"]
-
-def get_geo_runner_thinning_baseline(classifiers, species_type):
+def get_runner_thinning_baseline(classifiers, species_type):
     """
     Get the thinning baseline.
 
@@ -168,7 +167,7 @@ def get_geo_runner_thinning_baseline(classifiers, species_type):
         None: Returns None if the species type is not found or if an error occurs.
     """
     try:
-        clearfell_list = classifiers["Classifiers"]["harvest"]["thinning"]
+        clearfell_list = classifiers["Classifiers"]["baseline"]["harvest"]["thinning"]
         for item in clearfell_list:
             if species_type in item:
                 return item[species_type]
@@ -177,5 +176,28 @@ def get_geo_runner_thinning_baseline(classifiers, species_type):
     except Exception as e:
         print(f"An error occurred: {e}")
         return None
+    
 
+def get_runner_thinning_scenario(classifiers, species_type):
+    """
+    Get the thinning scenario.
+
+    Args:
+        classifiers (dict): A dictionary containing classifiers.
+        species_type (str): The species type.
+
+    Returns:
+        float: The thinning baseline value for the specified species type.
+        None: Returns None if the species type is not found or if an error occurs.
+    """
+    try:
+        clearfell_list = classifiers["Classifiers"]["scenario"]["harvest"]["thinning"]
+        for item in clearfell_list:
+            if species_type in item:
+                return item[species_type]
+        print(f"Error: '{species_type}' is not found in the thinning list.")
+        return None
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return None
 

@@ -1,0 +1,16 @@
+:py:mod:`goblin_cbm_runner.cbm`
+===============================
+
+.. py:module:: goblin_cbm_runner.cbm
+
+
+Subpackages
+-----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 3
+
+   data_processing/index.rst
+   methods/index.rst
+
+

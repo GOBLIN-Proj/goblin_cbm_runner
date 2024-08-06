@@ -5,11 +5,11 @@ This module is responsible for orchestrating the execution of Carbon Budget Mode
 including baseline and afforestation projects. 
 
 """
-from goblin_cbm_runner.default_runner.cbm_data_factory import DataFactory
+from goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory import DataFactory
 from goblin_cbm_runner.resource_manager.cbm_runner_data_manager import DataManager
 from goblin_cbm_runner.resource_manager.scenario_data_fetcher import ScenarioDataFetcher
 from goblin_cbm_runner.resource_manager.paths import Paths
-from goblin_cbm_runner.cbm.cbm_methods import CBMSim
+from goblin_cbm_runner.cbm.methods.cbm_methods import CBMSim
 
 import pandas as pd
 
@@ -82,21 +82,35 @@ class Runner:
         
         self.SIM_class = CBMSim()
 
-        self.scenario_years = self.data_manager_class.get_scenario_years(self.forest_end_year)
+        self.historic_scenario_years = self.data_manager_class.get_full_scenario_years(self.forest_end_year)
 
-        self.scenario_year_range = self.data_manager_class.get_scenario_years_range(self.forest_end_year)
+        self.historic_scenario_year_range = self.data_manager_class.get_full_scenario_years_range(self.forest_end_year)
 
         self.baseline_years = self.data_manager_class.get_baseline_years(self.forest_end_year)
 
         self.baseline_year_range = self.data_manager_class.get_baseline_years_range(self.forest_end_year)
 
+        self.scenario_years = self.data_manager_class.calculate_scenario_years(self.forest_end_year)
+
+        self.scenario_year_range = self.data_manager_class.calculate_scenario_years_range(self.forest_end_year)
+
         self._generate_base_input_data()
-        self.forest_baseline_dataframe = self.SIM_class.baseline_simulate_stock(self.cbm_data_class,
+        self.forest_FM_baseline_dataframe = self.SIM_class.baseline_simulate_stock(self.cbm_data_class,
                                                                                  self.baseline_years,
                                                                                  self.baseline_year_range,
                                                                                  self.baseline_conf_path,
                                                                                  self.defaults_db)
 
+        self._generate_input_data()
+
+        self.forest_AF_baseline_dataframe = self.SIM_class.cbm_aggregate_scenario_stock(-1, self.cbm_data_class, 
+                                                                                        self.historic_scenario_years, 
+                                                                                        self.historic_scenario_year_range, 
+                                                                                        self.path,
+                                                                                        self.defaults_db
+                                                                                        )
+
+        self.merged_AF_FM_forest_data = self.merge_forest_AF_FM_dataframes()
 
     def _generate_base_input_data(self):
         """
@@ -127,7 +141,7 @@ class Runner:
         self.cbm_data_class.make_base_transition_rules(path)
 
 
-    def generate_input_data(self):
+    def _generate_input_data(self):
         """
         Generates input data for the CBM runner.
 
@@ -143,6 +157,7 @@ class Runner:
         path = self.path
     
         if self.paths_class.is_path_internal(path):
+            print("Cleaning scenario SIT data directories")
             self.cbm_data_class.clean_data_dir(path)
             
         self.cbm_data_class.make_data_dirs(self.INDEX, path)
@@ -158,6 +173,65 @@ class Runner:
             self.cbm_data_class.make_transition_rules(i, path)
 
 
+    @property
+    def get_AF_baseline_dataframe(self):
+        """
+        Returns the baseline data for afforestation scenarios.
+
+        Returns:
+            pd.DataFrame: Baseline data for afforestation scenarios.
+        """
+        return self.forest_AF_baseline_dataframe
+    
+    @property
+    def get_FM_baseline_dataframe(self):
+        """
+        Returns the baseline data for user-defined forest management scenarios.
+
+        Returns:
+            pd.DataFrame: Baseline data for user-defined forest management scenarios.
+        """
+        return self.forest_FM_baseline_dataframe
+    
+
+    @property
+    def get_merged_forest_AF_FM_dataframes(self):
+        """
+        Returns the merged data for afforestation and user-defined forest management scenarios.
+
+        Returns:
+            pd.DataFrame: Merged data for afforestation and forest management baseline scenarios.
+        """
+        return self.merged_AF_FM_forest_data
+    
+
+    def merge_forest_AF_FM_dataframes(self):
+        """
+        Merges the baseline data for afforestation and user-defined forest management scenarios.
+
+        This method merges the afforestation and forest management baseline dataframes on the 'Year' column,
+        and sums the specified columns for the shared years.
+
+        Returns:
+            pd.DataFrame: Merged data for afforestation and forest management baseline scenarios.
+
+        """
+        # Merge the dataframes on 'Year'
+        merged_data = pd.merge(self.get_AF_baseline_dataframe.copy(deep=True), 
+                               self.get_FM_baseline_dataframe.copy(deep=True), 
+                               on="Year", 
+                               how="inner",
+                               suffixes=("_AF", "_FM"))
+        
+        # Sum the specified columns for the shared years
+        columns_to_add = ["AGB", "BGB", "Deadwood", "Litter", "Soil", "Harvest", "Total Ecosystem"]
+        for col in columns_to_add:
+            merged_data[col] = merged_data[col + "_AF"] + merged_data[col + "_FM"]
+            merged_data.drop(columns=[col + "_AF", col + "_FM"], inplace=True)
+        
+        return merged_data
+
+
     def run_aggregate_scenarios(self):
         """
         Executes CBM simulations for a set of scenarios, generating and aggregating carbon stock data across scenarios, including those derived from user-defined forest management strategies.
@@ -167,46 +241,53 @@ class Runner:
         Returns:
             pd.DataFrame: Aggregated carbon stock data across all scenarios.
         """
+        
         forest_data = pd.DataFrame()
         aggregate_forest_data = pd.DataFrame()
 
+        FM_AF_forest_data = self.get_merged_forest_AF_FM_dataframes.copy(deep=True)
+
+        columns_to_add = ["AGB", "BGB", "Deadwood", "Litter", "Soil", "Harvest", "Total Ecosystem"]
+
         for i in self.INDEX:
-            forest_data = self.SIM_class.cbm_aggregate_scenario_stock(i, self.cbm_data_class, 
-                                                                      self.scenario_years, 
-                                                                      self.scenario_year_range, 
-                                                                      self.path,
-                                                                      self.defaults_db
-                                                                      )
 
-            # Assuming 'year' is the common column
-            merged_data = pd.merge(
-                forest_data,
-                self.forest_baseline_dataframe,
-                on="Year",
-                how="inner",
-                suffixes=("", "_baseline"),
-            )
+            if i > -1:
+                forest_data = self.SIM_class.cbm_aggregate_scenario_stock(i, self.cbm_data_class, 
+                                                                        self.scenario_years, 
+                                                                        self.scenario_year_range, 
+                                                                        self.path,
+                                                                        self.defaults_db
+                                                                        )
 
-            # Add the values for selected columns where 'year' matches
-            columns_to_add = ["AGB", "BGB", "Deadwood", "Litter", "Soil","Harvest", "Total Ecosystem"]
-            for col in columns_to_add:
-                merged_data[col] = merged_data[col] + merged_data[col + "_baseline"]
+                # Assuming 'year' is the common column
+                merged_data = pd.merge(
+                    forest_data,
+                    FM_AF_forest_data,
+                    on="Year",
+                    how="inner",
+                    suffixes=("", "_baseline"),
+                )
 
-            # Drop the duplicate columns (columns with '_baseline' suffix)
-            merged_data.drop(
-                columns=[col + "_baseline" for col in columns_to_add], inplace=True
-            )
 
-            # Update the original 'forest_data' DataFrame with the merged and added data
-            forest_data = merged_data
+                # Add the values for selected columns where 'year' matches
+                for col in columns_to_add:
+                    merged_data[col] = merged_data[col] + merged_data[col + "_baseline"]
+                    
+                # Drop all columns with '_baseline' suffix
+                columns_to_drop = [col for col in merged_data.columns if col.endswith('_baseline')]
+                merged_data.drop(columns=columns_to_drop, inplace=True)
 
-            forest_data_copy = forest_data.copy(deep=True)
+                # Update the original 'forest_data' DataFrame with the merged and added data
+                forest_data = merged_data
+            else:
+                forest_data = FM_AF_forest_data
 
             aggregate_forest_data = pd.concat(
-                [aggregate_forest_data, forest_data_copy], ignore_index=True
+                [aggregate_forest_data, forest_data], ignore_index=True
             )
 
         return aggregate_forest_data
+    
 
     def run_flux_scenarios(self):
         """
@@ -222,36 +303,44 @@ class Runner:
         fluxes_data = pd.DataFrame()
         fluxes_forest_data = pd.DataFrame()
 
+        columns_to_add = ["AGB", "BGB", "Deadwood", "Litter", "Soil", "Harvest", "Total Ecosystem"]
+
+        FM_AF_forest_data = self.get_merged_forest_AF_FM_dataframes.copy(deep=True)
+
         for i in self.INDEX:
-            forest_data = self.SIM_class.cbm_aggregate_scenario_stock(i, self.cbm_data_class, 
-                                                                      self.scenario_years, 
-                                                                      self.scenario_year_range, 
-                                                                      self.path,
-                                                                      self.defaults_db
-                                                                      )
+
+            if i > -1:
+                forest_data = self.SIM_class.cbm_aggregate_scenario_stock(i, self.cbm_data_class, 
+                                                                        self.scenario_years, 
+                                                                        self.scenario_year_range, 
+                                                                        self.path,
+                                                                        self.defaults_db
+                                                                        )
+
+                # Assuming 'year' is the common column
+                merged_data = pd.merge(
+                    forest_data,
+                    FM_AF_forest_data,
+                    on="Year",
+                    how="inner",
+                    suffixes=("", "_baseline"),
+                )
 
 
-            # Assuming 'year' is the common column
-            merged_data = pd.merge(
-                forest_data,
-                self.forest_baseline_dataframe,
-                on="Year",
-                how="inner",
-                suffixes=("", "_baseline"),
-            )
+                # Add the values for selected columns where 'year' matches
+                for col in columns_to_add:
+                    merged_data[col] = merged_data[col] + merged_data[col + "_baseline"]
 
-            # Add the values for selected columns where 'year' matches
-            columns_to_add = ["AGB", "BGB", "Deadwood", "Litter", "Soil","Harvest", "Total Ecosystem"]
-            for col in columns_to_add:
-                merged_data[col] = merged_data[col] + merged_data[col + "_baseline"]
+                # Drop all columns with '_baseline' suffix
+                columns_to_drop = [col for col in merged_data.columns if col.endswith('_baseline')]
+                merged_data.drop(columns=columns_to_drop, inplace=True)
 
-            # Drop the duplicate columns (columns with '_baseline' suffix)
-            merged_data.drop(
-                columns=[col + "_baseline" for col in columns_to_add], inplace=True
-            )
 
-            # Update the original 'forest_data' DataFrame with the merged and added data
-            forest_data = merged_data
+                # Update the original 'forest_data' DataFrame with the merged and added data
+                forest_data = merged_data
+            else:
+                forest_data = FM_AF_forest_data
+
 
             fluxes_data = self.SIM_class.cbm_scenario_fluxes(forest_data)
 
@@ -261,4 +350,52 @@ class Runner:
 
         return fluxes_forest_data
 
-    
+
+    def run_sep_flux_scenarios(self):
+        """
+        Conducts CBM simulations to calculate and separated carbon flux data for various scenarios, including those with user-defined forest management strategies.
+
+        This process helps in understanding the impact of different management practices on carbon dynamics within forest ecosystems.
+
+        Returns:
+            pd.DataFrame: Separated carbon flux data across all scenarios.
+
+        """
+        forest_data = pd.DataFrame()
+        fluxes_data = pd.DataFrame()
+        fluxes_forest_data = pd.DataFrame()
+
+        FM_forest_data = self.get_FM_baseline_dataframe
+
+        FM_forest_data["Scenario"] = 999
+
+        FM_forest_data = self.SIM_class.cbm_scenario_fluxes(FM_forest_data)
+
+        AF_forest_data = self.get_AF_baseline_dataframe
+
+        AF_forest_data = self.SIM_class.cbm_scenario_fluxes(AF_forest_data)
+
+        AM_AF_forest_data = self.get_merged_forest_AF_FM_dataframes
+
+        AM_AF_forest_data["Scenario"] = 999
+
+        AM_AF_forest_data = self.SIM_class.cbm_scenario_fluxes(AM_AF_forest_data)
+
+
+        for i in self.INDEX:
+            if i > -1:
+                forest_data = self.SIM_class.cbm_aggregate_scenario_stock(i, self.cbm_data_class, 
+                                                                        self.scenario_years, 
+                                                                        self.scenario_year_range, 
+                                                                        self.path,
+                                                                        self.defaults_db
+                                                                        )
+
+
+            fluxes_data = self.SIM_class.cbm_scenario_fluxes(forest_data)
+
+            fluxes_forest_data = pd.concat(
+                [fluxes_forest_data, fluxes_data], ignore_index=True
+            )
+
+        return {"AF": AF_forest_data, "FM": FM_forest_data, "AM_AF": AM_AF_forest_data, "SC": fluxes_forest_data}
