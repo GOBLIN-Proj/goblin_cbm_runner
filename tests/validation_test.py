@@ -9,6 +9,7 @@ def main():
 
     data = val.run_validation()
 
+
     for key, value in data.items():
         if value is not None:
            value.to_csv(results_path + key + ".csv")

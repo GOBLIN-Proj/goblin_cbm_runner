@@ -18,6 +18,10 @@ tests/data/dist_test_results/*.csv
 tests/data/dist_test_results/*.png
 tests/data/cbm_afforestation_results/*.csv
 tests/data/cbm_afforestation_results/*.png
+tests/data/FM_data/*.csv
+tests/data/FM_data/*.png
+tests/data/FM_results/*.csv
+tests/data/FM_results/*.png
 
 
 # C extensions

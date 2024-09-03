@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_cbm_runner.cbm.methods.cbm_methods &mdash; goblin_cbm_runner 0.4.0 documentation</title>
+  <title>goblin_cbm_runner.cbm.methods.cbm_methods &mdash; goblin_cbm_runner 0.4.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -16,7 +16,7 @@
   
         <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../_static/documentation_options.js?v=6c02275b"></script>
+        <script src="../../../../_static/documentation_options.js?v=c87aa342"></script>
         <script src="../../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -586,8 +586,6 @@
 
     
 
-<div class="viewcode-block" id="CBMSim.cbm_basic_validation">
-<a class="viewcode-back" href="../../../../autoapi/goblin_cbm_runner/cbm/methods/cbm_methods/index.html#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_basic_validation">[docs]</a>
     <span class="k">def</span> <span class="nf">cbm_basic_validation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">years</span><span class="p">,</span> <span class="n">input_path</span><span class="p">,</span> <span class="n">database_path</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generate validation data for the CBM model for a set of specified inputs. </span>
@@ -659,8 +657,7 @@
             <span class="s2">&quot;state_by_timestep&quot;</span><span class="p">:</span><span class="n">state_by_timestep</span><span class="p">,</span>
             <span class="s2">&quot;linked_events&quot;</span><span class="p">:</span><span class="n">linked_events</span><span class="p">}</span>
     
-        <span class="k">return</span> <span class="n">results</span></div>
-
+        <span class="k">return</span> <span class="n">results</span>
     
 
 <div class="viewcode-block" id="CBMSim.cbm_disturbance_area_validation">
@@ -929,6 +926,152 @@
             <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">fluxes</span></div>
+
+    
+
+<div class="viewcode-block" id="CBMSim.cbm_FM_basic_validation">
+<a class="viewcode-back" href="../../../../autoapi/goblin_cbm_runner/cbm/methods/cbm_methods/index.html#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_FM_basic_validation">[docs]</a>
+    <span class="k">def</span> <span class="nf">cbm_FM_basic_validation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">years</span><span class="p">,</span> <span class="n">input_path</span><span class="p">,</span> <span class="n">database_path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Runs the CBM Managed Forest validation for the specified years.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary containing the validation dataframes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="n">sit_config_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">input_path</span><span class="p">,</span> <span class="s2">&quot;sit_config.json&quot;</span><span class="p">)</span>
+
+        <span class="n">sit</span> <span class="o">=</span> <span class="n">sit_cbm_factory</span><span class="o">.</span><span class="n">load_sit</span><span class="p">(</span><span class="n">sit_config_path</span><span class="p">,</span> <span class="n">database_path</span><span class="p">)</span>
+
+        <span class="n">classifiers</span><span class="p">,</span> <span class="n">inventory</span> <span class="o">=</span> <span class="n">sit_cbm_factory</span><span class="o">.</span><span class="n">initialize_inventory</span><span class="p">(</span><span class="n">sit</span><span class="p">)</span>
+
+        <span class="n">cbm_output</span> <span class="o">=</span> <span class="n">CBMOutput</span><span class="p">(</span>
+            <span class="n">classifier_map</span><span class="o">=</span><span class="n">sit</span><span class="o">.</span><span class="n">classifier_value_names</span><span class="p">,</span>
+            <span class="n">disturbance_type_map</span><span class="o">=</span><span class="n">sit</span><span class="o">.</span><span class="n">disturbance_name_map</span><span class="p">)</span>
+
+        <span class="c1"># Simulation</span>
+        <span class="k">with</span> <span class="n">sit_cbm_factory</span><span class="o">.</span><span class="n">initialize_cbm</span><span class="p">(</span><span class="n">sit</span><span class="p">)</span> <span class="k">as</span> <span class="n">cbm</span><span class="p">:</span>
+            <span class="c1"># Create a function to apply rule based disturbance events and transition rules based on the SIT input</span>
+            <span class="n">rule_based_processor</span> <span class="o">=</span> <span class="n">sit_cbm_factory</span><span class="o">.</span><span class="n">create_sit_rule_based_processor</span><span class="p">(</span>
+                <span class="n">sit</span><span class="p">,</span> <span class="n">cbm</span>
+            <span class="p">)</span>
+            <span class="c1"># The following line of code spins up the CBM inventory and runs it through 200 timesteps.</span>
+            <span class="n">cbm_simulator</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span>
+                <span class="n">cbm</span><span class="p">,</span>
+                <span class="n">n_steps</span><span class="o">=</span><span class="n">years</span><span class="p">,</span>
+                <span class="n">classifiers</span><span class="o">=</span><span class="n">classifiers</span><span class="p">,</span>
+                <span class="n">inventory</span><span class="o">=</span><span class="n">inventory</span><span class="p">,</span>
+                <span class="n">pre_dynamics_func</span><span class="o">=</span><span class="n">rule_based_processor</span><span class="o">.</span><span class="n">pre_dynamics_func</span><span class="p">,</span>
+                <span class="n">reporting_func</span><span class="o">=</span><span class="n">cbm_output</span><span class="o">.</span><span class="n">append_simulation_result</span><span class="p">,</span>
+                <span class="n">backend_type</span><span class="o">=</span><span class="n">BackendType</span><span class="o">.</span><span class="n">numpy</span>
+            <span class="p">)</span>
+
+        <span class="n">pi</span> <span class="o">=</span>  <span class="n">cbm_output</span><span class="o">.</span><span class="n">classifiers</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">cbm_output</span><span class="o">.</span><span class="n">pools</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">(),</span> <span class="n">left_on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;identifier&quot;</span><span class="p">,</span> <span class="s2">&quot;timestep&quot;</span><span class="p">],</span> <span class="n">right_on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;identifier&quot;</span><span class="p">,</span> <span class="s2">&quot;timestep&quot;</span><span class="p">])</span>
+
+        <span class="n">si</span> <span class="o">=</span>  <span class="n">cbm_output</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+        <span class="n">pools</span> <span class="o">=</span> <span class="n">cbm_output</span><span class="o">.</span><span class="n">pools</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+        <span class="n">flux</span> <span class="o">=</span> <span class="n">cbm_output</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+        <span class="n">parameters</span> <span class="o">=</span> <span class="n">cbm_output</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+        <span class="n">area</span> <span class="o">=</span> <span class="n">cbm_output</span><span class="o">.</span><span class="n">area</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+
+        <span class="n">state_by_timestep</span> <span class="o">=</span> <span class="n">ValidationData</span><span class="o">.</span><span class="n">gen_disturbance_statistics</span><span class="p">(</span><span class="n">rule_based_processor</span><span class="p">,</span> <span class="n">years</span><span class="p">)</span>
+
+        <span class="n">events</span> <span class="o">=</span> <span class="n">ValidationData</span><span class="o">.</span><span class="n">gen_sit_events</span><span class="p">(</span><span class="n">rule_based_processor</span><span class="p">)</span>
+
+        <span class="c1"># Merge events and parse, if errors occur, linked_eevents will be None</span>
+        <span class="n">linked_sit</span> <span class="o">=</span> <span class="n">ValidationData</span><span class="o">.</span><span class="n">merge_FM_events</span><span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="n">state_by_timestep</span><span class="p">)</span>
+            
+        <span class="n">results</span><span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;primary_data&quot;</span><span class="p">:</span><span class="n">pi</span><span class="p">,</span>
+            <span class="s2">&quot;data_area&quot;</span><span class="p">:</span><span class="n">area</span><span class="p">,</span>
+            <span class="s2">&quot;data_flux&quot;</span><span class="p">:</span><span class="n">flux</span><span class="p">,</span>
+            <span class="s2">&quot;data_params&quot;</span><span class="p">:</span><span class="n">parameters</span><span class="p">,</span>
+            <span class="s2">&quot;data_pools&quot;</span><span class="p">:</span><span class="n">pools</span><span class="p">,</span>
+            <span class="s2">&quot;data_state&quot;</span><span class="p">:</span><span class="n">si</span><span class="p">,</span>
+            <span class="s2">&quot;events&quot;</span><span class="p">:</span><span class="n">events</span><span class="p">,</span>
+            <span class="s2">&quot;state_by_timestep&quot;</span><span class="p">:</span><span class="n">state_by_timestep</span><span class="p">,</span>
+            <span class="s2">&quot;linked_sit&quot;</span><span class="p">:</span><span class="n">linked_sit</span><span class="p">}</span>
+    
+        <span class="k">return</span> <span class="n">results</span></div>
+
+    
+
+
+
+<div class="viewcode-block" id="CBMSim.cbm_basic_validation">
+<a class="viewcode-back" href="../../../../autoapi/goblin_cbm_runner/cbm/methods/cbm_methods/index.html#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_basic_validation">[docs]</a>
+    <span class="k">def</span> <span class="nf">cbm_basic_validation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">years</span><span class="p">,</span> <span class="n">input_path</span><span class="p">,</span> <span class="n">database_path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate validation data for the CBM model for a set of specified inputs. </span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            years (int): The number of years to simulate.</span>
+<span class="sd">            input_path (str): The path to the SIT input data.</span>
+<span class="sd">            database_path (str): The path to the database.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary containing the generated validation data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sit_config_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">input_path</span><span class="p">,</span> <span class="s2">&quot;sit_config.json&quot;</span><span class="p">)</span>
+
+        <span class="n">sit</span> <span class="o">=</span> <span class="n">sit_cbm_factory</span><span class="o">.</span><span class="n">load_sit</span><span class="p">(</span><span class="n">sit_config_path</span><span class="p">,</span> <span class="n">database_path</span><span class="p">)</span>
+
+        <span class="n">classifiers</span><span class="p">,</span> <span class="n">inventory</span> <span class="o">=</span> <span class="n">sit_cbm_factory</span><span class="o">.</span><span class="n">initialize_inventory</span><span class="p">(</span><span class="n">sit</span><span class="p">)</span>
+
+        <span class="n">cbm_output</span> <span class="o">=</span> <span class="n">CBMOutput</span><span class="p">(</span>
+            <span class="n">classifier_map</span><span class="o">=</span><span class="n">sit</span><span class="o">.</span><span class="n">classifier_value_names</span><span class="p">,</span>
+            <span class="n">disturbance_type_map</span><span class="o">=</span><span class="n">sit</span><span class="o">.</span><span class="n">disturbance_name_map</span><span class="p">)</span>
+
+        <span class="c1"># Simulation</span>
+        <span class="k">with</span> <span class="n">sit_cbm_factory</span><span class="o">.</span><span class="n">initialize_cbm</span><span class="p">(</span><span class="n">sit</span><span class="p">)</span> <span class="k">as</span> <span class="n">cbm</span><span class="p">:</span>
+            <span class="c1"># Create a function to apply rule based disturbance events and transition rules based on the SIT input</span>
+            <span class="n">rule_based_processor</span> <span class="o">=</span> <span class="n">sit_cbm_factory</span><span class="o">.</span><span class="n">create_sit_rule_based_processor</span><span class="p">(</span>
+                <span class="n">sit</span><span class="p">,</span> <span class="n">cbm</span>
+            <span class="p">)</span>
+            <span class="c1"># The following line of code spins up the CBM inventory and runs it through 200 timesteps.</span>
+            <span class="n">cbm_simulator</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span>
+                <span class="n">cbm</span><span class="p">,</span>
+                <span class="n">n_steps</span><span class="o">=</span><span class="n">years</span><span class="p">,</span>
+                <span class="n">classifiers</span><span class="o">=</span><span class="n">classifiers</span><span class="p">,</span>
+                <span class="n">inventory</span><span class="o">=</span><span class="n">inventory</span><span class="p">,</span>
+                <span class="n">pre_dynamics_func</span><span class="o">=</span><span class="n">rule_based_processor</span><span class="o">.</span><span class="n">pre_dynamics_func</span><span class="p">,</span>
+                <span class="n">reporting_func</span><span class="o">=</span><span class="n">cbm_output</span><span class="o">.</span><span class="n">append_simulation_result</span><span class="p">,</span>
+                <span class="n">backend_type</span><span class="o">=</span><span class="n">BackendType</span><span class="o">.</span><span class="n">numpy</span>
+            <span class="p">)</span>
+
+        <span class="n">pi</span> <span class="o">=</span>  <span class="n">cbm_output</span><span class="o">.</span><span class="n">classifiers</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">cbm_output</span><span class="o">.</span><span class="n">pools</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">(),</span> <span class="n">left_on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;identifier&quot;</span><span class="p">,</span> <span class="s2">&quot;timestep&quot;</span><span class="p">],</span> <span class="n">right_on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;identifier&quot;</span><span class="p">,</span> <span class="s2">&quot;timestep&quot;</span><span class="p">])</span>
+
+
+        <span class="n">si</span> <span class="o">=</span>  <span class="n">cbm_output</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+        <span class="n">pools</span> <span class="o">=</span> <span class="n">cbm_output</span><span class="o">.</span><span class="n">pools</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+        <span class="n">flux</span> <span class="o">=</span> <span class="n">cbm_output</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+        <span class="n">parameters</span> <span class="o">=</span> <span class="n">cbm_output</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+        <span class="n">area</span> <span class="o">=</span> <span class="n">cbm_output</span><span class="o">.</span><span class="n">area</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+
+
+        <span class="n">state_by_timestep</span> <span class="o">=</span> <span class="n">ValidationData</span><span class="o">.</span><span class="n">gen_disturbance_statistics</span><span class="p">(</span><span class="n">rule_based_processor</span><span class="p">,</span> <span class="n">years</span><span class="p">)</span>
+
+        <span class="n">events</span> <span class="o">=</span> <span class="n">ValidationData</span><span class="o">.</span><span class="n">gen_sit_events</span><span class="p">(</span><span class="n">rule_based_processor</span><span class="p">)</span>
+
+        <span class="c1"># Merge events and parse, if errors occur, linked_eevents will be None</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">linked_events</span> <span class="o">=</span> <span class="n">ValidationData</span><span class="o">.</span><span class="n">merge_disturbances_and_parse</span><span class="p">(</span><span class="n">pi</span><span class="p">,</span><span class="n">parameters</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">linked_events</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">results</span><span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;primary_data&quot;</span><span class="p">:</span><span class="n">pi</span><span class="p">,</span>
+           <span class="s2">&quot;data_area&quot;</span><span class="p">:</span><span class="n">area</span><span class="p">,</span>
+            <span class="s2">&quot;data_flux&quot;</span><span class="p">:</span><span class="n">flux</span><span class="p">,</span>
+            <span class="s2">&quot;data_params&quot;</span><span class="p">:</span><span class="n">parameters</span><span class="p">,</span>
+            <span class="s2">&quot;data_pools&quot;</span><span class="p">:</span><span class="n">pools</span><span class="p">,</span>
+            <span class="s2">&quot;data_state&quot;</span><span class="p">:</span><span class="n">si</span><span class="p">,</span>
+            <span class="s2">&quot;events&quot;</span><span class="p">:</span><span class="n">events</span><span class="p">,</span>
+            <span class="s2">&quot;state_by_timestep&quot;</span><span class="p">:</span><span class="n">state_by_timestep</span><span class="p">,</span>
+            <span class="s2">&quot;linked_events&quot;</span><span class="p">:</span><span class="n">linked_events</span><span class="p">}</span>
+    
+        <span class="k">return</span> <span class="n">results</span></div>
 </div>
 
 </pre></div>

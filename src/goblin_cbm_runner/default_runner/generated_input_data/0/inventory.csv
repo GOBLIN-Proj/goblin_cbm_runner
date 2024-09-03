@@ -3,10 +3,10 @@ NFPine_mineral,A,mineral,YC12_20,False,0,0.0,0,2,DISTID5,DISTID5
 NFPine_mineral,A,mineral,YC4_12,False,0,0.0,0,2,DISTID5,DISTID5
 NFSitka_mineral,A,mineral,YC4_12,False,0,0.0,0,2,DISTID5,DISTID5
 NFSitka_mineral,A,mineral,YC13_16,False,0,0.0,0,2,DISTID5,DISTID5
-NFSitka_mineral,A,mineral,YC17_20,False,0,0.0,0,2,DISTID5,DISTID5
-NFSitka_mineral,A,mineral,YC20_24,False,0,0.0,0,2,DISTID5,DISTID5
-NFSitka_mineral,A,mineral,YC24_30,False,0,0.0,0,2,DISTID5,DISTID5
-NFSGB_mineral,A,mineral,YC6,False,0,0.0,0,2,DISTID5,DISTID5
+NFSitka_mineral,A,mineral,YC17_20,False,0,5823.21674734082,0,2,DISTID5,DISTID5
+NFSitka_mineral,A,mineral,YC20_24,False,0,508198.559237962,0,2,DISTID5,DISTID5
+NFSitka_mineral,A,mineral,YC24_30,False,0,418877.449811558,0,2,DISTID5,DISTID5
+NFSGB_mineral,A,mineral,YC6,False,0,1599385.9678714583,0,2,DISTID5,DISTID5
 NFFGB_mineral,A,mineral,YC6,False,0,0.0,0,2,DISTID5,DISTID5
 NFCBmix_mineral,A,mineral,YC10,False,0,0.0,0,2,DISTID5,DISTID5
 NFOC_mineral,A,mineral,YC10,False,0,0.0,0,2,DISTID5,DISTID5
