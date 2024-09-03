@@ -23,7 +23,6 @@ class ValidationData:
         Returns:
             A pandas DataFrame containing the disturbance statistics data.
         """        
-
         data = pd.DataFrame()
 
         for year in range(1, years+1):
@@ -31,7 +30,7 @@ class ValidationData:
                 temp_data = object.sit_event_stats_by_timestep[year]
                 temp_data["year"] = year
 
-            data = pd.concat([data, temp_data], axis=0)
+                data = pd.concat([data, temp_data], axis=0)
 
         
         # Set 'sit_event_index' as the index of the DataFrame
@@ -78,7 +77,7 @@ class ValidationData:
             output_data_path: The path to save the CSV file.
 
         """
-
+        dist_dict = {"DISTID4": "Afforestation", "DISTID2": "Thinning", "DISTID1": "Clearcut", "DISTID3": "Fire"}
         data_merge =[]
 
         for i in events_data_by_timestep.index:
@@ -86,7 +85,41 @@ class ValidationData:
                    "Forest type": sit_events.at[i, "Forest_type"],
                    "Soil classes": sit_events.at[i, "Soil_classes"],
                    "Yield classes": sit_events.at[i, "Yield_classes"],
-                   "Disturbance type": sit_events.at[i, "disturbance_type"],
+                   "Disturbance type": dist_dict[sit_events.at[i, "disturbance_type"]],
+                   "Year": sit_events.at[i, "time_step"],
+                   "Target volume type": sit_events.at[i, "target_type"],
+                   "Target volume": sit_events.at[i, "target"],
+                   "Total eligible volume": events_data_by_timestep.at[i,"total_eligible_value"],
+                   "Total volume achieved": events_data_by_timestep.at[i,"total_achieved"],
+                   "Shortfall": events_data_by_timestep.at[i,"shortfall"],
+                   "Shortfall bool": True if events_data_by_timestep.loc[i,"shortfall"] > 0.0 else False}
+            data_merge.append(row)
+
+
+        data = pd.DataFrame(data_merge)
+
+        return data
+    
+
+    @staticmethod
+    def merge_FM_events(sit_events, events_data_by_timestep):
+        """
+        Merges SIT events and event statistics (by timestep) data and saves the 
+        result as a CSV file.
+
+        Args:
+            output_data_path: The path to save the CSV file.
+
+        """
+        dist_dict = {"DISTID4": "Afforestation", "DISTID2": "Thinning", "DISTID1": "Clearcut", "DISTID3": "Fire"}
+        data_merge =[]
+
+        for i in events_data_by_timestep.index:
+            row = {"Climate Unit": sit_events.at[i, "Climate_unit"],
+                   "Forest type": sit_events.at[i, "Forest_management_types"],
+                   "Species": sit_events.at[i, "Species"],
+                   "Yield classes": sit_events.at[i, "Yield_classes"],
+                   "Disturbance type": dist_dict[sit_events.at[i, "disturbance_type"]],
                    "Year": sit_events.at[i, "time_step"],
                    "Target volume type": sit_events.at[i, "target_type"],
                    "Target volume": sit_events.at[i, "target"],
@@ -113,7 +146,7 @@ class ValidationData:
         Returns:
             A pandas DataFrame containing the merged and parsed data.
         """
-        disturbances = ["Thinning","Clearcut"]
+        disturbances = ["Afforestation","Thinning","Clearcut"]
         data_merge = []
 
         for i in time_step_params.index:
@@ -134,7 +167,7 @@ class ValidationData:
 
     
     @staticmethod
-    def merge_baseline_disturbances_and_parse(stocks, time_step_params):
+    def FM_merge_baseline_disturbances_and_parse(stocks, time_step_params):
         """
         Merges disturbance and stock data and parses the result.
 
@@ -206,10 +239,4 @@ class ValidationData:
             fill_value=0
         )
         return pivot_table
-
-  
-  
-        
-
-        
     

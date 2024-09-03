@@ -183,6 +183,14 @@ Classes
       :rtype: dict
 
 
+   .. py:method:: run_FM_validation()
+
+      Runs the managed forest CBM validation for the specified years.
+
+      :returns: A dictionary containing the validation dataframes
+      :rtype: dict
+
+
    .. py:method:: run_disturbance_area_validation()
 
       Runs the CBM validation for the specified years.

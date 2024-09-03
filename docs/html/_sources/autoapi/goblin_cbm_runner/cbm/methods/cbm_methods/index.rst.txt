@@ -318,4 +318,27 @@ Classes
       :rtype: pd.DataFrame
 
 
+   .. py:method:: cbm_FM_basic_validation(years, input_path, database_path)
+
+      Runs the CBM Managed Forest validation for the specified years.
+
+      :returns: A dictionary containing the validation dataframes
+      :rtype: dict
+
+
+   .. py:method:: cbm_basic_validation(years, input_path, database_path)
+
+      Generate validation data for the CBM model for a set of specified inputs.
+
+      :param years: The number of years to simulate.
+      :type years: int
+      :param input_path: The path to the SIT input data.
+      :type input_path: str
+      :param database_path: The path to the database.
+      :type database_path: str
+
+      :returns: A dictionary containing the generated validation data.
+      :rtype: dict
+
+
 

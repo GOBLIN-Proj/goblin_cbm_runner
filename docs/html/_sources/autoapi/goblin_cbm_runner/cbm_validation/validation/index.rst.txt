@@ -67,6 +67,15 @@ Classes
       :param output_data_path: The path to save the CSV file.
 
 
+   .. py:method:: merge_FM_events(sit_events, events_data_by_timestep)
+      :staticmethod:
+
+      Merges SIT events and event statistics (by timestep) data and saves the
+      result as a CSV file.
+
+      :param output_data_path: The path to save the CSV file.
+
+
    .. py:method:: merge_disturbances_and_parse(stocks, time_step_params)
       :staticmethod:
 
@@ -78,7 +87,7 @@ Classes
       :returns: A pandas DataFrame containing the merged and parsed data.
 
 
-   .. py:method:: merge_baseline_disturbances_and_parse(stocks, time_step_params)
+   .. py:method:: FM_merge_baseline_disturbances_and_parse(stocks, time_step_params)
       :staticmethod:
 
       Merges disturbance and stock data and parses the result.

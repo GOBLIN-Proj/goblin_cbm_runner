@@ -115,6 +115,23 @@ class ValRunner:
             
         return data
     
+
+    def run_FM_validation(self):
+        """
+        Runs the managed forest CBM validation for the specified years.
+
+        Returns:
+            dict: A dictionary containing the validation dataframes
+        """
+
+        data = self.SIM_class.cbm_FM_basic_validation(self.years, 
+                                                    self.path,
+                                                    self.defaults_db
+                                                    )
+            
+        return data
+    
+
     def run_disturbance_area_validation(self):
         """
         Runs the CBM validation for the specified years.
