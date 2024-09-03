@@ -12,6 +12,7 @@ from goblin_cbm_runner.resource_manager.loader import Loader
 from goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory import SCInventory
 import pandas as pd
 from goblin_cbm_runner.harvest_manager.harvest import AfforestationTracker
+import warnings
 
 
 
@@ -64,6 +65,30 @@ class SCDisturbances:
         self.disturbance_timing = self.loader_class.disturbance_time()
         self.scenario_disturbance_dict = self.data_manager_class.get_scenario_disturbance_dict()
 
+    def generic_afforestation_area(self):
+
+        afforest_pre_sc_rate = self.data_manager_class.get_annual_afforestation_rate()
+
+        result_dict = {}
+
+        classifiers = self.data_manager_class.config_data
+
+        for species in parser.get_inventory_species(classifiers):
+    
+            result_dict[species] = {}
+
+            # Determine the share of the adjustment for species
+            species_proportion = self.data_manager_class.get_afforestation_species_distribution(species)
+                
+            for yield_class in parser.get_species_yield_category(classifiers, species):
+                
+                yield_proportion = parser.get_yield_class_proportions(classifiers, species, yield_class)
+            
+
+                result_dict[species][yield_class] ={}
+                result_dict[species][yield_class]["mineral"] = afforest_pre_sc_rate * species_proportion * yield_proportion
+
+        return result_dict
 
     def scenario_afforestation_area(self, scenario):
         """
@@ -75,7 +100,15 @@ class SCDisturbances:
         Returns:
             dict: A dictionary with species as keys and afforestation areas as values.
         """
+        afforest_delay = self.data_manager_class.get_afforest_delay()
+        afforest_pre_sc_rate = self.data_manager_class.get_annual_afforestation_rate()
+
+        area_adjustment = afforest_pre_sc_rate * afforest_delay
+
         scenario_years = self.forest_end_year - self.calibration_year
+
+        if afforest_delay >= scenario_years:
+            raise ValueError(f"Afforestation delay ({afforest_delay} years) is greater than or equal to scenario duration ({scenario_years} years). This scenario is not valid.")
 
         result_dict = {}
 
@@ -83,20 +116,39 @@ class SCDisturbances:
 
         aggregated_data = self.afforestation_data.groupby(['species', 'yield_class', 'scenario'])['total_area'].sum().reset_index()
 
+        total_adjustment_applied = 0 
+
         for species in parser.get_inventory_species(classifiers):
 
             species_data = aggregated_data[(aggregated_data['species'] == species) & (aggregated_data['scenario'] == scenario)]
     
             result_dict[species] = {}
+
+            # Determine the share of the adjustment for species
+            species_proportion = self.data_manager_class.get_afforestation_species_distribution(species)
                 
             for index, row in species_data.iterrows():
 
                 yield_class = row['yield_class']
                 total_area = row['total_area']
                 
-                result_dict[species][yield_class] ={}
-                result_dict[species][yield_class]["mineral"] = total_area / scenario_years
+                # Adjust the area ensuring it doesn't go below 0
+                adjustment_per_yield_class = (area_adjustment * species_proportion) / len(species_data)
+                actual_area = max(total_area - adjustment_per_yield_class, 0)
+                total_adjustment_applied += (total_area - actual_area)
 
+
+                if actual_area == 0:
+                    warnings.warn(f"Adjusted area for species '{species}' and yield class '{yield_class}' is 0 after adjustment.")
+
+
+                result_dict[species][yield_class] ={}
+                result_dict[species][yield_class]["mineral"] = actual_area / (scenario_years - afforest_delay)
+
+
+            # Ensure that the total adjustment applied matches the area adjustment
+        if abs(total_adjustment_applied - area_adjustment) > 1e-6:
+            warnings.warn(f"Total adjustment applied ({total_adjustment_applied}) does not match the intended area adjustment ({area_adjustment}).")
         return result_dict
 
 
@@ -111,10 +163,14 @@ class SCDisturbances:
         Returns:
             The disturbance data DataFrame after filling with scenario data.
         """
-        
+        afforest_delay = self.data_manager_class.get_afforest_delay()
+
         configuration_classifiers = self.data_manager_class.config_data
 
         afforestation_inventory = self.scenario_afforestation_area(scenario)
+
+        #for delay years
+        generic_afforestation_inventory = self.generic_afforestation_area()
 
         disturbance_timing = self.disturbance_timing 
 
@@ -154,7 +210,10 @@ class SCDisturbances:
                                         "age": 0
                                 }
 
-                            dataframes = {"afforestation_inventory":afforestation_inventory}
+                            if yr <= afforest_delay:
+                                dataframes = {"afforestation_inventory":generic_afforestation_inventory}
+                            else:
+                                dataframes = {"afforestation_inventory":afforestation_inventory}
 
                             self.utils_class._process_scenario_row_data(row_data,context, dataframes)
 

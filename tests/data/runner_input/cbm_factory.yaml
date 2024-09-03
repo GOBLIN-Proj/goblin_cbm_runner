@@ -1,3 +1,10 @@
+Dynamic_Afforestation:
+  afforest_delay: 5
+  annual_afforestation_rate_pre_delay: 1200
+  species_distribution:
+    - Sitka: 0.7
+    - SGB: 0.3
+
 Classifiers:
   baseline:
     harvest:
