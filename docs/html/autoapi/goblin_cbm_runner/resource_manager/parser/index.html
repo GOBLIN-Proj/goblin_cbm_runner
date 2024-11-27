@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_cbm_runner.resource_manager.parser &mdash; goblin_cbm_runner 0.4.1 documentation</title>
+  <title>goblin_cbm_runner.resource_manager.parser &mdash; goblin_cbm_runner 0.4.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../_static/documentation_options.js?v=c87aa342"></script>
+        <script src="../../../../_static/documentation_options.js?v=ff822928"></script>
         <script src="../../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -118,23 +118,35 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#goblin_cbm_runner.resource_manager.parser.get_inventory_species" title="goblin_cbm_runner.resource_manager.parser.get_inventory_species"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_inventory_species</span></code></a>(classifiers)</p></td>
 <td><p>Get the inventory species.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#goblin_cbm_runner.resource_manager.parser.get_yield_class_proportions" title="goblin_cbm_runner.resource_manager.parser.get_yield_class_proportions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_yield_class_proportions</span></code></a>(classifiers, species_name, ...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#goblin_cbm_runner.resource_manager.parser.get_species_yield_category" title="goblin_cbm_runner.resource_manager.parser.get_species_yield_category"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_species_yield_category</span></code></a>(classifiers, species_name)</p></td>
+<td><p>Get the species yield category.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#goblin_cbm_runner.resource_manager.parser.get_yield_class_proportions" title="goblin_cbm_runner.resource_manager.parser.get_yield_class_proportions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_yield_class_proportions</span></code></a>(classifiers, species_name, ...)</p></td>
 <td><p>Get the yield class proportions for a given species and yield class.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#goblin_cbm_runner.resource_manager.parser.get_disturbance_type" title="goblin_cbm_runner.resource_manager.parser.get_disturbance_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_disturbance_type</span></code></a>(classifiers)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#goblin_cbm_runner.resource_manager.parser.get_disturbance_type" title="goblin_cbm_runner.resource_manager.parser.get_disturbance_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_disturbance_type</span></code></a>(classifiers)</p></td>
 <td><p>Get the disturbance types.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#goblin_cbm_runner.resource_manager.parser.get_runner_clearfell_baseline" title="goblin_cbm_runner.resource_manager.parser.get_runner_clearfell_baseline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_runner_clearfell_baseline</span></code></a>(classifiers, species_type)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#goblin_cbm_runner.resource_manager.parser.get_runner_clearfell_baseline" title="goblin_cbm_runner.resource_manager.parser.get_runner_clearfell_baseline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_runner_clearfell_baseline</span></code></a>(classifiers, species_type)</p></td>
 <td><p>Get the clearfell baseline.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#goblin_cbm_runner.resource_manager.parser.get_runner_clearfell_scenario" title="goblin_cbm_runner.resource_manager.parser.get_runner_clearfell_scenario"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_runner_clearfell_scenario</span></code></a>(classifiers, species_type)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#goblin_cbm_runner.resource_manager.parser.get_runner_clearfell_scenario" title="goblin_cbm_runner.resource_manager.parser.get_runner_clearfell_scenario"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_runner_clearfell_scenario</span></code></a>(classifiers, species_type)</p></td>
 <td><p>Get the clearfell scenario.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#goblin_cbm_runner.resource_manager.parser.get_runner_thinning_baseline" title="goblin_cbm_runner.resource_manager.parser.get_runner_thinning_baseline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_runner_thinning_baseline</span></code></a>(classifiers, species_type)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#goblin_cbm_runner.resource_manager.parser.get_runner_thinning_baseline" title="goblin_cbm_runner.resource_manager.parser.get_runner_thinning_baseline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_runner_thinning_baseline</span></code></a>(classifiers, species_type)</p></td>
 <td><p>Get the thinning baseline.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#goblin_cbm_runner.resource_manager.parser.get_runner_thinning_scenario" title="goblin_cbm_runner.resource_manager.parser.get_runner_thinning_scenario"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_runner_thinning_scenario</span></code></a>(classifiers, species_type)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#goblin_cbm_runner.resource_manager.parser.get_runner_thinning_scenario" title="goblin_cbm_runner.resource_manager.parser.get_runner_thinning_scenario"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_runner_thinning_scenario</span></code></a>(classifiers, species_type)</p></td>
 <td><p>Get the thinning scenario.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#goblin_cbm_runner.resource_manager.parser.get_afforest_delay" title="goblin_cbm_runner.resource_manager.parser.get_afforest_delay"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_afforest_delay</span></code></a>(Dynamic_Afforestation_config)</p></td>
+<td><p>Get the afforestation delay.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#goblin_cbm_runner.resource_manager.parser.get_annual_afforestation_rate" title="goblin_cbm_runner.resource_manager.parser.get_annual_afforestation_rate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_annual_afforestation_rate</span></code></a>(Dynamic_Afforestation_config)</p></td>
+<td><p>Get the annual afforestation rate for delay years.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#goblin_cbm_runner.resource_manager.parser.get_afforestation_species_distribution" title="goblin_cbm_runner.resource_manager.parser.get_afforestation_species_distribution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_afforestation_species_distribution</span></code></a>(...)</p></td>
+<td><p>Get the afforestation rate species distribution.</p></td>
 </tr>
 </tbody>
 </table>
@@ -185,6 +197,26 @@
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.parser.get_species_yield_category">
+<span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.resource_manager.parser.</span></span><span class="sig-name descname"><span class="pre">get_species_yield_category</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classifiers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">species_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/parser.html#get_species_yield_category"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.parser.get_species_yield_category" title="Link to this definition"></a></dt>
+<dd><p>Get the species yield category.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>classifiers</strong> (<em>dict</em>) – A dictionary containing classifiers.</p></li>
+<li><p><strong>species_name</strong> (<em>str</em>) – The name of the species.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary representing the species yield category.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -304,6 +336,60 @@ None: Returns None if the species type is not found or if an error occurs.</p>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The thinning baseline value for the specified species type.
 None: Returns None if the species type is not found or if an error occurs.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.parser.get_afforest_delay">
+<span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.resource_manager.parser.</span></span><span class="sig-name descname"><span class="pre">get_afforest_delay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Dynamic_Afforestation_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/parser.html#get_afforest_delay"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.parser.get_afforest_delay" title="Link to this definition"></a></dt>
+<dd><p>Get the afforestation delay.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Dynamic_Afforestation_config</strong> (<em>dict</em>) – A dictionary containing configuration.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The afforestation delay value.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.parser.get_annual_afforestation_rate">
+<span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.resource_manager.parser.</span></span><span class="sig-name descname"><span class="pre">get_annual_afforestation_rate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Dynamic_Afforestation_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/parser.html#get_annual_afforestation_rate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.parser.get_annual_afforestation_rate" title="Link to this definition"></a></dt>
+<dd><p>Get the annual afforestation rate for delay years.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Dynamic_Afforestation_config</strong> (<em>dict</em>) – A dictionary containing configuration.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The annual afforestation rate value for delay years.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.parser.get_afforestation_species_distribution">
+<span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.resource_manager.parser.</span></span><span class="sig-name descname"><span class="pre">get_afforestation_species_distribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Dynamic_Afforestation_config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">species</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/parser.html#get_afforestation_species_distribution"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.parser.get_afforestation_species_distribution" title="Link to this definition"></a></dt>
+<dd><p>Get the afforestation rate species distribution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Dynamic_Afforestation_config</strong> (<em>dict</em>) – A dictionary containing configuration.</p></li>
+<li><p><strong>species</strong> (<em>str</em>) – The species to get the distribution for.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The afforestation rate species distribution value.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>

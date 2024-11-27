@@ -27,7 +27,7 @@
         "yield": {
             "type": "csv",
             "params": {
-                "path": "growth.csv"
+                "path": "standing_vol.csv"
             }
         },
         "events": {

@@ -70,6 +70,25 @@ def get_inventory_species(classifiers):
     return species
 
 
+def get_species_yield_category(classifiers, species_name):
+    """
+    Get the species yield category.
+
+    Args:
+        classifiers (dict): A dictionary containing classifiers.
+        species_name (str): The name of the species.
+
+    Returns:
+        dict: A dictionary representing the species yield category.
+    """
+    yield_category = []
+    for i in classifiers["Classifiers"]["yield_class"][species_name]:
+        for key, _ in i.items():
+            yield_category.append(key)
+
+    return yield_category
+
+
 def get_yield_class_proportions(classifiers, species_name, yield_class):
     """
     Get the yield class proportions for a given species and yield class.
@@ -200,4 +219,51 @@ def get_runner_thinning_scenario(classifiers, species_type):
     except Exception as e:
         print(f"An error occurred: {e}")
         return None
+    
+def get_afforest_delay(Dynamic_Afforestation_config):
+    """
+    Get the afforestation delay.
 
+    Args:
+        Dynamic_Afforestation_config (dict): A dictionary containing configuration.
+    
+    Returns:
+        int: The afforestation delay value.
+    """
+    return Dynamic_Afforestation_config["Dynamic_Afforestation"]["afforest_delay"]
+
+
+def get_annual_afforestation_rate(Dynamic_Afforestation_config):
+    """
+    Get the annual afforestation rate for delay years.
+
+    Args:
+        Dynamic_Afforestation_config (dict): A dictionary containing configuration.
+    
+    Returns:
+        float: The annual afforestation rate value for delay years.
+    """
+    return Dynamic_Afforestation_config["Dynamic_Afforestation"]["annual_afforestation_rate_pre_delay"]
+
+
+def get_afforestation_species_distribution(Dynamic_Afforestation_config, species):
+    """
+    Get the afforestation rate species distribution.
+
+    Args:
+        Dynamic_Afforestation_config (dict): A dictionary containing configuration.
+        species (str): The species to get the distribution for.
+    
+    Returns:
+        float: The afforestation rate species distribution value.
+    """
+    try:
+        _list = Dynamic_Afforestation_config["Dynamic_Afforestation"]["species_distribution"]
+        for item in _list:
+            if species in item:
+                return item[species]
+        print(f"Error: '{species}' is not found in the list.")
+        return None
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return None

@@ -9,7 +9,7 @@
 project = 'goblin_cbm_runner'
 copyright = '2023, Colm Duffy'
 author = 'Colm Duffy'
-release = '0.4.1'
+release = '0.4.2'
 
 
 # -- General configuration ---------------------------------------------------

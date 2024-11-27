@@ -444,3 +444,40 @@ class DataManager:
         years_range = list(range(forest_baseline_year, forestry_end_year + 1))
 
         return years_range
+
+
+    def get_afforest_delay(self):
+        """
+        Get the afforestation delay.
+
+        Returns:
+            int: The afforestation delay.
+        """
+        afforest_delay = parser.get_afforest_delay(self.config_data)
+
+        return afforest_delay
+    
+
+    def get_annual_afforestation_rate(self):
+        """
+        Get the annual afforestation rate for delay years.
+
+        Returns:
+            float: The annual afforestation rate.
+        """
+        annual_afforestation_rate = parser.get_annual_afforestation_rate(self.config_data)
+
+        return annual_afforestation_rate
+    
+
+    def get_afforestation_species_distribution(self, species):
+        """
+        Get the afforestation rate species distribution.
+
+        Returns:
+            float: The afforestation rate species distribution.
+        """
+        species_distribution = parser.get_afforestation_species_distribution(self.config_data, species)
+
+        return species_distribution
+    

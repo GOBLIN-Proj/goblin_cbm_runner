@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_cbm_runner.cbm.data_processing.default_processing.SC_disturbances &mdash; goblin_cbm_runner 0.4.1 documentation</title>
+  <title>goblin_cbm_runner.cbm.data_processing.default_processing.SC_disturbances &mdash; goblin_cbm_runner 0.4.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -16,7 +16,7 @@
   
         <script src="../../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../../_static/documentation_options.js?v=c87aa342"></script>
+        <script src="../../../../../_static/documentation_options.js?v=ff822928"></script>
         <script src="../../../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/js/theme.js"></script>
@@ -90,6 +90,7 @@
 <span class="kn">from</span> <span class="nn">goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory</span> <span class="kn">import</span> <span class="n">SCInventory</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">goblin_cbm_runner.harvest_manager.harvest</span> <span class="kn">import</span> <span class="n">AfforestationTracker</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
 
 
 
@@ -144,6 +145,33 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">disturbance_timing</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loader_class</span><span class="o">.</span><span class="n">disturbance_time</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scenario_disturbance_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_scenario_disturbance_dict</span><span class="p">()</span>
 
+<div class="viewcode-block" id="SCDisturbances.generic_afforestation_area">
+<a class="viewcode-back" href="../../../../../autoapi/goblin_cbm_runner/cbm/data_processing/default_processing/SC_disturbances/index.html#goblin_cbm_runner.cbm.data_processing.default_processing.SC_disturbances.SCDisturbances.generic_afforestation_area">[docs]</a>
+    <span class="k">def</span> <span class="nf">generic_afforestation_area</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">afforest_pre_sc_rate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_annual_afforestation_rate</span><span class="p">()</span>
+
+        <span class="n">result_dict</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">classifiers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">config_data</span>
+
+        <span class="k">for</span> <span class="n">species</span> <span class="ow">in</span> <span class="n">parser</span><span class="o">.</span><span class="n">get_inventory_species</span><span class="p">(</span><span class="n">classifiers</span><span class="p">):</span>
+    
+            <span class="n">result_dict</span><span class="p">[</span><span class="n">species</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+            <span class="c1"># Determine the share of the adjustment for species</span>
+            <span class="n">species_proportion</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_afforestation_species_distribution</span><span class="p">(</span><span class="n">species</span><span class="p">)</span>
+                
+            <span class="k">for</span> <span class="n">yield_class</span> <span class="ow">in</span> <span class="n">parser</span><span class="o">.</span><span class="n">get_species_yield_category</span><span class="p">(</span><span class="n">classifiers</span><span class="p">,</span> <span class="n">species</span><span class="p">):</span>
+                
+                <span class="n">yield_proportion</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">get_yield_class_proportions</span><span class="p">(</span><span class="n">classifiers</span><span class="p">,</span> <span class="n">species</span><span class="p">,</span> <span class="n">yield_class</span><span class="p">)</span>
+            
+
+                <span class="n">result_dict</span><span class="p">[</span><span class="n">species</span><span class="p">][</span><span class="n">yield_class</span><span class="p">]</span> <span class="o">=</span><span class="p">{}</span>
+                <span class="n">result_dict</span><span class="p">[</span><span class="n">species</span><span class="p">][</span><span class="n">yield_class</span><span class="p">][</span><span class="s2">&quot;mineral&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">afforest_pre_sc_rate</span> <span class="o">*</span> <span class="n">species_proportion</span> <span class="o">*</span> <span class="n">yield_proportion</span>
+
+        <span class="k">return</span> <span class="n">result_dict</span></div>
+
 
 <div class="viewcode-block" id="SCDisturbances.scenario_afforestation_area">
 <a class="viewcode-back" href="../../../../../autoapi/goblin_cbm_runner/cbm/data_processing/default_processing/SC_disturbances/index.html#goblin_cbm_runner.cbm.data_processing.default_processing.SC_disturbances.SCDisturbances.scenario_afforestation_area">[docs]</a>
@@ -157,7 +185,15 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            dict: A dictionary with species as keys and afforestation areas as values.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">afforest_delay</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_afforest_delay</span><span class="p">()</span>
+        <span class="n">afforest_pre_sc_rate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_annual_afforestation_rate</span><span class="p">()</span>
+
+        <span class="n">area_adjustment</span> <span class="o">=</span> <span class="n">afforest_pre_sc_rate</span> <span class="o">*</span> <span class="n">afforest_delay</span>
+
         <span class="n">scenario_years</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forest_end_year</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span>
+
+        <span class="k">if</span> <span class="n">afforest_delay</span> <span class="o">&gt;=</span> <span class="n">scenario_years</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Afforestation delay (</span><span class="si">{</span><span class="n">afforest_delay</span><span class="si">}</span><span class="s2"> years) is greater than or equal to scenario duration (</span><span class="si">{</span><span class="n">scenario_years</span><span class="si">}</span><span class="s2"> years). This scenario is not valid.&quot;</span><span class="p">)</span>
 
         <span class="n">result_dict</span> <span class="o">=</span> <span class="p">{}</span>
 
@@ -165,20 +201,39 @@
 
         <span class="n">aggregated_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">afforestation_data</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;species&#39;</span><span class="p">,</span> <span class="s1">&#39;yield_class&#39;</span><span class="p">,</span> <span class="s1">&#39;scenario&#39;</span><span class="p">])[</span><span class="s1">&#39;total_area&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
 
+        <span class="n">total_adjustment_applied</span> <span class="o">=</span> <span class="mi">0</span> 
+
         <span class="k">for</span> <span class="n">species</span> <span class="ow">in</span> <span class="n">parser</span><span class="o">.</span><span class="n">get_inventory_species</span><span class="p">(</span><span class="n">classifiers</span><span class="p">):</span>
 
             <span class="n">species_data</span> <span class="o">=</span> <span class="n">aggregated_data</span><span class="p">[(</span><span class="n">aggregated_data</span><span class="p">[</span><span class="s1">&#39;species&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">species</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">aggregated_data</span><span class="p">[</span><span class="s1">&#39;scenario&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">scenario</span><span class="p">)]</span>
     
             <span class="n">result_dict</span><span class="p">[</span><span class="n">species</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+            <span class="c1"># Determine the share of the adjustment for species</span>
+            <span class="n">species_proportion</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_afforestation_species_distribution</span><span class="p">(</span><span class="n">species</span><span class="p">)</span>
                 
             <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">species_data</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
 
                 <span class="n">yield_class</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;yield_class&#39;</span><span class="p">]</span>
                 <span class="n">total_area</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;total_area&#39;</span><span class="p">]</span>
                 
-                <span class="n">result_dict</span><span class="p">[</span><span class="n">species</span><span class="p">][</span><span class="n">yield_class</span><span class="p">]</span> <span class="o">=</span><span class="p">{}</span>
-                <span class="n">result_dict</span><span class="p">[</span><span class="n">species</span><span class="p">][</span><span class="n">yield_class</span><span class="p">][</span><span class="s2">&quot;mineral&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">total_area</span> <span class="o">/</span> <span class="n">scenario_years</span>
+                <span class="c1"># Adjust the area ensuring it doesn&#39;t go below 0</span>
+                <span class="n">adjustment_per_yield_class</span> <span class="o">=</span> <span class="p">(</span><span class="n">area_adjustment</span> <span class="o">*</span> <span class="n">species_proportion</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">species_data</span><span class="p">)</span>
+                <span class="n">actual_area</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">total_area</span> <span class="o">-</span> <span class="n">adjustment_per_yield_class</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="n">total_adjustment_applied</span> <span class="o">+=</span> <span class="p">(</span><span class="n">total_area</span> <span class="o">-</span> <span class="n">actual_area</span><span class="p">)</span>
 
+
+                <span class="k">if</span> <span class="n">actual_area</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Adjusted area for species &#39;</span><span class="si">{</span><span class="n">species</span><span class="si">}</span><span class="s2">&#39; and yield class &#39;</span><span class="si">{</span><span class="n">yield_class</span><span class="si">}</span><span class="s2">&#39; is 0 after adjustment.&quot;</span><span class="p">)</span>
+
+
+                <span class="n">result_dict</span><span class="p">[</span><span class="n">species</span><span class="p">][</span><span class="n">yield_class</span><span class="p">]</span> <span class="o">=</span><span class="p">{}</span>
+                <span class="n">result_dict</span><span class="p">[</span><span class="n">species</span><span class="p">][</span><span class="n">yield_class</span><span class="p">][</span><span class="s2">&quot;mineral&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">actual_area</span> <span class="o">/</span> <span class="p">(</span><span class="n">scenario_years</span> <span class="o">-</span> <span class="n">afforest_delay</span><span class="p">)</span>
+
+
+            <span class="c1"># Ensure that the total adjustment applied matches the area adjustment</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">total_adjustment_applied</span> <span class="o">-</span> <span class="n">area_adjustment</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-6</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total adjustment applied (</span><span class="si">{</span><span class="n">total_adjustment_applied</span><span class="si">}</span><span class="s2">) does not match the intended area adjustment (</span><span class="si">{</span><span class="n">area_adjustment</span><span class="si">}</span><span class="s2">).&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">result_dict</span></div>
 
 
@@ -196,10 +251,14 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            The disturbance data DataFrame after filling with scenario data.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        
+        <span class="n">afforest_delay</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_afforest_delay</span><span class="p">()</span>
+
         <span class="n">configuration_classifiers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">config_data</span>
 
         <span class="n">afforestation_inventory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenario_afforestation_area</span><span class="p">(</span><span class="n">scenario</span><span class="p">)</span>
+
+        <span class="c1">#for delay years</span>
+        <span class="n">generic_afforestation_inventory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generic_afforestation_area</span><span class="p">()</span>
 
         <span class="n">disturbance_timing</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">disturbance_timing</span> 
 
@@ -239,7 +298,10 @@
                                         <span class="s2">&quot;age&quot;</span><span class="p">:</span> <span class="mi">0</span>
                                 <span class="p">}</span>
 
-                            <span class="n">dataframes</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;afforestation_inventory&quot;</span><span class="p">:</span><span class="n">afforestation_inventory</span><span class="p">}</span>
+                            <span class="k">if</span> <span class="n">yr</span> <span class="o">&lt;=</span> <span class="n">afforest_delay</span><span class="p">:</span>
+                                <span class="n">dataframes</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;afforestation_inventory&quot;</span><span class="p">:</span><span class="n">generic_afforestation_inventory</span><span class="p">}</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">dataframes</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;afforestation_inventory&quot;</span><span class="p">:</span><span class="n">afforestation_inventory</span><span class="p">}</span>
 
                             <span class="bp">self</span><span class="o">.</span><span class="n">utils_class</span><span class="o">.</span><span class="n">_process_scenario_row_data</span><span class="p">(</span><span class="n">row_data</span><span class="p">,</span><span class="n">context</span><span class="p">,</span> <span class="n">dataframes</span><span class="p">)</span>
 

@@ -24,7 +24,7 @@ def main():
     calibration_year = 2020
 
     # instance of the Runner class
-    runner = GeoRunner(config, calibration_year, afforest_data, sc_data, gen_validation=True, sit_path=sit_path)
+    runner = GeoRunner(config, calibration_year, afforest_data, sc_data,sit_path=sit_path)
 
 
     # generation of aggregated results
@@ -33,8 +33,8 @@ def main():
     # generation of annual flux results
     runner.run_flux_scenarios().to_csv(os.path.join(results_path, "c_flux.csv"))
 
-    runner.cbm_aggregate_scenario(0)["Raw"].to_csv(os.path.join(results_path, "RAW_c_aggregate_sc0.csv"))
-    runner.cbm_aggregate_scenario(0)["Stock"].to_csv(os.path.join(results_path, "Stock_c_aggregate_sc0.csv"))
+    #runner.cbm_aggregate_scenario(0)["Raw"].to_csv(os.path.join(results_path, "RAW_c_aggregate_sc0.csv"))
+    #runner.cbm_aggregate_scenario(0)["Stock"].to_csv(os.path.join(results_path, "Stock_c_aggregate_sc0.csv"))
 
 if __name__ == "__main__":
     main()
