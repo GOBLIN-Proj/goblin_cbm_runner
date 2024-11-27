@@ -401,4 +401,28 @@ Classes
       :rtype: list
 
 
+   .. py:method:: get_afforest_delay()
+
+      Get the afforestation delay.
+
+      :returns: The afforestation delay.
+      :rtype: int
+
+
+   .. py:method:: get_annual_afforestation_rate()
+
+      Get the annual afforestation rate for delay years.
+
+      :returns: The annual afforestation rate.
+      :rtype: float
+
+
+   .. py:method:: get_afforestation_species_distribution(species)
+
+      Get the afforestation rate species distribution.
+
+      :returns: The afforestation rate species distribution.
+      :rtype: float
+
+
 

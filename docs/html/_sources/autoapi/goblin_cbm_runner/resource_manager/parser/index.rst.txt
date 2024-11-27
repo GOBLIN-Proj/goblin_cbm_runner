@@ -23,12 +23,16 @@ Functions
    goblin_cbm_runner.resource_manager.parser.get_classifier_list
    goblin_cbm_runner.resource_manager.parser.get_age_classifier
    goblin_cbm_runner.resource_manager.parser.get_inventory_species
+   goblin_cbm_runner.resource_manager.parser.get_species_yield_category
    goblin_cbm_runner.resource_manager.parser.get_yield_class_proportions
    goblin_cbm_runner.resource_manager.parser.get_disturbance_type
    goblin_cbm_runner.resource_manager.parser.get_runner_clearfell_baseline
    goblin_cbm_runner.resource_manager.parser.get_runner_clearfell_scenario
    goblin_cbm_runner.resource_manager.parser.get_runner_thinning_baseline
    goblin_cbm_runner.resource_manager.parser.get_runner_thinning_scenario
+   goblin_cbm_runner.resource_manager.parser.get_afforest_delay
+   goblin_cbm_runner.resource_manager.parser.get_annual_afforestation_rate
+   goblin_cbm_runner.resource_manager.parser.get_afforestation_species_distribution
 
 
 
@@ -63,6 +67,19 @@ Functions
 
    :returns: A list of inventory species.
    :rtype: list
+
+
+.. py:function:: get_species_yield_category(classifiers, species_name)
+
+   Get the species yield category.
+
+   :param classifiers: A dictionary containing classifiers.
+   :type classifiers: dict
+   :param species_name: The name of the species.
+   :type species_name: str
+
+   :returns: A dictionary representing the species yield category.
+   :rtype: dict
 
 
 .. py:function:: get_yield_class_proportions(classifiers, species_name, yield_class)
@@ -144,6 +161,41 @@ Functions
 
    :returns: The thinning baseline value for the specified species type.
              None: Returns None if the species type is not found or if an error occurs.
+   :rtype: float
+
+
+.. py:function:: get_afforest_delay(Dynamic_Afforestation_config)
+
+   Get the afforestation delay.
+
+   :param Dynamic_Afforestation_config: A dictionary containing configuration.
+   :type Dynamic_Afforestation_config: dict
+
+   :returns: The afforestation delay value.
+   :rtype: int
+
+
+.. py:function:: get_annual_afforestation_rate(Dynamic_Afforestation_config)
+
+   Get the annual afforestation rate for delay years.
+
+   :param Dynamic_Afforestation_config: A dictionary containing configuration.
+   :type Dynamic_Afforestation_config: dict
+
+   :returns: The annual afforestation rate value for delay years.
+   :rtype: float
+
+
+.. py:function:: get_afforestation_species_distribution(Dynamic_Afforestation_config, species)
+
+   Get the afforestation rate species distribution.
+
+   :param Dynamic_Afforestation_config: A dictionary containing configuration.
+   :type Dynamic_Afforestation_config: dict
+   :param species: The species to get the distribution for.
+   :type species: str
+
+   :returns: The afforestation rate species distribution value.
    :rtype: float
 
 

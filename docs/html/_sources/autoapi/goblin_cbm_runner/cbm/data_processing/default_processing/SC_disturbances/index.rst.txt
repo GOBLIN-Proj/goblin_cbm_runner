@@ -90,6 +90,9 @@ Classes
    :param afforestation_data: Detailed data of afforestation activities per scenario.
    :type afforestation_data: DataFrame
 
+   .. py:method:: generic_afforestation_area()
+
+
    .. py:method:: scenario_afforestation_area(scenario)
 
       Calculates the afforestation area for a given scenario.
