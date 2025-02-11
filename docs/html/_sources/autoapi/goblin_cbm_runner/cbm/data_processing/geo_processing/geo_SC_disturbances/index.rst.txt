@@ -26,7 +26,7 @@ Classes
 
 
 
-.. py:class:: SCDisturbances(config_path, calibration_year, forest_end_year, afforestation_data, scenario_data)
+.. py:class:: SCDisturbances(geo_data_manager)
 
 
    Manages disturbances within the Carbon Budget Modeling (CBM) framework, specifically tailored for scenarios
@@ -87,16 +87,8 @@ Classes
 
       :type: dict
 
-   :param config_path: Path to the configuration file guiding the simulation setup.
-   :type config_path: str
-   :param calibration_year: Reference year from which simulation data is calibrated.
-   :type calibration_year: int
-   :param forest_end_year: Designated end year for the simulation's forest data.
-   :type forest_end_year: int
-   :param afforestation_data: Data detailing afforestation projects, including species and area.
-   :type afforestation_data: DataFrame
-   :param scenario_data: Data defining various simulation scenarios.
-   :type scenario_data: DataFrame
+   :param geo_data_manager: Manager for geographical data.
+   :type geo_data_manager: GeoDataManager
 
    .. method:: scenario_afforestation_area(scenario)
 
@@ -104,11 +96,22 @@ Classes
       Calculates the afforestation area for a given scenario.
       
 
-   .. method:: fill_scenario_data(scenario)
+   .. method:: gen_afforestation_scenario_disturbances(scenario)
 
       
-      Fills the disturbance data for a given scenario.
+      Generates afforestation scenario disturbances.
       
+
+   .. method:: gen_non_afforestation_scenario_disturbances(scenario, afforest_df)
+
+      
+      Generates non-afforestation scenario disturbances.
+      
+
+   .. method:: fill_scenario_forest(scenario)
+
+      
+      Fills the forest data for a given scenario.
       
 
    .. py:method:: scenario_afforestation_area(scenario)
@@ -116,19 +119,45 @@ Classes
       Calculates the afforestation area for a given scenario.
 
       :param scenario: The scenario to calculate afforestation for.
-      :type scenario: str
+      :type scenario: Scenario
 
       :returns: A dictionary with species as keys and afforestation areas as values.
       :rtype: dict
 
 
-   .. py:method:: fill_scenario_data(scenario)
+   .. py:method:: gen_afforestation_scenario_disturbances(scenario)
 
-      Fills the disturbance data for a given scenario.
+      Generates afforestation scenario disturbances.
 
-      :param scenario: The scenario for which to fill the disturbance data.
+      :param scenario: The scenario for which to generate the disturbance data.
+      :type scenario: Scenario
 
-      :returns: The disturbance data DataFrame after filling with scenario data.
+      :returns: The disturbance data after filling with scenario data.
+      :rtype: DataFrame
+
+
+   .. py:method:: gen_non_afforestation_scenario_disturbances(scenario, afforest_df)
+
+      Generates non-afforestation scenario disturbances.
+
+      :param scenario: The scenario for which to generate the disturbance data.
+      :type scenario: Scenario
+      :param afforest_df: DataFrame containing afforestation disturbances.
+      :type afforest_df: DataFrame
+
+      :returns: The disturbance data after filling with non-afforestation scenario data.
+      :rtype: DataFrame
+
+
+   .. py:method:: fill_scenario_forest(scenario)
+
+      Fills the forest data for a given scenario.
+
+      :param scenario: The scenario for which to fill the forest data.
+      :type scenario: Scenario
+
+      :returns: The combined DataFrame of afforestation and non-afforestation disturbances.
+      :rtype: DataFrame
 
 
 

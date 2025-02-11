@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Example Usage &mdash; goblin_cbm_runner 0.4.2 documentation</title>
+  <title>Example Usage &mdash; goblin_cbm_runner 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -17,7 +17,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=ff822928"></script>
+        <script src="_static/documentation_options.js?v=1dd76d02"></script>
         <script src="_static/doctools.js?v=888ff710"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -94,6 +94,7 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">goblin_cbm_runner.default_runner.runner</span> <span class="kn">import</span> <span class="n">Runner</span>
+<span class="kn">from</span> <span class="nn">goblin_cbm_runner.resource_manager.cbm_runner_data_manager</span> <span class="kn">import</span> <span class="n">DataManager</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -130,6 +131,12 @@
 
 <span class="c1"># calibration and end point</span>
 <span class="n">calibration_year</span> <span class="o">=</span> <span class="mi">2020</span>
+
+<span class="c1"># instance of the DataManager class</span>
+<span class="n">data_manager</span> <span class="o">=</span> <span class="n">DataManager</span><span class="p">(</span><span class="n">calibration_year</span> <span class="o">=</span> <span class="n">calibration_year</span><span class="p">,</span>
+                        <span class="n">config_file_path</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+                        <span class="n">scenario_data</span><span class="o">=</span><span class="n">sc_data</span><span class="p">,</span>
+                        <span class="n">afforest_data</span><span class="o">=</span><span class="n">afforest_data</span><span class="p">)</span>
 
 
 <span class="c1">#Make directory to store exported file</span>
@@ -193,6 +200,9 @@
   species_distribution:
     - Sitka: 0.7
     - SGB: 0.3
+
+Forest_management:
+  intensity: low
 
 Classifiers:
   baseline:
@@ -318,12 +328,128 @@ Classifiers:
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># instance of the Runner class</span>
-<span class="n">runner</span> <span class="o">=</span> <span class="n">Runner</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">calibration_year</span><span class="p">,</span> <span class="n">afforest_data</span><span class="p">,</span> <span class="n">sc_data</span><span class="p">)</span>
+<span class="n">runner</span> <span class="o">=</span> <span class="n">Runner</span><span class="p">(</span><span class="n">data_manager</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cleaning scenario SIT data directories
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>🚀 Starting FM Simulation...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ FM Simulation Complete.
+Cleaning scenario SIT data directories
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 1
+No eligible stands found for DISTID2 in Year 1
+No eligible stands found for DISTID1 in Year 2
+No eligible stands found for DISTID2 in Year 2
+No eligible stands found for DISTID1 in Year 3
+No eligible stands found for DISTID2 in Year 3
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 4
+No eligible stands found for DISTID2 in Year 4
+No eligible stands found for DISTID1 in Year 5
+No eligible stands found for DISTID2 in Year 5
+No eligible stands found for DISTID1 in Year 6
+No eligible stands found for DISTID2 in Year 6
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 7
+No eligible stands found for DISTID2 in Year 7
+No eligible stands found for DISTID1 in Year 8
+No eligible stands found for DISTID2 in Year 8
+No eligible stands found for DISTID1 in Year 9
+No eligible stands found for DISTID2 in Year 9
+No eligible stands found for DISTID1 in Year 10
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 11
+No eligible stands found for DISTID1 in Year 12
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 13
+No eligible stands found for DISTID1 in Year 14
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 15
+No eligible stands found for DISTID1 in Year 16
+No eligible stands found for DISTID1 in Year 17
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 18
+No eligible stands found for DISTID1 in Year 19
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 20
+No eligible stands found for DISTID1 in Year 21
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 22
+No eligible stands found for DISTID1 in Year 23
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 24
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 25
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 26
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 1
+No eligible stands found for DISTID2 in Year 1
+No eligible stands found for DISTID1 in Year 2
+No eligible stands found for DISTID2 in Year 2
+No eligible stands found for DISTID1 in Year 3
+No eligible stands found for DISTID2 in Year 3
+No eligible stands found for DISTID1 in Year 4
+No eligible stands found for DISTID2 in Year 4
+No eligible stands found for DISTID1 in Year 5
+No eligible stands found for DISTID2 in Year 5
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 6
+No eligible stands found for DISTID2 in Year 6
+No eligible stands found for DISTID1 in Year 7
+No eligible stands found for DISTID2 in Year 7
+No eligible stands found for DISTID1 in Year 8
+No eligible stands found for DISTID2 in Year 8
+No eligible stands found for DISTID1 in Year 9
+No eligible stands found for DISTID2 in Year 9
+No eligible stands found for DISTID1 in Year 10
+No eligible stands found for DISTID1 in Year 11
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 12
+No eligible stands found for DISTID1 in Year 13
+No eligible stands found for DISTID1 in Year 14
+No eligible stands found for DISTID1 in Year 15
+No eligible stands found for DISTID1 in Year 16
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 17
+No eligible stands found for DISTID1 in Year 18
+No eligible stands found for DISTID1 in Year 19
+No eligible stands found for DISTID1 in Year 20
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 21
+No eligible stands found for DISTID1 in Year 22
+No eligible stands found for DISTID1 in Year 23
+No eligible stands found for DISTID1 in Year 24
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 25
+No eligible stands found for DISTID1 in Year 26
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>🚀 Starting AF Simulation...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ AF Simulation Complete.
 </pre></div>
 </div>
 </div>
@@ -335,6 +461,29 @@ Classifiers:
 
 <span class="c1"># generation of annual flux results</span>
 <span class="n">runner</span><span class="o">.</span><span class="n">run_flux_scenarios</span><span class="p">()</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="s2">&quot;c_flux.csv&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>🚀 Starting Scenario 0 Simulation...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ Scenario 0 Simulation Complete.
+🚀 Starting Scenario 1 Simulation...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ Scenario 1 Simulation Complete.
+Running Forest Flux scenario -1
+Running Forest Flux scenario 0
+🚀 Starting Scenario 0 Simulation...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ Scenario 0 Simulation Complete.
+Running Forest Flux scenario 1
+🚀 Starting Scenario 1 Simulation...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ Scenario 1 Simulation Complete.
 </pre></div>
 </div>
 </div>
@@ -393,61 +542,61 @@ Classifiers:
       <th>0</th>
       <td>2016</td>
       <td>-1</td>
-      <td>4.431219e+07</td>
-      <td>9.572038e+06</td>
-      <td>1.370777e+07</td>
-      <td>8.579399e+06</td>
-      <td>3.296987e+07</td>
-      <td>2.936301e+07</td>
-      <td>1.091413e+08</td>
+      <td>1.125034e+08</td>
+      <td>1.936781e+07</td>
+      <td>4.492602e+07</td>
+      <td>1.812466e+07</td>
+      <td>5.789391e+07</td>
+      <td>1.003831e+08</td>
+      <td>2.528158e+08</td>
     </tr>
     <tr>
       <th>1</th>
       <td>2017</td>
       <td>-1</td>
-      <td>4.566161e+07</td>
-      <td>9.844770e+06</td>
-      <td>1.369340e+07</td>
-      <td>8.689428e+06</td>
-      <td>3.298973e+07</td>
-      <td>3.000124e+07</td>
-      <td>1.108789e+08</td>
+      <td>1.145310e+08</td>
+      <td>1.977693e+07</td>
+      <td>4.441478e+07</td>
+      <td>1.762858e+07</td>
+      <td>5.791091e+07</td>
+      <td>1.006116e+08</td>
+      <td>2.542622e+08</td>
     </tr>
     <tr>
       <th>2</th>
       <td>2018</td>
       <td>-1</td>
-      <td>4.648447e+07</td>
-      <td>1.000111e+07</td>
-      <td>1.377507e+07</td>
-      <td>8.982208e+06</td>
-      <td>3.301591e+07</td>
-      <td>3.091145e+07</td>
-      <td>1.122588e+08</td>
+      <td>1.165017e+08</td>
+      <td>2.017388e+07</td>
+      <td>4.396150e+07</td>
+      <td>1.729561e+07</td>
+      <td>5.793214e+07</td>
+      <td>1.008845e+08</td>
+      <td>2.558648e+08</td>
     </tr>
     <tr>
       <th>3</th>
       <td>2019</td>
       <td>-1</td>
-      <td>4.733691e+07</td>
-      <td>1.017331e+07</td>
-      <td>1.382232e+07</td>
-      <td>9.241905e+06</td>
-      <td>3.304212e+07</td>
-      <td>3.182758e+07</td>
-      <td>1.136166e+08</td>
+      <td>1.184474e+08</td>
+      <td>2.056900e+07</td>
+      <td>4.356020e+07</td>
+      <td>1.709952e+07</td>
+      <td>5.795659e+07</td>
+      <td>1.011552e+08</td>
+      <td>2.576327e+08</td>
     </tr>
     <tr>
       <th>4</th>
       <td>2020</td>
       <td>-1</td>
-      <td>4.802047e+07</td>
-      <td>1.029809e+07</td>
-      <td>1.390190e+07</td>
-      <td>9.502265e+06</td>
-      <td>3.306994e+07</td>
-      <td>3.285529e+07</td>
-      <td>1.147927e+08</td>
+      <td>1.203798e+08</td>
+      <td>2.095582e+07</td>
+      <td>4.321098e+07</td>
+      <td>1.696665e+07</td>
+      <td>5.798241e+07</td>
+      <td>1.014659e+08</td>
+      <td>2.594956e+08</td>
     </tr>
     <tr>
       <th>...</th>
@@ -462,68 +611,68 @@ Classifiers:
       <td>...</td>
     </tr>
     <tr>
-      <th>95</th>
-      <td>2047</td>
+      <th>242</th>
+      <td>2096</td>
       <td>1</td>
-      <td>7.968811e+07</td>
-      <td>2.159633e+07</td>
-      <td>1.664907e+07</td>
-      <td>2.342440e+07</td>
-      <td>9.838436e+07</td>
-      <td>8.395845e+07</td>
-      <td>2.397423e+08</td>
+      <td>4.627289e+08</td>
+      <td>8.211943e+07</td>
+      <td>9.694032e+07</td>
+      <td>7.356695e+07</td>
+      <td>1.374653e+08</td>
+      <td>2.890441e+08</td>
+      <td>8.528210e+08</td>
     </tr>
     <tr>
-      <th>96</th>
-      <td>2048</td>
+      <th>243</th>
+      <td>2097</td>
       <td>1</td>
-      <td>8.745045e+07</td>
-      <td>2.346912e+07</td>
-      <td>1.673176e+07</td>
-      <td>2.448466e+07</td>
-      <td>9.856018e+07</td>
-      <td>8.477330e+07</td>
-      <td>2.506962e+08</td>
+      <td>4.691974e+08</td>
+      <td>8.268849e+07</td>
+      <td>9.864505e+07</td>
+      <td>7.453157e+07</td>
+      <td>1.378182e+08</td>
+      <td>2.927989e+08</td>
+      <td>8.628807e+08</td>
     </tr>
     <tr>
-      <th>97</th>
-      <td>2049</td>
+      <th>244</th>
+      <td>2098</td>
       <td>1</td>
-      <td>9.479991e+07</td>
-      <td>2.523385e+07</td>
-      <td>1.698254e+07</td>
-      <td>2.598034e+07</td>
-      <td>9.875115e+07</td>
-      <td>8.605386e+07</td>
-      <td>2.617478e+08</td>
+      <td>4.756283e+08</td>
+      <td>8.324426e+07</td>
+      <td>1.003528e+08</td>
+      <td>7.543833e+07</td>
+      <td>1.381733e+08</td>
+      <td>2.965408e+08</td>
+      <td>8.728370e+08</td>
     </tr>
     <tr>
-      <th>98</th>
-      <td>2050</td>
+      <th>245</th>
+      <td>2099</td>
       <td>1</td>
-      <td>1.025128e+08</td>
-      <td>2.706489e+07</td>
-      <td>1.728514e+07</td>
-      <td>2.751733e+07</td>
-      <td>9.894578e+07</td>
-      <td>8.723747e+07</td>
-      <td>2.733259e+08</td>
+      <td>4.821361e+08</td>
+      <td>8.380656e+07</td>
+      <td>1.020566e+08</td>
+      <td>7.628700e+07</td>
+      <td>1.385311e+08</td>
+      <td>3.001825e+08</td>
+      <td>8.828174e+08</td>
     </tr>
     <tr>
-      <th>99</th>
-      <td>2051</td>
+      <th>246</th>
+      <td>2100</td>
       <td>1</td>
-      <td>1.111498e+08</td>
-      <td>2.908876e+07</td>
-      <td>1.758733e+07</td>
-      <td>2.884436e+07</td>
-      <td>9.913444e+07</td>
-      <td>8.821627e+07</td>
-      <td>2.858047e+08</td>
+      <td>4.888560e+08</td>
+      <td>8.441926e+07</td>
+      <td>1.037306e+08</td>
+      <td>7.702081e+07</td>
+      <td>1.388912e+08</td>
+      <td>3.036538e+08</td>
+      <td>8.929179e+08</td>
     </tr>
   </tbody>
 </table>
-<p>100 rows × 9 columns</p>
+<p>247 rows × 9 columns</p>
 </div></div></div>
 </div>
 <div class="cell docutils container">
@@ -567,61 +716,61 @@ Classifiers:
       <th>0</th>
       <td>2016</td>
       <td>-1</td>
-      <td>1.349426e+06</td>
-      <td>2.727326e+05</td>
-      <td>-14375.538004</td>
-      <td>1.100289e+05</td>
-      <td>19863.306340</td>
-      <td>6.382280e+05</td>
-      <td>1.737675e+06</td>
+      <td>2.027611e+06</td>
+      <td>409126.559878</td>
+      <td>-5.112429e+05</td>
+      <td>-496079.040481</td>
+      <td>16994.710818</td>
+      <td>2.284430e+05</td>
+      <td>1.446411e+06</td>
     </tr>
     <tr>
       <th>1</th>
       <td>2017</td>
       <td>-1</td>
-      <td>8.228529e+05</td>
-      <td>1.563418e+05</td>
-      <td>81674.324940</td>
-      <td>2.927799e+05</td>
-      <td>26182.768435</td>
-      <td>9.102110e+05</td>
-      <td>1.379832e+06</td>
+      <td>1.970650e+06</td>
+      <td>396943.335208</td>
+      <td>-4.532738e+05</td>
+      <td>-332970.350296</td>
+      <td>21230.433826</td>
+      <td>2.729620e+05</td>
+      <td>1.602580e+06</td>
     </tr>
     <tr>
       <th>2</th>
       <td>2018</td>
       <td>-1</td>
-      <td>8.524406e+05</td>
-      <td>1.721937e+05</td>
-      <td>47251.868059</td>
-      <td>2.596972e+05</td>
-      <td>26208.656098</td>
-      <td>9.161320e+05</td>
-      <td>1.357792e+06</td>
+      <td>1.945712e+06</td>
+      <td>395121.483602</td>
+      <td>-4.013049e+05</td>
+      <td>-196091.844623</td>
+      <td>24454.962617</td>
+      <td>2.706260e+05</td>
+      <td>1.767892e+06</td>
     </tr>
     <tr>
       <th>3</th>
       <td>2019</td>
       <td>-1</td>
-      <td>6.835600e+05</td>
-      <td>1.247830e+05</td>
-      <td>79576.594703</td>
-      <td>2.603595e+05</td>
-      <td>27812.303187</td>
-      <td>1.027711e+06</td>
-      <td>1.176091e+06</td>
+      <td>1.932359e+06</td>
+      <td>386823.082869</td>
+      <td>-3.492219e+05</td>
+      <td>-132871.230706</td>
+      <td>25819.280143</td>
+      <td>3.107233e+05</td>
+      <td>1.862908e+06</td>
     </tr>
     <tr>
       <th>4</th>
       <td>2020</td>
       <td>-1</td>
-      <td>7.120291e+05</td>
-      <td>1.321140e+05</td>
-      <td>80282.360258</td>
-      <td>2.015442e+05</td>
-      <td>27415.720571</td>
-      <td>1.009714e+06</td>
-      <td>1.153385e+06</td>
+      <td>1.782359e+06</td>
+      <td>360075.111849</td>
+      <td>-2.968981e+05</td>
+      <td>-5766.580376</td>
+      <td>28254.614038</td>
+      <td>3.889428e+05</td>
+      <td>1.868024e+06</td>
     </tr>
     <tr>
       <th>...</th>
@@ -636,68 +785,68 @@ Classifiers:
       <td>...</td>
     </tr>
     <tr>
-      <th>92</th>
-      <td>2046</td>
+      <th>239</th>
+      <td>2095</td>
       <td>1</td>
-      <td>7.145294e+06</td>
-      <td>1.753815e+06</td>
-      <td>37332.259340</td>
-      <td>9.738351e+05</td>
-      <td>168572.343024</td>
-      <td>8.996545e+05</td>
-      <td>1.007885e+07</td>
+      <td>6.775189e+06</td>
+      <td>642816.465949</td>
+      <td>1.663725e+06</td>
+      <td>930998.844341</td>
+      <td>349052.773459</td>
+      <td>3.590507e+06</td>
+      <td>1.036178e+07</td>
     </tr>
     <tr>
-      <th>93</th>
-      <td>2047</td>
+      <th>240</th>
+      <td>2096</td>
       <td>1</td>
-      <td>7.762338e+06</td>
-      <td>1.872786e+06</td>
-      <td>82685.900184</td>
-      <td>1.060259e+06</td>
-      <td>175824.464232</td>
-      <td>8.148523e+05</td>
-      <td>1.095389e+07</td>
+      <td>6.468418e+06</td>
+      <td>569054.594538</td>
+      <td>1.704733e+06</td>
+      <td>964625.281789</td>
+      <td>352856.815596</td>
+      <td>3.754872e+06</td>
+      <td>1.005969e+07</td>
     </tr>
     <tr>
-      <th>94</th>
-      <td>2048</td>
+      <th>241</th>
+      <td>2097</td>
       <td>1</td>
-      <td>7.349466e+06</td>
-      <td>1.764733e+06</td>
-      <td>250781.660426</td>
-      <td>1.495674e+06</td>
-      <td>190969.052679</td>
-      <td>1.280557e+06</td>
-      <td>1.105162e+07</td>
+      <td>6.430905e+06</td>
+      <td>555771.984586</td>
+      <td>1.707780e+06</td>
+      <td>906752.514136</td>
+      <td>355064.056206</td>
+      <td>3.741852e+06</td>
+      <td>9.956273e+06</td>
     </tr>
     <tr>
-      <th>95</th>
-      <td>2049</td>
+      <th>242</th>
+      <td>2098</td>
       <td>1</td>
-      <td>7.712875e+06</td>
-      <td>1.831034e+06</td>
-      <td>302596.255287</td>
-      <td>1.536989e+06</td>
-      <td>194627.671674</td>
-      <td>1.183614e+06</td>
-      <td>1.157812e+07</td>
+      <td>6.507791e+06</td>
+      <td>562298.976786</td>
+      <td>1.703811e+06</td>
+      <td>848676.776591</td>
+      <td>357861.713373</td>
+      <td>3.641756e+06</td>
+      <td>9.980439e+06</td>
     </tr>
     <tr>
-      <th>96</th>
-      <td>2050</td>
+      <th>243</th>
+      <td>2099</td>
       <td>1</td>
-      <td>8.636974e+06</td>
-      <td>2.023870e+06</td>
-      <td>302198.361914</td>
-      <td>1.327029e+06</td>
-      <td>188662.943486</td>
-      <td>9.787969e+05</td>
-      <td>1.247873e+07</td>
+      <td>6.719950e+06</td>
+      <td>612706.095959</td>
+      <td>1.673955e+06</td>
+      <td>733805.922828</td>
+      <td>360113.656391</td>
+      <td>3.471217e+06</td>
+      <td>1.010053e+07</td>
     </tr>
   </tbody>
 </table>
-<p>97 rows × 9 columns</p>
+<p>244 rows × 9 columns</p>
 </div></div></div>
 </div>
 </section>
@@ -732,7 +881,7 @@ Classifiers:
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/e68285f81750d647cb846129a45890d7e616e1094427b466052861ea8e1bf121.png" src="_images/e68285f81750d647cb846129a45890d7e616e1094427b466052861ea8e1bf121.png" />
+<img alt="_images/5e418a2733d0b8256451efbe9c9d7bacf118c51164c9d179287291a73518bae6.png" src="_images/5e418a2733d0b8256451efbe9c9d7bacf118c51164c9d179287291a73518bae6.png" />
 </div>
 </div>
 <div class="cell docutils container">

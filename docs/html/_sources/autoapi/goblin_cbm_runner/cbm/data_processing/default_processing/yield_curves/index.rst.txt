@@ -41,7 +41,7 @@ Classes
 
    .. method:: yield_table_generater_method3()
 
-      Generates a yield table using the third method directly from 'kb_yield_curves' dataset.
+      Generates a yield table using the 'kb_yield_curves' dataset.
 
    .. method:: standing_vol_yield_table_generater_method()
 
@@ -75,11 +75,11 @@ Classes
    .. py:method:: yield_table_generater_method3()
       :classmethod:
 
-      Generates a yield table.
+      Generates a yield table using the third method.
 
       This method directly uses the 'kb_yield_curves' dataset to provide yield data for various species across different years.
 
-      :returns: A pandas DataFrame containing the yield data as per the kb_yield_curves dataset.
+      :returns: A pandas DataFrame containing the yield data as per the 'kb_yield_curves' dataset.
       :rtype: DataFrame
 
 
@@ -90,7 +90,7 @@ Classes
 
       This method directly uses the 'kb_standing_volume_curves' dataset to provide data for various species across different years.
 
-      :returns: A pandas DataFrame containing the standing volume data as per the kb_standing_volume_curves dataset.
+      :returns: A pandas DataFrame containing the standing volume data as per the 'kb_standing_volume_curves' dataset.
       :rtype: DataFrame
 
 

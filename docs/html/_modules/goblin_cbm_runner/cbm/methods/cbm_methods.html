@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_cbm_runner.cbm.methods.cbm_methods &mdash; goblin_cbm_runner 0.4.2 documentation</title>
+  <title>goblin_cbm_runner.cbm.methods.cbm_methods &mdash; goblin_cbm_runner 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -16,7 +16,7 @@
   
         <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../_static/documentation_options.js?v=ff822928"></script>
+        <script src="../../../../_static/documentation_options.js?v=1dd76d02"></script>
         <script src="../../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -90,10 +90,8 @@
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">goblin_cbm_runner.resource_manager.cbm_pools</span> <span class="kn">import</span> <span class="n">Pools</span>
 <span class="kn">from</span> <span class="nn">goblin_cbm_runner.resource_manager.flux_manager</span> <span class="kn">import</span> <span class="n">FluxManager</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
 <span class="kn">from</span> <span class="nn">libcbm.storage.dataframe</span> <span class="kn">import</span> <span class="n">DataFrame</span>
 <span class="kn">from</span> <span class="nn">libcbm.model.cbm.cbm_variables</span> <span class="kn">import</span> <span class="n">CBMVariables</span>
-<span class="kn">from</span> <span class="nn">libcbm.model.cbm.cbm_model</span> <span class="kn">import</span> <span class="n">CBM</span>
 <span class="kn">from</span> <span class="nn">libcbm.input.sit.sit</span> <span class="kn">import</span> <span class="n">SIT</span>
 <span class="kn">from</span> <span class="nn">goblin_cbm_runner.cbm_validation.validation</span> <span class="kn">import</span> <span class="n">ValidationData</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -155,11 +153,60 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">deadwood</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pools</span><span class="o">.</span><span class="n">get_deadwood_pools</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">litter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pools</span><span class="o">.</span><span class="n">get_litter_pools</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">soil</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pools</span><span class="o">.</span><span class="n">get_soil_organic_matter_pools</span><span class="p">()</span>
+        
+
+<div class="viewcode-block" id="CBMSim.get_scenario_afforestation_rates">
+<a class="viewcode-back" href="../../../../autoapi/goblin_cbm_runner/cbm/methods/cbm_methods/index.html#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.get_scenario_afforestation_rates">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_scenario_afforestation_rates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">scenario</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves afforestation rates for a given scenario.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            scenario (str): Scenario identifier.</span>
+<span class="sd">            path (str): Base directory path.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pd.DataFrame: Afforestation data including species, yield class, soil, and area.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">scenario</span><span class="p">),</span> <span class="s2">&quot;disturbance_events.csv&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Ensure the file exists before reading</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;❌ ERROR: File not found at </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Load CSV</span>
+        <span class="n">disturbances</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+
+        <span class="c1"># Ensure required columns exist</span>
+        <span class="n">required_columns</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;DistTypeID&quot;</span><span class="p">,</span> <span class="s2">&quot;Classifier1&quot;</span><span class="p">,</span> <span class="s2">&quot;Classifier3&quot;</span><span class="p">,</span> <span class="s2">&quot;Classifier4&quot;</span><span class="p">,</span> <span class="s2">&quot;Amount&quot;</span><span class="p">,</span> <span class="s2">&quot;Year&quot;</span><span class="p">}</span>
+        <span class="n">missing_cols</span> <span class="o">=</span> <span class="n">required_columns</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">disturbances</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">missing_cols</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;❌ ERROR: Missing required columns in CSV: </span><span class="si">{</span><span class="n">missing_cols</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Filter for afforestation events</span>
+        <span class="n">afforestation</span> <span class="o">=</span> <span class="n">disturbances</span><span class="p">[</span><span class="n">disturbances</span><span class="p">[</span><span class="s2">&quot;DistTypeID&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;DISTID4&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="c1"># Convert Amount column to numeric and fill NaNs with 0</span>
+        <span class="n">afforestation</span><span class="p">[</span><span class="s2">&quot;Amount&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">afforestation</span><span class="p">[</span><span class="s2">&quot;Amount&quot;</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;coerce&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># Construct the output DataFrame</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;scenario&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">scenario</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">afforestation</span><span class="p">),</span>  <span class="c1"># Ensure correct broadcasting</span>
+            <span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="n">afforestation</span><span class="p">[</span><span class="s2">&quot;Year&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;species&quot;</span><span class="p">:</span> <span class="n">afforestation</span><span class="p">[</span><span class="s2">&quot;Classifier1&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;yield_class&quot;</span><span class="p">:</span> <span class="n">afforestation</span><span class="p">[</span><span class="s2">&quot;Classifier4&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;soil&quot;</span><span class="p">:</span> <span class="n">afforestation</span><span class="p">[</span><span class="s2">&quot;Classifier3&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;afforestation_area&quot;</span><span class="p">:</span> <span class="n">afforestation</span><span class="p">[</span><span class="s2">&quot;Amount&quot;</span><span class="p">]</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="CBMSim.cbm_baseline_forest_stock">
-<a class="viewcode-back" href="../../../../autoapi/goblin_cbm_runner/cbm/methods/cbm_methods/index.html#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_baseline_forest_stock">[docs]</a>
-    <span class="k">def</span> <span class="nf">cbm_baseline_forest_stock</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cbm_data_class</span><span class="p">,</span> <span class="n">years</span><span class="p">,</span> <span class="n">year_range</span><span class="p">,</span> <span class="n">input_path</span><span class="p">,</span> <span class="n">database_path</span><span class="p">):</span>
+
+<div class="viewcode-block" id="CBMSim.cbm_FM_forest_stock">
+<a class="viewcode-back" href="../../../../autoapi/goblin_cbm_runner/cbm/methods/cbm_methods/index.html#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_FM_forest_stock">[docs]</a>
+    <span class="k">def</span> <span class="nf">cbm_FM_forest_stock</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cbm_data_class</span><span class="p">,</span> <span class="n">years</span><span class="p">,</span> <span class="n">year_range</span><span class="p">,</span> <span class="n">input_path</span><span class="p">,</span> <span class="n">database_path</span><span class="p">):</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Runs a baseline forest simulation using the CBM model.</span>
 
@@ -237,6 +284,11 @@
 <span class="sd">            pandas.DataFrame: DataFrame containing the calculated stocks.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
+        <span class="k">if</span> <span class="n">sc</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;🚀 Starting AF Simulation...&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;🚀 Starting Scenario </span><span class="si">{</span><span class="n">sc</span><span class="si">}</span><span class="s2"> Simulation...&quot;</span><span class="p">)</span>
+
         <span class="n">sit</span><span class="p">,</span> <span class="n">classifiers</span><span class="p">,</span> <span class="n">inventory</span> <span class="o">=</span> <span class="n">cbm_data_class</span><span class="o">.</span><span class="n">set_input_data_dir</span><span class="p">(</span><span class="n">sc</span><span class="p">,</span> <span class="n">input_path</span><span class="p">,</span> <span class="n">db_path</span><span class="o">=</span><span class="n">database_path</span><span class="p">)</span>
 
         <span class="n">cbm_output</span> <span class="o">=</span> <span class="n">CBMOutput</span><span class="p">(</span>
@@ -287,6 +339,12 @@
 
         <span class="n">annual_carbon_stocks</span><span class="p">[</span><span class="s2">&quot;Year&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">year_range</span>
         <span class="n">annual_carbon_stocks</span><span class="p">[</span><span class="s2">&quot;Scenario&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sc</span>
+
+        <span class="k">if</span> <span class="n">sc</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✅ AF Simulation Complete.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✅ Scenario </span><span class="si">{</span><span class="n">sc</span><span class="si">}</span><span class="s2"> Simulation Complete.&quot;</span><span class="p">)</span>
+
 
         <span class="k">return</span> <span class="n">annual_carbon_stocks</span></div>
 
@@ -474,9 +532,9 @@
         
 
 
-<div class="viewcode-block" id="CBMSim.baseline_simulate_stock">
-<a class="viewcode-back" href="../../../../autoapi/goblin_cbm_runner/cbm/methods/cbm_methods/index.html#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.baseline_simulate_stock">[docs]</a>
-    <span class="k">def</span> <span class="nf">baseline_simulate_stock</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cbm_data_class</span><span class="p">,</span> <span class="n">years</span><span class="p">,</span> <span class="n">year_range</span><span class="p">,</span> <span class="n">input_path</span><span class="p">,</span> <span class="n">database_path</span><span class="p">):</span>
+<div class="viewcode-block" id="CBMSim.FM_simulate_stock">
+<a class="viewcode-back" href="../../../../autoapi/goblin_cbm_runner/cbm/methods/cbm_methods/index.html#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.FM_simulate_stock">[docs]</a>
+    <span class="k">def</span> <span class="nf">FM_simulate_stock</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cbm_data_class</span><span class="p">,</span> <span class="n">years</span><span class="p">,</span> <span class="n">year_range</span><span class="p">,</span> <span class="n">input_path</span><span class="p">,</span> <span class="n">database_path</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Runs a baseline (managed) forest simulation using the CBM model.</span>
 
@@ -490,6 +548,10 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            pandas.DataFrame: DataFrame containing the calculated managed forest stocks.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;🚀 Starting FM Simulation...&quot;</span><span class="p">)</span>
+
+
         <span class="n">spinup_sit</span><span class="p">,</span> <span class="n">classifiers</span><span class="p">,</span> <span class="n">inventory</span> <span class="o">=</span> <span class="n">cbm_data_class</span><span class="o">.</span><span class="n">set_spinup_baseline_input_data_dir</span><span class="p">(</span>
             <span class="n">input_path</span><span class="p">,</span> <span class="n">database_path</span>
         <span class="p">)</span>
@@ -538,13 +600,15 @@
 
         <span class="n">annual_carbon_stocks</span><span class="p">[</span><span class="s2">&quot;Year&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">year_range</span>
 
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✅ FM Simulation Complete.&quot;</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="n">annual_carbon_stocks</span></div>
 
     
 
-<div class="viewcode-block" id="CBMSim.baseline_simulate_stock_raw_output">
-<a class="viewcode-back" href="../../../../autoapi/goblin_cbm_runner/cbm/methods/cbm_methods/index.html#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.baseline_simulate_stock_raw_output">[docs]</a>
-    <span class="k">def</span> <span class="nf">baseline_simulate_stock_raw_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cbm_data_class</span><span class="p">,</span> <span class="n">years</span><span class="p">,</span> <span class="n">year_range</span><span class="p">,</span> <span class="n">input_path</span><span class="p">,</span> <span class="n">database_path</span><span class="p">):</span>
+<div class="viewcode-block" id="CBMSim.FM_simulate_stock_raw_output">
+<a class="viewcode-back" href="../../../../autoapi/goblin_cbm_runner/cbm/methods/cbm_methods/index.html#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.FM_simulate_stock_raw_output">[docs]</a>
+    <span class="k">def</span> <span class="nf">FM_simulate_stock_raw_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cbm_data_class</span><span class="p">,</span> <span class="n">years</span><span class="p">,</span> <span class="n">year_range</span><span class="p">,</span> <span class="n">input_path</span><span class="p">,</span> <span class="n">database_path</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Runs a baseline (managed) forest simulation using the CBM model.</span>
 
@@ -886,9 +950,9 @@
 
     
 
-<div class="viewcode-block" id="CBMSim.cbm_baseline_summary_fluxes">
-<a class="viewcode-back" href="../../../../autoapi/goblin_cbm_runner/cbm/methods/cbm_methods/index.html#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_baseline_summary_fluxes">[docs]</a>
-    <span class="k">def</span> <span class="nf">cbm_baseline_summary_fluxes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">forest_data</span><span class="p">):</span>
+<div class="viewcode-block" id="CBMSim.cbm_FM_summary_fluxes">
+<a class="viewcode-back" href="../../../../autoapi/goblin_cbm_runner/cbm/methods/cbm_methods/index.html#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_FM_summary_fluxes">[docs]</a>
+    <span class="k">def</span> <span class="nf">cbm_FM_summary_fluxes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">forest_data</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the carbon fluxes for baseline managed forest in the given forest data.</span>
 

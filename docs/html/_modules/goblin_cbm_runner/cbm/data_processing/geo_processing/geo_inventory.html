@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_cbm_runner.cbm.data_processing.geo_processing.geo_inventory &mdash; goblin_cbm_runner 0.4.2 documentation</title>
+  <title>goblin_cbm_runner.cbm.data_processing.geo_processing.geo_inventory &mdash; goblin_cbm_runner 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -16,7 +16,7 @@
   
         <script src="../../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../../_static/documentation_options.js?v=ff822928"></script>
+        <script src="../../../../../_static/documentation_options.js?v=1dd76d02"></script>
         <script src="../../../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/js/theme.js"></script>
@@ -89,7 +89,6 @@
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">itertools</span>
 <span class="kn">from</span> <span class="nn">goblin_cbm_runner.resource_manager.loader</span> <span class="kn">import</span> <span class="n">Loader</span>
-<span class="kn">from</span> <span class="nn">goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager</span> <span class="kn">import</span> <span class="n">GeoDataManager</span>
 <span class="kn">from</span> <span class="nn">goblin_cbm_runner.resource_manager.scenario_data_fetcher</span> <span class="kn">import</span> <span class="n">ScenarioDataFetcher</span>
 <span class="kn">from</span> <span class="nn">goblin_cbm_runner.cbm.data_processing.geo_processing.catchment_forest_cover</span> <span class="kn">import</span> <span class="n">CatchmentForest</span>
 
@@ -121,7 +120,7 @@
 <span class="sd">        make_inventory_structure(scenario, path, ID=&quot;False&quot;, delay=0, UNFCCCLC=2):</span>
 <span class="sd">            Constructs the inventory data structure for a given scenario, incorporating essential parameters like ID flags, delay years, and land class codes.</span>
 <span class="sd">        </span>
-<span class="sd">        fill_baseline_inventory(scenario, inventory_df, forest_type, species, soil, yield_class, ageID):</span>
+<span class="sd">        fill_baseline_inventory(inventory_df, forest_type, species, soil, yield_class, ageID):</span>
 <span class="sd">            Populates the baseline inventory DataFrame with data specific to legacy forests, accounting for forest type, species, soil composition, yield class, and age.</span>
 <span class="sd">        </span>
 <span class="sd">        inventory_iterator(scenario, inventory_df):</span>
@@ -145,30 +144,30 @@
 <span class="sd">        afforestation_annual_dict(afforestation_df):</span>
 <span class="sd">            Transforms annual afforestation data into a dictionary format, facilitating easy access and manipulation within simulations.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calibration_year</span><span class="p">,</span> <span class="n">config_path</span><span class="p">,</span> <span class="n">scenario_data</span><span class="p">,</span> <span class="n">afforestation_data</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geo_data_manager</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span> <span class="o">=</span> <span class="n">geo_data_manager</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">catchment_forest</span> <span class="o">=</span> <span class="n">CatchmentForest</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sc_fetcher</span> <span class="o">=</span> <span class="n">ScenarioDataFetcher</span><span class="p">(</span><span class="n">scenario_data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sc_fetcher</span> <span class="o">=</span> <span class="n">ScenarioDataFetcher</span><span class="p">(</span><span class="n">geo_data_manager</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">catchment</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sc_fetcher</span><span class="o">.</span><span class="n">get_catchment_name</span><span class="p">()</span>  
         <span class="bp">self</span><span class="o">.</span><span class="n">loader_class</span> <span class="o">=</span> <span class="n">Loader</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span> <span class="o">=</span> <span class="n">GeoDataManager</span><span class="p">(</span><span class="n">calibration_year</span><span class="o">=</span><span class="n">calibration_year</span><span class="p">,</span> <span class="n">config_file</span><span class="o">=</span><span class="n">config_path</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">afforestation_data</span> <span class="o">=</span> <span class="n">afforestation_data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">afforestation_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_afforestation_data</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">age_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loader_class</span><span class="o">.</span><span class="n">forest_age_structure</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">baseline_forest_classifiers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_classifiers</span><span class="p">()[</span>
-            <span class="s2">&quot;Baseline&quot;</span>
-        <span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">scenario_forest_classifiers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_classifiers</span><span class="p">()[</span>
-            <span class="s2">&quot;Scenario&quot;</span>
-        <span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">legacy_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_forest_baseline_year</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">baseline_forest_classifiers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_classifiers</span><span class="p">()[</span><span class="s2">&quot;Baseline&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scenario_forest_classifiers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_classifiers</span><span class="p">()[</span><span class="s2">&quot;Scenario&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">legacy_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_calibration_year</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">soils_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_soils_dict</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">yield_baseline_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_yield_baseline_dict</span><span class="p">()</span>
-
 
 <div class="viewcode-block" id="Inventory.legacy_forest_inventory">
 <a class="viewcode-back" href="../../../../../autoapi/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_inventory/index.html#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_inventory.Inventory.legacy_forest_inventory">[docs]</a>
     <span class="k">def</span> <span class="nf">legacy_forest_inventory</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">forest_cover</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">catchment_forest</span><span class="o">.</span><span class="n">get_catchment_forest</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">catchment</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves and structures legacy forest inventory data, providing a foundation for baseline scenario simulations.</span>
 
+<span class="sd">        Returns:</span>
+<span class="sd">            DataFrame: The structured legacy forest inventory data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">forest_cover</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">catchment_forest</span><span class="o">.</span><span class="n">get_catchment_forest</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">catchment</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">forest_cover</span></div>
 
 
@@ -279,7 +278,6 @@
 <a class="viewcode-back" href="../../../../../autoapi/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_inventory/index.html#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_inventory.Inventory.fill_baseline_inventory">[docs]</a>
     <span class="k">def</span> <span class="nf">fill_baseline_inventory</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">scenario</span><span class="p">,</span>
         <span class="n">inventory_df</span><span class="p">,</span>
         <span class="n">forest_type</span><span class="p">,</span>
         <span class="n">species</span><span class="p">,</span>
@@ -291,7 +289,6 @@
 <span class="sd">        Fills the baseline inventory dataframe with calculated values based on the given parameters.</span>
 
 <span class="sd">        Parameters:</span>
-<span class="sd">            scenario (str): The scenario for the inventory.</span>
 <span class="sd">            inventory_df (pandas.DataFrame): The baseline inventory dataframe to be filled.</span>
 <span class="sd">            forest_type (str): The forest type (L, A).</span>
 <span class="sd">            species (str): The species of the forest.</span>
@@ -373,7 +370,6 @@
 
         <span class="k">for</span> <span class="n">AgeID</span><span class="p">,</span> <span class="n">species</span><span class="p">,</span> <span class="n">forest</span><span class="p">,</span> <span class="n">soil</span><span class="p">,</span> <span class="n">yield_class</span> <span class="ow">in</span> <span class="n">combinations</span><span class="p">:</span>
             <span class="n">inventory_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fill_baseline_inventory</span><span class="p">(</span>
-                <span class="n">scenario</span><span class="p">,</span>
                 <span class="n">inventory_df</span><span class="p">,</span>
                 <span class="n">forest</span><span class="p">,</span>
                 <span class="n">species</span><span class="p">,</span>
@@ -395,7 +391,7 @@
 <span class="sd">        Calculate the afforestation inventory based on the given scenario and inventory dataframe.</span>
 
 <span class="sd">        Parameters:</span>
-<span class="sd">            scenario (str): The scenario for which the afforestation inventory is calculated.</span>
+<span class="sd">            scenario: The scenario for which the afforestation inventory is calculated.</span>
 <span class="sd">            inventory_df (pd.DataFrame): The inventory dataframe containing the classifier information.</span>
 
 <span class="sd">        Returns:</span>
@@ -411,7 +407,7 @@
 
         <span class="n">scenario_afforestation_areas</span> <span class="o">=</span> <span class="n">afforestation_areas</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
 
-        <span class="n">mineral_areas_dicts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenario_afforesation_dict</span><span class="p">(</span><span class="n">scenario_afforestation_areas</span><span class="p">)</span>
+        <span class="n">mineral_areas_dicts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenario_afforestation_dict</span><span class="p">(</span><span class="n">scenario_afforestation_areas</span><span class="p">)</span>
 
 
         <span class="n">non_forest_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_non_forest_dict</span><span class="p">()</span>
@@ -442,9 +438,9 @@
 
 
 
-<div class="viewcode-block" id="Inventory.scenario_afforesation_dict">
-<a class="viewcode-back" href="../../../../../autoapi/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_inventory/index.html#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_inventory.Inventory.scenario_afforesation_dict">[docs]</a>
-    <span class="k">def</span> <span class="nf">scenario_afforesation_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scenario_afforestation_areas</span><span class="p">):</span>
+<div class="viewcode-block" id="Inventory.scenario_afforestation_dict">
+<a class="viewcode-back" href="../../../../../autoapi/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_inventory/index.html#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_inventory.Inventory.scenario_afforestation_dict">[docs]</a>
+    <span class="k">def</span> <span class="nf">scenario_afforestation_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scenario_afforestation_areas</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the areas of afforestation for each yield class and species based on the scenario afforestation areas.</span>
 

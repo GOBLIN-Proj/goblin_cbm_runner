@@ -12,10 +12,8 @@ from libcbm.storage.backends import BackendType
 import pandas as pd
 from goblin_cbm_runner.resource_manager.cbm_pools import Pools
 from goblin_cbm_runner.resource_manager.flux_manager import FluxManager
-from typing import Callable
 from libcbm.storage.dataframe import DataFrame
 from libcbm.model.cbm.cbm_variables import CBMVariables
-from libcbm.model.cbm.cbm_model import CBM
 from libcbm.input.sit.sit import SIT
 from goblin_cbm_runner.cbm_validation.validation import ValidationData
 import os
@@ -75,9 +73,55 @@ class CBMSim:
         self.deadwood = self.pools.get_deadwood_pools()
         self.litter = self.pools.get_litter_pools()
         self.soil = self.pools.get_soil_organic_matter_pools()
+        
+
+    def get_scenario_afforestation_rates(self,scenario, path):
+
+        """
+        Retrieves afforestation rates for a given scenario.
+
+        Args:
+            scenario (str): Scenario identifier.
+            path (str): Base directory path.
+
+        Returns:
+            pd.DataFrame: Afforestation data including species, yield class, soil, and area.
+        """
+        file_path = os.path.join(path, str(scenario), "disturbance_events.csv")
+
+        # Ensure the file exists before reading
+        if not os.path.exists(file_path):
+            raise FileNotFoundError(f"❌ ERROR: File not found at {file_path}")
+
+        # Load CSV
+        disturbances = pd.read_csv(file_path)
+
+        # Ensure required columns exist
+        required_columns = {"DistTypeID", "Classifier1", "Classifier3", "Classifier4", "Amount", "Year"}
+        missing_cols = required_columns - set(disturbances.columns)
+        if missing_cols:
+            raise ValueError(f"❌ ERROR: Missing required columns in CSV: {missing_cols}")
+
+        # Filter for afforestation events
+        afforestation = disturbances[disturbances["DistTypeID"] == "DISTID4"].copy()
+
+        # Convert Amount column to numeric and fill NaNs with 0
+        afforestation["Amount"] = pd.to_numeric(afforestation["Amount"], errors="coerce").fillna(0)
+
+        # Construct the output DataFrame
+        data = {
+            "scenario": [scenario] * len(afforestation),  # Ensure correct broadcasting
+            "year": afforestation["Year"],
+            "species": afforestation["Classifier1"],
+            "yield_class": afforestation["Classifier4"],
+            "soil": afforestation["Classifier3"],
+            "afforestation_area": afforestation["Amount"]
+        }
+
+        return pd.DataFrame(data)
 
 
-    def cbm_baseline_forest_stock(self, cbm_data_class, years, year_range, input_path, database_path):
+    def cbm_FM_forest_stock(self, cbm_data_class, years, year_range, input_path, database_path):
             """
             Runs a baseline forest simulation using the CBM model.
 
@@ -152,6 +196,11 @@ class CBMSim:
             pandas.DataFrame: DataFrame containing the calculated stocks.
         """
 
+        if sc < 0:
+            print(f"🚀 Starting AF Simulation...")
+        else:
+            print(f"🚀 Starting Scenario {sc} Simulation...")
+
         sit, classifiers, inventory = cbm_data_class.set_input_data_dir(sc, input_path, db_path=database_path)
 
         cbm_output = CBMOutput(
@@ -202,6 +251,12 @@ class CBMSim:
 
         annual_carbon_stocks["Year"] = year_range
         annual_carbon_stocks["Scenario"] = sc
+
+        if sc < 0:
+            print(f"✅ AF Simulation Complete.")
+        else:
+            print(f"✅ Scenario {sc} Simulation Complete.")
+
 
         return annual_carbon_stocks
     
@@ -376,7 +431,7 @@ class CBMSim:
         
 
 
-    def baseline_simulate_stock(self, cbm_data_class, years, year_range, input_path, database_path):
+    def FM_simulate_stock(self, cbm_data_class, years, year_range, input_path, database_path):
         """
         Runs a baseline (managed) forest simulation using the CBM model.
 
@@ -390,6 +445,10 @@ class CBMSim:
         Returns:
             pandas.DataFrame: DataFrame containing the calculated managed forest stocks.
         """
+
+        print(f"🚀 Starting FM Simulation...")
+
+
         spinup_sit, classifiers, inventory = cbm_data_class.set_spinup_baseline_input_data_dir(
             input_path, database_path
         )
@@ -438,10 +497,12 @@ class CBMSim:
 
         annual_carbon_stocks["Year"] = year_range
 
+        print(f"✅ FM Simulation Complete.")
+
         return annual_carbon_stocks
     
 
-    def baseline_simulate_stock_raw_output(self, cbm_data_class, years, year_range, input_path, database_path):
+    def FM_simulate_stock_raw_output(self, cbm_data_class, years, year_range, input_path, database_path):
         """
         Runs a baseline (managed) forest simulation using the CBM model.
 
@@ -770,7 +831,7 @@ class CBMSim:
         return fluxes
     
 
-    def cbm_baseline_summary_fluxes(self, forest_data):
+    def cbm_FM_summary_fluxes(self, forest_data):
         """
         Calculate the carbon fluxes for baseline managed forest in the given forest data.
 

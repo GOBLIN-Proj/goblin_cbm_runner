@@ -1,4 +1,5 @@
 from goblin_cbm_runner.default_runner.runner import Runner
+from goblin_cbm_runner.resource_manager.cbm_runner_data_manager import DataManager
 import pandas as pd
 import os
 
@@ -13,8 +14,6 @@ def main():
         os.path.join(path, "cbm_afforestation.csv"), index_col=0
     )
 
-    print(afforest_data)
-
     # basic configuration file
     config = os.path.join(path, "cbm_factory.yaml")
 
@@ -24,11 +23,17 @@ def main():
     # calibration and end point
     calibration_year = 2020
 
+    # instance of the DataManager class
+    data_manager = DataManager(calibration_year = calibration_year,
+                            config_file_path=config,
+                            scenario_data=sc_data,
+                            afforest_data=afforest_data)
+    
     # instance of the Runner class
-    runner = Runner(config, calibration_year, afforest_data, sc_data)
+    runner = Runner(data_manager)
 
-    # generation of data for each of the scenarios
-    #runner.generate_input_data()
+    # afforeation data
+    runner.get_afforestation_dataframe().to_csv(os.path.join(results_path, "c_afforestation.csv"))
 
     # generation of aggregated results
     runner.run_aggregate_scenarios().to_csv(os.path.join(results_path, "c_aggregate.csv"))

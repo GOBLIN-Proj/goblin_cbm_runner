@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils &mdash; goblin_cbm_runner 0.4.2 documentation</title>
+  <title>goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils &mdash; goblin_cbm_runner 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../../../_static/documentation_options.js?v=ff822928"></script>
+        <script src="../../../../../../_static/documentation_options.js?v=1dd76d02"></script>
         <script src="../../../../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../../_static/js/theme.js"></script>
@@ -103,7 +103,109 @@
   <section id="module-goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils">
 <span id="goblin-cbm-runner-cbm-data-processing-geo-processing-geo-disturbance-utils"></span><h1><a class="reference internal" href="#module-goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils" title="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils</span></code></a><a class="headerlink" href="#module-goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils" title="Link to this heading"></a></h1>
 <section id="geo-disturbance-utils">
-<p>This module contains the GeoDisturbUtils class, which is used to process disturbance data for the CBM model.</p>
+<p>This module contains the GeoDisturbUtils class, which is used to process disturbance data for the CBM model.
+It provides methods to create disturbance data structures, process scenario harvest data, drop zero area rows,
+generate classifier combinations, handle afforestation scenarios, and update disturbance timing.</p>
+<dl class="simple">
+<dt>Classes:</dt><dd><p>GeoDisturbUtils: A utility class for processing disturbance data.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.disturbance_structure">
+<span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.</span></span><span class="sig-name descname"><span class="pre">disturbance_structure</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.disturbance_structure" title="Link to this definition"></a></dt>
+<dd><p>Creates a dataframe structure for disturbances.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils._process_scenario_harvest_data">
+<span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.</span></span><span class="sig-name descname"><span class="pre">_process_scenario_harvest_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils._process_scenario_harvest_data" title="Link to this definition"></a></dt>
+<dd><p>Processes the harvest data for a scenario.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils._drop_zero_area_rows">
+<span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.</span></span><span class="sig-name descname"><span class="pre">_drop_zero_area_rows</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils._drop_zero_area_rows" title="Link to this definition"></a></dt>
+<dd><p>Drops rows from the disturbance dataframe where the ‘Amount’ column is zero.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils._get_legacy_classifier_combinations">
+<span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.</span></span><span class="sig-name descname"><span class="pre">_get_legacy_classifier_combinations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils._get_legacy_classifier_combinations" title="Link to this definition"></a></dt>
+<dd><p>Returns all possible combinations of forest keys, soil keys, and yield keys.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils._get_scenario_classifier_combinations">
+<span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.</span></span><span class="sig-name descname"><span class="pre">_get_scenario_classifier_combinations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils._get_scenario_classifier_combinations" title="Link to this definition"></a></dt>
+<dd><p>Generates combinations of scenario, forest, soil, and yield classifiers.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils._get_classifier_combinations">
+<span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.</span></span><span class="sig-name descname"><span class="pre">_get_classifier_combinations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils._get_classifier_combinations" title="Link to this definition"></a></dt>
+<dd><p>Generates all possible combinations of forest types, soil classes, and yield classes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils._get_static_defaults">
+<span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.</span></span><span class="sig-name descname"><span class="pre">_get_static_defaults</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils._get_static_defaults" title="Link to this definition"></a></dt>
+<dd><p>Gets the default values for static disturbance columns.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils._generate_row">
+<span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.</span></span><span class="sig-name descname"><span class="pre">_generate_row</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils._generate_row" title="Link to this definition"></a></dt>
+<dd><p>Generates a row of data for a disturbance event.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils._process_scenario_row_data">
+<span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.</span></span><span class="sig-name descname"><span class="pre">_process_scenario_row_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils._process_scenario_row_data" title="Link to this definition"></a></dt>
+<dd><p>Processes the row data for a scenario based on the given context and dataframes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils._handle_legacy_scenario_forest">
+<span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.</span></span><span class="sig-name descname"><span class="pre">_handle_legacy_scenario_forest</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils._handle_legacy_scenario_forest" title="Link to this definition"></a></dt>
+<dd><p>Handles the legacy scenario forest by updating the disturbance timing and setting the amount based on the area.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils._handle_scenario_afforestation">
+<span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.</span></span><span class="sig-name descname"><span class="pre">_handle_scenario_afforestation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils._handle_scenario_afforestation" title="Link to this definition"></a></dt>
+<dd><p>Handles the scenario of afforestation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils._update_disturbance_timing">
+<span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.</span></span><span class="sig-name descname"><span class="pre">_update_disturbance_timing</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils._update_disturbance_timing" title="Link to this definition"></a></dt>
+<dd><p>Retrieves disturbance timing information from the disturbance_timing DataFrame.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.get_legacy_forest_area_breakdown">
+<span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.</span></span><span class="sig-name descname"><span class="pre">get_legacy_forest_area_breakdown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.get_legacy_forest_area_breakdown" title="Link to this definition"></a></dt>
+<dd><p>Calculates the breakdown of legacy forest area based on species, yield class, soil type, and age.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.legacy_disturbance_tracker">
+<span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.</span></span><span class="sig-name descname"><span class="pre">legacy_disturbance_tracker</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.legacy_disturbance_tracker" title="Link to this definition"></a></dt>
+<dd><p>Applies legacy disturbances to the forest and returns a disturbance dataframe.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.update_disturbance_row">
+<span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.</span></span><span class="sig-name descname"><span class="pre">update_disturbance_row</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.update_disturbance_row" title="Link to this definition"></a></dt>
+<dd><p>Updates a single row with the correct disturbance timing information.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.format_disturbance_data">
+<span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.</span></span><span class="sig-name descname"><span class="pre">format_disturbance_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.format_disturbance_data" title="Link to this definition"></a></dt>
+<dd><p>Formats the tracked disturbance data dynamically, ensuring all required columns exist and retrieving timing constraints from <cite>disturbance_timing</cite>.</p>
+</dd></dl>
+
 </section>
 <section id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
@@ -118,7 +220,7 @@
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.GeoDisturbUtils">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.</span></span><span class="sig-name descname"><span class="pre">GeoDisturbUtils</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibration_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forest_end_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_disturbance_utils.html#GeoDisturbUtils"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.GeoDisturbUtils" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.</span></span><span class="sig-name descname"><span class="pre">GeoDisturbUtils</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geo_data_manager</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_disturbance_utils.html#GeoDisturbUtils"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.GeoDisturbUtils" title="Link to this definition"></a></dt>
 <dd><dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.GeoDisturbUtils.disturbance_structure">
 <span class="sig-name descname"><span class="pre">disturbance_structure</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_disturbance_utils.html#GeoDisturbUtils.disturbance_structure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.GeoDisturbUtils.disturbance_structure" title="Link to this definition"></a></dt>
@@ -136,31 +238,13 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.GeoDisturbUtils._process_scenario_harvest_data">
 <span class="sig-name descname"><span class="pre">_process_scenario_harvest_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tracker</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">row_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_disturbance_utils.html#GeoDisturbUtils._process_scenario_harvest_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.GeoDisturbUtils._process_scenario_harvest_data" title="Link to this definition"></a></dt>
-<dd><p>Process the harvest data for a scenario.</p>
+<dd><p>Processes the harvest data for a scenario.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>tracker</strong> (<em>Tracker</em>) – The tracker object used to track forest changes.</p></li>
 <li><p><strong>row_data</strong> (<em>dict</em>) – The data for a single row.</p></li>
 <li><p><strong>context</strong> (<em>dict</em>) – The context containing additional information.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.GeoDisturbUtils._track_scenario_harvest">
-<span class="sig-name descname"><span class="pre">_track_scenario_harvest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tracker</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">row_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_disturbance_utils.html#GeoDisturbUtils._track_scenario_harvest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.GeoDisturbUtils._track_scenario_harvest" title="Link to this definition"></a></dt>
-<dd><p>Track the harvest scenario in the forest model.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>tracker</strong> (<em>Tracker</em>) – The tracker object used to track forest changes.</p></li>
-<li><p><strong>row_data</strong> (<em>dict</em>) – The data for the current row.</p></li>
-<li><p><strong>context</strong> (<em>dict</em>) – The context containing species, yield class, soil, year, harvest proportion, and age.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -191,25 +275,28 @@
 <span class="sig-name descname"><span class="pre">_get_legacy_classifier_combinations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_disturbance_utils.html#GeoDisturbUtils._get_legacy_classifier_combinations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.GeoDisturbUtils._get_legacy_classifier_combinations" title="Link to this definition"></a></dt>
 <dd><p>Returns all possible combinations of forest keys, soil keys, and yield keys.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>self</strong> (<em>Disturbances</em>) – The Disturbances object.</p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A generator that yields all possible combinations of forest keys, soil keys, and yield keys.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A generator that yields all possible combinations of forest keys, soil keys, and yield keys.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>combinations (generator)</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>combinations (generator)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.GeoDisturbUtils._get_scenario_classifier_combinations">
-<span class="sig-name descname"><span class="pre">_get_scenario_classifier_combinations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_disturbance_utils.html#GeoDisturbUtils._get_scenario_classifier_combinations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.GeoDisturbUtils._get_scenario_classifier_combinations" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">_get_scenario_classifier_combinations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">species</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_disturbance_utils.html#GeoDisturbUtils._get_scenario_classifier_combinations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.GeoDisturbUtils._get_scenario_classifier_combinations" title="Link to this definition"></a></dt>
 <dd><p>Generates combinations of scenario, forest, soil, and yield classifiers.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A generator that yields combinations of scenario, forest, soil, and yield classifiers.</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>species</strong> (<em>str</em>) – The species of the forest.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A generator that yields combinations of scenario, forest, soil, and yield classifiers.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>generator</p>
 </dd>
 </dl>
 </dd></dl>
@@ -219,8 +306,17 @@
 <span class="sig-name descname"><span class="pre">_get_classifier_combinations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">species</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disturbance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_disturbance_utils.html#GeoDisturbUtils._get_classifier_combinations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.GeoDisturbUtils._get_classifier_combinations" title="Link to this definition"></a></dt>
 <dd><p>Generates all possible combinations of forest types, soil classes, and yield classes.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A generator that yields tuples representing the combinations of forest types, soil classes, and yield classes.</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>species</strong> (<em>str</em>) – The species of the forest.</p></li>
+<li><p><strong>disturbance</strong> (<em>str</em><em>, </em><em>optional</em>) – The disturbance type ID.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A generator that yields tuples representing the combinations of forest types, soil classes, and yield classes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>generator</p>
 </dd>
 </dl>
 </dd></dl>
@@ -228,7 +324,7 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.GeoDisturbUtils._get_static_defaults">
 <span class="sig-name descname"><span class="pre">_get_static_defaults</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_disturbance_utils.html#GeoDisturbUtils._get_static_defaults"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.GeoDisturbUtils._get_static_defaults" title="Link to this definition"></a></dt>
-<dd><p>Get the default values for static disturbance columns.</p>
+<dd><p>Gets the default values for static disturbance columns.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A dictionary containing the default values for each static disturbance column.</p>
@@ -241,7 +337,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.GeoDisturbUtils._generate_row">
-<span class="sig-name descname"><span class="pre">_generate_row</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">species</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forest_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">soil</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yield_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_disturbance_utils.html#GeoDisturbUtils._generate_row"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.GeoDisturbUtils._generate_row" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">_generate_row</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">species</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forest_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">soil</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yield_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amount</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_disturbance_utils.html#GeoDisturbUtils._generate_row"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.GeoDisturbUtils._generate_row" title="Link to this definition"></a></dt>
 <dd><p>Generates a row of data for a disturbance event.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -252,6 +348,7 @@
 <li><p><strong>yield_class</strong> (<em>str</em>) – The yield class of the forest.</p></li>
 <li><p><strong>dist</strong> (<em>int</em>) – The disturbance type ID.</p></li>
 <li><p><strong>yr</strong> (<em>int</em>) – The year of the disturbance event.</p></li>
+<li><p><strong>amount</strong> (<em>float</em><em>, </em><em>optional</em>) – The amount of disturbance. Defaults to 0.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -266,7 +363,7 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.GeoDisturbUtils._process_scenario_row_data">
 <span class="sig-name descname"><span class="pre">_process_scenario_row_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataframes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_disturbance_utils.html#GeoDisturbUtils._process_scenario_row_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.GeoDisturbUtils._process_scenario_row_data" title="Link to this definition"></a></dt>
-<dd><p>Process the row data for a scenario based on the given context and dataframes.</p>
+<dd><p>Processes the row data for a scenario based on the given context and dataframes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -302,7 +399,7 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.GeoDisturbUtils._handle_scenario_afforestation">
 <span class="sig-name descname"><span class="pre">_handle_scenario_afforestation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataframes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_disturbance_utils.html#GeoDisturbUtils._handle_scenario_afforestation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.GeoDisturbUtils._handle_scenario_afforestation" title="Link to this definition"></a></dt>
-<dd><p>Handle the scenario of afforestation.</p>
+<dd><p>Handles the scenario of afforestation.</p>
 <p>This method calculates the amount of afforestation based on the given row data, context, and dataframes.
 It retrieves the afforestation inventory, non-forest dictionary, species, yield class, soil, and configuration classifiers from the context and dataframes.
 The amount of afforestation is calculated based on the afforestation value, yield class proportions, and classifier3 value.
@@ -320,7 +417,7 @@ If the classifier3 value does not match the soil value, the amount is set to 0.<
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.GeoDisturbUtils._update_disturbance_timing">
 <span class="sig-name descname"><span class="pre">_update_disturbance_timing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataframes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_disturbance_utils.html#GeoDisturbUtils._update_disturbance_timing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.GeoDisturbUtils._update_disturbance_timing" title="Link to this definition"></a></dt>
-<dd><p>Retrieve disturbance timing information from the disturbance_timing DataFrame.</p>
+<dd><p>Retrieves disturbance timing information from the disturbance_timing DataFrame.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -344,36 +441,79 @@ If the classifier3 value does not match the soil value, the amount is set to 0.<
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.GeoDisturbUtils.get_legacy_forest_area_breakdown">
 <span class="sig-name descname"><span class="pre">get_legacy_forest_area_breakdown</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inventory_class</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_disturbance_utils.html#GeoDisturbUtils.get_legacy_forest_area_breakdown"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.GeoDisturbUtils.get_legacy_forest_area_breakdown" title="Link to this definition"></a></dt>
-<dd><p>Calculate the breakdown of legacy forest area based on species, yield class, soil type, and age.</p>
+<dd><p>Calculates the breakdown of legacy forest area based on species, yield class, soil type, and age.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>DataFrame containing the breakdown of legacy forest area.</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>inventory_class</strong> (<em>str</em>) – The forest inventory class.</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>pandas.DataFrame</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame containing the breakdown of legacy forest area.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.GeoDisturbUtils.legacy_disturbance_tracker">
-<span class="sig-name descname"><span class="pre">legacy_disturbance_tracker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inventory_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tracker</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">years</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_disturbance_utils.html#GeoDisturbUtils.legacy_disturbance_tracker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.GeoDisturbUtils.legacy_disturbance_tracker" title="Link to this definition"></a></dt>
-<dd><p>Apply legacy disturbances to the forest tracker.</p>
+<span class="sig-name descname"><span class="pre">legacy_disturbance_tracker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inventory_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_disturbance_utils.html#GeoDisturbUtils.legacy_disturbance_tracker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.GeoDisturbUtils.legacy_disturbance_tracker" title="Link to this definition"></a></dt>
+<dd><p>Applies legacy disturbances to the forest and returns a disturbance dataframe.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>tracker</strong> (<em>object</em>) – The forest tracker object.</p></li>
-<li><p><strong>years</strong> (<em>list</em>) – List of years to apply disturbances.</p></li>
+<li><p><strong>inventory_class</strong> (<em>str</em>) – The forest inventory class.</p></li>
+<li><p><strong>year</strong> (<em>int</em>) – The year to apply disturbances.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+<dd class="field-even"><p>A dataframe containing disturbance events.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
 </dd>
 </dl>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Unlike the default runner, broadleaf disturnbance can be set.</p>
-</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.GeoDisturbUtils.update_disturbance_row">
+<span class="sig-name descname"><span class="pre">update_disturbance_row</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disturbance_timing_df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_disturbance_utils.html#GeoDisturbUtils.update_disturbance_row"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.GeoDisturbUtils.update_disturbance_row" title="Link to this definition"></a></dt>
+<dd><p>Updates a single row with the correct disturbance timing information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>row</strong> (<em>pandas.Series</em>) – A single row from the disturbance DataFrame.</p></li>
+<li><p><strong>disturbance_timing_df</strong> (<em>pandas.DataFrame</em>) – The disturbance timing reference.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The updated row.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.Series</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.GeoDisturbUtils.format_disturbance_data">
+<span class="sig-name descname"><span class="pre">format_disturbance_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">disturbance_df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disturbance_timing_df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_disturbance_utils.html#GeoDisturbUtils.format_disturbance_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils.GeoDisturbUtils.format_disturbance_data" title="Link to this definition"></a></dt>
+<dd><p>Formats the tracked disturbance data dynamically, ensuring all required columns exist
+and retrieving timing constraints from <cite>disturbance_timing</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>disturbance_df</strong> (<em>pandas.DataFrame</em>) – The raw disturbance data.</p></li>
+<li><p><strong>disturbance_timing_df</strong> (<em>pandas.DataFrame</em>) – The disturbance timing reference.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A formatted disturbance dataframe with correct age constraints.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>

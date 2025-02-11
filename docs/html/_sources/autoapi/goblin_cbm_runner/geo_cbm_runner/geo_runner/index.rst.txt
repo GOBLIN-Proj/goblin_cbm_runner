@@ -25,7 +25,7 @@ Classes
 
 
 
-.. py:class:: GeoRunner(config_path, calibration_year, afforest_data, scenario_data, sit_path=None)
+.. py:class:: GeoRunner(geo_data_manager)
 
 
    The Runner class orchestrates the execution of Carbon Budget Model (CBM) simulations
@@ -34,16 +34,8 @@ Classes
 
    This class manages input data preparation, CBM simulation setups, and the execution process, generating outputs like carbon stocks and fluxes for various scenarios.
 
-   :param config_path: Path to the CBM configuration file.
-   :type config_path: str
-   :param calibration_year: Calibration year for the simulations.
-   :type calibration_year: int
-   :param afforest_data: Data for afforestation scenarios.
-   :type afforest_data: AfforestData
-   :param scenario_data: Data for user-defined management scenarios.
-   :type scenario_data: ScenarioData
-   :param sit_path: Path to the SIT directory, optional.
-   :type sit_path: str
+   :param geo_data_manager: Instance of GeoDataManager for managing geo-specific data.
+   :type geo_data_manager: GeoDataManager
 
    .. attribute:: paths_class
 
@@ -51,15 +43,15 @@ Classes
 
       :type: Paths
 
-   .. attribute:: gen_validation
+   .. attribute:: sit_path
 
-      A boolean indicating whether to generate validation data.
+      Directory path for SIT data.
 
-      :type: bool
+      :type: str
 
-   .. attribute:: validation_path
+   .. attribute:: defaults_db
 
-      Directory path for validation data.
+      Path to the default database.
 
       :type: str
 
@@ -75,23 +67,11 @@ Classes
 
       :type: str
 
-   .. attribute:: cbm_data_class
+   .. attribute:: sc_fetcher
 
-      Instance of DataFactory for preparing CBM data.
+      Instance of ScenarioDataFetcher for fetching scenario data.
 
-      :type: DataFactory
-
-   .. attribute:: data_manager_class
-
-      Instance of DataManager for managing simulation data and configurations.
-
-      :type: DataManager
-
-   .. attribute:: INDEX
-
-      List of unique identifiers for each simulation scenario.
-
-      :type: list
+      :type: ScenarioDataFetcher
 
    .. attribute:: forest_end_year
 
@@ -99,17 +79,41 @@ Classes
 
       :type: int
 
-   .. attribute:: pools
+   .. attribute:: cbm_data_class
 
-      Instance of the Pools class for managing CBM carbon pools.
+      Instance of DataFactory for preparing CBM data.
 
-      :type: Pools
+      :type: DataFactory
 
-   .. attribute:: AGB, BGB, deadwood, litter, soil, flux_pools
+   .. attribute:: INDEX
 
-      Instances representing different carbon pool types used in CBM simulations.
+      List of unique identifiers for each simulation scenario.
 
-      :type: various
+      :type: list
+
+   .. attribute:: SIM_class
+
+      Instance of CBMSim for running CBM simulations.
+
+      :type: CBMSim
+
+   .. attribute:: baseline_years
+
+      List of baseline years for the simulations.
+
+      :type: list
+
+   .. attribute:: baseline_year_range
+
+      Range of baseline years for the simulations.
+
+      :type: list
+
+   .. attribute:: forest_baseline_dataframe
+
+      DataFrame containing forest baseline data.
+
+      :type: pd.DataFrame
 
    .. method:: generate_input_data()
 

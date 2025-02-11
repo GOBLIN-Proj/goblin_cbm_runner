@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory &mdash; goblin_cbm_runner 0.4.2 documentation</title>
+  <title>goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory &mdash; goblin_cbm_runner 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -16,7 +16,7 @@
   
         <script src="../../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../../_static/documentation_options.js?v=ff822928"></script>
+        <script src="../../../../../_static/documentation_options.js?v=1dd76d02"></script>
         <script src="../../../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/js/theme.js"></script>
@@ -85,14 +85,12 @@
 <span class="sd">This class serves as a central hub for preparing, organizing, and storing various types of input data crucial for CBM simulation accuracy and efficiency.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">shutil</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">itertools</span>
 
 <span class="kn">from</span> <span class="nn">goblin_cbm_runner.resource_manager.loader</span> <span class="kn">import</span> <span class="n">Loader</span>
-<span class="kn">from</span> <span class="nn">goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager</span> <span class="kn">import</span> <span class="n">GeoDataManager</span>
 <span class="kn">from</span> <span class="nn">goblin_cbm_runner.cbm.data_processing.geo_processing.geo_create_json</span> <span class="kn">import</span> <span class="n">CreateJSON</span>
 <span class="kn">from</span> <span class="nn">goblin_cbm_runner.cbm.data_processing.default_processing.yield_curves</span> <span class="kn">import</span> <span class="n">YieldCurves</span>
 <span class="kn">from</span> <span class="nn">goblin_cbm_runner.cbm.data_processing.geo_processing.geo_inventory</span> <span class="kn">import</span> <span class="n">Inventory</span>
@@ -121,24 +119,22 @@
 <span class="sd">    and transition rules tailored to specific simulation scenarios.</span>
 
 <span class="sd">    Parameters:</span>
-<span class="sd">    - config_path (str): Path to the simulation configuration file.</span>
-<span class="sd">    - calibration_year (int): Year from which the simulation data is calibrated.</span>
-<span class="sd">    - forest_end_year (int): Final year for the simulation period.</span>
-<span class="sd">    - afforestation_data (dict): Data detailing afforestation activities within the simulation scope.</span>
-<span class="sd">    - scenario_data (dict): Information defining various simulation scenarios.</span>
+<span class="sd">    - geo_data_manager (GeoDataManager): Instance responsible for managing geospatial data.</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">    - loader_class (Loader): Instance responsible for loading external resources or data.</span>
 <span class="sd">    - data_manager_class (GeoDataManager): Manages retrieval and organization of geospatial data.</span>
 <span class="sd">    - json_creator_class (CreateJSON): Constructs JSON files for CBM configuration.</span>
 <span class="sd">    - inventory_class (Inventory): Prepares inventory data for simulations.</span>
-<span class="sd">    - disturbance_class (Disturbances): Manages data related to forest disturbances.</span>
+<span class="sd">    - FM_disturbance_class (FMDisturbances): Manages data related to forest management disturbances.</span>
+<span class="sd">    - SC_disturbance_class (SCDisturbances): Manages data related to scenario-specific disturbances.</span>
 <span class="sd">    - transition_class (Transition): Handles transition rule data for forest change modeling.</span>
 <span class="sd">    - afforestation_data (dict): Stores afforestation data for use in simulations.</span>
 
 <span class="sd">    Methods:</span>
-<span class="sd">    - set_input_data_dir(sc, path): Configures the directory path for scenario-specific input data.</span>
-<span class="sd">    - set_baseline_input_data_dir(path): Establishes the directory path for baseline simulation input data.</span>
+<span class="sd">    - set_input_data_dir(sc, path, db_path): Configures the directory path for scenario-specific input data.</span>
+<span class="sd">    - set_baseline_input_data_dir(path, db_path): Establishes the directory path for baseline simulation input data.</span>
+<span class="sd">    - set_spinup_baseline_input_data_dir(path, db_path): Sets the input data directory for the baseline spinup, initializes the CBM simulation data.</span>
 <span class="sd">    - make_data_dirs(scenarios, path): Generates directories for each specified simulation scenario.</span>
 <span class="sd">    - clean_data_dir(path): Removes all data within a specified directory, preparing it for fresh data.</span>
 <span class="sd">    - clean_baseline_data_dir(path): Clears the baseline data directory of all files except essential ones.</span>
@@ -153,43 +149,26 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">config_path</span><span class="p">,</span>
-        <span class="n">calibration_year</span><span class="p">,</span>
-        <span class="n">forest_end_year</span><span class="p">,</span>
-        <span class="n">afforestation_data</span><span class="p">,</span>
-        <span class="n">scenario_data</span><span class="p">,</span>
+        <span class="n">geo_data_manager</span>
     <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">loader_class</span> <span class="o">=</span> <span class="n">Loader</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span> <span class="o">=</span> <span class="n">GeoDataManager</span><span class="p">(</span><span class="n">calibration_year</span><span class="o">=</span><span class="n">calibration_year</span><span class="p">,</span> <span class="n">config_file</span><span class="o">=</span><span class="n">config_path</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">json_creator_class</span> <span class="o">=</span> <span class="n">CreateJSON</span><span class="p">(</span><span class="n">config_path</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">inventory_class</span> <span class="o">=</span> <span class="n">Inventory</span><span class="p">(</span>
-            <span class="n">calibration_year</span><span class="p">,</span> <span class="n">config_path</span><span class="p">,</span> <span class="n">scenario_data</span><span class="p">,</span> <span class="n">afforestation_data</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">FM_disturbance_class</span> <span class="o">=</span> <span class="n">FMDisturbances</span><span class="p">(</span>
-            <span class="n">config_path</span><span class="p">,</span>
-            <span class="n">calibration_year</span><span class="p">,</span>
-            <span class="n">forest_end_year</span><span class="p">,</span>
-            <span class="n">afforestation_data</span><span class="p">,</span>
-            <span class="n">scenario_data</span><span class="p">,</span>
-        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span> <span class="o">=</span> <span class="n">geo_data_manager</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">json_creator_class</span> <span class="o">=</span> <span class="n">CreateJSON</span><span class="p">(</span><span class="n">geo_data_manager</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inventory_class</span> <span class="o">=</span> <span class="n">Inventory</span><span class="p">(</span><span class="n">geo_data_manager</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">FM_disturbance_class</span> <span class="o">=</span> <span class="n">FMDisturbances</span><span class="p">(</span><span class="n">geo_data_manager</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">SC_disturbance_class</span> <span class="o">=</span> <span class="n">SCDisturbances</span><span class="p">(</span>
-            <span class="n">config_path</span><span class="p">,</span>
-            <span class="n">calibration_year</span><span class="p">,</span>
-            <span class="n">forest_end_year</span><span class="p">,</span>
-            <span class="n">afforestation_data</span><span class="p">,</span>
-            <span class="n">scenario_data</span><span class="p">,</span>
-        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SC_disturbance_class</span> <span class="o">=</span> <span class="n">SCDisturbances</span><span class="p">(</span><span class="n">geo_data_manager</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">transition_class</span> <span class="o">=</span> <span class="n">Transition</span><span class="p">(</span><span class="n">calibration_year</span><span class="p">,</span> <span class="n">config_path</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">afforestation_data</span> <span class="o">=</span> <span class="n">afforestation_data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transition_class</span> <span class="o">=</span> <span class="n">Transition</span><span class="p">(</span><span class="n">geo_data_manager</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">afforestation_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_afforestation_data</span><span class="p">()</span>
 
 
     <span class="k">def</span> <span class="nf">set_input_data_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sc</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">db_path</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the input data directory for a scenario, initializes the CBM simulation data.</span>
 
-<span class="sd">        This methods loads the following using the CBM&#39;s Standard Import Tool (SIT):</span>
+<span class="sd">        This method loads the following using the CBM&#39;s Standard Import Tool (SIT):</span>
 <span class="sd">            * SIT configuration: Settings that govern how the CBM simulation runs </span>
 <span class="sd">            * Classifiers: Descriptions of forest stands (species, soil type, etc.)</span>
 <span class="sd">            * Inventory: Data on the initial forest composition.</span>
@@ -197,10 +176,11 @@
 <span class="sd">        Args:</span>
 <span class="sd">            sc (int): The scenario number.</span>
 <span class="sd">            path (str): The path to the input data directory.</span>
+<span class="sd">            db_path (str): The path to the database.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            tuple: A tuple containing the following:</span>
-<span class="sd">                * SIT object:  The loaded SIT configuration.</span>
+<span class="sd">                * SIT object: The loaded SIT configuration.</span>
 <span class="sd">                * classifiers (DataFrame): Classifiers for the forest stands.</span>
 <span class="sd">                * inventory (DataFrame): The forest inventory data.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -216,18 +196,18 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the input data directory for the baseline, initializes the CBM simulation data.</span>
 
-<span class="sd">        This methods loads the following using the CBM&#39;s Standard Import Tool (SIT):</span>
+<span class="sd">        This method loads the following using the CBM&#39;s Standard Import Tool (SIT):</span>
 <span class="sd">            * SIT configuration: Settings that govern how the CBM simulation runs </span>
 <span class="sd">            * Classifiers: Descriptions of forest stands (species, soil type, etc.)</span>
 <span class="sd">            * Inventory: Data on the initial forest composition.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            sc (int): The scenario number.</span>
 <span class="sd">            path (str): The path to the input data directory.</span>
+<span class="sd">            db_path (str): The path to the database.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            tuple: A tuple containing the following:</span>
-<span class="sd">                * SIT object:  The loaded SIT configuration.</span>
+<span class="sd">                * SIT object: The loaded SIT configuration.</span>
 <span class="sd">                * classifiers (DataFrame): Classifiers for the forest stands.</span>
 <span class="sd">                * inventory (DataFrame): The forest inventory data.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -243,20 +223,20 @@
 <a class="viewcode-back" href="../../../../../autoapi/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_cbm_data_factory/index.html#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory.DataFactory.set_spinup_baseline_input_data_dir">[docs]</a>
     <span class="k">def</span> <span class="nf">set_spinup_baseline_input_data_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">db_path</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Sets the input data directory for the baseline, initializes the CBM simulation data.</span>
+<span class="sd">        Sets the input data directory for the baseline spinup, initializes the CBM simulation data.</span>
 
-<span class="sd">        This methods loads the following using the CBM&#39;s Standard Import Tool (SIT):</span>
+<span class="sd">        This method loads the following using the CBM&#39;s Standard Import Tool (SIT):</span>
 <span class="sd">            * SIT configuration: Settings that govern how the CBM simulation runs </span>
 <span class="sd">            * Classifiers: Descriptions of forest stands (species, soil type, etc.)</span>
 <span class="sd">            * Inventory: Data on the initial forest composition.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            sc (int): The scenario number.</span>
 <span class="sd">            path (str): The path to the input data directory.</span>
+<span class="sd">            db_path (str): The path to the database.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            tuple: A tuple containing the following:</span>
-<span class="sd">                * SIT object:  The loaded SIT configuration.</span>
+<span class="sd">                * SIT object: The loaded SIT configuration.</span>
 <span class="sd">                * classifiers (DataFrame): Classifiers for the forest stands.</span>
 <span class="sd">                * inventory (DataFrame): The forest inventory data.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -276,7 +256,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the input data directory for a scenario, initializes the CBM simulation data.</span>
 
-<span class="sd">        This methods loads the following using the CBM&#39;s Standard Import Tool (SIT):</span>
+<span class="sd">        This method loads the following using the CBM&#39;s Standard Import Tool (SIT):</span>
 <span class="sd">            * SIT configuration: Settings that govern how the CBM simulation runs </span>
 <span class="sd">            * Classifiers: Descriptions of forest stands (species, soil type, etc.)</span>
 <span class="sd">            * Inventory: Data on the initial forest composition.</span>
@@ -306,13 +286,12 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the input data directory for the baseline, initializes the CBM simulation data.</span>
 
-<span class="sd">        This methods loads the following using the CBM&#39;s Standard Import Tool (SIT):</span>
+<span class="sd">        This method loads the following using the CBM&#39;s Standard Import Tool (SIT):</span>
 <span class="sd">            * SIT configuration: Settings that govern how the CBM simulation runs </span>
 <span class="sd">            * Classifiers: Descriptions of forest stands (species, soil type, etc.)</span>
 <span class="sd">            * Inventory: Data on the initial forest composition.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            sc (int): The scenario number.</span>
 <span class="sd">            path (str): The path to the input data directory.</span>
 
 <span class="sd">        Returns:</span>
@@ -335,7 +314,7 @@
 <a class="viewcode-back" href="../../../../../autoapi/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_cbm_data_factory/index.html#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory.DataFactory.make_data_dirs">[docs]</a>
     <span class="k">def</span> <span class="nf">make_data_dirs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scenarios</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Creates data directories.</span>
+<span class="sd">        Creates data directories for each specified simulation scenario.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            scenarios (list): A list of scenario numbers.</span>
@@ -349,7 +328,7 @@
 <a class="viewcode-back" href="../../../../../autoapi/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_cbm_data_factory/index.html#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory.DataFactory.clean_data_dir">[docs]</a>
     <span class="k">def</span> <span class="nf">clean_data_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Cleans the data directory.</span>
+<span class="sd">        Cleans the data directory by removing all subdirectories.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            path (str): The path to the data directory.</span>
@@ -364,7 +343,7 @@
 <a class="viewcode-back" href="../../../../../autoapi/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_cbm_data_factory/index.html#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory.DataFactory.clean_baseline_data_dir">[docs]</a>
     <span class="k">def</span> <span class="nf">clean_baseline_data_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Cleans the baseline data directory.</span>
+<span class="sd">        Cleans the baseline data directory by removing all files except essential ones.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            path (str): The path to the baseline data directory.</span>
@@ -380,10 +359,10 @@
 <a class="viewcode-back" href="../../../../../autoapi/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_cbm_data_factory/index.html#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory.DataFactory.make_config_json">[docs]</a>
     <span class="k">def</span> <span class="nf">make_config_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scenario</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Creates the configuration JSON file.</span>
+<span class="sd">        Creates the configuration JSON file for a given scenario.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            scenario (int): The scenario number.</span>
+<span class="sd">            scenario (int or None): The scenario number. If None, creates the baseline configuration.</span>
 <span class="sd">            path (str): The path to the output directory.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">dictionary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">json_creator_class</span><span class="o">.</span><span class="n">populate_template</span><span class="p">(</span><span class="n">scenario</span><span class="p">)</span>
@@ -413,7 +392,7 @@
 <span class="sd">        Generates a dataframe of classifiers and saves it as a CSV file.</span>
 
 <span class="sd">        Parameters:</span>
-<span class="sd">        - scenario (str): The scenario name. If provided, classifiers for the scenario will be generated.</span>
+<span class="sd">        - scenario (str or None): The scenario name. If None, generates classifiers for the baseline.</span>
 <span class="sd">        - path (str): The path where the CSV file will be saved.</span>
 
 <span class="sd">        Returns:</span>
@@ -457,7 +436,7 @@
 <span class="sd">        Creates age classes DataFrame and saves it as a CSV file.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            scenario (str): The scenario name. If provided, the CSV file will be saved in a subdirectory with the scenario name.</span>
+<span class="sd">            scenario (str or None): The scenario name. If None, creates age classes for the baseline.</span>
 <span class="sd">            path (str): The path where the CSV file will be saved.</span>
 
 <span class="sd">        Returns:</span>
@@ -563,7 +542,7 @@
 <span class="sd">        Creates the yield curves CSV file.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            scenario (int): The scenario number.</span>
+<span class="sd">            scenario (int or None): The scenario number. If None, creates yield curves for the baseline.</span>
 <span class="sd">            path (str): The path to the output directory.</span>
 
 <span class="sd">        Returns:</span>
@@ -597,18 +576,14 @@
 <a class="viewcode-back" href="../../../../../autoapi/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_cbm_data_factory/index.html#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory.DataFactory.make_inventory">[docs]</a>
     <span class="k">def</span> <span class="nf">make_inventory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scenario</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Create an inventory DataFrame based on the given scenario and path.</span>
+<span class="sd">        Creates an inventory DataFrame based on the given scenario and path.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            scenario (str): The scenario for which the inventory is created.</span>
+<span class="sd">            scenario (str or None): The scenario for which the inventory is created. If None, creates inventory for the baseline.</span>
 <span class="sd">            path (str): The path where the inventory file will be saved.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            pandas.DataFrame: The created inventory DataFrame.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            None</span>
-
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">inventory_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inventory_class</span><span class="o">.</span><span class="n">make_inventory_structure</span><span class="p">(</span><span class="n">scenario</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
 
@@ -630,17 +605,17 @@
 <a class="viewcode-back" href="../../../../../autoapi/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_cbm_data_factory/index.html#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory.DataFactory.make_disturbance_events">[docs]</a>
     <span class="k">def</span> <span class="nf">make_disturbance_events</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scenario</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Generate disturbance events data and save it as a CSV file.</span>
+<span class="sd">        Generates disturbance events data and saves it as a CSV file.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            scenario (str or None): The scenario name. If None, baseline forest data will be generated.</span>
+<span class="sd">            scenario (str or None): The scenario name. If None, generates disturbance events for the baseline.</span>
 <span class="sd">            path (str): The path to save the disturbance events CSV file.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">scenario</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">disturbance_events</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">SC_disturbance_class</span><span class="o">.</span><span class="n">fill_scenario_data</span><span class="p">(</span><span class="n">scenario</span><span class="p">)</span>
+            <span class="n">disturbance_events</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">SC_disturbance_class</span><span class="o">.</span><span class="n">fill_scenario_forest</span><span class="p">(</span><span class="n">scenario</span><span class="p">)</span>
             <span class="n">disturbance_events</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span>
                 <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">scenario</span><span class="p">),</span> <span class="s2">&quot;disturbance_events.csv&quot;</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span>
             <span class="p">)</span>
@@ -658,7 +633,7 @@
 <span class="sd">        Creates a disturbance type CSV file based on the given scenario and saves it to the specified path.</span>
 
 <span class="sd">        Parameters:</span>
-<span class="sd">        - scenario (str): The scenario for which the disturbance type CSV file is created. If None, the baseline disturbance types are used.</span>
+<span class="sd">        - scenario (str or None): The scenario for which the disturbance type CSV file is created. If None, uses the baseline disturbance types.</span>
 <span class="sd">        - path (str): The path where the disturbance type CSV file is saved.</span>
 
 <span class="sd">        Returns:</span>
@@ -700,11 +675,10 @@
 <a class="viewcode-back" href="../../../../../autoapi/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_cbm_data_factory/index.html#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory.DataFactory.make_transition_rules">[docs]</a>
     <span class="k">def</span> <span class="nf">make_transition_rules</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scenario</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Generate transition rules based on the given scenario and save them to a CSV file.</span>
+<span class="sd">        Generates transition rules based on the given scenario and saves them to a CSV file.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            scenario (str or None): The scenario for which the transition rules are generated.</span>
-<span class="sd">                If None, the transition rules are generated for all scenarios.</span>
+<span class="sd">            scenario (str or None): The scenario for which the transition rules are generated. If None, generates transition rules for the baseline.</span>
 <span class="sd">            path (str): The path where the CSV file should be saved.</span>
 
 <span class="sd">        Returns:</span>

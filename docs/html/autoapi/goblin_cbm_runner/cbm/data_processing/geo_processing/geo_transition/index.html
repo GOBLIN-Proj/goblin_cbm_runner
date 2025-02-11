@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_cbm_runner.cbm.data_processing.geo_processing.geo_transition &mdash; goblin_cbm_runner 0.4.2 documentation</title>
+  <title>goblin_cbm_runner.cbm.data_processing.geo_processing.geo_transition &mdash; goblin_cbm_runner 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../../../_static/documentation_options.js?v=ff822928"></script>
+        <script src="../../../../../../_static/documentation_options.js?v=1dd76d02"></script>
         <script src="../../../../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../../_static/js/theme.js"></script>
@@ -118,23 +118,20 @@
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_transition.Transition">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.cbm.data_processing.geo_processing.geo_transition.</span></span><span class="sig-name descname"><span class="pre">Transition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">calibration_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_transition.html#Transition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_transition.Transition" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.cbm.data_processing.geo_processing.geo_transition.</span></span><span class="sig-name descname"><span class="pre">Transition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geo_data_manager</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_transition.html#Transition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_transition.Transition" title="Link to this definition"></a></dt>
 <dd><p>Represents a transition object that generates transition rules structure based on given scenario.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>calibration_year</strong> (<em>int</em>) – The calibration year.</p></li>
-<li><p><strong>config_path</strong> (<em>str</em>) – The path to the configuration file.</p></li>
-</ul>
+<dd class="field-odd"><p><strong>geo_data_manager</strong> (<a class="reference internal" href="../../../../resource_manager/geo_cbm_runner_data_manager/index.html#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager" title="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager"><em>GeoDataManager</em></a>) – The geo data manager instance.</p>
 </dd>
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_transition.Transition.data_manager_class">
 <span class="sig-name descname"><span class="pre">data_manager_class</span></span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_transition.Transition.data_manager_class" title="Link to this definition"></a></dt>
-<dd><p>The data manager class instance.</p>
+<dd><p>The geo data manager instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="../../../../resource_manager/cbm_runner_data_manager/index.html#goblin_cbm_runner.resource_manager.cbm_runner_data_manager.DataManager" title="goblin_cbm_runner.resource_manager.cbm_runner_data_manager.DataManager">DataManager</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="../../../../resource_manager/geo_cbm_runner_data_manager/index.html#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager" title="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager">GeoDataManager</a></p>
 </dd>
 </dl>
 </dd></dl>

@@ -10,8 +10,6 @@ Submodules
    :titlesonly:
    :maxdepth: 1
 
-   AF_disturbances/index.rst
-   AF_inventory/index.rst
    SC_disturbances/index.rst
    SC_inventory/index.rst
    cbm_data_factory/index.rst

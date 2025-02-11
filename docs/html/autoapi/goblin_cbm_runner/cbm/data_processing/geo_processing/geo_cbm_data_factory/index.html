@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory &mdash; goblin_cbm_runner 0.4.2 documentation</title>
+  <title>goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory &mdash; goblin_cbm_runner 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../../../_static/documentation_options.js?v=ff822928"></script>
+        <script src="../../../../../../_static/documentation_options.js?v=1dd76d02"></script>
         <script src="../../../../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../../_static/js/theme.js"></script>
@@ -120,7 +120,7 @@ This class serves as a central hub for preparing, organizing, and storing variou
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory.DataFactory">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory.</span></span><span class="sig-name descname"><span class="pre">DataFactory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibration_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forest_end_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">afforestation_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_cbm_data_factory.html#DataFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory.DataFactory" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory.</span></span><span class="sig-name descname"><span class="pre">DataFactory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geo_data_manager</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_cbm_data_factory.html#DataFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory.DataFactory" title="Link to this definition"></a></dt>
 <dd><p>Generates and manages input data required for running Carbon Budget Model (CBM) simulations,
 focusing on geospatially specific catchment data for scenarios including afforestation, disturbances,
 and transitions. This class serves as a central hub for preparing, organizing, and storing
@@ -131,22 +131,20 @@ tasks. It automates the creation of necessary directories, configuration files, 
 for classifiers, age classes, yield curves, inventories, disturbance events, disturbance types,
 and transition rules tailored to specific simulation scenarios.</p>
 <p>Parameters:
-- config_path (str): Path to the simulation configuration file.
-- calibration_year (int): Year from which the simulation data is calibrated.
-- forest_end_year (int): Final year for the simulation period.
-- afforestation_data (dict): Data detailing afforestation activities within the simulation scope.
-- scenario_data (dict): Information defining various simulation scenarios.</p>
+- geo_data_manager (GeoDataManager): Instance responsible for managing geospatial data.</p>
 <p>Attributes:
 - loader_class (Loader): Instance responsible for loading external resources or data.
 - data_manager_class (GeoDataManager): Manages retrieval and organization of geospatial data.
 - json_creator_class (CreateJSON): Constructs JSON files for CBM configuration.
 - inventory_class (Inventory): Prepares inventory data for simulations.
-- disturbance_class (Disturbances): Manages data related to forest disturbances.
+- FM_disturbance_class (FMDisturbances): Manages data related to forest management disturbances.
+- SC_disturbance_class (SCDisturbances): Manages data related to scenario-specific disturbances.
 - transition_class (Transition): Handles transition rule data for forest change modeling.
 - afforestation_data (dict): Stores afforestation data for use in simulations.</p>
 <p>Methods:
-- set_input_data_dir(sc, path): Configures the directory path for scenario-specific input data.
-- set_baseline_input_data_dir(path): Establishes the directory path for baseline simulation input data.
+- set_input_data_dir(sc, path, db_path): Configures the directory path for scenario-specific input data.
+- set_baseline_input_data_dir(path, db_path): Establishes the directory path for baseline simulation input data.
+- set_spinup_baseline_input_data_dir(path, db_path): Sets the input data directory for the baseline spinup, initializes the CBM simulation data.
 - make_data_dirs(scenarios, path): Generates directories for each specified simulation scenario.
 - clean_data_dir(path): Removes all data within a specified directory, preparing it for fresh data.
 - clean_baseline_data_dir(path): Clears the baseline data directory of all files except essential ones.
@@ -163,7 +161,7 @@ and transition rules tailored to specific simulation scenarios.</p>
 <span class="sig-name descname"><span class="pre">set_input_data_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_cbm_data_factory.html#DataFactory.set_input_data_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory.DataFactory.set_input_data_dir" title="Link to this definition"></a></dt>
 <dd><p>Sets the input data directory for a scenario, initializes the CBM simulation data.</p>
 <dl class="simple">
-<dt>This methods loads the following using the CBM’s Standard Import Tool (SIT):</dt><dd><ul class="simple">
+<dt>This method loads the following using the CBM’s Standard Import Tool (SIT):</dt><dd><ul class="simple">
 <li><p>SIT configuration: Settings that govern how the CBM simulation runs</p></li>
 <li><p>Classifiers: Descriptions of forest stands (species, soil type, etc.)</p></li>
 <li><p>Inventory: Data on the initial forest composition.</p></li>
@@ -175,12 +173,13 @@ and transition rules tailored to specific simulation scenarios.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sc</strong> (<em>int</em>) – The scenario number.</p></li>
 <li><p><strong>path</strong> (<em>str</em>) – The path to the input data directory.</p></li>
+<li><p><strong>db_path</strong> (<em>str</em>) – The path to the database.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><dl class="simple">
 <dt>A tuple containing the following:</dt><dd><ul class="simple">
-<li><p>SIT object:  The loaded SIT configuration.</p></li>
+<li><p>SIT object: The loaded SIT configuration.</p></li>
 <li><p>classifiers (DataFrame): Classifiers for the forest stands.</p></li>
 <li><p>inventory (DataFrame): The forest inventory data.</p></li>
 </ul>
@@ -199,7 +198,7 @@ and transition rules tailored to specific simulation scenarios.</p>
 <span class="sig-name descname"><span class="pre">set_baseline_input_data_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_cbm_data_factory.html#DataFactory.set_baseline_input_data_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory.DataFactory.set_baseline_input_data_dir" title="Link to this definition"></a></dt>
 <dd><p>Sets the input data directory for the baseline, initializes the CBM simulation data.</p>
 <dl class="simple">
-<dt>This methods loads the following using the CBM’s Standard Import Tool (SIT):</dt><dd><ul class="simple">
+<dt>This method loads the following using the CBM’s Standard Import Tool (SIT):</dt><dd><ul class="simple">
 <li><p>SIT configuration: Settings that govern how the CBM simulation runs</p></li>
 <li><p>Classifiers: Descriptions of forest stands (species, soil type, etc.)</p></li>
 <li><p>Inventory: Data on the initial forest composition.</p></li>
@@ -209,14 +208,14 @@ and transition rules tailored to specific simulation scenarios.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>sc</strong> (<em>int</em>) – The scenario number.</p></li>
 <li><p><strong>path</strong> (<em>str</em>) – The path to the input data directory.</p></li>
+<li><p><strong>db_path</strong> (<em>str</em>) – The path to the database.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><dl class="simple">
 <dt>A tuple containing the following:</dt><dd><ul class="simple">
-<li><p>SIT object:  The loaded SIT configuration.</p></li>
+<li><p>SIT object: The loaded SIT configuration.</p></li>
 <li><p>classifiers (DataFrame): Classifiers for the forest stands.</p></li>
 <li><p>inventory (DataFrame): The forest inventory data.</p></li>
 </ul>
@@ -233,9 +232,9 @@ and transition rules tailored to specific simulation scenarios.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory.DataFactory.set_spinup_baseline_input_data_dir">
 <span class="sig-name descname"><span class="pre">set_spinup_baseline_input_data_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_cbm_data_factory.html#DataFactory.set_spinup_baseline_input_data_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory.DataFactory.set_spinup_baseline_input_data_dir" title="Link to this definition"></a></dt>
-<dd><p>Sets the input data directory for the baseline, initializes the CBM simulation data.</p>
+<dd><p>Sets the input data directory for the baseline spinup, initializes the CBM simulation data.</p>
 <dl class="simple">
-<dt>This methods loads the following using the CBM’s Standard Import Tool (SIT):</dt><dd><ul class="simple">
+<dt>This method loads the following using the CBM’s Standard Import Tool (SIT):</dt><dd><ul class="simple">
 <li><p>SIT configuration: Settings that govern how the CBM simulation runs</p></li>
 <li><p>Classifiers: Descriptions of forest stands (species, soil type, etc.)</p></li>
 <li><p>Inventory: Data on the initial forest composition.</p></li>
@@ -245,14 +244,14 @@ and transition rules tailored to specific simulation scenarios.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>sc</strong> (<em>int</em>) – The scenario number.</p></li>
 <li><p><strong>path</strong> (<em>str</em>) – The path to the input data directory.</p></li>
+<li><p><strong>db_path</strong> (<em>str</em>) – The path to the database.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><dl class="simple">
 <dt>A tuple containing the following:</dt><dd><ul class="simple">
-<li><p>SIT object:  The loaded SIT configuration.</p></li>
+<li><p>SIT object: The loaded SIT configuration.</p></li>
 <li><p>classifiers (DataFrame): Classifiers for the forest stands.</p></li>
 <li><p>inventory (DataFrame): The forest inventory data.</p></li>
 </ul>
@@ -271,7 +270,7 @@ and transition rules tailored to specific simulation scenarios.</p>
 <span class="sig-name descname"><span class="pre">set_input_data_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_cbm_data_factory.html#DataFactory.set_input_data_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
 <dd><p>Sets the input data directory for a scenario, initializes the CBM simulation data.</p>
 <dl class="simple">
-<dt>This methods loads the following using the CBM’s Standard Import Tool (SIT):</dt><dd><ul class="simple">
+<dt>This method loads the following using the CBM’s Standard Import Tool (SIT):</dt><dd><ul class="simple">
 <li><p>SIT configuration: Settings that govern how the CBM simulation runs</p></li>
 <li><p>Classifiers: Descriptions of forest stands (species, soil type, etc.)</p></li>
 <li><p>Inventory: Data on the initial forest composition.</p></li>
@@ -307,7 +306,7 @@ and transition rules tailored to specific simulation scenarios.</p>
 <span class="sig-name descname"><span class="pre">set_baseline_input_data_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_cbm_data_factory.html#DataFactory.set_baseline_input_data_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
 <dd><p>Sets the input data directory for the baseline, initializes the CBM simulation data.</p>
 <dl class="simple">
-<dt>This methods loads the following using the CBM’s Standard Import Tool (SIT):</dt><dd><ul class="simple">
+<dt>This method loads the following using the CBM’s Standard Import Tool (SIT):</dt><dd><ul class="simple">
 <li><p>SIT configuration: Settings that govern how the CBM simulation runs</p></li>
 <li><p>Classifiers: Descriptions of forest stands (species, soil type, etc.)</p></li>
 <li><p>Inventory: Data on the initial forest composition.</p></li>
@@ -316,10 +315,7 @@ and transition rules tailored to specific simulation scenarios.</p>
 </dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>sc</strong> (<em>int</em>) – The scenario number.</p></li>
-<li><p><strong>path</strong> (<em>str</em>) – The path to the input data directory.</p></li>
-</ul>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – The path to the input data directory.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><dl class="simple">
@@ -341,7 +337,7 @@ and transition rules tailored to specific simulation scenarios.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory.DataFactory.make_data_dirs">
 <span class="sig-name descname"><span class="pre">make_data_dirs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenarios</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_cbm_data_factory.html#DataFactory.make_data_dirs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory.DataFactory.make_data_dirs" title="Link to this definition"></a></dt>
-<dd><p>Creates data directories.</p>
+<dd><p>Creates data directories for each specified simulation scenario.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -355,7 +351,7 @@ and transition rules tailored to specific simulation scenarios.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory.DataFactory.clean_data_dir">
 <span class="sig-name descname"><span class="pre">clean_data_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_cbm_data_factory.html#DataFactory.clean_data_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory.DataFactory.clean_data_dir" title="Link to this definition"></a></dt>
-<dd><p>Cleans the data directory.</p>
+<dd><p>Cleans the data directory by removing all subdirectories.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – The path to the data directory.</p>
@@ -366,7 +362,7 @@ and transition rules tailored to specific simulation scenarios.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory.DataFactory.clean_baseline_data_dir">
 <span class="sig-name descname"><span class="pre">clean_baseline_data_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_cbm_data_factory.html#DataFactory.clean_baseline_data_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory.DataFactory.clean_baseline_data_dir" title="Link to this definition"></a></dt>
-<dd><p>Cleans the baseline data directory.</p>
+<dd><p>Cleans the baseline data directory by removing all files except essential ones.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – The path to the baseline data directory.</p>
@@ -377,11 +373,11 @@ and transition rules tailored to specific simulation scenarios.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory.DataFactory.make_config_json">
 <span class="sig-name descname"><span class="pre">make_config_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_cbm_data_factory.html#DataFactory.make_config_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory.DataFactory.make_config_json" title="Link to this definition"></a></dt>
-<dd><p>Creates the configuration JSON file.</p>
+<dd><p>Creates the configuration JSON file for a given scenario.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>scenario</strong> (<em>int</em>) – The scenario number.</p></li>
+<li><p><strong>scenario</strong> (<em>int</em><em> or </em><em>None</em>) – The scenario number. If None, creates the baseline configuration.</p></li>
 <li><p><strong>path</strong> (<em>str</em>) – The path to the output directory.</p></li>
 </ul>
 </dd>
@@ -393,7 +389,7 @@ and transition rules tailored to specific simulation scenarios.</p>
 <span class="sig-name descname"><span class="pre">make_classifiers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_cbm_data_factory.html#DataFactory.make_classifiers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory.DataFactory.make_classifiers" title="Link to this definition"></a></dt>
 <dd><p>Generates a dataframe of classifiers and saves it as a CSV file.</p>
 <p>Parameters:
-- scenario (str): The scenario name. If provided, classifiers for the scenario will be generated.
+- scenario (str or None): The scenario name. If None, generates classifiers for the baseline.
 - path (str): The path where the CSV file will be saved.</p>
 <p>Returns:
 None</p>
@@ -406,7 +402,7 @@ None</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>scenario</strong> (<em>str</em>) – The scenario name. If provided, the CSV file will be saved in a subdirectory with the scenario name.</p></li>
+<li><p><strong>scenario</strong> (<em>str</em><em> or </em><em>None</em>) – The scenario name. If None, creates age classes for the baseline.</p></li>
 <li><p><strong>path</strong> (<em>str</em>) – The path where the CSV file will be saved.</p></li>
 </ul>
 </dd>
@@ -428,7 +424,7 @@ None</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>scenario</strong> (<em>int</em>) – The scenario number.</p></li>
+<li><p><strong>scenario</strong> (<em>int</em><em> or </em><em>None</em>) – The scenario number. If None, creates yield curves for the baseline.</p></li>
 <li><p><strong>path</strong> (<em>str</em>) – The path to the output directory.</p></li>
 </ul>
 </dd>
@@ -441,11 +437,11 @@ None</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory.DataFactory.make_inventory">
 <span class="sig-name descname"><span class="pre">make_inventory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_cbm_data_factory.html#DataFactory.make_inventory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory.DataFactory.make_inventory" title="Link to this definition"></a></dt>
-<dd><p>Create an inventory DataFrame based on the given scenario and path.</p>
+<dd><p>Creates an inventory DataFrame based on the given scenario and path.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>scenario</strong> (<em>str</em>) – The scenario for which the inventory is created.</p></li>
+<li><p><strong>scenario</strong> (<em>str</em><em> or </em><em>None</em>) – The scenario for which the inventory is created. If None, creates inventory for the baseline.</p></li>
 <li><p><strong>path</strong> (<em>str</em>) – The path where the inventory file will be saved.</p></li>
 </ul>
 </dd>
@@ -455,20 +451,17 @@ None</p>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>pandas.DataFrame</p>
 </dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>None</strong> – </p>
-</dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory.DataFactory.make_disturbance_events">
 <span class="sig-name descname"><span class="pre">make_disturbance_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_cbm_data_factory.html#DataFactory.make_disturbance_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory.DataFactory.make_disturbance_events" title="Link to this definition"></a></dt>
-<dd><p>Generate disturbance events data and save it as a CSV file.</p>
+<dd><p>Generates disturbance events data and saves it as a CSV file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>scenario</strong> (<em>str</em><em> or </em><em>None</em>) – The scenario name. If None, baseline forest data will be generated.</p></li>
+<li><p><strong>scenario</strong> (<em>str</em><em> or </em><em>None</em>) – The scenario name. If None, generates disturbance events for the baseline.</p></li>
 <li><p><strong>path</strong> (<em>str</em>) – The path to save the disturbance events CSV file.</p></li>
 </ul>
 </dd>
@@ -483,7 +476,7 @@ None</p>
 <span class="sig-name descname"><span class="pre">make_disturbance_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_cbm_data_factory.html#DataFactory.make_disturbance_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory.DataFactory.make_disturbance_type" title="Link to this definition"></a></dt>
 <dd><p>Creates a disturbance type CSV file based on the given scenario and saves it to the specified path.</p>
 <p>Parameters:
-- scenario (str): The scenario for which the disturbance type CSV file is created. If None, the baseline disturbance types are used.
+- scenario (str or None): The scenario for which the disturbance type CSV file is created. If None, uses the baseline disturbance types.
 - path (str): The path where the disturbance type CSV file is saved.</p>
 <p>Returns:
 None</p>
@@ -492,12 +485,11 @@ None</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory.DataFactory.make_transition_rules">
 <span class="sig-name descname"><span class="pre">make_transition_rules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/geo_processing/geo_cbm_data_factory.html#DataFactory.make_transition_rules"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory.DataFactory.make_transition_rules" title="Link to this definition"></a></dt>
-<dd><p>Generate transition rules based on the given scenario and save them to a CSV file.</p>
+<dd><p>Generates transition rules based on the given scenario and saves them to a CSV file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>scenario</strong> (<em>str</em><em> or </em><em>None</em>) – The scenario for which the transition rules are generated.
-If None, the transition rules are generated for all scenarios.</p></li>
+<li><p><strong>scenario</strong> (<em>str</em><em> or </em><em>None</em>) – The scenario for which the transition rules are generated. If None, generates transition rules for the baseline.</p></li>
 <li><p><strong>path</strong> (<em>str</em>) – The path where the CSV file should be saved.</p></li>
 </ul>
 </dd>

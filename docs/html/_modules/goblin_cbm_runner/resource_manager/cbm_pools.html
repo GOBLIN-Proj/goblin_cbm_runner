@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_cbm_runner.resource_manager.cbm_pools &mdash; goblin_cbm_runner 0.4.2 documentation</title>
+  <title>goblin_cbm_runner.resource_manager.cbm_pools &mdash; goblin_cbm_runner 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -16,7 +16,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=ff822928"></script>
+        <script src="../../../_static/documentation_options.js?v=1dd76d02"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -98,6 +98,11 @@
 <span class="sd">        get_litter_pools(): Retrieves litter pools.</span>
 <span class="sd">        get_soil_organic_matter_pools(): Retrieves soil organic matter pools.</span>
 <span class="sd">        get_annual_process_fluxes(): Retrieves annual process fluxes.</span>
+<span class="sd">        get_disturbance_flux_columns(): Retrieves disturbance flux columns.</span>
+<span class="sd">        get_total_litter(): Retrieves total litter.</span>
+<span class="sd">        get_gross_growth_AG(): Retrieves gross growth above ground.</span>
+<span class="sd">        get_gross_growth_BG(): Retrieves gross growth below ground.</span>
+<span class="sd">        get_annual_process_columns(): Retrieves annual process columns.</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        above_ground_biomass_pools (list): List of above ground biomass pools.</span>
@@ -106,6 +111,11 @@
 <span class="sd">        litter (list): List of litter pools.</span>
 <span class="sd">        soil_organic_matter (list): List of soil organic matter pools.</span>
 <span class="sd">        annual_process_fluxes (list): List of annual process fluxes.</span>
+<span class="sd">        disturbance_fluxes (list): List of disturbance fluxes.</span>
+<span class="sd">        total_litter (list): List of total litter.</span>
+<span class="sd">        gross_growth_AG (list): List of gross growth above ground.</span>
+<span class="sd">        gross_growth_BG (list): List of gross growth below ground.</span>
+<span class="sd">        annual_process_columns (list): List of annual process columns.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 

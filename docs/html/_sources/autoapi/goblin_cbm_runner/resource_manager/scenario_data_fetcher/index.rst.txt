@@ -5,10 +5,10 @@
 
 .. autoapi-nested-parse::
 
-   Scenario Data Fetcher Documentation
-   ====================================
+   Scenario Data Fetcher
+   =====================
 
-   The ``ScenarioDataFetcher`` class is designed to extract specific pieces of information from a scenario dataset.
+   The `ScenarioDataFetcher` class extracts specific pieces of information from a scenario dataset.
 
 
 
@@ -25,14 +25,12 @@ Classes
 
 
 
-.. py:class:: ScenarioDataFetcher(scenario_data)
+.. py:class:: ScenarioDataFetcher(geo_data_manager)
 
 
-   The ScenarioDataFetcher class is designed to extract specific pieces of information from a scenario dataset.
+   Extracts specific pieces of information from a scenario dataset.
 
-   This class provides methods to retrieve various information from a scenario dataset.
-
-   .. method:: __init__(scenario_data)
+   .. method:: __init__(geo_data_manager)
 
       
       Initializes an instance of the `ScenarioDataFetcher` class.
@@ -47,41 +45,41 @@ Classes
    .. method:: get_afforestation_end_year()
 
       
-      Retrieves the end year for afforestation activities for a specified scenario.
+      Retrieves the end year for afforestation activities.
       
 
    .. method:: get_catchment_name()
 
       
-      Retrieves the name of the catchment area defined in the scenario data.
+      Retrieves the name of the catchment area.
       
 
    .. method:: get_scenario_list()
 
       
-      Retrieves a list of all scenarios present in the scenario data.
+      Retrieves a list of all scenarios.
       
 
    .. method:: get_afforest_scenario_index()
 
       
-      Retrieves a list of afforestation scenario indices, with -1 indicating a special scenario, followed by the indices of all available scenarios.
+      Retrieves a list of afforestation scenario indices.
       
 
    .. py:method:: get_column_index(column_name)
 
       Retrieves the index of a specified column in the scenario data.
 
-      :param column_name: The name of the column to retrieve.
+      :param column_name: The name of the column.
       :type column_name: str
 
-      :returns: The index of the column.
+      :returns: The index of the column, or None if not found.
       :rtype: int
 
 
    .. py:method:: get_afforestation_end_year()
 
-      Retrieves the end year for afforestation activities for a specified scenario.
+      Retrieves the end year for afforestation activities.
 
       :returns: The afforestation end year.
       :rtype: int
@@ -89,7 +87,7 @@ Classes
 
    .. py:method:: get_catchment_name()
 
-      Retrieves the name of the catchment area defined in the scenario data.
+      Retrieves the name of the catchment area.
 
       :returns: The catchment name.
       :rtype: str
@@ -97,7 +95,7 @@ Classes
 
    .. py:method:: get_scenario_list()
 
-      Retrieves a list of all scenarios present in the scenario data.
+      Retrieves a list of all scenarios.
 
       :returns: A list of scenario identifiers.
       :rtype: list
@@ -105,8 +103,7 @@ Classes
 
    .. py:method:: get_afforest_scenario_index()
 
-      Retrieves a list of afforestation scenario indices, with -1 indicating a special scenario,
-      followed by the indices of all available scenarios.
+      Retrieves a list of afforestation scenario indices.
 
       :returns: A list containing -1 followed by all scenario indices.
       :rtype: list

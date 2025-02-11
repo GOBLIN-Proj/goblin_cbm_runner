@@ -1,4 +1,5 @@
 from goblin_cbm_runner.historic_affor.historic_affor_runner import HistoricAfforRunner
+from goblin_cbm_runner.resource_manager.cbm_runner_data_manager import DataManager
 import pandas as pd
 import os
 
@@ -22,8 +23,14 @@ def main():
     # calibration and end point
     calibration_year = 2020
 
+    data_manager = DataManager(
+        calibration_year=calibration_year,
+        config_file_path=config,
+        afforest_data=afforest_data,
+        scenario_data=sc_data)
+    
     # instance of the Runner class
-    runner = HistoricAfforRunner(config, calibration_year, afforest_data, sc_data)
+    runner = HistoricAfforRunner(data_manager)
 
     # generation of data for each of the scenarios
     runner.generate_input_data()

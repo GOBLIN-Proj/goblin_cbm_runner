@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_cbm_runner.default_runner.runner &mdash; goblin_cbm_runner 0.4.2 documentation</title>
+  <title>goblin_cbm_runner.default_runner.runner &mdash; goblin_cbm_runner 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../_static/documentation_options.js?v=ff822928"></script>
+        <script src="../../../../_static/documentation_options.js?v=1dd76d02"></script>
         <script src="../../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -101,7 +101,7 @@
   <section id="module-goblin_cbm_runner.default_runner.runner">
 <span id="goblin-cbm-runner-default-runner-runner"></span><h1><a class="reference internal" href="#module-goblin_cbm_runner.default_runner.runner" title="goblin_cbm_runner.default_runner.runner"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.default_runner.runner</span></code></a><a class="headerlink" href="#module-goblin_cbm_runner.default_runner.runner" title="Link to this heading"></a></h1>
 <section id="runner-module">
-<p>This module is responsible for orchestrating the execution of Carbon Budget Model (CBM) simulations for various scenarios,
+<p>This module orchestrates the execution of Carbon Budget Model (CBM) simulations for various scenarios,
 including baseline and afforestation projects.</p>
 </section>
 <section id="module-contents">
@@ -117,20 +117,14 @@ including baseline and afforestation projects.</p>
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="goblin_cbm_runner.default_runner.runner.Runner">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.default_runner.runner.</span></span><span class="sig-name descname"><span class="pre">Runner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibration_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">afforest_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sit_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/default_runner/runner.html#Runner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.default_runner.runner.Runner" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.default_runner.runner.</span></span><span class="sig-name descname"><span class="pre">Runner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_manager</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/default_runner/runner.html#Runner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.default_runner.runner.Runner" title="Link to this definition"></a></dt>
 <dd><p>The Runner class orchestrates the execution of Carbon Budget Model (CBM) simulations
 for various scenarios, including baseline, afforestation, and user-defined forest management strategies.
 It utilizes annualized data to estimate carbon stock or flux over specified years.</p>
 <p>This class manages input data preparation, CBM simulation setups, and the execution process, generating outputs like carbon stocks and fluxes for various scenarios.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>config_path</strong> (<em>str</em>) – Path to the CBM configuration file.</p></li>
-<li><p><strong>calibration_year</strong> (<em>int</em>) – Calibration year for the simulations.</p></li>
-<li><p><strong>afforest_data</strong> (<em>AfforestData</em>) – Data for afforestation scenarios.</p></li>
-<li><p><strong>scenario_data</strong> (<em>ScenarioData</em>) – Data for user-defined management scenarios.</p></li>
-<li><p><strong>sit_path</strong> (<em>str</em>) – Path to the SIT directory, optional.</p></li>
-</ul>
+<dd class="field-odd"><p><strong>data_manager</strong> (<a class="reference internal" href="../../resource_manager/cbm_runner_data_manager/index.html#goblin_cbm_runner.resource_manager.cbm_runner_data_manager.DataManager" title="goblin_cbm_runner.resource_manager.cbm_runner_data_manager.DataManager"><em>DataManager</em></a>) – Instance of DataManager for managing simulation data and configurations.</p>
 </dd>
 </dl>
 <dl class="py attribute">
@@ -145,20 +139,20 @@ It utilizes annualized data to estimate carbon stock or flux over specified year
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="goblin_cbm_runner.default_runner.runner.Runner.gen_validation">
-<span class="sig-name descname"><span class="pre">gen_validation</span></span><a class="headerlink" href="#goblin_cbm_runner.default_runner.runner.Runner.gen_validation" title="Link to this definition"></a></dt>
-<dd><p>A boolean indicating whether to generate validation data.</p>
+<dt class="sig sig-object py" id="goblin_cbm_runner.default_runner.runner.Runner.sit_path">
+<span class="sig-name descname"><span class="pre">sit_path</span></span><a class="headerlink" href="#goblin_cbm_runner.default_runner.runner.Runner.sit_path" title="Link to this definition"></a></dt>
+<dd><p>Path to the SIT directory.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>bool</p>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="goblin_cbm_runner.default_runner.runner.Runner.validation_path">
-<span class="sig-name descname"><span class="pre">validation_path</span></span><a class="headerlink" href="#goblin_cbm_runner.default_runner.runner.Runner.validation_path" title="Link to this definition"></a></dt>
-<dd><p>Directory path for validation data.</p>
+<dt class="sig sig-object py" id="goblin_cbm_runner.default_runner.runner.Runner.defaults_db">
+<span class="sig-name descname"><span class="pre">defaults_db</span></span><a class="headerlink" href="#goblin_cbm_runner.default_runner.runner.Runner.defaults_db" title="Link to this definition"></a></dt>
+<dd><p>Path to the default database.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
@@ -200,23 +194,12 @@ It utilizes annualized data to estimate carbon stock or flux over specified year
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="goblin_cbm_runner.default_runner.runner.Runner.data_manager_class">
-<span class="sig-name descname"><span class="pre">data_manager_class</span></span><a class="headerlink" href="#goblin_cbm_runner.default_runner.runner.Runner.data_manager_class" title="Link to this definition"></a></dt>
-<dd><p>Instance of DataManager for managing simulation data and configurations.</p>
+<dt class="sig sig-object py" id="goblin_cbm_runner.default_runner.runner.Runner.sc_fetcher">
+<span class="sig-name descname"><span class="pre">sc_fetcher</span></span><a class="headerlink" href="#goblin_cbm_runner.default_runner.runner.Runner.sc_fetcher" title="Link to this definition"></a></dt>
+<dd><p>Instance of ScenarioDataFetcher for fetching scenario data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="../../resource_manager/cbm_runner_data_manager/index.html#goblin_cbm_runner.resource_manager.cbm_runner_data_manager.DataManager" title="goblin_cbm_runner.resource_manager.cbm_runner_data_manager.DataManager">DataManager</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="goblin_cbm_runner.default_runner.runner.Runner.INDEX">
-<span class="sig-name descname"><span class="pre">INDEX</span></span><a class="headerlink" href="#goblin_cbm_runner.default_runner.runner.Runner.INDEX" title="Link to this definition"></a></dt>
-<dd><p>List of unique identifiers for each simulation scenario.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list</p>
+<dd class="field-odd"><p><a class="reference internal" href="../../resource_manager/scenario_data_fetcher/index.html#goblin_cbm_runner.resource_manager.scenario_data_fetcher.ScenarioDataFetcher" title="goblin_cbm_runner.resource_manager.scenario_data_fetcher.ScenarioDataFetcher">ScenarioDataFetcher</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -233,23 +216,133 @@ It utilizes annualized data to estimate carbon stock or flux over specified year
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="goblin_cbm_runner.default_runner.runner.Runner.pools">
-<span class="sig-name descname"><span class="pre">pools</span></span><a class="headerlink" href="#goblin_cbm_runner.default_runner.runner.Runner.pools" title="Link to this definition"></a></dt>
-<dd><p>Instance of the Pools class for managing CBM carbon pools.</p>
+<dt class="sig sig-object py" id="goblin_cbm_runner.default_runner.runner.Runner.INDEX">
+<span class="sig-name descname"><span class="pre">INDEX</span></span><a class="headerlink" href="#goblin_cbm_runner.default_runner.runner.Runner.INDEX" title="Link to this definition"></a></dt>
+<dd><p>List of unique identifiers for each simulation scenario.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="../../resource_manager/cbm_pools/index.html#goblin_cbm_runner.resource_manager.cbm_pools.Pools" title="goblin_cbm_runner.resource_manager.cbm_pools.Pools">Pools</a></p>
+<dd class="field-odd"><p>list</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">AGB,</span> <span class="pre">BGB,</span> <span class="pre">deadwood,</span> <span class="pre">litter,</span> <span class="pre">soil,</span> <span class="pre">flux_pools</span></span></dt>
-<dd><p>Instances representing different carbon pool types used in CBM simulations.</p>
+<dt class="sig sig-object py" id="goblin_cbm_runner.default_runner.runner.Runner.SIM_class">
+<span class="sig-name descname"><span class="pre">SIM_class</span></span><a class="headerlink" href="#goblin_cbm_runner.default_runner.runner.Runner.SIM_class" title="Link to this definition"></a></dt>
+<dd><p>Instance of CBMSim for running CBM simulations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>various</p>
+<dd class="field-odd"><p><a class="reference internal" href="../../cbm/methods/cbm_methods/index.html#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim" title="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim">CBMSim</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_cbm_runner.default_runner.runner.Runner.historic_scenario_years">
+<span class="sig-name descname"><span class="pre">historic_scenario_years</span></span><a class="headerlink" href="#goblin_cbm_runner.default_runner.runner.Runner.historic_scenario_years" title="Link to this definition"></a></dt>
+<dd><p>List of years for historic scenarios.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_cbm_runner.default_runner.runner.Runner.historic_scenario_year_range">
+<span class="sig-name descname"><span class="pre">historic_scenario_year_range</span></span><a class="headerlink" href="#goblin_cbm_runner.default_runner.runner.Runner.historic_scenario_year_range" title="Link to this definition"></a></dt>
+<dd><p>Range of years for historic scenarios.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>range</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_cbm_runner.default_runner.runner.Runner.baseline_years">
+<span class="sig-name descname"><span class="pre">baseline_years</span></span><a class="headerlink" href="#goblin_cbm_runner.default_runner.runner.Runner.baseline_years" title="Link to this definition"></a></dt>
+<dd><p>List of years for baseline scenarios.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_cbm_runner.default_runner.runner.Runner.baseline_year_range">
+<span class="sig-name descname"><span class="pre">baseline_year_range</span></span><a class="headerlink" href="#goblin_cbm_runner.default_runner.runner.Runner.baseline_year_range" title="Link to this definition"></a></dt>
+<dd><p>Range of years for baseline scenarios.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>range</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_cbm_runner.default_runner.runner.Runner.scenario_years">
+<span class="sig-name descname"><span class="pre">scenario_years</span></span><a class="headerlink" href="#goblin_cbm_runner.default_runner.runner.Runner.scenario_years" title="Link to this definition"></a></dt>
+<dd><p>List of years for user-defined scenarios.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_cbm_runner.default_runner.runner.Runner.scenario_year_range">
+<span class="sig-name descname"><span class="pre">scenario_year_range</span></span><a class="headerlink" href="#goblin_cbm_runner.default_runner.runner.Runner.scenario_year_range" title="Link to this definition"></a></dt>
+<dd><p>Range of years for user-defined scenarios.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>range</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_cbm_runner.default_runner.runner.Runner.forest_FM_baseline_dataframe">
+<span class="sig-name descname"><span class="pre">forest_FM_baseline_dataframe</span></span><a class="headerlink" href="#goblin_cbm_runner.default_runner.runner.Runner.forest_FM_baseline_dataframe" title="Link to this definition"></a></dt>
+<dd><p>DataFrame containing forest management baseline data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_cbm_runner.default_runner.runner.Runner.forest_AF_baseline_dataframe">
+<span class="sig-name descname"><span class="pre">forest_AF_baseline_dataframe</span></span><a class="headerlink" href="#goblin_cbm_runner.default_runner.runner.Runner.forest_AF_baseline_dataframe" title="Link to this definition"></a></dt>
+<dd><p>DataFrame containing afforestation baseline data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_cbm_runner.default_runner.runner.Runner.merged_AF_FM_forest_data">
+<span class="sig-name descname"><span class="pre">merged_AF_FM_forest_data</span></span><a class="headerlink" href="#goblin_cbm_runner.default_runner.runner.Runner.merged_AF_FM_forest_data" title="Link to this definition"></a></dt>
+<dd><p>DataFrame containing merged afforestation and forest management data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_cbm_runner.default_runner.runner.Runner.afforestation_dataframe">
+<span class="sig-name descname"><span class="pre">afforestation_dataframe</span></span><a class="headerlink" href="#goblin_cbm_runner.default_runner.runner.Runner.afforestation_dataframe" title="Link to this definition"></a></dt>
+<dd><p>DataFrame containing afforestation data for all scenarios.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
 </dd>
 </dl>
 </dd></dl>
@@ -316,18 +409,43 @@ Cleans the data directory, creates necessary subdirectories, and prepares scenar
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.default_runner.runner.Runner._generate_base_input_data">
-<span class="sig-name descname"><span class="pre">_generate_base_input_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/default_runner/runner.html#Runner._generate_base_input_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.default_runner.runner.Runner._generate_base_input_data" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="goblin_cbm_runner.default_runner.runner.Runner.get_afforestation_dataframe">
+<span class="sig-name descname"><span class="pre">get_afforestation_dataframe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/default_runner/runner.html#Runner.get_afforestation_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.default_runner.runner.Runner.get_afforestation_dataframe" title="Link to this definition"></a></dt>
+<dd><p>Returns the afforestation data for all scenarios.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Afforestation data for all scenarios.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.default_runner.runner.Runner._generate_afforestation_dataframe">
+<span class="sig-name descname"><span class="pre">_generate_afforestation_dataframe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/default_runner/runner.html#Runner._generate_afforestation_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.default_runner.runner.Runner._generate_afforestation_dataframe" title="Link to this definition"></a></dt>
+<dd><p>Generates the afforestation data for all scenarios.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Afforestation data for all scenarios.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.default_runner.runner.Runner._generate_FM_input_data">
+<span class="sig-name descname"><span class="pre">_generate_FM_input_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/default_runner/runner.html#Runner._generate_FM_input_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.default_runner.runner.Runner._generate_FM_input_data" title="Link to this definition"></a></dt>
 <dd><p>Generates the base input data for the CBM runner.</p>
 <p>This method cleans the baseline data directory, and then generates various input files
 required for the CBM runner, such as classifiers, configuration JSON, age classes,
 yield curves, inventory, disturbance events, disturbance types, and transition rules.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>None</strong> – </p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -339,11 +457,8 @@ yield curves, inventory, disturbance events, disturbance types, and transition r
 <p>This method cleans the data directory, creates necessary directories,
 and generates various input files required for the CBM runner.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>None</strong> – </p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -397,14 +512,14 @@ and sums the specified columns for the shared years.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.default_runner.runner.Runner.run_sep_flux_scenarios">
 <span class="sig-name descname"><span class="pre">run_sep_flux_scenarios</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/default_runner/runner.html#Runner.run_sep_flux_scenarios"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.default_runner.runner.Runner.run_sep_flux_scenarios" title="Link to this definition"></a></dt>
-<dd><p>Conducts CBM simulations to calculate and separated carbon flux data for various scenarios, including those with user-defined forest management strategies.</p>
+<dd><p>Conducts CBM simulations to calculate and separate carbon flux data for various scenarios, including those with user-defined forest management strategies.</p>
 <p>This process helps in understanding the impact of different management practices on carbon dynamics within forest ecosystems.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Separated carbon flux data across all scenarios.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>pd.DataFrame</p>
+<dd class="field-even"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>

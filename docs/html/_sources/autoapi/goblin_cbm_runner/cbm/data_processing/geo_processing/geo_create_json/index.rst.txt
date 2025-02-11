@@ -9,7 +9,7 @@
    ======================
    This module provides functionalities to create the mapping configuration JSON for the CBM AIDB.
 
-   This class is utilised for scenario generation for specific catchments.
+   This class is utilized for scenario generation for specific catchments.
 
 
 
@@ -26,15 +26,15 @@ Classes
 
 
 
-.. py:class:: CreateJSON(config_path)
+.. py:class:: CreateJSON(geo_data_manager)
 
 
    This class is responsible for creating the mapping configuration JSON for the CBM AIDB.
 
-   This class is utilised for scenario generation for specific catchments.
+   This class is utilized for scenario generation for specific catchments.
 
-   :param config_path: The path to the configuration file.
-   :type config_path: str
+   :param geo_data_manager: An instance of the GeoDataManager class.
+   :type geo_data_manager: GeoDataManager
 
    .. attribute:: loader_class
 
@@ -44,9 +44,9 @@ Classes
 
    .. attribute:: data_manager_class
 
-      An instance of the DataManager class.
+      An instance of the GeoDataManager class.
 
-      :type: DataManager
+      :type: GeoDataManager
 
    .. attribute:: template
 
@@ -60,13 +60,13 @@ Classes
 
       :type: dict
 
-   .. method:: populate_template
+   .. method:: populate_template(scenario)
 
       Populates the template JSON with data based on the given scenario.
 
-   .. method:: populate_spinup_template
+   .. method:: populate_spinup_template()
 
-      Populates the template JSON with data based on managed forests.
+      Populates the template JSON with data based on existing forest in the catchment.
       
 
    .. py:method:: populate_template(scenario)
@@ -82,7 +82,7 @@ Classes
 
    .. py:method:: populate_spinup_template()
 
-      Populates the template JSON with data based existing forest in the catchment.
+      Populates the template JSON with data based on existing forest in the catchment.
 
       :returns: The populated template JSON.
       :rtype: dict

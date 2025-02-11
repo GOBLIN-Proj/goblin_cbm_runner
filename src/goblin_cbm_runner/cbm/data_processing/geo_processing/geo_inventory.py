@@ -11,7 +11,6 @@ import pandas as pd
 import os
 import itertools
 from goblin_cbm_runner.resource_manager.loader import Loader
-from goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager import GeoDataManager
 from goblin_cbm_runner.resource_manager.scenario_data_fetcher import ScenarioDataFetcher
 from goblin_cbm_runner.cbm.data_processing.geo_processing.catchment_forest_cover import CatchmentForest
 
@@ -41,7 +40,7 @@ class Inventory:
         make_inventory_structure(scenario, path, ID="False", delay=0, UNFCCCLC=2):
             Constructs the inventory data structure for a given scenario, incorporating essential parameters like ID flags, delay years, and land class codes.
         
-        fill_baseline_inventory(scenario, inventory_df, forest_type, species, soil, yield_class, ageID):
+        fill_baseline_inventory(inventory_df, forest_type, species, soil, yield_class, ageID):
             Populates the baseline inventory DataFrame with data specific to legacy forests, accounting for forest type, species, soil composition, yield class, and age.
         
         inventory_iterator(scenario, inventory_df):
@@ -65,28 +64,28 @@ class Inventory:
         afforestation_annual_dict(afforestation_df):
             Transforms annual afforestation data into a dictionary format, facilitating easy access and manipulation within simulations.
     """
-    def __init__(self, calibration_year, config_path, scenario_data, afforestation_data):
+    def __init__(self, geo_data_manager):
+        self.data_manager_class = geo_data_manager
         self.catchment_forest = CatchmentForest()
-        self.sc_fetcher = ScenarioDataFetcher(scenario_data)
+        self.sc_fetcher = ScenarioDataFetcher(geo_data_manager)
         self.catchment = self.sc_fetcher.get_catchment_name()  
         self.loader_class = Loader()
-        self.data_manager_class = GeoDataManager(calibration_year=calibration_year, config_file=config_path)
-        self.afforestation_data = afforestation_data
+        self.afforestation_data = self.data_manager_class.get_afforestation_data()
         self.age_df = self.loader_class.forest_age_structure()
-        self.baseline_forest_classifiers = self.data_manager_class.get_classifiers()[
-            "Baseline"
-        ]
-        self.scenario_forest_classifiers = self.data_manager_class.get_classifiers()[
-            "Scenario"
-        ]
-        self.legacy_year = self.data_manager_class.get_forest_baseline_year()
+        self.baseline_forest_classifiers = self.data_manager_class.get_classifiers()["Baseline"]
+        self.scenario_forest_classifiers = self.data_manager_class.get_classifiers()["Scenario"]
+        self.legacy_year = self.data_manager_class.get_calibration_year()
         self.soils_dict = self.data_manager_class.get_soils_dict()
         self.yield_baseline_dict = self.data_manager_class.get_yield_baseline_dict()
 
-
     def legacy_forest_inventory(self):
-        forest_cover = self.catchment_forest.get_catchment_forest(self.catchment)
+        """
+        Retrieves and structures legacy forest inventory data, providing a foundation for baseline scenario simulations.
 
+        Returns:
+            DataFrame: The structured legacy forest inventory data.
+        """
+        forest_cover = self.catchment_forest.get_catchment_forest(self.catchment)
         return forest_cover
 
     def make_inventory_structure(self, scenario, path, ID="False", delay=0, UNFCCCLC=2):
@@ -191,7 +190,6 @@ class Inventory:
 
     def fill_baseline_inventory(
         self,
-        scenario,
         inventory_df,
         forest_type,
         species,
@@ -203,7 +201,6 @@ class Inventory:
         Fills the baseline inventory dataframe with calculated values based on the given parameters.
 
         Parameters:
-            scenario (str): The scenario for the inventory.
             inventory_df (pandas.DataFrame): The baseline inventory dataframe to be filled.
             forest_type (str): The forest type (L, A).
             species (str): The species of the forest.
@@ -282,7 +279,6 @@ class Inventory:
 
         for AgeID, species, forest, soil, yield_class in combinations:
             inventory_df = self.fill_baseline_inventory(
-                scenario,
                 inventory_df,
                 forest,
                 species,
@@ -301,7 +297,7 @@ class Inventory:
         Calculate the afforestation inventory based on the given scenario and inventory dataframe.
 
         Parameters:
-            scenario (str): The scenario for which the afforestation inventory is calculated.
+            scenario: The scenario for which the afforestation inventory is calculated.
             inventory_df (pd.DataFrame): The inventory dataframe containing the classifier information.
 
         Returns:
@@ -317,7 +313,7 @@ class Inventory:
 
         scenario_afforestation_areas = afforestation_areas.loc[mask]
 
-        mineral_areas_dicts = self.scenario_afforesation_dict(scenario_afforestation_areas)
+        mineral_areas_dicts = self.scenario_afforestation_dict(scenario_afforestation_areas)
 
 
         non_forest_dict = self.data_manager_class.get_non_forest_dict()
@@ -347,7 +343,7 @@ class Inventory:
         return inventory_df
 
 
-    def scenario_afforesation_dict(self, scenario_afforestation_areas):
+    def scenario_afforestation_dict(self, scenario_afforestation_areas):
         """
         Calculate the areas of afforestation for each yield class and species based on the scenario afforestation areas.
 

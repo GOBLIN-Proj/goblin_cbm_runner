@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_cbm_runner.resource_manager.scenario_data_fetcher &mdash; goblin_cbm_runner 0.4.2 documentation</title>
+  <title>goblin_cbm_runner.resource_manager.scenario_data_fetcher &mdash; goblin_cbm_runner 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../_static/documentation_options.js?v=ff822928"></script>
+        <script src="../../../../_static/documentation_options.js?v=1dd76d02"></script>
         <script src="../../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -100,8 +100,8 @@
              
   <section id="module-goblin_cbm_runner.resource_manager.scenario_data_fetcher">
 <span id="goblin-cbm-runner-resource-manager-scenario-data-fetcher"></span><h1><a class="reference internal" href="#module-goblin_cbm_runner.resource_manager.scenario_data_fetcher" title="goblin_cbm_runner.resource_manager.scenario_data_fetcher"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.resource_manager.scenario_data_fetcher</span></code></a><a class="headerlink" href="#module-goblin_cbm_runner.resource_manager.scenario_data_fetcher" title="Link to this heading"></a></h1>
-<section id="scenario-data-fetcher-documentation">
-<p>The <code class="docutils literal notranslate"><span class="pre">ScenarioDataFetcher</span></code> class is designed to extract specific pieces of information from a scenario dataset.</p>
+<section id="scenario-data-fetcher">
+<p>The <cite>ScenarioDataFetcher</cite> class extracts specific pieces of information from a scenario dataset.</p>
 </section>
 <section id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
@@ -110,18 +110,17 @@
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#goblin_cbm_runner.resource_manager.scenario_data_fetcher.ScenarioDataFetcher" title="goblin_cbm_runner.resource_manager.scenario_data_fetcher.ScenarioDataFetcher"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ScenarioDataFetcher</span></code></a></p></td>
-<td><p>The ScenarioDataFetcher class is designed to extract specific pieces of information from a scenario dataset.</p></td>
+<td><p>Extracts specific pieces of information from a scenario dataset.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.scenario_data_fetcher.ScenarioDataFetcher">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.resource_manager.scenario_data_fetcher.</span></span><span class="sig-name descname"><span class="pre">ScenarioDataFetcher</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/scenario_data_fetcher.html#ScenarioDataFetcher"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.scenario_data_fetcher.ScenarioDataFetcher" title="Link to this definition"></a></dt>
-<dd><p>The ScenarioDataFetcher class is designed to extract specific pieces of information from a scenario dataset.</p>
-<p>This class provides methods to retrieve various information from a scenario dataset.</p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.resource_manager.scenario_data_fetcher.</span></span><span class="sig-name descname"><span class="pre">ScenarioDataFetcher</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geo_data_manager</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/scenario_data_fetcher.html#ScenarioDataFetcher"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.scenario_data_fetcher.ScenarioDataFetcher" title="Link to this definition"></a></dt>
+<dd><p>Extracts specific pieces of information from a scenario dataset.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.scenario_data_fetcher.ScenarioDataFetcher.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/scenario_data_fetcher.html#ScenarioDataFetcher.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.scenario_data_fetcher.ScenarioDataFetcher.__init__" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geo_data_manager</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/scenario_data_fetcher.html#ScenarioDataFetcher.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.scenario_data_fetcher.ScenarioDataFetcher.__init__" title="Link to this definition"></a></dt>
 <dd><p>Initializes an instance of the <cite>ScenarioDataFetcher</cite> class.</p>
 </dd></dl>
 
@@ -134,25 +133,25 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.scenario_data_fetcher.ScenarioDataFetcher.get_afforestation_end_year">
 <span class="sig-name descname"><span class="pre">get_afforestation_end_year</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/scenario_data_fetcher.html#ScenarioDataFetcher.get_afforestation_end_year"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.scenario_data_fetcher.ScenarioDataFetcher.get_afforestation_end_year" title="Link to this definition"></a></dt>
-<dd><p>Retrieves the end year for afforestation activities for a specified scenario.</p>
+<dd><p>Retrieves the end year for afforestation activities.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.scenario_data_fetcher.ScenarioDataFetcher.get_catchment_name">
 <span class="sig-name descname"><span class="pre">get_catchment_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/scenario_data_fetcher.html#ScenarioDataFetcher.get_catchment_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.scenario_data_fetcher.ScenarioDataFetcher.get_catchment_name" title="Link to this definition"></a></dt>
-<dd><p>Retrieves the name of the catchment area defined in the scenario data.</p>
+<dd><p>Retrieves the name of the catchment area.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.scenario_data_fetcher.ScenarioDataFetcher.get_scenario_list">
 <span class="sig-name descname"><span class="pre">get_scenario_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/scenario_data_fetcher.html#ScenarioDataFetcher.get_scenario_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.scenario_data_fetcher.ScenarioDataFetcher.get_scenario_list" title="Link to this definition"></a></dt>
-<dd><p>Retrieves a list of all scenarios present in the scenario data.</p>
+<dd><p>Retrieves a list of all scenarios.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.scenario_data_fetcher.ScenarioDataFetcher.get_afforest_scenario_index">
 <span class="sig-name descname"><span class="pre">get_afforest_scenario_index</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/scenario_data_fetcher.html#ScenarioDataFetcher.get_afforest_scenario_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.scenario_data_fetcher.ScenarioDataFetcher.get_afforest_scenario_index" title="Link to this definition"></a></dt>
-<dd><p>Retrieves a list of afforestation scenario indices, with -1 indicating a special scenario, followed by the indices of all available scenarios.</p>
+<dd><p>Retrieves a list of afforestation scenario indices.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -161,10 +160,10 @@
 <dd><p>Retrieves the index of a specified column in the scenario data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>column_name</strong> (<em>str</em>) – The name of the column to retrieve.</p>
+<dd class="field-odd"><p><strong>column_name</strong> (<em>str</em>) – The name of the column.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The index of the column.</p>
+<dd class="field-even"><p>The index of the column, or None if not found.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
@@ -175,7 +174,7 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="id1">
 <span class="sig-name descname"><span class="pre">get_afforestation_end_year</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/scenario_data_fetcher.html#ScenarioDataFetcher.get_afforestation_end_year"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
-<dd><p>Retrieves the end year for afforestation activities for a specified scenario.</p>
+<dd><p>Retrieves the end year for afforestation activities.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The afforestation end year.</p>
@@ -189,7 +188,7 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="id2">
 <span class="sig-name descname"><span class="pre">get_catchment_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/scenario_data_fetcher.html#ScenarioDataFetcher.get_catchment_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
-<dd><p>Retrieves the name of the catchment area defined in the scenario data.</p>
+<dd><p>Retrieves the name of the catchment area.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The catchment name.</p>
@@ -203,7 +202,7 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="id3">
 <span class="sig-name descname"><span class="pre">get_scenario_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/scenario_data_fetcher.html#ScenarioDataFetcher.get_scenario_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
-<dd><p>Retrieves a list of all scenarios present in the scenario data.</p>
+<dd><p>Retrieves a list of all scenarios.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of scenario identifiers.</p>
@@ -217,8 +216,7 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="id4">
 <span class="sig-name descname"><span class="pre">get_afforest_scenario_index</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/scenario_data_fetcher.html#ScenarioDataFetcher.get_afforest_scenario_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
-<dd><p>Retrieves a list of afforestation scenario indices, with -1 indicating a special scenario,
-followed by the indices of all available scenarios.</p>
+<dd><p>Retrieves a list of afforestation scenario indices.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list containing -1 followed by all scenario indices.</p>

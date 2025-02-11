@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_cbm_runner.resource_manager.flux_manager &mdash; goblin_cbm_runner 0.4.2 documentation</title>
+  <title>goblin_cbm_runner.resource_manager.flux_manager &mdash; goblin_cbm_runner 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../_static/documentation_options.js?v=ff822928"></script>
+        <script src="../../../../_static/documentation_options.js?v=1dd76d02"></script>
         <script src="../../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -174,7 +174,12 @@ to generate disturbance fluxes and process fluxes while ensuring consistency acr
 <dd><p>Combines scaled and filtered carbon flux data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>object</strong> – An object holding flux data, area, and state information.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>flux</strong> (<em>pandas.DataFrame</em>) – DataFrame containing carbon flux data.</p></li>
+<li><p><strong>state</strong> (<em>pandas.DataFrame</em>) – DataFrame containing state information.</p></li>
+<li><p><strong>parameters</strong> (<em>pandas.DataFrame</em>) – DataFrame containing parameter information.</p></li>
+<li><p><strong>area</strong> (<em>pandas.DataFrame</em>) – DataFrame containing area information.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>DataFrame with augmented flux data ready for CBM use.</p>
@@ -191,7 +196,11 @@ to generate disturbance fluxes and process fluxes while ensuring consistency acr
 <dd><p>Adds land class and disturbance type columns to an existing flux DataFrame.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>object</strong> – An object holding flux data, land class, and disturbance type information.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>flux</strong> (<em>pandas.DataFrame</em>) – DataFrame containing carbon flux data.</p></li>
+<li><p><strong>state</strong> (<em>pandas.DataFrame</em>) – DataFrame containing state information.</p></li>
+<li><p><strong>parameters</strong> (<em>pandas.DataFrame</em>) – DataFrame containing parameter information.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Flux DataFrame with ‘land_class’ and ‘disturbance_type’ columns added.</p>
@@ -208,7 +217,12 @@ to generate disturbance fluxes and process fluxes while ensuring consistency acr
 <dd><p>Creates a DataFrame of carbon fluxes related to disturbances.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>object</strong> – An object holding flux data, area, and state information.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>flux</strong> (<em>pandas.DataFrame</em>) – DataFrame containing carbon flux data.</p></li>
+<li><p><strong>state</strong> (<em>pandas.DataFrame</em>) – DataFrame containing state information.</p></li>
+<li><p><strong>parameters</strong> (<em>pandas.DataFrame</em>) – DataFrame containing parameter information.</p></li>
+<li><p><strong>area</strong> (<em>pandas.DataFrame</em>) – DataFrame containing area information.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A DataFrame containing calculated disturbance fluxes.</p>
@@ -225,7 +239,7 @@ to generate disturbance fluxes and process fluxes while ensuring consistency acr
 <dd><p>Calculates the total litter production based on relevant litter flux columns.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>object</strong> – An object holding flux data and other relevant state information.</p>
+<dd class="field-odd"><p><strong>flux</strong> (<em>pandas.DataFrame</em>) – DataFrame containing carbon flux data.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A Series representing the total litter production.</p>
@@ -242,7 +256,7 @@ to generate disturbance fluxes and process fluxes while ensuring consistency acr
 <dd><p>Calculates the gross growth for aboveground biomass.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>object</strong> – An object holding flux data and other relevant state information.</p>
+<dd class="field-odd"><p><strong>flux</strong> (<em>pandas.DataFrame</em>) – DataFrame containing carbon flux data.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A Series representing the calculated aboveground gross growth.</p>
@@ -259,7 +273,7 @@ to generate disturbance fluxes and process fluxes while ensuring consistency acr
 <dd><p>Calculates the gross growth for belowground biomass.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>object</strong> – An object holding flux data and other relevant state information.</p>
+<dd class="field-odd"><p><strong>flux</strong> (<em>pandas.DataFrame</em>) – DataFrame containing carbon flux data.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A Series representing the calculated belowground gross growth.</p>
@@ -276,7 +290,11 @@ to generate disturbance fluxes and process fluxes while ensuring consistency acr
 <dd><p>Creates a DataFrame of annual process fluxes in the CBM.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>object</strong> – An object holding flux data, area, and state information.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>flux</strong> (<em>pandas.DataFrame</em>) – DataFrame containing carbon flux data.</p></li>
+<li><p><strong>state</strong> (<em>pandas.DataFrame</em>) – DataFrame containing state information.</p></li>
+<li><p><strong>parameters</strong> (<em>pandas.DataFrame</em>) – DataFrame containing parameter information.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>DataFrame with calculated annual process fluxes.</p>
@@ -293,7 +311,12 @@ to generate disturbance fluxes and process fluxes while ensuring consistency acr
 <dd><p>Combines disturbance fluxes and annual process fluxes into a single DataFrame.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>object</strong> – An object holding flux data, area, and state information.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>flux</strong> (<em>pandas.DataFrame</em>) – DataFrame containing carbon flux data.</p></li>
+<li><p><strong>state</strong> (<em>pandas.DataFrame</em>) – DataFrame containing state information.</p></li>
+<li><p><strong>parameters</strong> (<em>pandas.DataFrame</em>) – DataFrame containing parameter information.</p></li>
+<li><p><strong>area</strong> (<em>pandas.DataFrame</em>) – DataFrame containing area information.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>DataFrame with concatenated disturbance and process fluxes.</p>
@@ -307,7 +330,19 @@ to generate disturbance fluxes and process fluxes while ensuring consistency acr
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.flux_manager.FluxManager.flux_filter_and_aggregate">
 <span class="sig-name descname"><span class="pre">flux_filter_and_aggregate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/flux_manager.html#FluxManager.flux_filter_and_aggregate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.flux_manager.FluxManager.flux_filter_and_aggregate" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Filters and aggregates flux data based on specific conditions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>pandas.DataFrame</em>) – DataFrame containing flux data.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Aggregated DataFrame with filtered flux data.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 

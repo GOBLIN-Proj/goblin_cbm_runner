@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_cbm_runner.cbm.data_processing.default_processing.transition &mdash; goblin_cbm_runner 0.4.2 documentation</title>
+  <title>goblin_cbm_runner.cbm.data_processing.default_processing.transition &mdash; goblin_cbm_runner 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -16,7 +16,7 @@
   
         <script src="../../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../../_static/documentation_options.js?v=ff822928"></script>
+        <script src="../../../../../_static/documentation_options.js?v=1dd76d02"></script>
         <script src="../../../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/js/theme.js"></script>
@@ -90,11 +90,10 @@
 <a class="viewcode-back" href="../../../../../autoapi/goblin_cbm_runner/cbm/data_processing/default_processing/transition/index.html#goblin_cbm_runner.cbm.data_processing.default_processing.transition.Transition">[docs]</a>
 <span class="k">class</span> <span class="nc">Transition</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Represents a transition object that generates transition rules structure based on given scenario.</span>
+<span class="sd">    Represents a transition object that generates transition rules structure based on a given scenario.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        calibration_year (int): The calibration year.</span>
-<span class="sd">        config_path (str): The path to the configuration file.</span>
+<span class="sd">        data_manager (DataManager): An instance of the DataManager class.</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        data_manager_class (DataManager): The data manager class instance.</span>
@@ -102,11 +101,10 @@
 <span class="sd">        scenario_forest_classifiers (dict): The scenario forest classifiers.</span>
 
 <span class="sd">    Methods:</span>
-<span class="sd">        make_transition_rules_structure: Generates the transition rules structure based on the given scenario.</span>
-
+<span class="sd">        make_transition_rules_structure(scenario): Generates the transition rules structure based on the given scenario.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calibration_year</span><span class="p">,</span> <span class="n">config_path</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span> <span class="o">=</span> <span class="n">DataManager</span><span class="p">(</span><span class="n">calibration_year</span><span class="o">=</span><span class="n">calibration_year</span><span class="p">,</span> <span class="n">config_file</span><span class="o">=</span><span class="n">config_path</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_manager</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span> <span class="o">=</span> <span class="n">data_manager</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">baseline_forest_classifiers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_classifiers</span><span class="p">()[</span>
             <span class="s2">&quot;Baseline&quot;</span>
         <span class="p">]</span>
@@ -121,10 +119,10 @@
 <span class="sd">        Generates a transition rules structure based on the given scenario.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            scenario: The scenario to generate the transition rules structure for.</span>
+<span class="sd">            scenario (str): The scenario to generate the transition rules structure for.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            The transition rules structure as a pandas DataFrame.</span>
+<span class="sd">            pd.DataFrame: The transition rules structure as a pandas DataFrame.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         
         <span class="k">if</span> <span class="n">scenario</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>

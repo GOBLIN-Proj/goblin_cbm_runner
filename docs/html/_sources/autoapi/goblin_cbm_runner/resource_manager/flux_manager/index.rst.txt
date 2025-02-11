@@ -68,7 +68,14 @@ Classes
 
       Combines scaled and filtered carbon flux data.
 
-      :param object: An object holding flux data, area, and state information.
+      :param flux: DataFrame containing carbon flux data.
+      :type flux: pandas.DataFrame
+      :param state: DataFrame containing state information.
+      :type state: pandas.DataFrame
+      :param parameters: DataFrame containing parameter information.
+      :type parameters: pandas.DataFrame
+      :param area: DataFrame containing area information.
+      :type area: pandas.DataFrame
 
       :returns: DataFrame with augmented flux data ready for CBM use.
       :rtype: pandas.DataFrame
@@ -78,7 +85,12 @@ Classes
 
       Adds land class and disturbance type columns to an existing flux DataFrame.
 
-      :param object: An object holding flux data, land class, and disturbance type information.
+      :param flux: DataFrame containing carbon flux data.
+      :type flux: pandas.DataFrame
+      :param state: DataFrame containing state information.
+      :type state: pandas.DataFrame
+      :param parameters: DataFrame containing parameter information.
+      :type parameters: pandas.DataFrame
 
       :returns: Flux DataFrame with 'land_class' and 'disturbance_type' columns added.
       :rtype: pandas.DataFrame
@@ -88,7 +100,14 @@ Classes
 
       Creates a DataFrame of carbon fluxes related to disturbances.
 
-      :param object: An object holding flux data, area, and state information.
+      :param flux: DataFrame containing carbon flux data.
+      :type flux: pandas.DataFrame
+      :param state: DataFrame containing state information.
+      :type state: pandas.DataFrame
+      :param parameters: DataFrame containing parameter information.
+      :type parameters: pandas.DataFrame
+      :param area: DataFrame containing area information.
+      :type area: pandas.DataFrame
 
       :returns: A DataFrame containing calculated disturbance fluxes.
       :rtype: pandas.DataFrame
@@ -98,7 +117,8 @@ Classes
 
       Calculates the total litter production based on relevant litter flux columns.
 
-      :param object: An object holding flux data and other relevant state information.
+      :param flux: DataFrame containing carbon flux data.
+      :type flux: pandas.DataFrame
 
       :returns: A Series representing the total litter production.
       :rtype: pandas.Series
@@ -108,7 +128,8 @@ Classes
 
       Calculates the gross growth for aboveground biomass.
 
-      :param object: An object holding flux data and other relevant state information.
+      :param flux: DataFrame containing carbon flux data.
+      :type flux: pandas.DataFrame
 
       :returns: A Series representing the calculated aboveground gross growth.
       :rtype: pandas.Series
@@ -118,7 +139,8 @@ Classes
 
       Calculates the gross growth for belowground biomass.
 
-      :param object: An object holding flux data and other relevant state information.
+      :param flux: DataFrame containing carbon flux data.
+      :type flux: pandas.DataFrame
 
       :returns: A Series representing the calculated belowground gross growth.
       :rtype: pandas.Series
@@ -128,7 +150,12 @@ Classes
 
       Creates a DataFrame of annual process fluxes in the CBM.
 
-      :param object: An object holding flux data, area, and state information.
+      :param flux: DataFrame containing carbon flux data.
+      :type flux: pandas.DataFrame
+      :param state: DataFrame containing state information.
+      :type state: pandas.DataFrame
+      :param parameters: DataFrame containing parameter information.
+      :type parameters: pandas.DataFrame
 
       :returns: DataFrame with calculated annual process fluxes.
       :rtype: pandas.DataFrame
@@ -138,13 +165,28 @@ Classes
 
       Combines disturbance fluxes and annual process fluxes into a single DataFrame.
 
-      :param object: An object holding flux data, area, and state information.
+      :param flux: DataFrame containing carbon flux data.
+      :type flux: pandas.DataFrame
+      :param state: DataFrame containing state information.
+      :type state: pandas.DataFrame
+      :param parameters: DataFrame containing parameter information.
+      :type parameters: pandas.DataFrame
+      :param area: DataFrame containing area information.
+      :type area: pandas.DataFrame
 
       :returns: DataFrame with concatenated disturbance and process fluxes.
       :rtype: pandas.DataFrame
 
 
    .. py:method:: flux_filter_and_aggregate(df)
+
+      Filters and aggregates flux data based on specific conditions.
+
+      :param df: DataFrame containing flux data.
+      :type df: pandas.DataFrame
+
+      :returns: Aggregated DataFrame with filtered flux data.
+      :rtype: pandas.DataFrame
 
 
 

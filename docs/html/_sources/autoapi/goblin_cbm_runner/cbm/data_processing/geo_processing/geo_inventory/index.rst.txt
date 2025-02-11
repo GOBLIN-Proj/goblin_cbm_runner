@@ -27,7 +27,7 @@ Classes
 
 
 
-.. py:class:: Inventory(calibration_year, config_path, scenario_data, afforestation_data)
+.. py:class:: Inventory(geo_data_manager)
 
 
    Manages and processes forest inventory data for Carbon Budget Modeling (CBM) simulations at the catchment level,
@@ -101,7 +101,7 @@ Classes
       Constructs the inventory data structure for a given scenario, incorporating essential parameters like ID flags, delay years, and land class codes.
       
 
-   .. method:: fill_baseline_inventory(scenario, inventory_df, forest_type, species, soil, yield_class, ageID)
+   .. method:: fill_baseline_inventory(inventory_df, forest_type, species, soil, yield_class, ageID)
 
       
       Populates the baseline inventory DataFrame with data specific to legacy forests, accounting for forest type, species, soil composition, yield class, and age.
@@ -151,6 +151,11 @@ Classes
 
    .. py:method:: legacy_forest_inventory()
 
+      Retrieves and structures legacy forest inventory data, providing a foundation for baseline scenario simulations.
+
+      :returns: The structured legacy forest inventory data.
+      :rtype: DataFrame
+
 
    .. py:method:: make_inventory_structure(scenario, path, ID='False', delay=0, UNFCCCLC=2)
 
@@ -171,12 +176,10 @@ Classes
       :rtype: pandas.DataFrame
 
 
-   .. py:method:: fill_baseline_inventory(scenario, inventory_df, forest_type, species, soil, yield_class, ageID)
+   .. py:method:: fill_baseline_inventory(inventory_df, forest_type, species, soil, yield_class, ageID)
 
       Fills the baseline inventory dataframe with calculated values based on the given parameters.
 
-      :param scenario: The scenario for the inventory.
-      :type scenario: str
       :param inventory_df: The baseline inventory dataframe to be filled.
       :type inventory_df: pandas.DataFrame
       :param forest_type: The forest type (L, A).
@@ -213,7 +216,6 @@ Classes
       Calculate the afforestation inventory based on the given scenario and inventory dataframe.
 
       :param scenario: The scenario for which the afforestation inventory is calculated.
-      :type scenario: str
       :param inventory_df: The inventory dataframe containing the classifier information.
       :type inventory_df: pd.DataFrame
 
@@ -221,7 +223,7 @@ Classes
       :rtype: pd.DataFrame
 
 
-   .. py:method:: scenario_afforesation_dict(scenario_afforestation_areas)
+   .. py:method:: scenario_afforestation_dict(scenario_afforestation_areas)
 
       Calculate the areas of afforestation for each yield class and species based on the scenario afforestation areas.
 

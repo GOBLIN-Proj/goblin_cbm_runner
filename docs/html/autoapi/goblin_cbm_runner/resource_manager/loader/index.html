@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_cbm_runner.resource_manager.loader &mdash; goblin_cbm_runner 0.4.2 documentation</title>
+  <title>goblin_cbm_runner.resource_manager.loader &mdash; goblin_cbm_runner 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../_static/documentation_options.js?v=ff822928"></script>
+        <script src="../../../../_static/documentation_options.js?v=1dd76d02"></script>
         <script src="../../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -144,7 +144,7 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.loader.Loader.forest_kb_yields">
 <span class="sig-name descname"><span class="pre">forest_kb_yields</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.forest_kb_yields"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.loader.Loader.forest_kb_yields" title="Link to this definition"></a></dt>
-<dd><p>Returns the forest Firs yields dataframe.</p>
+<dd><p>Returns the forest KB yields dataframe.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -166,12 +166,6 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.loader.Loader.afforestation_areas_KB">
-<span class="sig-name descname"><span class="pre">afforestation_areas_KB</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.afforestation_areas_KB"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.loader.Loader.afforestation_areas_KB" title="Link to this definition"></a></dt>
-<dd><p>Returns the afforestation areas (Firs) dataframe.</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.loader.Loader.disturbance_time">
 <span class="sig-name descname"><span class="pre">disturbance_time</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.disturbance_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.loader.Loader.disturbance_time" title="Link to this definition"></a></dt>
 <dd><p>Returns the disturbance times dataframe.</p>
@@ -180,7 +174,13 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.loader.Loader.kb_yield_curves">
 <span class="sig-name descname"><span class="pre">kb_yield_curves</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.kb_yield_curves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.loader.Loader.kb_yield_curves" title="Link to this definition"></a></dt>
-<dd><p>Returns the Firs yield curves dataframe.</p>
+<dd><p>Returns the KB yield curves dataframe.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.loader.Loader.kb_standing_vol_yield_curves">
+<span class="sig-name descname"><span class="pre">kb_standing_vol_yield_curves</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.kb_standing_vol_yield_curves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.loader.Loader.kb_standing_vol_yield_curves" title="Link to this definition"></a></dt>
+<dd><p>Returns the KB standing volume yield curves dataframe.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -196,57 +196,93 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.loader.Loader.disturbance_data">
-<span class="sig-name descname"><span class="pre">disturbance_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.disturbance_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.loader.Loader.disturbance_data" title="Link to this definition"></a></dt>
-<dd><p>Returns the disturbance data dataframe.</p>
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.loader.Loader.FM_age_class">
+<span class="sig-name descname"><span class="pre">FM_age_class</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.FM_age_class"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.loader.Loader.FM_age_class" title="Link to this definition"></a></dt>
+<dd><p>Returns the managed forest age class dataframe.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.loader.Loader.base_age_class">
-<span class="sig-name descname"><span class="pre">base_age_class</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.base_age_class"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.loader.Loader.base_age_class" title="Link to this definition"></a></dt>
-<dd><p>Returns the baseline (2016 - 2050) age class dataframe.</p>
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.loader.Loader.FM_classifiers">
+<span class="sig-name descname"><span class="pre">FM_classifiers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.FM_classifiers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.loader.Loader.FM_classifiers" title="Link to this definition"></a></dt>
+<dd><p>Returns the managed forest classifiers dataframe.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.loader.Loader.base_classifiers">
-<span class="sig-name descname"><span class="pre">base_classifiers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.base_classifiers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.loader.Loader.base_classifiers" title="Link to this definition"></a></dt>
-<dd><p>Returns the baseline (2016 - 2050) classifiers dataframe.</p>
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.loader.Loader.FM_disturbance_types">
+<span class="sig-name descname"><span class="pre">FM_disturbance_types</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.FM_disturbance_types"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.loader.Loader.FM_disturbance_types" title="Link to this definition"></a></dt>
+<dd><p>Returns the managed forest disturbance types dataframe.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.loader.Loader.base_disturbance_events">
-<span class="sig-name descname"><span class="pre">base_disturbance_events</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.base_disturbance_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.loader.Loader.base_disturbance_events" title="Link to this definition"></a></dt>
-<dd><p>Returns the baseline (2016 - 2050) disturbance events dataframe.</p>
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.loader.Loader.FM_growth_curves">
+<span class="sig-name descname"><span class="pre">FM_growth_curves</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.FM_growth_curves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.loader.Loader.FM_growth_curves" title="Link to this definition"></a></dt>
+<dd><p>Returns the managed forest growth curves dataframe.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.loader.Loader.base_disturbance_types">
-<span class="sig-name descname"><span class="pre">base_disturbance_types</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.base_disturbance_types"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.loader.Loader.base_disturbance_types" title="Link to this definition"></a></dt>
-<dd><p>Returns the baseline (2016 - 2050) disturbance types dataframe.</p>
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.loader.Loader.FM_inventory">
+<span class="sig-name descname"><span class="pre">FM_inventory</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.FM_inventory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.loader.Loader.FM_inventory" title="Link to this definition"></a></dt>
+<dd><p>Returns the managed forest inventory dataframe.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.loader.Loader.base_growth_curves">
-<span class="sig-name descname"><span class="pre">base_growth_curves</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.base_growth_curves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.loader.Loader.base_growth_curves" title="Link to this definition"></a></dt>
-<dd><p>Returns the baseline (2016 - 2050) growth curves dataframe.</p>
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.loader.Loader.FM_transition">
+<span class="sig-name descname"><span class="pre">FM_transition</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.FM_transition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.loader.Loader.FM_transition" title="Link to this definition"></a></dt>
+<dd><p>Returns the managed forest transitions dataframe.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.loader.Loader.base_inventory">
-<span class="sig-name descname"><span class="pre">base_inventory</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.base_inventory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.loader.Loader.base_inventory" title="Link to this definition"></a></dt>
-<dd><p>Returns the baseline (2016 - 2050) inventory dataframe.</p>
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.loader.Loader.FM_standing_volume">
+<span class="sig-name descname"><span class="pre">FM_standing_volume</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.FM_standing_volume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.loader.Loader.FM_standing_volume" title="Link to this definition"></a></dt>
+<dd><p>Returns the managed forest standing volume dataframe.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.loader.Loader.base_transition">
-<span class="sig-name descname"><span class="pre">base_transition</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.base_transition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.loader.Loader.base_transition" title="Link to this definition"></a></dt>
-<dd><p>Returns the baseline (2016 - 2050) transitions dataframe.</p>
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.loader.Loader.FM_disturbances_time_series">
+<span class="sig-name descname"><span class="pre">FM_disturbances_time_series</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.FM_disturbances_time_series"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.loader.Loader.FM_disturbances_time_series" title="Link to this definition"></a></dt>
+<dd><p>Returns the managed forest disturbances time series dataframe.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.loader.Loader.base_standing_volume">
-<span class="sig-name descname"><span class="pre">base_standing_volume</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.base_standing_volume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.loader.Loader.base_standing_volume" title="Link to this definition"></a></dt>
-<dd><p>Returns the baseline (2016 - 2050) standing volume dataframe.</p>
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.loader.Loader.AF_disturbances_time_series">
+<span class="sig-name descname"><span class="pre">AF_disturbances_time_series</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.AF_disturbances_time_series"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.loader.Loader.AF_disturbances_time_series" title="Link to this definition"></a></dt>
+<dd><p>Returns the historic afforestation disturbances time series dataframe.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.loader.Loader.AF_age_class">
+<span class="sig-name descname"><span class="pre">AF_age_class</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.AF_age_class"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.loader.Loader.AF_age_class" title="Link to this definition"></a></dt>
+<dd><p>Returns the historic afforestation age class dataframe.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.loader.Loader.AF_classifiers">
+<span class="sig-name descname"><span class="pre">AF_classifiers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.AF_classifiers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.loader.Loader.AF_classifiers" title="Link to this definition"></a></dt>
+<dd><p>Returns the historic afforestation classifiers dataframe.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.loader.Loader.AF_disturbance_types">
+<span class="sig-name descname"><span class="pre">AF_disturbance_types</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.AF_disturbance_types"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.loader.Loader.AF_disturbance_types" title="Link to this definition"></a></dt>
+<dd><p>Returns the historic afforestation disturbance types dataframe.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.loader.Loader.AF_growth_curves">
+<span class="sig-name descname"><span class="pre">AF_growth_curves</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.AF_growth_curves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.loader.Loader.AF_growth_curves" title="Link to this definition"></a></dt>
+<dd><p>Returns the historic afforestation growth curves dataframe.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.loader.Loader.AF_inventory">
+<span class="sig-name descname"><span class="pre">AF_inventory</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.AF_inventory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.loader.Loader.AF_inventory" title="Link to this definition"></a></dt>
+<dd><p>Returns the historic afforestation inventory dataframe.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.loader.Loader.AF_transition">
+<span class="sig-name descname"><span class="pre">AF_transition</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.AF_transition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.loader.Loader.AF_transition" title="Link to this definition"></a></dt>
+<dd><p>Returns the historic afforestation transitions dataframe.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -287,25 +323,19 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id6">
-<span class="sig-name descname"><span class="pre">afforestation_areas_KB</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.afforestation_areas_KB"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
-<dd><p>Returns the afforestation areas (KB) dataframe.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id7">
-<span class="sig-name descname"><span class="pre">disturbance_time</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.disturbance_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id7" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">disturbance_time</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.disturbance_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
 <dd><p>Returns the disturbance times dataframe.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id8">
-<span class="sig-name descname"><span class="pre">kb_yield_curves</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.kb_yield_curves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id8" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id7">
+<span class="sig-name descname"><span class="pre">kb_yield_curves</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.kb_yield_curves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id7" title="Link to this definition"></a></dt>
 <dd><p>Returns the KB yield curves dataframe.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.loader.Loader.kb_standing_vol_yield_curves">
-<span class="sig-name descname"><span class="pre">kb_standing_vol_yield_curves</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.kb_standing_vol_yield_curves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.loader.Loader.kb_standing_vol_yield_curves" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id8">
+<span class="sig-name descname"><span class="pre">kb_standing_vol_yield_curves</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.kb_standing_vol_yield_curves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id8" title="Link to this definition"></a></dt>
 <dd><p>Returns the KB standing volume yield curves dataframe.</p>
 </dd></dl>
 
@@ -323,56 +353,100 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id11">
-<span class="sig-name descname"><span class="pre">disturbance_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.disturbance_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id11" title="Link to this definition"></a></dt>
-<dd><p>Returns the disturbance data dataframe.</p>
+<span class="sig-name descname"><span class="pre">FM_age_class</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.FM_age_class"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id11" title="Link to this definition"></a></dt>
+<dd><p>Returns the managed forest age class dataframe.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id12">
-<span class="sig-name descname"><span class="pre">base_age_class</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.base_age_class"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id12" title="Link to this definition"></a></dt>
-<dd><p>Returns the baseline (2016 - 2050) age class dataframe.</p>
+<span class="sig-name descname"><span class="pre">FM_classifiers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.FM_classifiers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id12" title="Link to this definition"></a></dt>
+<dd><p>Returns the managed forest classifiers dataframe.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id13">
-<span class="sig-name descname"><span class="pre">base_classifiers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.base_classifiers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id13" title="Link to this definition"></a></dt>
-<dd><p>Returns the baseline (2016 - 2050) classifiers dataframe.</p>
+<span class="sig-name descname"><span class="pre">FM_disturbance_types</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.FM_disturbance_types"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id13" title="Link to this definition"></a></dt>
+<dd><p>Returns the managed forest disturbance types dataframe.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id14">
-<span class="sig-name descname"><span class="pre">base_disturbance_events</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.base_disturbance_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id14" title="Link to this definition"></a></dt>
-<dd><p>Returns the baseline (2016 - 2050) disturbance events dataframe.</p>
+<span class="sig-name descname"><span class="pre">FM_growth_curves</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.FM_growth_curves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id14" title="Link to this definition"></a></dt>
+<dd><p>Returns the managed forest growth curves dataframe.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id15">
-<span class="sig-name descname"><span class="pre">base_disturbance_types</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.base_disturbance_types"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id15" title="Link to this definition"></a></dt>
-<dd><p>Returns the baseline (2016 - 2050) disturbance types dataframe.</p>
+<span class="sig-name descname"><span class="pre">FM_inventory</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.FM_inventory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id15" title="Link to this definition"></a></dt>
+<dd><p>Returns the managed forest inventory dataframe.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id16">
-<span class="sig-name descname"><span class="pre">base_growth_curves</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.base_growth_curves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id16" title="Link to this definition"></a></dt>
-<dd><p>Returns the baseline (2016 - 2050) growth curves dataframe.</p>
+<span class="sig-name descname"><span class="pre">FM_transition</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.FM_transition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id16" title="Link to this definition"></a></dt>
+<dd><p>Returns the managed forest transitions dataframe.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id17">
-<span class="sig-name descname"><span class="pre">base_inventory</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.base_inventory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id17" title="Link to this definition"></a></dt>
-<dd><p>Returns the baseline (2016 - 2050) inventory dataframe.</p>
+<span class="sig-name descname"><span class="pre">FM_standing_volume</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.FM_standing_volume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id17" title="Link to this definition"></a></dt>
+<dd><p>Returns the managed forest standing volume dataframe.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id18">
-<span class="sig-name descname"><span class="pre">base_transition</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.base_transition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id18" title="Link to this definition"></a></dt>
-<dd><p>Returns the baseline (2016 - 2050) transitions dataframe.</p>
+<span class="sig-name descname"><span class="pre">FM_disturbances_time_series</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">intensity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'high'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.FM_disturbances_time_series"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id18" title="Link to this definition"></a></dt>
+<dd><p>Returns the managed forest disturbances time series dataframe.</p>
+<p>Parameters:
+- intensity (str): The intensity level of disturbances (“low”, “high”).</p>
+<p>Returns:
+- pandas.DataFrame: Time series of forest disturbances.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id19">
-<span class="sig-name descname"><span class="pre">base_standing_volume</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.base_standing_volume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id19" title="Link to this definition"></a></dt>
-<dd><p>Returns the baseline (2016 - 2050) standing volume dataframe.</p>
+<span class="sig-name descname"><span class="pre">AF_disturbances_time_series</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">intensity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'high'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.AF_disturbances_time_series"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id19" title="Link to this definition"></a></dt>
+<dd><p>Returns the historic afforestation disturbances time series dataframe.</p>
+<p>Parameters:
+- intensity (str): The intensity level of disturbances (“low”, “high”).</p>
+<p>Returns:
+- pandas.DataFrame: Time series of forest disturbances.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id20">
+<span class="sig-name descname"><span class="pre">AF_age_class</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.AF_age_class"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id20" title="Link to this definition"></a></dt>
+<dd><p>Returns the historic afforestation age class dataframe.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id21">
+<span class="sig-name descname"><span class="pre">AF_classifiers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.AF_classifiers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id21" title="Link to this definition"></a></dt>
+<dd><p>Returns the historic afforestation classifiers dataframe.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id22">
+<span class="sig-name descname"><span class="pre">AF_disturbance_types</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.AF_disturbance_types"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id22" title="Link to this definition"></a></dt>
+<dd><p>Returns the historic afforestation disturbance types dataframe.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id23">
+<span class="sig-name descname"><span class="pre">AF_growth_curves</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.AF_growth_curves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id23" title="Link to this definition"></a></dt>
+<dd><p>Returns the historic afforestation growth curves dataframe.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id24">
+<span class="sig-name descname"><span class="pre">AF_inventory</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.AF_inventory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id24" title="Link to this definition"></a></dt>
+<dd><p>Returns the historic afforestation inventory dataframe.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id25">
+<span class="sig-name descname"><span class="pre">AF_transition</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/loader.html#Loader.AF_transition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id25" title="Link to this definition"></a></dt>
+<dd><p>Returns the historic afforestation transitions dataframe.</p>
 </dd></dl>
 
 </dd></dl>

@@ -69,6 +69,10 @@
                     "default_species": "Unspecified broadleaved species - Genus type"
                 },
                 {
+                    "user_species": "Unspecified softwood species",
+                    "default_species": "Unspecified softwood species"
+                },
+                {
                     "user_species": "Other Spruce",
                     "default_species": "Other spruce"
                 }

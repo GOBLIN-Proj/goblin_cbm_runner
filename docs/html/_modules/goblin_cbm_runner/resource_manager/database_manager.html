@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_cbm_runner.resource_manager.database_manager &mdash; goblin_cbm_runner 0.4.2 documentation</title>
+  <title>goblin_cbm_runner.resource_manager.database_manager &mdash; goblin_cbm_runner 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -16,7 +16,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=ff822928"></script>
+        <script src="../../../_static/documentation_options.js?v=1dd76d02"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -105,22 +105,26 @@
 <span class="sd">        get_NIR_forest_data_ha: Retrieves the NIR forest data in hectares from the database.</span>
 <span class="sd">        get_cso_species_breakdown: Retrieves the CSO species breakdown data from the database.</span>
 <span class="sd">        get_afforestation_areas_NIR: Retrieves the afforestation areas in NIR from the database.</span>
-<span class="sd">        get_afforestation_areas_KB: Retrieves the afforestation areas in KB from the database.</span>
 <span class="sd">        get_forest_harvest_NIR: Retrieves the forest harvest data in NIR from the database.</span>
 <span class="sd">        get_kb_yield_curves: Retrieves the KB yield curves data from the database.</span>
 <span class="sd">        get_disturbance_types: Retrieves the disturbance types data from the database.</span>
 <span class="sd">        get_disturbance_times: Retrieves the disturbance times data from the database.</span>
-<span class="sd">        get_disturbance_data: Retrieves the disturbance data from the database.</span>
-<span class="sd">        get_baseline_classifiers: Retrieves the baseline classifiers from the database.</span>
-<span class="sd">        get_baseline_age_classes: Retrieves the baseline age classes from the database.</span>
-<span class="sd">        get_baseline_disturbance_events: Retrieves the baseline disturbance events from the database.</span>
-<span class="sd">        get_baseline_disturbance_types: Retrieves the baseline disturbance types from the database.</span>
-<span class="sd">        get_baseline_growth_curves: Retrieves the baseline growth curves from the database.</span>
-<span class="sd">        get_baseline_inventory: Retrieves the baseline inventory from the database.</span>
-<span class="sd">        get_baseline_transition: Retrieves the baseline transition from the database.</span>
-<span class="sd">        get_baseline_standing_volume: Retrieves the baseline standing volume from the database.</span>
+<span class="sd">        get_FM_classifiers: Retrieves the managed forest classifiers from the database.</span>
+<span class="sd">        get_FM_age_classes: Retrieves the managed forest age classes from the database.</span>
+<span class="sd">        get_FM_disturbance_types: Retrieves the managed forest disturbance types from the database.</span>
+<span class="sd">        get_FM_growth_curves: Retrieves the managed forest growth curves from the database.</span>
+<span class="sd">        get_FM_inventory: Retrieves the managed forest inventory from the database.</span>
+<span class="sd">        get_FM_transition: Retrieves the managed forest transition from the database.</span>
+<span class="sd">        get_FM_standing_volume: Retrieves the managed forest standing volume from the database.</span>
 <span class="sd">        get_geo_baseline_standing_volume: Retrieves the baseline standing volume from the database.</span>
-
+<span class="sd">        get_FM_disturbance_events: Retrieves the managed forest disturbances from the database.</span>
+<span class="sd">        get_AF_disturbance_events: Retrieves the historic afforestation disturbances from the database.</span>
+<span class="sd">        get_AF_classifiers: Retrieves the historic afforestation classifiers from the database.</span>
+<span class="sd">        get_AF_age_classes: Retrieves the historic afforestation age classes from the database.</span>
+<span class="sd">        get_AF_disturbance_types: Retrieves the historic afforestation disturbance types from the database.</span>
+<span class="sd">        get_AF_growth_curves: Retrieves the historic afforestation growth curves from the database.</span>
+<span class="sd">        get_AF_inventory: Retrieves the historic afforestation inventory from the database.</span>
+<span class="sd">        get_AF_transition: Retrieves the historic afforestation transition from the database.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -137,11 +141,12 @@
 <span class="sd">            sqlalchemy.engine.Engine: The SQLAlchemy engine object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">database_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">database_dir</span><span class="p">,</span> <span class="s2">&quot;cbm_runner_database_0.4.0.db&quot;</span><span class="p">)</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">database_dir</span><span class="p">,</span> <span class="s2">&quot;cbm_runner_database_0.4.3.db&quot;</span><span class="p">)</span>
         <span class="p">)</span>
         <span class="n">engine_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;sqlite:///</span><span class="si">{</span><span class="n">database_path</span><span class="si">}</span><span class="s2">&quot;</span>
 
         <span class="k">return</span> <span class="n">sqa</span><span class="o">.</span><span class="n">create_engine</span><span class="p">(</span><span class="n">engine_url</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="DataManager.get_forest_inventory_age_strucuture">
@@ -255,22 +260,8 @@
 
         <span class="n">dataframe</span> <span class="o">*=</span> <span class="mi">1000</span>
 
-        <span class="k">return</span> <span class="n">dataframe</span></div>
+        <span class="k">return</span> <span class="n">dataframe</span>
 
-
-<div class="viewcode-block" id="DataManager.get_afforestation_areas_KB">
-<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/database_manager/index.html#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_afforestation_areas_KB">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_afforestation_areas_KB</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retrieves the afforestation areas from the (Firs) KB_Afforestation_Area table in the database.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            pandas.DataFrame: A DataFrame containing the afforestation areas, with the year as the index.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">table</span> <span class="o">=</span> <span class="s2">&quot;KB_Afforestation_Area&quot;</span>
-        <span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span>
-            <span class="s2">&quot;SELECT * FROM &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]</span>
-        <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">dataframe</span></div>
 
@@ -344,34 +335,18 @@
         <span class="k">return</span> <span class="n">dataframe</span></div>
 
 
-<div class="viewcode-block" id="DataManager.get_disturbance_data">
-<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/database_manager/index.html#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_disturbance_data">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_disturbance_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+
+<div class="viewcode-block" id="DataManager.get_FM_classifiers">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/database_manager/index.html#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_FM_classifiers">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_FM_classifiers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retrieves the Firs disturbance data from the database.</span>
+<span class="sd">        Retrieves the managed forest classifiers from the database.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            pandas.DataFrame: A DataFrame containing the disturbance data.</span>
+<span class="sd">            pandas.DataFrame: A DataFrame containing the managed forest classifiers.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">table</span> <span class="o">=</span> <span class="s2">&quot;KB_Disturbance_default&quot;</span>
-        <span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span>
-            <span class="s2">&quot;SELECT * FROM &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">),</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span>
-        <span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">dataframe</span></div>
-
-
-<div class="viewcode-block" id="DataManager.get_baseline_classifiers">
-<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/database_manager/index.html#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_baseline_classifiers">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_baseline_classifiers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retrieves the baseline classifiers from the database.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            pandas.DataFrame: A DataFrame containing the baseline classifiers.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">table</span> <span class="o">=</span> <span class="s2">&quot;base_classifiers_2016_to_2050&quot;</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="s2">&quot;FM_classifiers_2100&quot;</span>
         <span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span>
             <span class="s2">&quot;SELECT * FROM &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span>
@@ -380,16 +355,16 @@
         <span class="k">return</span> <span class="n">dataframe</span></div>
 
     
-<div class="viewcode-block" id="DataManager.get_baseline_age_classes">
-<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/database_manager/index.html#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_baseline_age_classes">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_baseline_age_classes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DataManager.get_FM_age_classes">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/database_manager/index.html#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_FM_age_classes">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_FM_age_classes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retrieves the baseline age classes from the database.</span>
+<span class="sd">        Retrieves the managed forest age classes from the database.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            pandas.DataFrame: A DataFrame containing the baseline age classes.</span>
+<span class="sd">            pandas.DataFrame: A DataFrame containing the managed forest age classes.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">table</span> <span class="o">=</span> <span class="s2">&quot;base_age_class_2016_to_2050&quot;</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="s2">&quot;FM_age_class_2100&quot;</span>
         <span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span>
             <span class="s2">&quot;SELECT * FROM &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span>
@@ -398,16 +373,17 @@
         <span class="k">return</span> <span class="n">dataframe</span></div>
 
     
-<div class="viewcode-block" id="DataManager.get_baseline_disturbance_events">
-<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/database_manager/index.html#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_baseline_disturbance_events">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_baseline_disturbance_events</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    
+<div class="viewcode-block" id="DataManager.get_FM_disturbance_types">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/database_manager/index.html#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_FM_disturbance_types">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_FM_disturbance_types</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retrieves the baseline disturbance events from the database.</span>
+<span class="sd">        Retrieves the managed forest disturbance types from the database.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            pandas.DataFrame: A DataFrame containing the baseline disturbance events.</span>
+<span class="sd">            pandas.DataFrame: A DataFrame containing the managed forest disturbance types.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">table</span> <span class="o">=</span> <span class="s2">&quot;default_base_disturbance_events_2016_to_2100&quot;</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="s2">&quot;FM_disturbance_types_2100&quot;</span>
         <span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span>
             <span class="s2">&quot;SELECT * FROM &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span>
@@ -416,16 +392,17 @@
         <span class="k">return</span> <span class="n">dataframe</span></div>
 
     
-<div class="viewcode-block" id="DataManager.get_baseline_disturbance_types">
-<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/database_manager/index.html#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_baseline_disturbance_types">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_baseline_disturbance_types</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DataManager.get_FM_growth_curves">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/database_manager/index.html#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_FM_growth_curves">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_FM_growth_curves</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retrieves the baseline disturbance types from the database.</span>
+<span class="sd">        Retrieves the managed forest growth curves from the database.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            pandas.DataFrame: A DataFrame containing the baseline disturbance types.</span>
+<span class="sd">            pandas.DataFrame: A DataFrame containing the managed forest growth curves.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">table</span> <span class="o">=</span> <span class="s2">&quot;base_disturbance_types_2016_to_2050&quot;</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="s2">&quot;FM_growth_2100&quot;</span>
         <span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span>
             <span class="s2">&quot;SELECT * FROM &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span>
@@ -434,16 +411,17 @@
         <span class="k">return</span> <span class="n">dataframe</span></div>
 
     
-<div class="viewcode-block" id="DataManager.get_baseline_growth_curves">
-<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/database_manager/index.html#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_baseline_growth_curves">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_baseline_growth_curves</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    
+<div class="viewcode-block" id="DataManager.get_FM_inventory">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/database_manager/index.html#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_FM_inventory">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_FM_inventory</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retrieves the baseline growth curves from the database.</span>
+<span class="sd">        Retrieves the managed forest inventory from the database.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            pandas.DataFrame: A DataFrame containing the baseline growth curves.</span>
+<span class="sd">            pandas.DataFrame: A DataFrame containing the managed forest inventory.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">table</span> <span class="o">=</span> <span class="s2">&quot;base_growth_2016_to_2050&quot;</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="s2">&quot;FM_inventory_2100&quot;</span>
         <span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span>
             <span class="s2">&quot;SELECT * FROM &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span>
@@ -452,16 +430,17 @@
         <span class="k">return</span> <span class="n">dataframe</span></div>
 
     
-<div class="viewcode-block" id="DataManager.get_baseline_inventory">
-<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/database_manager/index.html#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_baseline_inventory">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_baseline_inventory</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DataManager.get_FM_transition">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/database_manager/index.html#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_FM_transition">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_FM_transition</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retrieves the baseline inventory from the database.</span>
+<span class="sd">        Retrieves the managed forest transition from the database.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            pandas.DataFrame: A DataFrame containing the baseline inventory.</span>
+<span class="sd">            pandas.DataFrame: A DataFrame containing the managed forest transition.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">table</span> <span class="o">=</span> <span class="s2">&quot;base_inventory_2016_to_2050&quot;</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="s2">&quot;FM_transition_2100&quot;</span>
         <span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span>
             <span class="s2">&quot;SELECT * FROM &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span>
@@ -470,34 +449,16 @@
         <span class="k">return</span> <span class="n">dataframe</span></div>
 
     
-<div class="viewcode-block" id="DataManager.get_baseline_transition">
-<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/database_manager/index.html#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_baseline_transition">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_baseline_transition</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DataManager.get_FM_standing_volume">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/database_manager/index.html#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_FM_standing_volume">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_FM_standing_volume</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retrieves the baseline transition from the database.</span>
+<span class="sd">        Retrieves the managed forest standing volume from the database.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            pandas.DataFrame: A DataFrame containing the baseline transition.</span>
+<span class="sd">            pandas.DataFrame: A DataFrame containing the managed forest standing volume.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">table</span> <span class="o">=</span> <span class="s2">&quot;base_transition_2016_to_2050&quot;</span>
-        <span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span>
-            <span class="s2">&quot;SELECT * FROM &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">),</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span>
-        <span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">dataframe</span></div>
-
-    
-<div class="viewcode-block" id="DataManager.get_baseline_standing_volume">
-<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/database_manager/index.html#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_baseline_standing_volume">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_baseline_standing_volume</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retrieves the baseline standing volume from the database.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            pandas.DataFrame: A DataFrame containing the baseline standing volume.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">table</span> <span class="o">=</span> <span class="s2">&quot;base_standing_volume_2016_to_2050&quot;</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="s2">&quot;FM_standing_volume_2100&quot;</span>
         <span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span>
             <span class="s2">&quot;SELECT * FROM &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span>
@@ -521,7 +482,155 @@
         <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">dataframe</span></div>
+
+
+<div class="viewcode-block" id="DataManager.get_FM_disturbance_events">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/database_manager/index.html#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_FM_disturbance_events">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_FM_disturbance_events</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">intensity</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the managed forest disturbances from the database.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            intensity (str): The intensity of the disturbances.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame: A DataFrame containing the managed forest disturbances.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;FM_disturbances_2100&quot;</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;SELECT * FROM &#39;</span><span class="si">{</span><span class="n">table</span><span class="si">}</span><span class="s2">&#39; WHERE intensity = &#39;</span><span class="si">{</span><span class="n">intensity</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+        <span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Intensity&quot;</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span></div>
+
+    
+
+<div class="viewcode-block" id="DataManager.get_AF_disturbance_events">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/database_manager/index.html#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_AF_disturbance_events">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_AF_disturbance_events</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">intensity</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the historic afforestation  disturbances from the database.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            intensity (str): The intensity of the disturbances.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame: A DataFrame containing the historic afforestation disturbances.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;AF_disturbances_2100&quot;</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;SELECT * FROM &#39;</span><span class="si">{</span><span class="n">table</span><span class="si">}</span><span class="s2">&#39; WHERE intensity = &#39;</span><span class="si">{</span><span class="n">intensity</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+        <span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Intensity&quot;</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span></div>
+
+    
+<div class="viewcode-block" id="DataManager.get_AF_classifiers">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/database_manager/index.html#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_AF_classifiers">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_AF_classifiers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the historic afforestation classifiers from the database.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame: A DataFrame containing the historic afforestation  classifiers.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="s2">&quot;AF_classifier_2100&quot;</span>
+        <span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span>
+            <span class="s2">&quot;SELECT * FROM &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span></div>
+
+    
+<div class="viewcode-block" id="DataManager.get_AF_age_classes">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/database_manager/index.html#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_AF_age_classes">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_AF_age_classes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the historic afforestation  age classes from the database.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame: A DataFrame containing the historic afforestation  age classes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="s2">&quot;AF_age_class_2100&quot;</span>
+        <span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span>
+            <span class="s2">&quot;SELECT * FROM &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span></div>
+
+    
+<div class="viewcode-block" id="DataManager.get_AF_disturbance_types">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/database_manager/index.html#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_AF_disturbance_types">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_AF_disturbance_types</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the historic afforestation disturbance types from the database.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame: A DataFrame containing the historic afforestation disturbance types.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="s2">&quot;AF_disturbance_types_2100&quot;</span>
+        <span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span>
+            <span class="s2">&quot;SELECT * FROM &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span></div>
+
+    
+<div class="viewcode-block" id="DataManager.get_AF_growth_curves">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/database_manager/index.html#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_AF_growth_curves">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_AF_growth_curves</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the historic afforestation growth curves from the database.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame: A DataFrame containing the historic afforestation growth curves.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="s2">&quot;AF_growth_2100&quot;</span>
+        <span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span>
+            <span class="s2">&quot;SELECT * FROM &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span></div>
+
+    
+<div class="viewcode-block" id="DataManager.get_AF_inventory">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/database_manager/index.html#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_AF_inventory">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_AF_inventory</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the historic afforestation inventory from the database.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame: A DataFrame containing the historic afforestation inventory.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="s2">&quot;AF_inventory_2100&quot;</span>
+        <span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span>
+            <span class="s2">&quot;SELECT * FROM &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span></div>
+
+    
+<div class="viewcode-block" id="DataManager.get_AF_transition">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/database_manager/index.html#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_AF_transition">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_AF_transition</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the historic afforestation transition from the database.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame: A DataFrame containing the historic afforestation transition.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="s2">&quot;AF_transition_2100&quot;</span>
+        <span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span>
+            <span class="s2">&quot;SELECT * FROM &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span></div>
 </div>
+
 
 </pre></div>
 

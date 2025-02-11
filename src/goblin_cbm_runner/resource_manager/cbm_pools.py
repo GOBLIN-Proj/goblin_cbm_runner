@@ -18,6 +18,11 @@ class Pools:
         get_litter_pools(): Retrieves litter pools.
         get_soil_organic_matter_pools(): Retrieves soil organic matter pools.
         get_annual_process_fluxes(): Retrieves annual process fluxes.
+        get_disturbance_flux_columns(): Retrieves disturbance flux columns.
+        get_total_litter(): Retrieves total litter.
+        get_gross_growth_AG(): Retrieves gross growth above ground.
+        get_gross_growth_BG(): Retrieves gross growth below ground.
+        get_annual_process_columns(): Retrieves annual process columns.
 
     Attributes:
         above_ground_biomass_pools (list): List of above ground biomass pools.
@@ -26,6 +31,11 @@ class Pools:
         litter (list): List of litter pools.
         soil_organic_matter (list): List of soil organic matter pools.
         annual_process_fluxes (list): List of annual process fluxes.
+        disturbance_fluxes (list): List of disturbance fluxes.
+        total_litter (list): List of total litter.
+        gross_growth_AG (list): List of gross growth above ground.
+        gross_growth_BG (list): List of gross growth below ground.
+        annual_process_columns (list): List of annual process columns.
     """
     def __init__(self):
 

@@ -7,7 +7,7 @@
 
    Runner Module
    =============
-   This module is responsible for orchestrating the execution of Carbon Budget Model (CBM) simulations for various scenarios,
+   This module orchestrates the execution of Carbon Budget Model (CBM) simulations for various scenarios,
    including baseline and afforestation projects.
 
 
@@ -25,7 +25,7 @@ Classes
 
 
 
-.. py:class:: Runner(config_path, calibration_year, afforest_data, scenario_data, sit_path=None)
+.. py:class:: Runner(data_manager)
 
 
    The Runner class orchestrates the execution of Carbon Budget Model (CBM) simulations
@@ -34,16 +34,8 @@ Classes
 
    This class manages input data preparation, CBM simulation setups, and the execution process, generating outputs like carbon stocks and fluxes for various scenarios.
 
-   :param config_path: Path to the CBM configuration file.
-   :type config_path: str
-   :param calibration_year: Calibration year for the simulations.
-   :type calibration_year: int
-   :param afforest_data: Data for afforestation scenarios.
-   :type afforest_data: AfforestData
-   :param scenario_data: Data for user-defined management scenarios.
-   :type scenario_data: ScenarioData
-   :param sit_path: Path to the SIT directory, optional.
-   :type sit_path: str
+   :param data_manager: Instance of DataManager for managing simulation data and configurations.
+   :type data_manager: DataManager
 
    .. attribute:: paths_class
 
@@ -51,15 +43,15 @@ Classes
 
       :type: Paths
 
-   .. attribute:: gen_validation
+   .. attribute:: sit_path
 
-      A boolean indicating whether to generate validation data.
+      Path to the SIT directory.
 
-      :type: bool
+      :type: str
 
-   .. attribute:: validation_path
+   .. attribute:: defaults_db
 
-      Directory path for validation data.
+      Path to the default database.
 
       :type: str
 
@@ -81,17 +73,11 @@ Classes
 
       :type: DataFactory
 
-   .. attribute:: data_manager_class
+   .. attribute:: sc_fetcher
 
-      Instance of DataManager for managing simulation data and configurations.
+      Instance of ScenarioDataFetcher for fetching scenario data.
 
-      :type: DataManager
-
-   .. attribute:: INDEX
-
-      List of unique identifiers for each simulation scenario.
-
-      :type: list
+      :type: ScenarioDataFetcher
 
    .. attribute:: forest_end_year
 
@@ -99,17 +85,77 @@ Classes
 
       :type: int
 
-   .. attribute:: pools
+   .. attribute:: INDEX
 
-      Instance of the Pools class for managing CBM carbon pools.
+      List of unique identifiers for each simulation scenario.
 
-      :type: Pools
+      :type: list
 
-   .. attribute:: AGB, BGB, deadwood, litter, soil, flux_pools
+   .. attribute:: SIM_class
 
-      Instances representing different carbon pool types used in CBM simulations.
+      Instance of CBMSim for running CBM simulations.
 
-      :type: various
+      :type: CBMSim
+
+   .. attribute:: historic_scenario_years
+
+      List of years for historic scenarios.
+
+      :type: list
+
+   .. attribute:: historic_scenario_year_range
+
+      Range of years for historic scenarios.
+
+      :type: range
+
+   .. attribute:: baseline_years
+
+      List of years for baseline scenarios.
+
+      :type: list
+
+   .. attribute:: baseline_year_range
+
+      Range of years for baseline scenarios.
+
+      :type: range
+
+   .. attribute:: scenario_years
+
+      List of years for user-defined scenarios.
+
+      :type: list
+
+   .. attribute:: scenario_year_range
+
+      Range of years for user-defined scenarios.
+
+      :type: range
+
+   .. attribute:: forest_FM_baseline_dataframe
+
+      DataFrame containing forest management baseline data.
+
+      :type: pd.DataFrame
+
+   .. attribute:: forest_AF_baseline_dataframe
+
+      DataFrame containing afforestation baseline data.
+
+      :type: pd.DataFrame
+
+   .. attribute:: merged_AF_FM_forest_data
+
+      DataFrame containing merged afforestation and forest management data.
+
+      :type: pd.DataFrame
+
+   .. attribute:: afforestation_dataframe
+
+      DataFrame containing afforestation data for all scenarios.
+
+      :type: pd.DataFrame
 
    .. method:: generate_input_data()
 
@@ -152,15 +198,29 @@ Classes
       :returns: Merged data for afforestation and forest management baseline scenarios.
       :rtype: pd.DataFrame
 
-   .. py:method:: _generate_base_input_data()
+   .. py:method:: get_afforestation_dataframe()
+
+      Returns the afforestation data for all scenarios.
+
+      :returns: Afforestation data for all scenarios.
+      :rtype: pd.DataFrame
+
+
+   .. py:method:: _generate_afforestation_dataframe()
+
+      Generates the afforestation data for all scenarios.
+
+      :returns: Afforestation data for all scenarios.
+      :rtype: pd.DataFrame
+
+
+   .. py:method:: _generate_FM_input_data()
 
       Generates the base input data for the CBM runner.
 
       This method cleans the baseline data directory, and then generates various input files
       required for the CBM runner, such as classifiers, configuration JSON, age classes,
       yield curves, inventory, disturbance events, disturbance types, and transition rules.
-
-      :param None:
 
       :returns: None
 
@@ -171,8 +231,6 @@ Classes
 
       This method cleans the data directory, creates necessary directories,
       and generates various input files required for the CBM runner.
-
-      :param None:
 
       :returns: None
 
@@ -210,12 +268,12 @@ Classes
 
    .. py:method:: run_sep_flux_scenarios()
 
-      Conducts CBM simulations to calculate and separated carbon flux data for various scenarios, including those with user-defined forest management strategies.
+      Conducts CBM simulations to calculate and separate carbon flux data for various scenarios, including those with user-defined forest management strategies.
 
       This process helps in understanding the impact of different management practices on carbon dynamics within forest ecosystems.
 
       :returns: Separated carbon flux data across all scenarios.
-      :rtype: pd.DataFrame
+      :rtype: dict
 
 
 

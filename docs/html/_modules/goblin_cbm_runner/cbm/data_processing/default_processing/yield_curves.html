@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_cbm_runner.cbm.data_processing.default_processing.yield_curves &mdash; goblin_cbm_runner 0.4.2 documentation</title>
+  <title>goblin_cbm_runner.cbm.data_processing.default_processing.yield_curves &mdash; goblin_cbm_runner 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -16,7 +16,7 @@
   
         <script src="../../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../../_static/documentation_options.js?v=ff822928"></script>
+        <script src="../../../../../_static/documentation_options.js?v=1dd76d02"></script>
         <script src="../../../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/js/theme.js"></script>
@@ -98,7 +98,7 @@
 <span class="sd">    Methods:</span>
 <span class="sd">        yield_table_generater_method1(): Generates a yield table using the first method based on parameters from a &#39;forest_kb_yields&#39; dataset.</span>
 <span class="sd">        yield_table_generater_method2(): Generates a yield table using the second method based on parameters from a &#39;forest_cbm_yields&#39; dataset.</span>
-<span class="sd">        yield_table_generater_method3(): Generates a yield table using the third method directly from &#39;kb_yield_curves&#39; dataset.</span>
+<span class="sd">        yield_table_generater_method3(): Generates a yield table using the &#39;kb_yield_curves&#39; dataset.</span>
 <span class="sd">        standing_vol_yield_table_generater_method(): Generates a standing volume table using the &#39;kb_standing_volume_curves&#39; dataset.</span>
 
 <span class="sd">    The generated yield tables are crucial for modeling forest growth and can be used in various simulation scenarios. Each method applies different mathematical models and parameters to estimate the yield over time for different forest cohorts.</span>
@@ -184,12 +184,12 @@
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">yield_table_generater_method3</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Generates a yield table.</span>
+<span class="sd">        Generates a yield table using the third method.</span>
 
 <span class="sd">        This method directly uses the &#39;kb_yield_curves&#39; dataset to provide yield data for various species across different years.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            DataFrame: A pandas DataFrame containing the yield data as per the kb_yield_curves dataset.</span>
+<span class="sd">            DataFrame: A pandas DataFrame containing the yield data as per the &#39;kb_yield_curves&#39; dataset.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">loader_class</span> <span class="o">=</span> <span class="n">Loader</span><span class="p">()</span>
         <span class="n">yield_df</span> <span class="o">=</span> <span class="n">loader_class</span><span class="o">.</span><span class="n">kb_yield_curves</span><span class="p">()</span>
@@ -209,7 +209,7 @@
 <span class="sd">        This method directly uses the &#39;kb_standing_volume_curves&#39; dataset to provide data for various species across different years.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            DataFrame: A pandas DataFrame containing the standing volume data as per the kb_standing_volume_curves dataset.</span>
+<span class="sd">            DataFrame: A pandas DataFrame containing the standing volume data as per the &#39;kb_standing_volume_curves&#39; dataset.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">loader_class</span> <span class="o">=</span> <span class="n">Loader</span><span class="p">()</span>
         <span class="n">yield_df</span> <span class="o">=</span> <span class="n">loader_class</span><span class="o">.</span><span class="n">kb_standing_vol_yield_curves</span><span class="p">()</span>

@@ -5,6 +5,7 @@ classifier_id,name,description
 1,SGB,Slow Growing Unspecified broadleaved species - Genus type
 1,FGB,Fast Growing Unspecified broadleaved species - Genus type
 1,CBmix,Mixed Unspecified broadleaved species - Genus type
+1,Cmix,Unspecified softwood species
 1,OC,Other Spruce
 1,NFPine_mineral,NonForestPineMineral
 1,NFSitka_mineral,NonForestSitkaMineral
@@ -12,12 +13,14 @@ classifier_id,name,description
 1,NFFGB_mineral,NonForestFGBMineral
 1,NFCBmix_mineral,NonForestCBmixMineral
 1,NFOC_mineral,NonForestOCMineral
+1,NFCmix_mineral,NonForestCmixMineral
 1,NFPine_peat,NonForestPinePeat
 1,NFSitka_peat,NonForestSitkaPeat
 1,NFSGB_peat,NonForestSGBPeat
 1,NFFGB_peat,NonForestFGBPeat
 1,NFCBmix_peat,NonForestCBmixPeat
 1,NFOC_peat,NonForestOCPeat
+1,NFCmix_peat,NonForestCmixPeat
 2,_CLASSIFIER,Forest type
 2,A,Afforestation
 2,L,Legacy

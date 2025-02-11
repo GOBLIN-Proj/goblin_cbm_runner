@@ -1,3 +1,14 @@
+Dynamic_Afforestation:
+  afforest_delay: 0
+  annual_afforestation_rate_pre_delay: 0
+  species_distribution:
+    - Sitka: 0.7
+    - SGB: 0.3
+
+Forest_management:
+  intensity: low
+
+  
 Classifiers:
   baseline:
     harvest:
@@ -13,7 +24,7 @@ Classifiers:
         - broadleaf: 0.0
       thinning:
         - broadleaf: 0.5
-
+        
   age_classes:
     max_age: 100
     age_interval: 5

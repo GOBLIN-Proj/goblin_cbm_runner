@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager &mdash; goblin_cbm_runner 0.4.2 documentation</title>
+  <title>goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager &mdash; goblin_cbm_runner 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../_static/documentation_options.js?v=ff822928"></script>
+        <script src="../../../../_static/documentation_options.js?v=1dd76d02"></script>
         <script src="../../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -101,8 +101,8 @@
   <section id="module-goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager">
 <span id="goblin-cbm-runner-resource-manager-geo-cbm-runner-data-manager"></span><h1><a class="reference internal" href="#module-goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager" title="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager</span></code></a><a class="headerlink" href="#module-goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager" title="Link to this heading"></a></h1>
 <section id="geo-data-manager">
-<p>This module contains the GeoDataManager class, which is used to manage data for the CBM Runner.
-This class provides methods to access and manipulate data relevant to the CBM Runner, including configurations, disturbance data, and scenario information.</p>
+<p>This module contains the GeoDataManager class, which manages data for the CBM Runner.
+It provides methods to access and manipulate data, including configurations, disturbance data, and scenario information.</p>
 </section>
 <section id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
@@ -117,10 +117,9 @@ This class provides methods to access and manipulate data relevant to the CBM Ru
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.</span></span><span class="sig-name descname"><span class="pre">GeoDataManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">calibration_year</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/geo_cbm_runner_data_manager.html#GeoDataManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.</span></span><span class="sig-name descname"><span class="pre">GeoDataManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">calibration_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">afforest_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sit_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/geo_cbm_runner_data_manager.html#GeoDataManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager" title="Link to this definition"></a></dt>
 <dd><p>Manages data for CBM Runner.</p>
-<p>This class provides methods to access and manipulate data relevant to the CBM Runner,
-including configurations, disturbance data, and scenario information.</p>
+<p>Provides methods to access and manipulate data, including configurations, disturbance data, and scenario information.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.config_data">
 <span class="sig-name descname"><span class="pre">config_data</span></span><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.config_data" title="Link to this definition"></a></dt>
@@ -136,17 +135,6 @@ including configurations, disturbance data, and scenario information.</p>
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.forest_baseline_year">
 <span class="sig-name descname"><span class="pre">forest_baseline_year</span></span><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.forest_baseline_year" title="Link to this definition"></a></dt>
 <dd><p>The baseline (calibration) year for forest data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.afforestation_baseline">
-<span class="sig-name descname"><span class="pre">afforestation_baseline</span></span><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.afforestation_baseline" title="Link to this definition"></a></dt>
-<dd><p>The baseline year for afforestation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
@@ -179,7 +167,7 @@ including configurations, disturbance data, and scenario information.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.non_forest_soils">
 <span class="sig-name descname"><span class="pre">non_forest_soils</span></span><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.non_forest_soils" title="Link to this definition"></a></dt>
-<dd><p>Non-forest soils types, split between mineral and peat.</p>
+<dd><p>Non-forest soils types.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dict</p>
@@ -190,7 +178,7 @@ including configurations, disturbance data, and scenario information.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.forest_type_keys">
 <span class="sig-name descname"><span class="pre">forest_type_keys</span></span><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.forest_type_keys" title="Link to this definition"></a></dt>
-<dd><p>Forest type keys from CBM default configuration (Legacy and Afforestation classifiers).</p>
+<dd><p>Forest type keys from CBM default configuration.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dict</p>
@@ -201,7 +189,7 @@ including configurations, disturbance data, and scenario information.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.soils_dict">
 <span class="sig-name descname"><span class="pre">soils_dict</span></span><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.soils_dict" title="Link to this definition"></a></dt>
-<dd><p>Soils dictionary from CBM default configuration, afforestation pre types (for initial SOC).</p>
+<dd><p>Soils dictionary from CBM default configuration.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dict</p>
@@ -223,7 +211,7 @@ including configurations, disturbance data, and scenario information.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.disturbances_config">
 <span class="sig-name descname"><span class="pre">disturbances_config</span></span><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.disturbances_config" title="Link to this definition"></a></dt>
-<dd><p>Disturbances configuration for scenario and baseline from CBM default configuration.</p>
+<dd><p>Disturbances configuration from CBM default configuration.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dict</p>
@@ -234,7 +222,7 @@ including configurations, disturbance data, and scenario information.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.yield_name_dict">
 <span class="sig-name descname"><span class="pre">yield_name_dict</span></span><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.yield_name_dict" title="Link to this definition"></a></dt>
-<dd><p>Species yield name dictionary relating species to growth curves from CBM default configuration.</p>
+<dd><p>Species yield name dictionary from CBM default configuration.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dict</p>
@@ -267,7 +255,7 @@ including configurations, disturbance data, and scenario information.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.yield_baseline_dict">
 <span class="sig-name descname"><span class="pre">yield_baseline_dict</span></span><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.yield_baseline_dict" title="Link to this definition"></a></dt>
-<dd><p>Yield baseline dictionary relating the proprotional split, nationally, of yields by species from CBM default configuration.</p>
+<dd><p>Yield baseline dictionary from CBM default configuration.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dict</p>
@@ -325,7 +313,7 @@ including configurations, disturbance data, and scenario information.</p>
 <dd><p>Scenario data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>DataFrame</p>
+<dd class="field-odd"><p>pd.DataFrame</p>
 </dd>
 </dl>
 </dd></dl>
@@ -345,11 +333,41 @@ including configurations, disturbance data, and scenario information.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>calibration_year</strong> (<em>int</em><em>, </em><em>optional</em>) – The year used for calibration. Defaults to None.</p></li>
-<li><p><strong>config_file</strong> (<em>str</em><em>, </em><em>optional</em>) – Path to the configuration file. Defaults to None.</p></li>
-<li><p><strong>scenario_data</strong> (<em>DataFrame</em><em>, </em><em>optional</em>) – Dataframe containing scenario data. Defaults to None.</p></li>
+<li><p><strong>config_file_path</strong> (<em>str</em><em>, </em><em>optional</em>) – Path to the configuration file. Defaults to None.</p></li>
+<li><p><strong>scenario_data</strong> (<em>pd.DataFrame</em><em>, </em><em>optional</em>) – Dataframe containing scenario data. Defaults to None.</p></li>
+<li><p><strong>afforest_data</strong> (<em>pd.DataFrame</em><em>, </em><em>optional</em>) – Dataframe containing afforestation data. Defaults to None.</p></li>
+<li><p><strong>sit_path</strong> (<em>str</em><em>, </em><em>optional</em>) – Path to the SIT file. Defaults to None.</p></li>
 </ul>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_config_file_path">
+<span class="sig-name descname"><span class="pre">get_config_file_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/geo_cbm_runner_data_manager.html#GeoDataManager.get_config_file_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_config_file_path" title="Link to this definition"></a></dt>
+<dd><p>Get the path to the configuration file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The path to the configuration file.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_sit_path">
+<span class="sig-name descname"><span class="pre">get_sit_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/geo_cbm_runner_data_manager.html#GeoDataManager.get_sit_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_sit_path" title="Link to this definition"></a></dt>
+<dd><p>Get the path to the SIT file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The path to the SIT file.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_config_data">
 <span class="sig-name descname"><span class="pre">get_config_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/geo_cbm_runner_data_manager.html#GeoDataManager.get_config_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_config_data" title="Link to this definition"></a></dt>
@@ -370,7 +388,7 @@ including configurations, disturbance data, and scenario information.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_non_forest_dict">
 <span class="sig-name descname"><span class="pre">get_non_forest_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/geo_cbm_runner_data_manager.html#GeoDataManager.get_non_forest_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_non_forest_dict" title="Link to this definition"></a></dt>
-<dd><p>Retrieves the non-forest dictionary.</p>
+<dd><p>Get the non-forest dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The non-forest dictionary.</p>
@@ -384,7 +402,7 @@ including configurations, disturbance data, and scenario information.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_non_forest_soils">
 <span class="sig-name descname"><span class="pre">get_non_forest_soils</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/geo_cbm_runner_data_manager.html#GeoDataManager.get_non_forest_soils"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_non_forest_soils" title="Link to this definition"></a></dt>
-<dd><p>Retrieves the non-forest soils dictionary.</p>
+<dd><p>Get the non-forest soils dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The non-forest soils dictionary.</p>
@@ -398,10 +416,10 @@ including configurations, disturbance data, and scenario information.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_forest_type_keys">
 <span class="sig-name descname"><span class="pre">get_forest_type_keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/geo_cbm_runner_data_manager.html#GeoDataManager.get_forest_type_keys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_forest_type_keys" title="Link to this definition"></a></dt>
-<dd><p>Retrieves the forest type dictionary.</p>
+<dd><p>Get the forest type keys.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The forest type dictionary.</p>
+<dd class="field-odd"><p>The forest type keys.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>dict</p>
@@ -412,7 +430,7 @@ including configurations, disturbance data, and scenario information.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_soils_dict">
 <span class="sig-name descname"><span class="pre">get_soils_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/geo_cbm_runner_data_manager.html#GeoDataManager.get_soils_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_soils_dict" title="Link to this definition"></a></dt>
-<dd><p>Retrieves the soils dictionary.</p>
+<dd><p>Get the soils dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The soils dictionary.</p>
@@ -426,7 +444,7 @@ including configurations, disturbance data, and scenario information.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_classifiers">
 <span class="sig-name descname"><span class="pre">get_classifiers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/geo_cbm_runner_data_manager.html#GeoDataManager.get_classifiers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_classifiers" title="Link to this definition"></a></dt>
-<dd><p>Retrieves the classifiers dictionary.</p>
+<dd><p>Get the classifiers dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The classifiers dictionary.</p>
@@ -440,10 +458,10 @@ including configurations, disturbance data, and scenario information.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_disturbances_config">
 <span class="sig-name descname"><span class="pre">get_disturbances_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/geo_cbm_runner_data_manager.html#GeoDataManager.get_disturbances_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_disturbances_config" title="Link to this definition"></a></dt>
-<dd><p>Retrieves the disturbance ID dictionary for scenarios and baseline.</p>
+<dd><p>Get the disturbances configuration.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The disturbance ID dictionary.</p>
+<dd class="field-odd"><p>The disturbances configuration.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>dict</p>
@@ -454,10 +472,10 @@ including configurations, disturbance data, and scenario information.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_yield_name_dict">
 <span class="sig-name descname"><span class="pre">get_yield_name_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/geo_cbm_runner_data_manager.html#GeoDataManager.get_yield_name_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_yield_name_dict" title="Link to this definition"></a></dt>
-<dd><p>Retrieves the disturbance ID dictionary for scenarios and baseline.</p>
+<dd><p>Get the species yield name dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The disturbance ID dictionary.</p>
+<dd class="field-odd"><p>The species yield name dictionary.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>dict</p>
@@ -468,10 +486,10 @@ including configurations, disturbance data, and scenario information.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_species_name_dict">
 <span class="sig-name descname"><span class="pre">get_species_name_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/geo_cbm_runner_data_manager.html#GeoDataManager.get_species_name_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_species_name_dict" title="Link to this definition"></a></dt>
-<dd><p>Get the dictionary mapping species IDs to their names.</p>
+<dd><p>Get the species name dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A dictionary where the keys are species growth curve IDs and the values are species names.</p>
+<dd class="field-odd"><p>The species name dictionary.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>dict</p>
@@ -482,10 +500,10 @@ including configurations, disturbance data, and scenario information.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_afforestation_yield_name_dict">
 <span class="sig-name descname"><span class="pre">get_afforestation_yield_name_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/geo_cbm_runner_data_manager.html#GeoDataManager.get_afforestation_yield_name_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_afforestation_yield_name_dict" title="Link to this definition"></a></dt>
-<dd><p>Returns the dictionary containing the names of afforestation yield classes.</p>
+<dd><p>Get the afforestation yield name dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A dictionary containing the names of afforestation yield classes.</p>
+<dd class="field-odd"><p>The afforestation yield name dictionary.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>dict</p>
@@ -496,10 +514,10 @@ including configurations, disturbance data, and scenario information.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_yield_baseline_dict">
 <span class="sig-name descname"><span class="pre">get_yield_baseline_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/geo_cbm_runner_data_manager.html#GeoDataManager.get_yield_baseline_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_yield_baseline_dict" title="Link to this definition"></a></dt>
-<dd><p>Returns the yield baseline dictionary.</p>
+<dd><p>Get the yield baseline dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The yield baseline dictionary where keys are yield classes and values are the proportions of that yield class nationally.</p>
+<dd class="field-odd"><p>The yield baseline dictionary.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>dict</p>
@@ -510,7 +528,7 @@ including configurations, disturbance data, and scenario information.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_disturbance_cols">
 <span class="sig-name descname"><span class="pre">get_disturbance_cols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/geo_cbm_runner_data_manager.html#GeoDataManager.get_disturbance_cols"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_disturbance_cols" title="Link to this definition"></a></dt>
-<dd><p>Returns the disturbance columns used in the disturbance dataframe generator.</p>
+<dd><p>Get the disturbance columns.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of disturbance columns.</p>
@@ -524,7 +542,7 @@ including configurations, disturbance data, and scenario information.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_static_disturbance_cols">
 <span class="sig-name descname"><span class="pre">get_static_disturbance_cols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/geo_cbm_runner_data_manager.html#GeoDataManager.get_static_disturbance_cols"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_static_disturbance_cols" title="Link to this definition"></a></dt>
-<dd><p>Returns the static disturbance columns used in the disturbance dataframe generator.</p>
+<dd><p>Get the static disturbance columns.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of static disturbance columns.</p>
@@ -538,7 +556,7 @@ including configurations, disturbance data, and scenario information.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_transition_cols">
 <span class="sig-name descname"><span class="pre">get_transition_cols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/geo_cbm_runner_data_manager.html#GeoDataManager.get_transition_cols"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_transition_cols" title="Link to this definition"></a></dt>
-<dd><p>Returns the transition columns used in the transition dataframe generator.</p>
+<dd><p>Get the transition columns.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of transition columns.</p>
@@ -552,27 +570,13 @@ including configurations, disturbance data, and scenario information.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_mapping">
 <span class="sig-name descname"><span class="pre">get_mapping</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/geo_cbm_runner_data_manager.html#GeoDataManager.get_mapping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_mapping" title="Link to this definition"></a></dt>
-<dd><p>Returns the mapping used by the data manager to mapping parameters to the CBM AIDB.</p>
+<dd><p>Get the AIDB mapping.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The mapping used by the data manager.</p>
+<dd class="field-odd"><p>The AIDB mapping.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>dict</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_forest_baseline_year">
-<span class="sig-name descname"><span class="pre">get_forest_baseline_year</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/geo_cbm_runner_data_manager.html#GeoDataManager.get_forest_baseline_year"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_forest_baseline_year" title="Link to this definition"></a></dt>
-<dd><p>Get the forest baseline year, which is equal to the calibration year.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The forest baseline year.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>int</p>
 </dd>
 </dl>
 </dd></dl>
@@ -580,13 +584,13 @@ including configurations, disturbance data, and scenario information.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_scenario_data">
 <span class="sig-name descname"><span class="pre">get_scenario_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/geo_cbm_runner_data_manager.html#GeoDataManager.get_scenario_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_scenario_data" title="Link to this definition"></a></dt>
-<dd><p>Returns the goblin scenario data, used to retrieve the harvest and thinning proportions for scenarios.</p>
+<dd><p>Get the scenario data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The scenario data.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>dict</p>
+<dd class="field-even"><p>pd.DataFrame</p>
 </dd>
 </dl>
 </dd></dl>
@@ -594,10 +598,10 @@ including configurations, disturbance data, and scenario information.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_scenario_disturbance_dict">
 <span class="sig-name descname"><span class="pre">get_scenario_disturbance_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/geo_cbm_runner_data_manager.html#GeoDataManager.get_scenario_disturbance_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_scenario_disturbance_dict" title="Link to this definition"></a></dt>
-<dd><p>Returns the scenario and baseline disturbance ID dictionary.</p>
+<dd><p>Get the scenario disturbance dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The scenario and baseline disturbance ID dictionary.</p>
+<dd class="field-odd"><p>The scenario disturbance dictionary.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>dict</p>
@@ -611,7 +615,7 @@ including configurations, disturbance data, and scenario information.</p>
 <dd><p>Generate a dictionary of disturbance data for each scenario.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>scenario_data</strong> (<em>DataFrame</em>) – The input scenario data.</p>
+<dd class="field-odd"><p><strong>scenario_data</strong> (<em>pd.DataFrame</em>) – The input scenario data.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A dictionary containing disturbance data for each scenario.</p>
@@ -625,7 +629,7 @@ including configurations, disturbance data, and scenario information.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_baseline_disturbance_dict">
 <span class="sig-name descname"><span class="pre">get_baseline_disturbance_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario_dist</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/geo_cbm_runner_data_manager.html#GeoDataManager.get_baseline_disturbance_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_baseline_disturbance_dict" title="Link to this definition"></a></dt>
-<dd><p>Get the baseline disturbance dictionary. This is added to the scenario disturbance dictionary.</p>
+<dd><p>Get the baseline disturbance dictionary and add it to the scenario disturbance dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>scenario_dist</strong> (<em>dict</em>) – The scenario disturbance dictionary.</p>
@@ -640,26 +644,46 @@ including configurations, disturbance data, and scenario information.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_legacy_disturbance_dict">
-<span class="sig-name descname"><span class="pre">get_legacy_disturbance_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/geo_cbm_runner_data_manager.html#GeoDataManager.get_legacy_disturbance_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_legacy_disturbance_dict" title="Link to this definition"></a></dt>
-<dd><p>Get the legacy disturbance dictionary.</p>
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_baseline_years">
+<span class="sig-name descname"><span class="pre">get_baseline_years</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">forestry_end_year</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/geo_cbm_runner_data_manager.html#GeoDataManager.get_baseline_years"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_baseline_years" title="Link to this definition"></a></dt>
+<dd><p>Get the number of baseline years.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The legacy disturbance dictionary containing clearfell and thinning data.</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>forestry_end_year</strong> (<em>int</em>) – The end year for forestry.</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>dict</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The number of years in the baseline.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_baseline_years">
-<span class="sig-name descname"><span class="pre">get_baseline_years</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">forestry_end_year</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/geo_cbm_runner_data_manager.html#GeoDataManager.get_baseline_years"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_baseline_years" title="Link to this definition"></a></dt>
-<dd><p>Get the baseline years.</p>
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_baseline_years_range">
+<span class="sig-name descname"><span class="pre">get_baseline_years_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">forestry_end_year</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/geo_cbm_runner_data_manager.html#GeoDataManager.get_baseline_years_range"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_baseline_years_range" title="Link to this definition"></a></dt>
+<dd><p>Get the range of baseline years.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>forestry_end_year</strong> (<em>int</em>) – The end year for forestry.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The range of years in the baseline.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_forest_end_year">
+<span class="sig-name descname"><span class="pre">get_forest_end_year</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/geo_cbm_runner_data_manager.html#GeoDataManager.get_forest_end_year"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_forest_end_year" title="Link to this definition"></a></dt>
+<dd><p>Get the forest end year.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The number of years in the baseline.</p>
+<dd class="field-odd"><p>The forest end year.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>int</p>
@@ -668,15 +692,72 @@ including configurations, disturbance data, and scenario information.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_baseline_years_range">
-<span class="sig-name descname"><span class="pre">get_baseline_years_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">forestry_end_year</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/geo_cbm_runner_data_manager.html#GeoDataManager.get_baseline_years_range"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_baseline_years_range" title="Link to this definition"></a></dt>
-<dd><p>Get the baseline years range.</p>
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_transition_dict_species">
+<span class="sig-name descname"><span class="pre">get_transition_dict_species</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/geo_cbm_runner_data_manager.html#GeoDataManager.get_transition_dict_species"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_transition_dict_species" title="Link to this definition"></a></dt>
+<dd><p>Get the transition dictionaries for species.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The range of years in the baseline.</p>
+<dd class="field-odd"><p>The transition dictionaries for species.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>list</p>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_transition_dict_species_to_yield">
+<span class="sig-name descname"><span class="pre">get_transition_dict_species_to_yield</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/geo_cbm_runner_data_manager.html#GeoDataManager.get_transition_dict_species_to_yield"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_transition_dict_species_to_yield" title="Link to this definition"></a></dt>
+<dd><p>Get the transition dictionaries for species to yield.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The transition dictionaries for species to yield.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_afforestation_data">
+<span class="sig-name descname"><span class="pre">get_afforestation_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/geo_cbm_runner_data_manager.html#GeoDataManager.get_afforestation_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_afforestation_data" title="Link to this definition"></a></dt>
+<dd><p>Get the afforestation data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The afforestation data.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_calibration_year">
+<span class="sig-name descname"><span class="pre">get_calibration_year</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/geo_cbm_runner_data_manager.html#GeoDataManager.get_calibration_year"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_calibration_year" title="Link to this definition"></a></dt>
+<dd><p>Get the calibration year.</p>
+<p>NOTE: Replaces get_forest_baseline_year().</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The calibration year.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_sort_dict">
+<span class="sig-name descname"><span class="pre">get_sort_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/geo_cbm_runner_data_manager.html#GeoDataManager.get_sort_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager.GeoDataManager.get_sort_dict" title="Link to this definition"></a></dt>
+<dd><p>Get the sort dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The sort dictionary.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>

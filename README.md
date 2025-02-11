@@ -32,6 +32,7 @@ The Runner class takes the total afforestation area and divides it evenly across
 
 ```python
 from goblin_cbm_runner.default_runner.runner import Runner
+from goblin_cbm_runner.resource_manager.cbm_runner_data_manager import DataManager
 import pandas as pd
 import os
 
@@ -55,8 +56,17 @@ def main():
     # calibration and end point
     calibration_year = 2020
 
+    # instance of the DataManager class
+    data_manager = DataManager(calibration_year = calibration_year,
+                            config_file_path=config,
+                            scenario_data=sc_data,
+                            afforest_data=afforest_data)
+    
     # instance of the Runner class
-    runner = Runner(config, calibration_year, afforest_data, sc_data)
+    runner = Runner(data_manager)
+
+    # afforeation data
+    runner.get_afforestation_dataframe().to_csv(os.path.join(results_path, "c_afforestation.csv"))
 
     # generation of aggregated results
     runner.run_aggregate_scenarios().to_csv(os.path.join(results_path, "c_aggregate.csv"))
@@ -67,7 +77,61 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 ```
+
+## CBM Disturbance Sort Types Note
+
+`libcbm_py` is not a direct conversion of the CBM-CFS3 model, and there are some small differences.  
+
+One key difference is the **available sort types for stand disturbances**. Some sorting options in CBM-CFS3 are **not available** in `libcbm_py`, while others may function slightly differently.  
+
+In particular, the **"Sort by time since softwood component was last harvested" (4)** and **"Sort by time since hardwood component was last harvested" (13)** are missing from `libcbm_py`. These sorts help prioritize stands based on past harvests, which can be important for disturbance modeling.  
+
+Below, we provide the **full set of sort types from CBM-CFS3**, followed by the **available sorts in `libcbm_py`**, along with suggested approximations for missing sorts.
+
+---
+
+### **Sort Types from CBM-CFS3**
+The following table lists all disturbance sort types available in CBM-CFS3:
+
+| Sort Type | Description |
+|-----------|------------|
+| **1**  | No sorting; a proportion of each record to disturb is calculated. Only applicable to disturbance events with proportion (`P`) targets. |
+| **2**  | Sort by merchantable biomass carbon (highest first). Only applicable to disturbance events with merchantable carbon (`M`) targets. |
+| **3**  | Sort by oldest softwood first. |
+| **4**  | Sort by time since the softwood component was last harvested. |
+| **5**  | Sort by SVO (State Variable Object) ID. Used for spatially explicit projects and instructs the model to disturb 100% of a single eligible record. |
+| **6**  | Sort randomly. Only applicable to fire and insect disturbance events. |
+| **7**  | Sort by total stem snag carbon (highest first). |
+| **8**  | Sort by softwood stem snag carbon (highest first). |
+| **9**  | Sort by hardwood stem snag carbon (highest first). |
+| **10** | Sort by softwood merchantable carbon (highest first). |
+| **11** | Sort by hardwood merchantable carbon (highest first). |
+| **12** | Sort by oldest hardwood first. |
+| **13** | Sort by time since the hardwood component was last harvested. |
+
+---
+
+### **Available Sort Types in `libcbm_py`**
+Below are the disturbance sort types that are implemented in `libcbm_py`:
+
+```python
+{
+    1: "PROPORTION_OF_EVERY_RECORD",
+    2: "MERCHCSORT_TOTAL",
+    3: "SORT_BY_SW_AGE",
+    5: "SVOID",
+    6: "RANDOMSORT",
+    7: "TOTALSTEMSNAG",
+    8: "SWSTEMSNAG",
+    9: "HWSTEMSNAG",
+    10: "MERCHCSORT_SW",
+    11: "MERCHCSORT_HW",
+    12: "SORT_BY_HW_AGE",
+}
+```
+
 
 ## License
 This project is licensed under the terms of the MIT license.
