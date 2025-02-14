@@ -6,7 +6,6 @@ utilizing geo-specific data preparation and management for Irish catchment data.
 
 """
 from goblin_cbm_runner.cbm.data_processing.geo_processing.geo_cbm_data_factory import DataFactory
-from goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager import GeoDataManager
 from goblin_cbm_runner.resource_manager.scenario_data_fetcher import ScenarioDataFetcher
 from goblin_cbm_runner.resource_manager.paths import Paths
 from goblin_cbm_runner.cbm.methods.cbm_methods import CBMSim
@@ -24,24 +23,22 @@ class GeoRunner:
     This class manages input data preparation, CBM simulation setups, and the execution process, generating outputs like carbon stocks and fluxes for various scenarios.
 
     Args:
-        config_path (str): Path to the CBM configuration file.
-        calibration_year (int): Calibration year for the simulations.
-        afforest_data (AfforestData): Data for afforestation scenarios.
-        scenario_data (ScenarioData): Data for user-defined management scenarios.
-        sit_path (str): Path to the SIT directory, optional.
+        geo_data_manager (GeoDataManager): Instance of GeoDataManager for managing geo-specific data.
 
     Attributes:
         paths_class (Paths): Instance of Paths for setting up directory paths for CBM simulation input data.
-        gen_validation (bool): A boolean indicating whether to generate validation data.
-        validation_path (str): Directory path for validation data.
+        sit_path (str): Directory path for SIT data.
+        defaults_db (str): Path to the default database.
         path (str): Directory path where input data is stored.
         baseline_conf_path (str): Directory path for baseline configuration data.
-        cbm_data_class (DataFactory): Instance of DataFactory for preparing CBM data.
-        data_manager_class (DataManager): Instance of DataManager for managing simulation data and configurations.
-        INDEX (list): List of unique identifiers for each simulation scenario.
+        sc_fetcher (ScenarioDataFetcher): Instance of ScenarioDataFetcher for fetching scenario data.
         forest_end_year (int): The final year of the forest simulation period.
-        pools (Pools): Instance of the Pools class for managing CBM carbon pools.
-        AGB, BGB, deadwood, litter, soil, flux_pools (various): Instances representing different carbon pool types used in CBM simulations.
+        cbm_data_class (DataFactory): Instance of DataFactory for preparing CBM data.
+        INDEX (list): List of unique identifiers for each simulation scenario.
+        SIM_class (CBMSim): Instance of CBMSim for running CBM simulations.
+        baseline_years (list): List of baseline years for the simulations.
+        baseline_year_range (list): Range of baseline years for the simulations.
+        forest_baseline_dataframe (pd.DataFrame): DataFrame containing forest baseline data.
 
     Methods:
         generate_input_data():
@@ -57,15 +54,14 @@ class GeoRunner:
     """
     def __init__(
         self,
-        config_path,
-        calibration_year,
-        afforest_data,
-        scenario_data,
-        sit_path = None,
+        geo_data_manager,
     ):
+        self.data_manager_class = geo_data_manager
 
-        self.paths_class = Paths(sit_path, gen_baseline=True)
-        self.paths_class.setup_geo_runner_paths(sit_path)
+        self.sit_path = self.data_manager_class.get_sit_path()
+
+        self.paths_class = Paths(self.sit_path, gen_baseline=True)
+        self.paths_class.setup_geo_runner_paths(self.sit_path)
 
         self.defaults_db = self.paths_class.get_aidb_path()
 
@@ -73,14 +69,11 @@ class GeoRunner:
 
         self.baseline_conf_path = self.paths_class.get_baseline_conf_path()
         
-        self.sc_fetcher = ScenarioDataFetcher(scenario_data)
+        self.sc_fetcher = ScenarioDataFetcher(geo_data_manager)
 
         self.forest_end_year = self.sc_fetcher.get_afforestation_end_year()
        
-        self.cbm_data_class = DataFactory(
-            config_path, calibration_year, self.forest_end_year, afforest_data, scenario_data
-        )
-        self.data_manager_class = GeoDataManager(calibration_year, config_path)
+        self.cbm_data_class = DataFactory(geo_data_manager)
 
         self.INDEX = self.sc_fetcher.get_afforest_scenario_index()
 
@@ -93,7 +86,7 @@ class GeoRunner:
 
 
         self._generate_base_input_data()
-        self.forest_baseline_dataframe = self.SIM_class.baseline_simulate_stock(self.cbm_data_class,
+        self.forest_baseline_dataframe = self.SIM_class.FM_simulate_stock(self.cbm_data_class,
                                                                             self.baseline_years,
                                                                             self.baseline_year_range,
                                                                             self.baseline_conf_path,
@@ -238,7 +231,6 @@ class GeoRunner:
 
         Returns:
             pd.DataFrame: Aggregated carbon flux data across all scenarios.
-
         """
         forest_data = pd.DataFrame()
         fluxes_data = pd.DataFrame()
@@ -299,7 +291,7 @@ class GeoRunner:
             pd.DataFrame: DataFrame with additional years.
         """
         
-        forest_baseline_year = self.data_manager_class.get_forest_baseline_year()
+        forest_baseline_year = self.data_manager_class.get_calibration_year()
 
         years_data = {
         "Year": [(forest_baseline_year-2), (forest_baseline_year-1)],

@@ -24,15 +24,13 @@ Classes
 
 
 
-.. py:class:: Transition(calibration_year, config_path)
+.. py:class:: Transition(data_manager)
 
 
-   Represents a transition object that generates transition rules structure based on given scenario.
+   Represents a transition object that generates transition rules structure based on a given scenario.
 
-   :param calibration_year: The calibration year.
-   :type calibration_year: int
-   :param config_path: The path to the configuration file.
-   :type config_path: str
+   :param data_manager: An instance of the DataManager class.
+   :type data_manager: DataManager
 
    .. attribute:: data_manager_class
 
@@ -52,10 +50,9 @@ Classes
 
       :type: dict
 
-   .. method:: make_transition_rules_structure
+   .. method:: make_transition_rules_structure(scenario)
 
       Generates the transition rules structure based on the given scenario.
-      
       
 
    .. py:method:: make_transition_rules_structure(scenario)
@@ -63,8 +60,10 @@ Classes
       Generates a transition rules structure based on the given scenario.
 
       :param scenario: The scenario to generate the transition rules structure for.
+      :type scenario: str
 
       :returns: The transition rules structure as a pandas DataFrame.
+      :rtype: pd.DataFrame
 
 
 

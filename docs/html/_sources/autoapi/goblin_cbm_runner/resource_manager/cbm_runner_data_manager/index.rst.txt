@@ -7,7 +7,7 @@
 
    CBM Runner Data Manager
    =======================
-   This module contains the DataManager class, which is responsible for managing data for the CBM Runner.
+   This module contains the DataManager class, which manages data for the CBM Runner.
 
 
 
@@ -24,13 +24,10 @@ Classes
 
 
 
-.. py:class:: DataManager(calibration_year=None, config_file=None, scenario_data=None)
+.. py:class:: DataManager(calibration_year, config_file_path, scenario_data, afforest_data, sit_path=None)
 
 
    Manages data for CBM Runner.
-
-   This class provides methods to access and manipulate data relevant to the CBM Runner,
-   including configurations, disturbance data, and scenario information.
 
    .. attribute:: config_data
 
@@ -40,19 +37,19 @@ Classes
 
    .. attribute:: forest_baseline_year
 
-      The baseline (calibration) year for forest data.
+      Baseline year for forest data.
 
       :type: int
 
    .. attribute:: afforestation_baseline
 
-      The baseline year for afforestation.
+      Baseline year for afforestation.
 
       :type: int
 
    .. attribute:: cbm_default_config
 
-      The default CBM configuration.
+      Default CBM configuration.
 
       :type: dict
 
@@ -64,19 +61,19 @@ Classes
 
    .. attribute:: non_forest_soils
 
-      Non-forest soils types, split between mineral and peat.
+      Non-forest soils types.
 
       :type: dict
 
    .. attribute:: forest_type_keys
 
-      Forest type keys from CBM default configuration (Legacy and Afforestation classifiers).
+      Forest type keys from CBM default configuration.
 
       :type: dict
 
    .. attribute:: soils_dict
 
-      Soils dictionary from CBM default configuration, afforestation pre types (for initial SOC).
+      Soils dictionary from CBM default configuration.
 
       :type: dict
 
@@ -88,13 +85,13 @@ Classes
 
    .. attribute:: disturbances_config
 
-      Disturbances configuration for scenario and baseline from CBM default configuration.
+      Disturbances configuration from CBM default configuration.
 
       :type: dict
 
    .. attribute:: yield_name_dict
 
-      Species yield name dictionary relating species to growth curves from CBM default configuration.
+      Species yield name dictionary from CBM default configuration.
 
       :type: dict
 
@@ -112,7 +109,7 @@ Classes
 
    .. attribute:: yield_baseline_dict
 
-      Yield baseline dictionary relating the proprotional split, nationally, of yields by species from CBM default configuration.
+      Yield baseline dictionary from CBM default configuration.
 
       :type: dict
 
@@ -152,77 +149,125 @@ Classes
 
       :type: dict
 
-   :param calibration_year: The year used for calibration. Defaults to None.
-   :type calibration_year: int, optional
-   :param config_file: Path to the configuration file. Defaults to None.
-   :type config_file: str, optional
-   :param scenario_data: Dataframe containing scenario data. Defaults to None.
-   :type scenario_data: DataFrame, optional
+   .. attribute:: transition_dicts
+
+      Transition dictionaries from CBM default configuration.
+
+      :type: dict
+
+   .. attribute:: sort_dict
+
+      Sort type dictionary from CBM default configuration.
+
+      :type: dict
+
+   :param calibration_year: Year used for calibration.
+   :type calibration_year: int
+   :param config_file_path: Path to the configuration file.
+   :type config_file_path: str
+   :param scenario_data: Dataframe containing scenario data.
+   :type scenario_data: DataFrame
+   :param afforest_data: Dataframe containing afforestation data.
+   :type afforest_data: DataFrame
+   :param sit_path: Path to the SIT file. Defaults to None.
+   :type sit_path: str, optional
+
+   .. py:method:: get_config_file_path()
+
+      Get the path to the configuration file.
+
+      :returns: Path to the configuration file.
+      :rtype: str
+
+
+   .. py:method:: get_sit_path()
+
+      Get the path to the SIT file.
+
+      :returns: Path to the SIT file.
+      :rtype: str
+
+
+   .. py:method:: get_forest_management_intensity()
+
+      Get the forest management intensity.
+
+      :returns: Forest management intensity.
+      :rtype: dict
+
+
+   .. py:method:: get_afforest_data()
+
+      Get the afforestation data.
+
+      :returns: Afforestation data.
+      :rtype: DataFrame
+
 
    .. py:method:: get_config_data(config_file)
 
       Load and return the configuration data from the specified file.
 
-      :param config_file: The path to the configuration file.
+      :param config_file: Path to the configuration file.
       :type config_file: str
 
-      :returns: The configuration data loaded from the file.
+      :returns: Configuration data loaded from the file.
       :rtype: dict
 
 
    .. py:method:: get_non_forest_dict()
 
-      Retrieves the non-forest dictionary.
+      Retrieve the non-forest dictionary.
 
-      :returns: The non-forest dictionary.
+      :returns: Non-forest dictionary.
       :rtype: dict
 
 
    .. py:method:: get_non_forest_soils()
 
-      Retrieves the non-forest soils dictionary.
+      Retrieve the non-forest soils dictionary.
 
-      :returns: The non-forest soils dictionary.
+      :returns: Non-forest soils dictionary.
       :rtype: dict
 
 
    .. py:method:: get_forest_type_keys()
 
-      Retrieves the forest type dictionary.
+      Retrieve the forest type dictionary.
 
-      :returns: The forest type dictionary.
+      :returns: Forest type dictionary.
       :rtype: dict
 
 
    .. py:method:: get_soils_dict()
 
-      Retrieves the soils dictionary.
+      Retrieve the soils dictionary.
 
-      :returns: The soils dictionary.
+      :returns: Soils dictionary.
       :rtype: dict
 
 
    .. py:method:: get_classifiers()
 
-      Retrieves the classifiers dictionary.
+      Retrieve the classifiers dictionary.
 
-      :returns: The classifiers dictionary.
+      :returns: Classifiers dictionary.
       :rtype: dict
 
 
    .. py:method:: get_disturbances_config()
 
-      Retrieves the disturbance ID dictionary for scenarios and baseline.
+      Retrieve the disturbance ID dictionary for scenarios and baseline.
 
-      :returns: The disturbance ID dictionary.
+      :returns: Disturbance ID dictionary.
       :rtype: dict
 
 
    .. py:method:: get_yield_name_dict()
 
-      Retrieves the disturbance ID dictionary for scenarios and baseline.
+      Retrieve the yield name dictionary.
 
-      :returns: The disturbance ID dictionary.
+      :returns: Yield name dictionary.
       :rtype: dict
 
 
@@ -230,86 +275,119 @@ Classes
 
       Get the dictionary mapping species IDs to their names.
 
-      :returns: A dictionary where the keys are species growth curve IDs and the values are species names.
+      :returns: Dictionary where keys are species growth curve IDs and values are species names.
       :rtype: dict
 
 
    .. py:method:: get_afforestation_yield_name_dict()
 
-      Returns the dictionary containing the names of afforestation yield classes.
+      Return the dictionary containing the names of afforestation yield classes.
 
-      :returns: A dictionary containing the names of afforestation yield classes.
+      :returns: Dictionary containing the names of afforestation yield classes.
       :rtype: dict
 
 
    .. py:method:: get_yield_baseline_dict()
 
-      Returns the yield baseline dictionary.
+      Return the yield baseline dictionary.
 
-      :returns: The yield baseline dictionary where keys are yield classes and values are the proportions of that yield class nationally.
+      :returns: Yield baseline dictionary where keys are yield classes and values are the proportions of that yield class nationally.
       :rtype: dict
 
 
    .. py:method:: get_disturbance_cols()
 
-      Returns the disturbance columns used in the disturbance dataframe generator.
+      Return the disturbance columns used in the disturbance dataframe generator.
 
-      :returns: A list of disturbance columns.
+      :returns: List of disturbance columns.
       :rtype: list
 
 
    .. py:method:: get_static_disturbance_cols()
 
-      Returns the static disturbance columns used in the disturbance dataframe generator.
+      Return the static disturbance columns used in the disturbance dataframe generator.
 
-      :returns: A list of static disturbance columns.
+      :returns: List of static disturbance columns.
       :rtype: list
 
 
    .. py:method:: get_transition_cols()
 
-      Returns the transition columns used in the transition dataframe generator.
+      Return the transition columns used in the transition dataframe generator.
 
-      :returns: A list of transition columns.
+      :returns: List of transition columns.
       :rtype: list
+
+
+   .. py:method:: get_transition_dict_species()
+
+      Return the transition dictionaries used in the transition dataframe generator.
+
+      :returns: Dictionary of transition dictionaries.
+      :rtype: dict
+
+
+   .. py:method:: get_transition_dict_species_to_yield()
+
+      Get the transition dictionaries.
+
+      :returns: The transition dictionaries.
+      :rtype: dict
 
 
    .. py:method:: get_mapping()
 
-      Returns the mapping used by the data manager to mapping parameters to the CBM AIDB.
+      Return the mapping used by the data manager to map parameters to the CBM AIDB.
 
-      :returns: The mapping used by the data manager.
+      :returns: Mapping used by the data manager.
       :rtype: dict
+
+
+   .. py:method:: get_calibration_year()
+
+      Get the calibration year.
+
+      :returns: Calibration year.
+      :rtype: int
 
 
    .. py:method:: get_forest_baseline_year()
 
       Get the forest baseline year, which is equal to the calibration year.
 
-      :returns: The forest baseline year.
+      :returns: Forest baseline year.
       :rtype: int
 
 
    .. py:method:: get_afforestation_baseline()
 
-      Returns the afforestation baseline, default is 1990.
+      Return the afforestation baseline, default is 1990.
 
-      :returns: The afforestation baseline (1990).
+      :returns: Afforestation baseline (1990).
+      :rtype: int
+
+
+   .. py:method:: get_forest_end_year()
+
+      Get the forest end year.
+
+      :returns: Forest end year.
+      :rtype: int
 
 
    .. py:method:: get_scenario_data()
 
-      Returns the goblin scenario data, used to retrieve the harvest and thinning proportions for scenarios.
+      Return the goblin scenario data, used to retrieve the harvest and thinning proportions for scenarios.
 
-      :returns: The scenario data.
-      :rtype: dict
+      :returns: Scenario data.
+      :rtype: DataFrame
 
 
    .. py:method:: get_scenario_disturbance_dict()
 
-      Returns the scenario and baseline disturbance ID dictionary.
+      Return the scenario and baseline disturbance ID dictionary.
 
-      :returns: The scenario and baseline disturbance ID dictionary.
+      :returns: Scenario and baseline disturbance ID dictionary.
       :rtype: dict
 
 
@@ -317,10 +395,10 @@ Classes
 
       Generate a dictionary of disturbance data for each scenario.
 
-      :param scenario_data: The input scenario data.
+      :param scenario_data: Input scenario data.
       :type scenario_data: DataFrame
 
-      :returns: A dictionary containing disturbance data for each scenario.
+      :returns: Dictionary containing disturbance data for each scenario.
       :rtype: dict
 
 
@@ -328,18 +406,10 @@ Classes
 
       Get the baseline disturbance dictionary. This is added to the scenario disturbance dictionary.
 
-      :param scenario_dist: The scenario disturbance dictionary.
+      :param scenario_dist: Scenario disturbance dictionary.
       :type scenario_dist: dict
 
-      :returns: The updated scenario disturbance dictionary with baseline disturbances.
-      :rtype: dict
-
-
-   .. py:method:: get_legacy_disturbance_dict()
-
-      Get the legacy disturbance dictionary.
-
-      :returns: The legacy disturbance dictionary containing clearfell and thinning data.
+      :returns: Updated scenario disturbance dictionary with baseline disturbances.
       :rtype: dict
 
 
@@ -347,7 +417,10 @@ Classes
 
       Get total number of scenario years from 1990.
 
-      :returns: The number of years in the scenario.
+      :param forestry_end_year: Year at the end of the scenario.
+      :type forestry_end_year: int
+
+      :returns: Number of years in the scenario.
       :rtype: int
 
 
@@ -355,12 +428,10 @@ Classes
 
       Calculate the number of years in the scenario from the calibration year.
 
-      :param calibration_year: The year used for calibration.
-      :type calibration_year: int
-      :param forestry_end_year: The year at the end of the scenario.
+      :param forestry_end_year: Year at the end of the scenario.
       :type forestry_end_year: int
 
-      :returns: The number of years in the scenario.
+      :returns: Number of years in the scenario.
       :rtype: int
 
 
@@ -368,12 +439,10 @@ Classes
 
       Calculate the range of years in the scenario from the calibration year.
 
-      :param calibration_year: The year used for calibration.
-      :type calibration_year: int
-      :param forestry_end_year: The year at the end of the scenario.
+      :param forestry_end_year: Year at the end of the scenario.
       :type forestry_end_year: int
 
-      :returns: The range of years in the scenario.
+      :returns: Range of years in the scenario.
       :rtype: list
 
 
@@ -381,7 +450,10 @@ Classes
 
       Get the scenario years range, including afforestation from 1990.
 
-      :returns: The range of years in the scenario.
+      :param forestry_end_year: Year at the end of the scenario.
+      :type forestry_end_year: int
+
+      :returns: Range of years in the scenario.
       :rtype: list
 
 
@@ -389,7 +461,10 @@ Classes
 
       Get the baseline years.
 
-      :returns: The number of years in the baseline.
+      :param forestry_end_year: Year at the end of the scenario.
+      :type forestry_end_year: int
+
+      :returns: Number of years in the baseline.
       :rtype: int
 
 
@@ -397,7 +472,10 @@ Classes
 
       Get the baseline years range.
 
-      :returns: The range of years in the baseline.
+      :param forestry_end_year: Year at the end of the scenario.
+      :type forestry_end_year: int
+
+      :returns: Range of years in the baseline.
       :rtype: list
 
 
@@ -405,7 +483,7 @@ Classes
 
       Get the afforestation delay.
 
-      :returns: The afforestation delay.
+      :returns: Afforestation delay.
       :rtype: int
 
 
@@ -413,7 +491,7 @@ Classes
 
       Get the annual afforestation rate for delay years.
 
-      :returns: The annual afforestation rate.
+      :returns: Annual afforestation rate.
       :rtype: float
 
 
@@ -421,8 +499,19 @@ Classes
 
       Get the afforestation rate species distribution.
 
-      :returns: The afforestation rate species distribution.
+      :param species: Species name.
+      :type species: str
+
+      :returns: Afforestation rate species distribution.
       :rtype: float
+
+
+   .. py:method:: get_sort_dict()
+
+      Get the sort dictionary.
+
+      :returns: Sort dictionary.
+      :rtype: dict
 
 
 

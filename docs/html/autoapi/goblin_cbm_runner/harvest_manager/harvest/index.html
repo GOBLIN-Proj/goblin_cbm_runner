@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_cbm_runner.harvest_manager.harvest &mdash; goblin_cbm_runner 0.4.2 documentation</title>
+  <title>goblin_cbm_runner.harvest_manager.harvest &mdash; goblin_cbm_runner 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../_static/documentation_options.js?v=ff822928"></script>
+        <script src="../../../../_static/documentation_options.js?v=1dd76d02"></script>
         <script src="../../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -109,336 +109,68 @@
 <h3>Classes<a class="headerlink" href="#classes" title="Link to this heading"></a></h3>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#goblin_cbm_runner.harvest_manager.harvest.ForestStand" title="goblin_cbm_runner.harvest_manager.harvest.ForestStand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ForestStand</span></code></a></p></td>
-<td><p>Represents a single forest stand.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#goblin_cbm_runner.harvest_manager.harvest.DisturbedForestStand" title="goblin_cbm_runner.harvest_manager.harvest.DisturbedForestStand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DisturbedForestStand</span></code></a></p></td>
-<td><p>Represents a disturbed forest stand.</p></td>
-</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker" title="goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AfforestationTracker</span></code></a></p></td>
-<td><p>A tracker for managing afforestation and forest disturbance events.</p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py class">
-<dt class="sig sig-object py" id="goblin_cbm_runner.harvest_manager.harvest.ForestStand">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.harvest_manager.harvest.</span></span><span class="sig-name descname"><span class="pre">ForestStand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">species</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yield_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">soil</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">age</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/harvest_manager/harvest.html#ForestStand"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.harvest_manager.harvest.ForestStand" title="Link to this definition"></a></dt>
-<dd><p>Represents a single forest stand.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="goblin_cbm_runner.harvest_manager.harvest.ForestStand.species">
-<span class="sig-name descname"><span class="pre">species</span></span><a class="headerlink" href="#goblin_cbm_runner.harvest_manager.harvest.ForestStand.species" title="Link to this definition"></a></dt>
-<dd><p>The species of the forest stand.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="goblin_cbm_runner.harvest_manager.harvest.ForestStand.yield_class">
-<span class="sig-name descname"><span class="pre">yield_class</span></span><a class="headerlink" href="#goblin_cbm_runner.harvest_manager.harvest.ForestStand.yield_class" title="Link to this definition"></a></dt>
-<dd><p>The yield class of the forest stand, indicating its productivity.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="goblin_cbm_runner.harvest_manager.harvest.ForestStand.soil">
-<span class="sig-name descname"><span class="pre">soil</span></span><a class="headerlink" href="#goblin_cbm_runner.harvest_manager.harvest.ForestStand.soil" title="Link to this definition"></a></dt>
-<dd><p>The type of soil in the forest stand, affecting growth conditions.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="goblin_cbm_runner.harvest_manager.harvest.ForestStand.area">
-<span class="sig-name descname"><span class="pre">area</span></span><a class="headerlink" href="#goblin_cbm_runner.harvest_manager.harvest.ForestStand.area" title="Link to this definition"></a></dt>
-<dd><p>The area of the forest stand in hectares.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="goblin_cbm_runner.harvest_manager.harvest.ForestStand.age">
-<span class="sig-name descname"><span class="pre">age</span></span><a class="headerlink" href="#goblin_cbm_runner.harvest_manager.harvest.ForestStand.age" title="Link to this definition"></a></dt>
-<dd><p>The age of the forest stand in years, starting at 0.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="goblin_cbm_runner.harvest_manager.harvest.ForestStand.since_last_dist">
-<span class="sig-name descname"><span class="pre">since_last_dist</span></span><a class="headerlink" href="#goblin_cbm_runner.harvest_manager.harvest.ForestStand.since_last_dist" title="Link to this definition"></a></dt>
-<dd><p>The number of years since the last disturbance, initially None.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.harvest_manager.harvest.ForestStand.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">species</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yield_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">soil</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">age</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/harvest_manager/harvest.html#ForestStand.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.harvest_manager.harvest.ForestStand.__init__" title="Link to this definition"></a></dt>
-<dd><p>Initializes a new instance of the ForestStand class.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.harvest_manager.harvest.ForestStand.age_stand">
-<span class="sig-name descname"><span class="pre">age_stand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/harvest_manager/harvest.html#ForestStand.age_stand"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.harvest_manager.harvest.ForestStand.age_stand" title="Link to this definition"></a></dt>
-<dd><p>Increments the age of the forest stand by one year.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.harvest_manager.harvest.ForestStand.disturb">
-<span class="sig-name descname"><span class="pre">disturb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/harvest_manager/harvest.html#ForestStand.disturb"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.harvest_manager.harvest.ForestStand.disturb" title="Link to this definition"></a></dt>
-<dd><p>Records a disturbance event by setting or incrementing the ‘since_last_dist’ attribute.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.harvest_manager.harvest.ForestStand.reset_dist">
-<span class="sig-name descname"><span class="pre">reset_dist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/harvest_manager/harvest.html#ForestStand.reset_dist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.harvest_manager.harvest.ForestStand.reset_dist" title="Link to this definition"></a></dt>
-<dd><p>Resets the time since the last disturbance to zero.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id0">
-<span class="sig-name descname"><span class="pre">age_stand</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/harvest_manager/harvest.html#ForestStand.age_stand"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
-<dd><p>Increases the age of the stand by one year.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id1">
-<span class="sig-name descname"><span class="pre">disturb</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/harvest_manager/harvest.html#ForestStand.disturb"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
-<dd><p>Increases time since last disturbance by one year.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id2">
-<span class="sig-name descname"><span class="pre">reset_dist</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/harvest_manager/harvest.html#ForestStand.reset_dist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
-<dd><p>Resets time since last disturbance to zero.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="goblin_cbm_runner.harvest_manager.harvest.DisturbedForestStand">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.harvest_manager.harvest.</span></span><span class="sig-name descname"><span class="pre">DisturbedForestStand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">species</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yield_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">soil</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/harvest_manager/harvest.html#DisturbedForestStand"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.harvest_manager.harvest.DisturbedForestStand" title="Link to this definition"></a></dt>
-<dd><p>Represents a disturbed forest stand.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="goblin_cbm_runner.harvest_manager.harvest.DisturbedForestStand.year">
-<span class="sig-name descname"><span class="pre">year</span></span><a class="headerlink" href="#goblin_cbm_runner.harvest_manager.harvest.DisturbedForestStand.year" title="Link to this definition"></a></dt>
-<dd><p>The year of the stand.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="goblin_cbm_runner.harvest_manager.harvest.DisturbedForestStand.species">
-<span class="sig-name descname"><span class="pre">species</span></span><a class="headerlink" href="#goblin_cbm_runner.harvest_manager.harvest.DisturbedForestStand.species" title="Link to this definition"></a></dt>
-<dd><p>The species of the stand.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="goblin_cbm_runner.harvest_manager.harvest.DisturbedForestStand.yield_class">
-<span class="sig-name descname"><span class="pre">yield_class</span></span><a class="headerlink" href="#goblin_cbm_runner.harvest_manager.harvest.DisturbedForestStand.yield_class" title="Link to this definition"></a></dt>
-<dd><p>The yield class of the stand.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="goblin_cbm_runner.harvest_manager.harvest.DisturbedForestStand.soil">
-<span class="sig-name descname"><span class="pre">soil</span></span><a class="headerlink" href="#goblin_cbm_runner.harvest_manager.harvest.DisturbedForestStand.soil" title="Link to this definition"></a></dt>
-<dd><p>The soil type of the stand.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="goblin_cbm_runner.harvest_manager.harvest.DisturbedForestStand.dist">
-<span class="sig-name descname"><span class="pre">dist</span></span><a class="headerlink" href="#goblin_cbm_runner.harvest_manager.harvest.DisturbedForestStand.dist" title="Link to this definition"></a></dt>
-<dd><p>The disturbance of the stand (default is None).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="goblin_cbm_runner.harvest_manager.harvest.DisturbedForestStand.area">
-<span class="sig-name descname"><span class="pre">area</span></span><a class="headerlink" href="#goblin_cbm_runner.harvest_manager.harvest.DisturbedForestStand.area" title="Link to this definition"></a></dt>
-<dd><p>The area of the stand (default is None).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
 <dt class="sig sig-object py" id="goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.harvest_manager.harvest.</span></span><span class="sig-name descname"><span class="pre">AfforestationTracker</span></span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/harvest_manager/harvest.html#AfforestationTracker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker" title="Link to this definition"></a></dt>
-<dd><p>A tracker for managing afforestation and forest disturbance events.</p>
-<p>This class is used to track and manage forest stands and disturbances over time in
-a forest simulation context. It keeps track of various stands of forest, their characteristics,
-and disturbances that occur.</p>
-<p>It also resets the forest age when a harvest event has taken place.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker.loader_class">
-<span class="sig-name descname"><span class="pre">loader_class</span></span><a class="headerlink" href="#goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker.loader_class" title="Link to this definition"></a></dt>
-<dd><p>An instance of the Loader class.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="../../resource_manager/loader/index.html#goblin_cbm_runner.resource_manager.loader.Loader" title="goblin_cbm_runner.resource_manager.loader.Loader">Loader</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker.data_manager_class">
-<span class="sig-name descname"><span class="pre">data_manager_class</span></span><a class="headerlink" href="#goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker.data_manager_class" title="Link to this definition"></a></dt>
-<dd><p>An instance of the DataManager class.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="../../resource_manager/cbm_runner_data_manager/index.html#goblin_cbm_runner.resource_manager.cbm_runner_data_manager.DataManager" title="goblin_cbm_runner.resource_manager.cbm_runner_data_manager.DataManager">DataManager</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker.disturbance_timing">
-<span class="sig-name descname"><span class="pre">disturbance_timing</span></span><a class="headerlink" href="#goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker.disturbance_timing" title="Link to this definition"></a></dt>
-<dd><p>A DataFrame containing disturbance timing information.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>DataFrame</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker.stands">
-<span class="sig-name descname"><span class="pre">stands</span></span><a class="headerlink" href="#goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker.stands" title="Link to this definition"></a></dt>
-<dd><p>A list of ForestStand objects representing current forest stands.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker.disturbed_stands">
-<span class="sig-name descname"><span class="pre">disturbed_stands</span></span><a class="headerlink" href="#goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker.disturbed_stands" title="Link to this definition"></a></dt>
-<dd><p>A list of DisturbedForestStand objects representing disturbed forest stands.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list</p>
-</dd>
-</dl>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.harvest_manager.harvest.</span></span><span class="sig-name descname"><span class="pre">AfforestationTracker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_manager</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disturdance_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forest_df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">years</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/harvest_manager/harvest.html#AfforestationTracker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker.initialize_stands">
+<span class="sig-name descname"><span class="pre">initialize_stands</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/harvest_manager/harvest.html#AfforestationTracker.initialize_stands"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker.initialize_stands" title="Link to this definition"></a></dt>
+<dd><p>Initialize the main stands dataframe for either afforestation or standing forest.</p>
+<p>Returns:
+- DataFrame: Initialized stands dataframe.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker.afforest">
-<span class="sig-name descname"><span class="pre">afforest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">species</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yield_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">soil</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">age</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/harvest_manager/harvest.html#AfforestationTracker.afforest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker.afforest" title="Link to this definition"></a></dt>
-<dd><p>Adds a new afforestation event.</p>
+<dt class="sig sig-object py" id="goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker.extract_disturbance_types">
+<span class="sig-name descname"><span class="pre">extract_disturbance_types</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/harvest_manager/harvest.html#AfforestationTracker.extract_disturbance_types"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker.extract_disturbance_types" title="Link to this definition"></a></dt>
+<dd><p>Extracts unique disturbance types from the disturbance_dict.</p>
+<p>Returns:
+- List: Unique disturbance types.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker.move_to_next_age">
-<span class="sig-name descname"><span class="pre">move_to_next_age</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/harvest_manager/harvest.html#AfforestationTracker.move_to_next_age"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker.move_to_next_age" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker.expand_disturbance_timing">
+<span class="sig-name descname"><span class="pre">expand_disturbance_timing</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/harvest_manager/harvest.html#AfforestationTracker.expand_disturbance_timing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker.expand_disturbance_timing" title="Link to this definition"></a></dt>
+<dd><p>Expand disturbance_timing to include species, yield_class, and proportions from disturbance_dict.</p>
+<p>Returns:
+- DataFrame: Expanded disturbance timing dataframe.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker.age_stands">
+<span class="sig-name descname"><span class="pre">age_stands</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">current_year</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/harvest_manager/harvest.html#AfforestationTracker.age_stands"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker.age_stands" title="Link to this definition"></a></dt>
 <dd><p>Ages all stands by one year.</p>
+<p>Parameters:
+- current_year: The current year of the simulation.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker.forest_disturbance">
-<span class="sig-name descname"><span class="pre">forest_disturbance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">species</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yield_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">soil</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proportion</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/harvest_manager/harvest.html#AfforestationTracker.forest_disturbance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker.forest_disturbance" title="Link to this definition"></a></dt>
-<dd><p>Adds a disturbance event.</p>
+<dt class="sig sig-object py" id="goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker.apply_disturbance">
+<span class="sig-name descname"><span class="pre">apply_disturbance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">year</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/harvest_manager/harvest.html#AfforestationTracker.apply_disturbance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker.apply_disturbance" title="Link to this definition"></a></dt>
+<dd><p>Apply disturbances based on disturbance timing data in a vectorized way.</p>
+<p>Parameters:
+- year: The current year of the simulation.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker.get_stand_data_for_year">
-<span class="sig-name descname"><span class="pre">get_stand_data_for_year</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/harvest_manager/harvest.html#AfforestationTracker.get_stand_data_for_year"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker.get_stand_data_for_year" title="Link to this definition"></a></dt>
-<dd><p>Returns data for current stands.</p>
+<dt class="sig sig-object py" id="goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker.run_simulation">
+<span class="sig-name descname"><span class="pre">run_simulation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/harvest_manager/harvest.html#AfforestationTracker.run_simulation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker.run_simulation" title="Link to this definition"></a></dt>
+<dd><p>Runs the simulation for all years and returns the disturbance dataframe.</p>
+<p>Returns:
+- DataFrame: Disturbance dataframe after running the simulation.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker.get_disturbance_data_for_year">
-<span class="sig-name descname"><span class="pre">get_disturbance_data_for_year</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/harvest_manager/harvest.html#AfforestationTracker.get_disturbance_data_for_year"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker.get_disturbance_data_for_year" title="Link to this definition"></a></dt>
-<dd><p>Returns data for disturbed stands.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker.get_stand_data_by_age">
-<span class="sig-name descname"><span class="pre">get_stand_data_by_age</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/harvest_manager/harvest.html#AfforestationTracker.get_stand_data_by_age"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker.get_stand_data_by_age" title="Link to this definition"></a></dt>
-<dd><p>Returns a nested dictionary with stand areas grouped by age, species, and yield class.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id3">
-<span class="sig-name descname"><span class="pre">afforest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">species</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yield_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">soil</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">age</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/harvest_manager/harvest.html#AfforestationTracker.afforest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
-<dd><p>Add an afforestation event to the tracker.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id4">
-<span class="sig-name descname"><span class="pre">move_to_next_age</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/harvest_manager/harvest.html#AfforestationTracker.move_to_next_age"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
-<dd><p>Age all stands by one year.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id5">
-<span class="sig-name descname"><span class="pre">forest_disturbance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">species</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yield_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">soil</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proportion</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/harvest_manager/harvest.html#AfforestationTracker.forest_disturbance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id5" title="Link to this definition"></a></dt>
-<dd><p>Add a disturbance event to the tracker.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id6">
-<span class="sig-name descname"><span class="pre">get_stand_data_for_year</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/harvest_manager/harvest.html#AfforestationTracker.get_stand_data_for_year"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
-<dd><p>Returns a list of tuples containing stand data for the current year.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id7">
-<span class="sig-name descname"><span class="pre">get_disturbance_data_for_year</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/harvest_manager/harvest.html#AfforestationTracker.get_disturbance_data_for_year"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id7" title="Link to this definition"></a></dt>
-<dd><p>Returns a list of tuples containing disturbance data for the current year.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id8">
-<span class="sig-name descname"><span class="pre">get_stand_data_by_age</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/harvest_manager/harvest.html#AfforestationTracker.get_stand_data_by_age"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id8" title="Link to this definition"></a></dt>
-<dd><p>Returns a nested dictionary with areas grouped by age, species, and yield class.</p>
+<dt class="sig sig-object py" id="goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker.get_stands">
+<span class="sig-name descname"><span class="pre">get_stands</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/harvest_manager/harvest.html#AfforestationTracker.get_stands"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker.get_stands" title="Link to this definition"></a></dt>
+<dd><p>Returns the final stands dataframe.</p>
+<p>Returns:
+- DataFrame: Final stands dataframe.</p>
 </dd></dl>
 
 </dd></dl>

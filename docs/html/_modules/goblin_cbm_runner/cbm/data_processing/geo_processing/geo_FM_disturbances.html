@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_cbm_runner.cbm.data_processing.geo_processing.geo_FM_disturbances &mdash; goblin_cbm_runner 0.4.2 documentation</title>
+  <title>goblin_cbm_runner.cbm.data_processing.geo_processing.geo_FM_disturbances &mdash; goblin_cbm_runner 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -16,7 +16,7 @@
   
         <script src="../../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../../_static/documentation_options.js?v=ff822928"></script>
+        <script src="../../../../../_static/documentation_options.js?v=1dd76d02"></script>
         <script src="../../../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/js/theme.js"></script>
@@ -84,11 +84,9 @@
 <span class="sd">disturbance data to support the simulation of forest dynamics under varying management and disturbance scenarios.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager</span> <span class="kn">import</span> <span class="n">GeoDataManager</span>
 <span class="kn">from</span> <span class="nn">goblin_cbm_runner.resource_manager.loader</span> <span class="kn">import</span> <span class="n">Loader</span>
 <span class="kn">from</span> <span class="nn">goblin_cbm_runner.cbm.data_processing.geo_processing.geo_inventory</span> <span class="kn">import</span> <span class="n">Inventory</span>
 <span class="kn">from</span> <span class="nn">goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils</span> <span class="kn">import</span> <span class="n">GeoDisturbUtils</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">goblin_cbm_runner.harvest_manager.harvest</span> <span class="kn">import</span> <span class="n">AfforestationTracker</span>
 
 
@@ -109,53 +107,36 @@
 <span class="sd">        afforestation_data (DataFrame): Contains data on afforestation activities, including species and areas.</span>
 <span class="sd">        inventory_class (Inventory): Manages the preparation and structuring of forest inventory data.</span>
 <span class="sd">        disturbance_timing (DataFrame): Contains information on the timing and type of disturbances.</span>
-<span class="sd">        disturbance_dataframe (DataFrame): Central repository of disturbance event data.</span>
 <span class="sd">        scenario_disturbance_dict (dict): Holds scenario-specific disturbance information.</span>
-<span class="sd">        legacy_disturbance_dict (dict): Stores information on disturbances in legacy forests.</span>
-<span class="sd">        yield_name_dict (dict): Maps yield classes to their corresponding names for easier reference.</span>
+<span class="sd">        FM_disturbance_dict (dict): Stores information on disturbances in forest management scenarios.</span>
+<span class="sd">        full_rotation_scenario_years (int): Number of years for a full rotation scenario.</span>
 
 <span class="sd">    Parameters:</span>
-<span class="sd">        config_path (str): Path to the configuration file guiding the simulation setup.</span>
-<span class="sd">        calibration_year (int): Reference year from which simulation data is calibrated.</span>
-<span class="sd">        forest_end_year (int): Designated end year for the simulation&#39;s forest data.</span>
-<span class="sd">        afforestation_data (DataFrame): Data detailing afforestation projects, including species and area.</span>
-<span class="sd">        scenario_data (DataFrame): Data defining various simulation scenarios.</span>
-
-<span class="sd">    Methods:</span>
-
-<span class="sd">        fill_baseline_forest():</span>
-<span class="sd">            Populates disturbance data for the baseline forest, considering historical disturbances.</span>
-<span class="sd">    </span>
+<span class="sd">        geo_data_manager (GeoDataManager): Instance responsible for managing geographical data.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">config_path</span><span class="p">,</span>
-        <span class="n">calibration_year</span><span class="p">,</span>
-        <span class="n">forest_end_year</span><span class="p">,</span>
-        <span class="n">afforestation_data</span><span class="p">,</span>
-        <span class="n">scenario_data</span>
+        <span class="n">geo_data_manager</span><span class="p">,</span>
     <span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">forest_end_year</span> <span class="o">=</span> <span class="n">forest_end_year</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span> <span class="o">=</span> <span class="n">calibration_year</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span> <span class="o">=</span> <span class="n">geo_data_manager</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">forest_end_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_forest_end_year</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_calibration_year</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">full_rotation_scenario_years</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">forest_end_year</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">loader_class</span> <span class="o">=</span> <span class="n">Loader</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span> <span class="o">=</span> <span class="n">GeoDataManager</span><span class="p">(</span>
-            <span class="n">calibration_year</span><span class="o">=</span><span class="n">calibration_year</span><span class="p">,</span> <span class="n">config_file</span><span class="o">=</span><span class="n">config_path</span><span class="p">,</span> <span class="n">scenario_data</span><span class="o">=</span><span class="n">scenario_data</span>
-        <span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">utils_class</span> <span class="o">=</span> <span class="n">GeoDisturbUtils</span><span class="p">(</span>
-            <span class="n">config_path</span><span class="p">,</span> <span class="n">calibration_year</span><span class="p">,</span><span class="n">forest_end_year</span><span class="p">,</span> <span class="n">scenario_data</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">forest_baseline_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_forest_baseline_year</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">utils_class</span> <span class="o">=</span> <span class="n">GeoDisturbUtils</span><span class="p">(</span><span class="n">geo_data_manager</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">afforestation_data</span> <span class="o">=</span> <span class="n">afforestation_data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">afforestation_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_afforestation_data</span><span class="p">()</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">inventory_class</span> <span class="o">=</span> <span class="n">Inventory</span><span class="p">(</span>
-            <span class="n">calibration_year</span><span class="p">,</span> <span class="n">config_path</span><span class="p">,</span> <span class="n">scenario_data</span><span class="p">,</span> <span class="n">afforestation_data</span>
-        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inventory_class</span> <span class="o">=</span> <span class="n">Inventory</span><span class="p">(</span><span class="n">geo_data_manager</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">disturbance_timing</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loader_class</span><span class="o">.</span><span class="n">disturbance_time</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">scenario_disturbance_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_scenario_disturbance_dict</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">FM_disturbance_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenario_disturbance_dict</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="FMDisturbances.fill_baseline_forest">
@@ -165,47 +146,31 @@
 <span class="sd">        Fills the baseline (managed) forest with disturbance data.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            pandas.DataFrame: DataFrame containing disturbance data.</span>
+<span class="sd">            pandas.DataFrame: DataFrame containing disturbance data for the baseline (managed) forest.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">disturbance_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">utils_class</span><span class="o">.</span><span class="n">disturbance_structure</span><span class="p">()</span>
+        <span class="n">year_start</span> <span class="o">=</span> <span class="mi">1</span>
 
-        <span class="n">legacy_years</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forest_end_year</span>  <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">forest_baseline_year</span>
+        <span class="n">legacy_inventory_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">utils_class</span><span class="o">.</span><span class="n">legacy_disturbance_tracker</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inventory_class</span><span class="p">,</span>
+                                                                          <span class="n">year_start</span><span class="p">)</span>
 
-        <span class="n">years</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
-            <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="n">legacy_years</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
-        <span class="p">)</span>
 
-        <span class="n">disturbance_timing</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">disturbance_timing</span> 
+        <span class="n">legacy_inventory_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">utils_class</span><span class="o">.</span><span class="n">_drop_zero_area_rows</span><span class="p">(</span><span class="n">legacy_inventory_df</span><span class="p">)</span>
 
-        <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">dist_tracker</span> <span class="o">=</span> <span class="n">AfforestationTracker</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="p">,</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">FM_disturbance_dict</span><span class="p">,</span>
+                                            <span class="n">legacy_inventory_df</span><span class="p">,</span> 
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">full_rotation_scenario_years</span><span class="p">)</span>
 
-        <span class="n">tracker</span> <span class="o">=</span> <span class="n">AfforestationTracker</span><span class="p">()</span>
+        <span class="n">FM_disturbance_df</span> <span class="o">=</span> <span class="n">dist_tracker</span><span class="o">.</span><span class="n">run_simulation</span><span class="p">()</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">utils_class</span><span class="o">.</span><span class="n">legacy_disturbance_tracker</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inventory_class</span><span class="p">,</span><span class="n">tracker</span><span class="p">,</span> <span class="n">years</span><span class="p">)</span>
-
-        <span class="k">for</span> <span class="n">yr</span> <span class="ow">in</span> <span class="n">years</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">stand</span> <span class="ow">in</span> <span class="n">tracker</span><span class="o">.</span><span class="n">disturbed_stands</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">stand</span><span class="o">.</span><span class="n">year</span> <span class="o">==</span> <span class="n">yr</span><span class="p">:</span>
-                    
-                    <span class="n">row_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">utils_class</span><span class="o">.</span><span class="n">_generate_row</span><span class="p">(</span><span class="n">stand</span><span class="o">.</span><span class="n">species</span><span class="p">,</span> <span class="s2">&quot;L&quot;</span><span class="p">,</span> <span class="n">stand</span><span class="o">.</span><span class="n">soil</span><span class="p">,</span> <span class="n">stand</span><span class="o">.</span><span class="n">yield_class</span><span class="p">,</span> <span class="n">stand</span><span class="o">.</span><span class="n">dist</span><span class="p">,</span> <span class="n">yr</span><span class="p">)</span>
-
-                    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;forest_type&quot;</span><span class="p">:</span><span class="s2">&quot;L&quot;</span><span class="p">,</span>
-                                <span class="s2">&quot;species&quot;</span><span class="p">:</span><span class="n">stand</span><span class="o">.</span><span class="n">species</span><span class="p">,</span>
-                                <span class="s2">&quot;yield_class&quot;</span><span class="p">:</span><span class="n">stand</span><span class="o">.</span><span class="n">yield_class</span><span class="p">,</span>
-                                <span class="s2">&quot;area&quot;</span><span class="p">:</span><span class="n">stand</span><span class="o">.</span><span class="n">area</span><span class="p">,</span>
-                                <span class="s2">&quot;dist&quot;</span><span class="p">:</span><span class="n">stand</span><span class="o">.</span><span class="n">dist</span><span class="p">,}</span>
-                    <span class="n">dataframes</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;disturbance_timing&quot;</span><span class="p">:</span><span class="n">disturbance_timing</span><span class="p">}</span>
-
-                    <span class="bp">self</span><span class="o">.</span><span class="n">utils_class</span><span class="o">.</span><span class="n">_process_scenario_row_data</span><span class="p">(</span><span class="n">row_data</span><span class="p">,</span><span class="n">context</span><span class="p">,</span> <span class="n">dataframes</span><span class="p">)</span>
-
-                    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row_data</span><span class="p">)</span>
-
-        <span class="n">disturbance_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-        <span class="n">disturbance_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">utils_class</span><span class="o">.</span><span class="n">_drop_zero_area_rows</span><span class="p">(</span><span class="n">disturbance_df</span><span class="p">)</span>
+        <span class="n">disturbance_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">utils_class</span><span class="o">.</span><span class="n">format_disturbance_data</span><span class="p">(</span><span class="n">FM_disturbance_df</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">disturbance_timing</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">disturbance_df</span></div>
 </div>
+
+
+
 
 
 

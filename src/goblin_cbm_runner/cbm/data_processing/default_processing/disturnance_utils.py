@@ -23,29 +23,22 @@ class DisturbUtils:
         yield_name_dict (dict): Dictionary containing yield names.
 
     Parameters:
-        config_path (str): Configuration path for setting up CBM simulations.
-        calibration_year (int): The initial year for data calibration.
-        forest_end_year (int): The final year for simulation, defining the temporal boundary for scenario execution.
-        scenario_data (DataFrame): Detailed data of afforestation activities per scenario.
+        data_manager (DataManager): Instance of DataManager for managing simulation data and configurations.
 
     Methods:
         disturbance_structure():
             Creates a dataframe structure for disturbances.
-        _process_scenario_harvest_data(tracker, row_data, context):
-            Process the harvest data for a scenario.
-        _track_scenario_harvest(tracker, row_data, context):
-            Track the harvest scenario in the forest model.
         _drop_zero_area_rows(disturbance_df):
             Drops rows from the disturbance dataframe where the 'Amount' column is zero.
         _get_legacy_classifier_combinations():
             Returns all possible combinations of forest keys, soil keys, and yield keys.
-        _get_scenario_classifier_combinations():
+        _get_scenario_classifier_combinations(species):
             Generates combinations of scenario, forest, soil, and yield classifiers.
         _get_classifier_combinations(species, disturbance=None):
             Generates all possible combinations of forest types, soil classes, and yield classes.
         _get_static_defaults():
             Get the default values for static disturbance columns.
-        _generate_row(species, forest_type, soil, yield_class, dist, yr):
+        _generate_row(species, forest_type, soil, yield_class, dist, yr, amount=None):
             Generates a row of data for a disturbance event.
         _process_scenario_row_data(row_data, context, dataframes):
             Process the row data for a scenario based on the given context and dataframes.
@@ -61,21 +54,22 @@ class DisturbUtils:
             Handles legacy forest data by updating disturbance timing and populating row data with relevant information.
         _update_disturbance_timing(row_data, context, dataframes):
             Retrieve disturbance timing information from the disturbance_timing DataFrame.
-
+        update_disturbance_row(row, disturbance_timing_df):
+            Updates a single row with the correct disturbance timing information.
+        format_disturbance_data(disturbance_df, disturbance_timing_df):
+            Formats the tracked disturbance data dynamically, ensuring all required columns exist 
+            and retrieving timing constraints from `disturbance_timing`.
     """
     def __init__(
         self,
-        config_path,
-        calibration_year,
-        forest_end_year,
-        scenario_data
+        data_manager
     ):
-        self.forest_end_year = forest_end_year
-        self.calibration_year = calibration_year
-    
-        self.data_manager_class = DataManager(
-            calibration_year=calibration_year, config_file=config_path, scenario_data=scenario_data
-        )
+        self.data_manager_class = data_manager
+        self.calibration_year = self.data_manager_class.get_calibration_year()
+
+        
+        self.data_manager_class.get_forest_end_year()
+
         self.forest_baseline_year = self.data_manager_class.get_afforestation_baseline()
 
         self.baseline_forest_classifiers = self.data_manager_class.get_classifiers()[
@@ -85,7 +79,12 @@ class DisturbUtils:
             "Scenario"
         ]
 
+        self.transition_dict_species = self.data_manager_class.get_transition_dict_species_to_yield()
+
         self.yield_name_dict = self.data_manager_class.get_yield_name_dict()
+
+        self.sort_dict = self.data_manager_class.get_sort_dict()
+
 
     def disturbance_structure(self):
         """
@@ -98,47 +97,6 @@ class DisturbUtils:
         disturbance_df = pd.DataFrame(columns=columns)
 
         return disturbance_df
-    
-    def _process_scenario_harvest_data(self, tracker, row_data, context):
-        """
-        Process the harvest data for a scenario.
-
-        Args:
-            tracker (Tracker): The tracker object used to track forest changes.
-            row_data (dict): The data for a single row.
-            context (dict): The context containing additional information.
-
-        Returns:
-            None
-        """
-        dist = context["dist"]
-        area = row_data["Amount"]
-        if dist == "DISTID4" and area != 0:
-            self._track_scenario_harvest(tracker, row_data, context)
-
-
-    def _track_scenario_harvest(self, tracker, row_data, context):
-        """
-        Track the harvest scenario in the forest model.
-
-        Args:
-            tracker (Tracker): The tracker object used to track forest changes.
-            row_data (dict): The data for the current row.
-            context (dict): The context containing species, yield class, soil, year, harvest proportion, and age.
-
-        Returns:
-            None
-        """
-        area = row_data["Amount"]
-        species = context["species"]
-        yield_class = context["yield_class"]
-        soil = context["soil"]
-        time = context["year"]
-        factor = context["harvest_proportion"]
-        age = context["age"]
-
-        tracker.afforest(area, species, yield_class, soil, age)
-        tracker.forest_disturbance(time, species, yield_class, soil, factor)
 
 
     def _drop_zero_area_rows(self, disturbance_df):
@@ -161,9 +119,6 @@ class DisturbUtils:
         """
         Returns all possible combinations of forest keys, soil keys, and yield keys.
         
-        Parameters:
-            self (Disturbances): The Disturbances object.
-        
         Returns:
             combinations (generator): A generator that yields all possible combinations of forest keys, soil keys, and yield keys.
         """
@@ -174,17 +129,21 @@ class DisturbUtils:
         return itertools.product(forest_keys, soil_keys, yield_keys)
     
 
-    def _get_scenario_classifier_combinations(self):
+    def _get_scenario_classifier_combinations(self, species):
         """
         Generates combinations of scenario, forest, soil, and yield classifiers.
 
+        Parameters:
+            species (str): The species for which to generate classifier combinations.
+
         Returns:
-            A generator that yields combinations of scenario, forest, soil, and yield classifiers.
+            generator: A generator that yields combinations of scenario, forest, soil, and yield classifiers.
         """
         classifiers = self.scenario_forest_classifiers
+        
         forest_keys = ["A"]
         soil_keys = ["mineral"]
-        yield_keys = list(classifiers["Yield classes"].keys())
+        yield_keys = self.transition_dict_species.get(species, [])
         return itertools.product(forest_keys, soil_keys, yield_keys)
 
 
@@ -192,8 +151,12 @@ class DisturbUtils:
         """
         Generates all possible combinations of forest types, soil classes, and yield classes.
 
+        Parameters:
+            species (str): The species for which to generate classifier combinations.
+            disturbance (str, optional): The disturbance type.
+
         Returns:
-            A generator that yields tuples representing the combinations of forest types, soil classes, and yield classes.
+            generator: A generator that yields tuples representing the combinations of forest types, soil classes, and yield classes.
         """
 
         classifiers = self.scenario_forest_classifiers
@@ -221,7 +184,7 @@ class DisturbUtils:
         return {col: -1 for col in static_cols}
 
 
-    def _generate_row(self, species, forest_type, soil, yield_class, dist, yr):
+    def _generate_row(self, species, forest_type, soil, yield_class, dist, yr, amount=None):
         """
         Generates a row of data for a disturbance event.
 
@@ -232,6 +195,7 @@ class DisturbUtils:
             yield_class (str): The yield class of the forest.
             dist (int): The disturbance type ID.
             yr (int): The year of the disturbance event.
+            amount (float, optional): The amount of disturbance.
 
         Returns:
             dict: A dictionary containing the row data for the disturbance event.
@@ -250,9 +214,9 @@ class DisturbUtils:
             "MinYearsSinceDist": -1,
             **static_defaults,
             "Efficiency": 1,
-            "SortType": 3,
+            "SortType": self.sort_dict.get(species, 3),
             "MeasureType": "A",
-            "Amount": 0,
+            "Amount": amount if amount is not None else 0,
             "DistTypeID": dist,
             "Year": yr,
         }
@@ -487,7 +451,8 @@ class DisturbUtils:
 
     
     def _update_disturbance_timing(self, row_data, context, dataframes):
-        """Retrieve disturbance timing information from the disturbance_timing DataFrame.
+        """
+        Retrieve disturbance timing information from the disturbance_timing DataFrame.
 
         Args:
             row_data (dict): The dictionary containing row data.
@@ -500,7 +465,6 @@ class DisturbUtils:
         Raises:
             ValueError: If any of the operations fail due to invalid values.
             KeyError: If any of the required keys are not found.
-
         """
         yield_name = self.yield_name_dict
         species = context["species"]
@@ -528,3 +492,78 @@ class DisturbUtils:
             row_data['hw_age_min'] = 0
             row_data['hw_age_max'] = 210
             row_data['MinYearsSinceDist'] = -1
+
+
+    def update_disturbance_row(self, row, disturbance_timing_df):
+        """
+        Updates a single row with the correct disturbance timing information.
+
+        Args:
+            row (pandas.Series): A single row from the disturbance DataFrame.
+            disturbance_timing_df (pandas.DataFrame): The disturbance timing reference.
+
+        Returns:
+            pandas.Series: The updated row.
+        """
+        row_dict = row.to_dict()  # Convert Series to Dictionary
+
+        self._update_disturbance_timing(row_dict, 
+                                        {"species": row_dict["Classifier1"], 
+                                        "yield_class": row_dict["Classifier4"], 
+                                        "dist": row_dict["DistTypeID"]}, 
+                                        {"disturbance_timing": disturbance_timing_df})
+        
+        return pd.Series(row_dict)  # Convert Dict Back to Series
+
+
+    def format_disturbance_data(self, disturbance_df, disturbance_timing_df):
+        """
+        Formats the tracked disturbance data dynamically, ensuring all required columns exist 
+        and retrieving timing constraints from `disturbance_timing`.
+
+        Args:
+            disturbance_df (pandas.DataFrame): The raw disturbance data.
+            disturbance_timing_df (pandas.DataFrame): The disturbance timing reference.
+
+        Returns:
+            pandas.DataFrame: A formatted disturbance dataframe with correct age constraints.
+        """
+        disturbance_dataframe = disturbance_df.copy()
+
+        # Get required column structure
+        required_columns = self.disturbance_structure().columns
+
+        # Populate fields based on existing data
+        formatted_df = pd.DataFrame(columns=required_columns, index=range(len(disturbance_dataframe)))
+
+        formatted_df["Classifier1"] = disturbance_dataframe["Classifier1"] 
+        formatted_df["Classifier2"] = disturbance_dataframe["Classifier2"]
+        formatted_df["Classifier3"] = disturbance_dataframe["Classifier3"]
+        formatted_df["Classifier4"] = disturbance_dataframe["Classifier4"]
+        formatted_df["DistTypeID"] = disturbance_dataframe["DistTypeID"]
+        formatted_df["Amount"] = disturbance_dataframe["Amount"]
+        formatted_df["Year"] = disturbance_dataframe["Year"]
+
+        # Apply `_generate_row()` correctly
+        def generate_row(row):
+            return pd.Series(self._generate_row(row["Classifier1"], row["Classifier2"], row["Classifier3"], 
+                                                row["Classifier4"], row["DistTypeID"], row["Year"],  row["Amount"]))
+
+        formatted_df = formatted_df.apply(generate_row, axis=1)
+
+        # Apply `_update_disturbance_timing()` correctly
+        def update_timing(row):
+            row_dict = row.to_dict()  # Convert row to dictionary
+            self._update_disturbance_timing(
+                row_dict, 
+                {"species": row_dict["Classifier1"], "yield_class": row_dict["Classifier4"], "dist": row_dict["DistTypeID"]},
+                {"disturbance_timing": disturbance_timing_df}
+            )
+            return pd.Series(row_dict)  # Convert dictionary back to Series
+
+        formatted_df = formatted_df.apply(update_timing, axis=1)
+
+        # Ensure column order matches `disturbance_structure()`
+        formatted_df = formatted_df[required_columns]
+
+        return formatted_df

@@ -33,6 +33,7 @@ Functions
    goblin_cbm_runner.resource_manager.parser.get_afforest_delay
    goblin_cbm_runner.resource_manager.parser.get_annual_afforestation_rate
    goblin_cbm_runner.resource_manager.parser.get_afforestation_species_distribution
+   goblin_cbm_runner.resource_manager.parser.get_forest_management_intensity
 
 
 
@@ -118,7 +119,6 @@ Functions
    :type species_type: str
 
    :returns: The clearfell baseline value for the specified species type.
-             None: Returns None if the species type is not found or if an error occurs.
    :rtype: float
 
 
@@ -131,8 +131,7 @@ Functions
    :param species_type: The species type.
    :type species_type: str
 
-   :returns: The clearfell baseline value for the specified species type.
-             None: Returns None if the species type is not found or if an error occurs.
+   :returns: The clearfell scenario value for the specified species type.
    :rtype: float
 
 
@@ -146,7 +145,6 @@ Functions
    :type species_type: str
 
    :returns: The thinning baseline value for the specified species type.
-             None: Returns None if the species type is not found or if an error occurs.
    :rtype: float
 
 
@@ -159,8 +157,7 @@ Functions
    :param species_type: The species type.
    :type species_type: str
 
-   :returns: The thinning baseline value for the specified species type.
-             None: Returns None if the species type is not found or if an error occurs.
+   :returns: The thinning scenario value for the specified species type.
    :rtype: float
 
 
@@ -196,6 +193,17 @@ Functions
    :type species: str
 
    :returns: The afforestation rate species distribution value.
+   :rtype: float
+
+
+.. py:function:: get_forest_management_intensity(config_data)
+
+   Get the forest management intensity.
+
+   :param config_data: A dictionary containing configuration data.
+   :type config_data: dict
+
+   :returns: The forest management intensity value.
    :rtype: float
 
 

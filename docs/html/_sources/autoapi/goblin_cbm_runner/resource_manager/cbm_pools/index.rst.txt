@@ -55,6 +55,26 @@ Classes
    .. method:: get_annual_process_fluxes()
 
       Retrieves annual process fluxes.
+
+   .. method:: get_disturbance_flux_columns()
+
+      Retrieves disturbance flux columns.
+
+   .. method:: get_total_litter()
+
+      Retrieves total litter.
+
+   .. method:: get_gross_growth_AG()
+
+      Retrieves gross growth above ground.
+
+   .. method:: get_gross_growth_BG()
+
+      Retrieves gross growth below ground.
+
+   .. method:: get_annual_process_columns()
+
+      Retrieves annual process columns.
       
 
    .. attribute:: above_ground_biomass_pools
@@ -90,6 +110,36 @@ Classes
    .. attribute:: annual_process_fluxes
 
       List of annual process fluxes.
+
+      :type: list
+
+   .. attribute:: disturbance_fluxes
+
+      List of disturbance fluxes.
+
+      :type: list
+
+   .. attribute:: total_litter
+
+      List of total litter.
+
+      :type: list
+
+   .. attribute:: gross_growth_AG
+
+      List of gross growth above ground.
+
+      :type: list
+
+   .. attribute:: gross_growth_BG
+
+      List of gross growth below ground.
+
+      :type: list
+
+   .. attribute:: annual_process_columns
+
+      List of annual process columns.
 
       :type: list
 

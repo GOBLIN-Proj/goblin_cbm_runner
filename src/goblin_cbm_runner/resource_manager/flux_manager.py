@@ -75,15 +75,16 @@ class FluxManager:
         Combines scaled and filtered carbon flux data.
 
         Args:
-            object:  An object holding flux data, area, and state information.
+            flux (pandas.DataFrame): DataFrame containing carbon flux data.
+            state (pandas.DataFrame): DataFrame containing state information.
+            parameters (pandas.DataFrame): DataFrame containing parameter information.
+            area (pandas.DataFrame): DataFrame containing area information.
 
         Returns:
             pandas.DataFrame: DataFrame with augmented flux data ready for CBM use.
         """
         flux = self._add_identifier(flux, state, parameters)
 
-        #scaled_data = self.scale_flux_data(flux, area)
-        
         output = self.filter_flux_data(flux)
        
         return output
@@ -94,7 +95,9 @@ class FluxManager:
         Adds land class and disturbance type columns to an existing flux DataFrame.
 
         Args:
-            object: An object holding flux data, land class, and disturbance type information.
+            flux (pandas.DataFrame): DataFrame containing carbon flux data.
+            state (pandas.DataFrame): DataFrame containing state information.
+            parameters (pandas.DataFrame): DataFrame containing parameter information.
 
         Returns:
             pandas.DataFrame: Flux DataFrame with 'land_class' and 'disturbance_type' columns added.   
@@ -111,7 +114,10 @@ class FluxManager:
         Creates a DataFrame of carbon fluxes related to disturbances. 
 
         Args:
-            object: An object holding flux data, area, and state information.
+            flux (pandas.DataFrame): DataFrame containing carbon flux data.
+            state (pandas.DataFrame): DataFrame containing state information.
+            parameters (pandas.DataFrame): DataFrame containing parameter information.
+            area (pandas.DataFrame): DataFrame containing area information.
 
         Returns:
             pandas.DataFrame: A DataFrame containing calculated disturbance fluxes.
@@ -174,7 +180,7 @@ class FluxManager:
         Calculates the total litter production based on relevant litter flux columns.
 
         Args:
-            object: An object holding flux data and other relevant state information.
+            flux (pandas.DataFrame): DataFrame containing carbon flux data.
 
         Returns:
              pandas.Series: A Series representing the total litter production.
@@ -188,7 +194,7 @@ class FluxManager:
         Calculates the gross growth for aboveground biomass.
 
         Args:
-            object: An object holding flux data and other relevant state information.
+            flux (pandas.DataFrame): DataFrame containing carbon flux data.
 
         Returns:
             pandas.Series: A Series representing the calculated aboveground gross growth.
@@ -203,7 +209,7 @@ class FluxManager:
         Calculates the gross growth for belowground biomass.
 
         Args:
-            object: An object holding flux data and other relevant state information.
+            flux (pandas.DataFrame): DataFrame containing carbon flux data.
 
         Returns:
             pandas.Series: A Series representing the calculated belowground gross growth.
@@ -217,7 +223,9 @@ class FluxManager:
         Creates a DataFrame of annual process fluxes in the CBM.
 
         Args:
-            object: An object holding flux data, area, and state information.
+            flux (pandas.DataFrame): DataFrame containing carbon flux data.
+            state (pandas.DataFrame): DataFrame containing state information.
+            parameters (pandas.DataFrame): DataFrame containing parameter information.
 
         Returns:
             pandas.DataFrame:  DataFrame with calculated annual process fluxes.        
@@ -264,7 +272,10 @@ class FluxManager:
         Combines disturbance fluxes and annual process fluxes into a single DataFrame.
 
         Args:
-            object: An object holding flux data, area, and state information.
+            flux (pandas.DataFrame): DataFrame containing carbon flux data.
+            state (pandas.DataFrame): DataFrame containing state information.
+            parameters (pandas.DataFrame): DataFrame containing parameter information.
+            area (pandas.DataFrame): DataFrame containing area information.
 
         Returns:
              pandas.DataFrame: DataFrame with concatenated disturbance and process fluxes.
@@ -276,6 +287,15 @@ class FluxManager:
 
 
     def flux_filter_and_aggregate(self, df):
+        """
+        Filters and aggregates flux data based on specific conditions.
+
+        Args:
+            df (pandas.DataFrame): DataFrame containing flux data.
+
+        Returns:
+            pandas.DataFrame: Aggregated DataFrame with filtered flux data.
+        """
         filtered_df = df[(df['LandClassID'] == 7) | (df['LandClassID'] == 0)]
 
         filtered_df_copy = filtered_df.copy()
@@ -293,8 +313,6 @@ class FluxManager:
         
         filtered_df_copy['Delta_Ecos'] = filtered_df_copy['DeltaBio'] + filtered_df_copy['DeltaDOM']
         filtered_df_copy['Harvest'] = filtered_df_copy['SoftProduction'] + filtered_df_copy['HardProduction'] + filtered_df_copy['DOMProduction']
-        
-
         
         # Group by 'TimeStep' and calculate sums
         result = filtered_df_copy.groupby(["TimeStep"]).sum()

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_cbm_runner.resource_manager.database_manager &mdash; goblin_cbm_runner 0.4.2 documentation</title>
+  <title>goblin_cbm_runner.resource_manager.database_manager &mdash; goblin_cbm_runner 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../_static/documentation_options.js?v=ff822928"></script>
+        <script src="../../../../_static/documentation_options.js?v=1dd76d02"></script>
         <script src="../../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -183,12 +183,6 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.database_manager.DataManager.get_afforestation_areas_KB">
-<span class="sig-name descname"><span class="pre">get_afforestation_areas_KB</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_afforestation_areas_KB"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_afforestation_areas_KB" title="Link to this definition"></a></dt>
-<dd><p>Retrieves the afforestation areas in KB from the database.</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.database_manager.DataManager.get_forest_harvest_NIR">
 <span class="sig-name descname"><span class="pre">get_forest_harvest_NIR</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_forest_harvest_NIR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_forest_harvest_NIR" title="Link to this definition"></a></dt>
 <dd><p>Retrieves the forest harvest data in NIR from the database.</p>
@@ -213,63 +207,99 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.database_manager.DataManager.get_disturbance_data">
-<span class="sig-name descname"><span class="pre">get_disturbance_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_disturbance_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_disturbance_data" title="Link to this definition"></a></dt>
-<dd><p>Retrieves the disturbance data from the database.</p>
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.database_manager.DataManager.get_FM_classifiers">
+<span class="sig-name descname"><span class="pre">get_FM_classifiers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_FM_classifiers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_FM_classifiers" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the managed forest classifiers from the database.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.database_manager.DataManager.get_baseline_classifiers">
-<span class="sig-name descname"><span class="pre">get_baseline_classifiers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_baseline_classifiers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_baseline_classifiers" title="Link to this definition"></a></dt>
-<dd><p>Retrieves the baseline classifiers from the database.</p>
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.database_manager.DataManager.get_FM_age_classes">
+<span class="sig-name descname"><span class="pre">get_FM_age_classes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_FM_age_classes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_FM_age_classes" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the managed forest age classes from the database.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.database_manager.DataManager.get_baseline_age_classes">
-<span class="sig-name descname"><span class="pre">get_baseline_age_classes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_baseline_age_classes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_baseline_age_classes" title="Link to this definition"></a></dt>
-<dd><p>Retrieves the baseline age classes from the database.</p>
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.database_manager.DataManager.get_FM_disturbance_types">
+<span class="sig-name descname"><span class="pre">get_FM_disturbance_types</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_FM_disturbance_types"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_FM_disturbance_types" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the managed forest disturbance types from the database.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.database_manager.DataManager.get_baseline_disturbance_events">
-<span class="sig-name descname"><span class="pre">get_baseline_disturbance_events</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_baseline_disturbance_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_baseline_disturbance_events" title="Link to this definition"></a></dt>
-<dd><p>Retrieves the baseline disturbance events from the database.</p>
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.database_manager.DataManager.get_FM_growth_curves">
+<span class="sig-name descname"><span class="pre">get_FM_growth_curves</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_FM_growth_curves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_FM_growth_curves" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the managed forest growth curves from the database.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.database_manager.DataManager.get_baseline_disturbance_types">
-<span class="sig-name descname"><span class="pre">get_baseline_disturbance_types</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_baseline_disturbance_types"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_baseline_disturbance_types" title="Link to this definition"></a></dt>
-<dd><p>Retrieves the baseline disturbance types from the database.</p>
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.database_manager.DataManager.get_FM_inventory">
+<span class="sig-name descname"><span class="pre">get_FM_inventory</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_FM_inventory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_FM_inventory" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the managed forest inventory from the database.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.database_manager.DataManager.get_baseline_growth_curves">
-<span class="sig-name descname"><span class="pre">get_baseline_growth_curves</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_baseline_growth_curves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_baseline_growth_curves" title="Link to this definition"></a></dt>
-<dd><p>Retrieves the baseline growth curves from the database.</p>
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.database_manager.DataManager.get_FM_transition">
+<span class="sig-name descname"><span class="pre">get_FM_transition</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_FM_transition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_FM_transition" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the managed forest transition from the database.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.database_manager.DataManager.get_baseline_inventory">
-<span class="sig-name descname"><span class="pre">get_baseline_inventory</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_baseline_inventory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_baseline_inventory" title="Link to this definition"></a></dt>
-<dd><p>Retrieves the baseline inventory from the database.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.database_manager.DataManager.get_baseline_transition">
-<span class="sig-name descname"><span class="pre">get_baseline_transition</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_baseline_transition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_baseline_transition" title="Link to this definition"></a></dt>
-<dd><p>Retrieves the baseline transition from the database.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.database_manager.DataManager.get_baseline_standing_volume">
-<span class="sig-name descname"><span class="pre">get_baseline_standing_volume</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_baseline_standing_volume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_baseline_standing_volume" title="Link to this definition"></a></dt>
-<dd><p>Retrieves the baseline standing volume from the database.</p>
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.database_manager.DataManager.get_FM_standing_volume">
+<span class="sig-name descname"><span class="pre">get_FM_standing_volume</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_FM_standing_volume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_FM_standing_volume" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the managed forest standing volume from the database.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.database_manager.DataManager.get_geo_baseline_standing_volume">
 <span class="sig-name descname"><span class="pre">get_geo_baseline_standing_volume</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_geo_baseline_standing_volume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_geo_baseline_standing_volume" title="Link to this definition"></a></dt>
 <dd><p>Retrieves the baseline standing volume from the database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.database_manager.DataManager.get_FM_disturbance_events">
+<span class="sig-name descname"><span class="pre">get_FM_disturbance_events</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_FM_disturbance_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_FM_disturbance_events" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the managed forest disturbances from the database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.database_manager.DataManager.get_AF_disturbance_events">
+<span class="sig-name descname"><span class="pre">get_AF_disturbance_events</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_AF_disturbance_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_AF_disturbance_events" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the historic afforestation disturbances from the database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.database_manager.DataManager.get_AF_classifiers">
+<span class="sig-name descname"><span class="pre">get_AF_classifiers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_AF_classifiers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_AF_classifiers" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the historic afforestation classifiers from the database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.database_manager.DataManager.get_AF_age_classes">
+<span class="sig-name descname"><span class="pre">get_AF_age_classes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_AF_age_classes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_AF_age_classes" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the historic afforestation age classes from the database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.database_manager.DataManager.get_AF_disturbance_types">
+<span class="sig-name descname"><span class="pre">get_AF_disturbance_types</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_AF_disturbance_types"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_AF_disturbance_types" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the historic afforestation disturbance types from the database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.database_manager.DataManager.get_AF_growth_curves">
+<span class="sig-name descname"><span class="pre">get_AF_growth_curves</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_AF_growth_curves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_AF_growth_curves" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the historic afforestation growth curves from the database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.database_manager.DataManager.get_AF_inventory">
+<span class="sig-name descname"><span class="pre">get_AF_inventory</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_AF_inventory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_AF_inventory" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the historic afforestation inventory from the database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.database_manager.DataManager.get_AF_transition">
+<span class="sig-name descname"><span class="pre">get_AF_transition</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_AF_transition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.database_manager.DataManager.get_AF_transition" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the historic afforestation transition from the database.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -372,21 +402,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id7">
-<span class="sig-name descname"><span class="pre">get_afforestation_areas_KB</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_afforestation_areas_KB"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id7" title="Link to this definition"></a></dt>
-<dd><p>Retrieves the afforestation areas from the (Firs) KB_Afforestation_Area table in the database.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A DataFrame containing the afforestation areas, with the year as the index.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>pandas.DataFrame</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id8">
-<span class="sig-name descname"><span class="pre">get_forest_harvest_NIR</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_forest_harvest_NIR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id8" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_forest_harvest_NIR</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_forest_harvest_NIR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id7" title="Link to this definition"></a></dt>
 <dd><p>Retrieves the forest harvest National Invetory Report data from the database.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -399,8 +415,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id9">
-<span class="sig-name descname"><span class="pre">get_kb_yield_curves</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_kb_yield_curves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id9" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id8">
+<span class="sig-name descname"><span class="pre">get_kb_yield_curves</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_kb_yield_curves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id8" title="Link to this definition"></a></dt>
 <dd><p>Retrieve the Firs yield curves from the database.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -413,8 +429,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id10">
-<span class="sig-name descname"><span class="pre">get_disturbance_types</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_disturbance_types"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id10" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id9">
+<span class="sig-name descname"><span class="pre">get_disturbance_types</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_disturbance_types"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id9" title="Link to this definition"></a></dt>
 <dd><p>Retrieves all disturbance types from the ‘Disturbances’ table in the database.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -427,8 +443,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id11">
-<span class="sig-name descname"><span class="pre">get_disturbance_times</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_disturbance_times"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id11" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id10">
+<span class="sig-name descname"><span class="pre">get_disturbance_times</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_disturbance_times"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id10" title="Link to this definition"></a></dt>
 <dd><p>Retrieves disturbance timing data from the database.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -441,12 +457,26 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id12">
-<span class="sig-name descname"><span class="pre">get_disturbance_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_disturbance_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id12" title="Link to this definition"></a></dt>
-<dd><p>Retrieves the Firs disturbance data from the database.</p>
+<dt class="sig sig-object py" id="id11">
+<span class="sig-name descname"><span class="pre">get_FM_classifiers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_FM_classifiers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id11" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the managed forest classifiers from the database.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A DataFrame containing the disturbance data.</p>
+<dd class="field-odd"><p>A DataFrame containing the managed forest classifiers.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id12">
+<span class="sig-name descname"><span class="pre">get_FM_age_classes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_FM_age_classes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id12" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the managed forest age classes from the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A DataFrame containing the managed forest age classes.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>pandas.DataFrame</p>
@@ -456,11 +486,11 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id13">
-<span class="sig-name descname"><span class="pre">get_baseline_classifiers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_baseline_classifiers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id13" title="Link to this definition"></a></dt>
-<dd><p>Retrieves the baseline classifiers from the database.</p>
+<span class="sig-name descname"><span class="pre">get_FM_disturbance_types</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_FM_disturbance_types"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id13" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the managed forest disturbance types from the database.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A DataFrame containing the baseline classifiers.</p>
+<dd class="field-odd"><p>A DataFrame containing the managed forest disturbance types.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>pandas.DataFrame</p>
@@ -470,11 +500,11 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id14">
-<span class="sig-name descname"><span class="pre">get_baseline_age_classes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_baseline_age_classes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id14" title="Link to this definition"></a></dt>
-<dd><p>Retrieves the baseline age classes from the database.</p>
+<span class="sig-name descname"><span class="pre">get_FM_growth_curves</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_FM_growth_curves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id14" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the managed forest growth curves from the database.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A DataFrame containing the baseline age classes.</p>
+<dd class="field-odd"><p>A DataFrame containing the managed forest growth curves.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>pandas.DataFrame</p>
@@ -484,11 +514,11 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id15">
-<span class="sig-name descname"><span class="pre">get_baseline_disturbance_events</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_baseline_disturbance_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id15" title="Link to this definition"></a></dt>
-<dd><p>Retrieves the baseline disturbance events from the database.</p>
+<span class="sig-name descname"><span class="pre">get_FM_inventory</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_FM_inventory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id15" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the managed forest inventory from the database.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A DataFrame containing the baseline disturbance events.</p>
+<dd class="field-odd"><p>A DataFrame containing the managed forest inventory.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>pandas.DataFrame</p>
@@ -498,11 +528,11 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id16">
-<span class="sig-name descname"><span class="pre">get_baseline_disturbance_types</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_baseline_disturbance_types"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id16" title="Link to this definition"></a></dt>
-<dd><p>Retrieves the baseline disturbance types from the database.</p>
+<span class="sig-name descname"><span class="pre">get_FM_transition</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_FM_transition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id16" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the managed forest transition from the database.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A DataFrame containing the baseline disturbance types.</p>
+<dd class="field-odd"><p>A DataFrame containing the managed forest transition.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>pandas.DataFrame</p>
@@ -512,11 +542,11 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id17">
-<span class="sig-name descname"><span class="pre">get_baseline_growth_curves</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_baseline_growth_curves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id17" title="Link to this definition"></a></dt>
-<dd><p>Retrieves the baseline growth curves from the database.</p>
+<span class="sig-name descname"><span class="pre">get_FM_standing_volume</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_FM_standing_volume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id17" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the managed forest standing volume from the database.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A DataFrame containing the baseline growth curves.</p>
+<dd class="field-odd"><p>A DataFrame containing the managed forest standing volume.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>pandas.DataFrame</p>
@@ -526,11 +556,11 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id18">
-<span class="sig-name descname"><span class="pre">get_baseline_inventory</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_baseline_inventory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id18" title="Link to this definition"></a></dt>
-<dd><p>Retrieves the baseline inventory from the database.</p>
+<span class="sig-name descname"><span class="pre">get_geo_baseline_standing_volume</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_geo_baseline_standing_volume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id18" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the baseline standing volume from the database.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A DataFrame containing the baseline inventory.</p>
+<dd class="field-odd"><p>A DataFrame containing the baseline standing volume.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>pandas.DataFrame</p>
@@ -540,25 +570,45 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id19">
-<span class="sig-name descname"><span class="pre">get_baseline_transition</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_baseline_transition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id19" title="Link to this definition"></a></dt>
-<dd><p>Retrieves the baseline transition from the database.</p>
+<span class="sig-name descname"><span class="pre">get_FM_disturbance_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">intensity</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_FM_disturbance_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id19" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the managed forest disturbances from the database.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A DataFrame containing the baseline transition.</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>intensity</strong> (<em>str</em>) – The intensity of the disturbances.</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>pandas.DataFrame</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A DataFrame containing the managed forest disturbances.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id20">
-<span class="sig-name descname"><span class="pre">get_baseline_standing_volume</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_baseline_standing_volume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id20" title="Link to this definition"></a></dt>
-<dd><p>Retrieves the baseline standing volume from the database.</p>
+<span class="sig-name descname"><span class="pre">get_AF_disturbance_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">intensity</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_AF_disturbance_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id20" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the historic afforestation  disturbances from the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>intensity</strong> (<em>str</em>) – The intensity of the disturbances.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A DataFrame containing the historic afforestation disturbances.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id21">
+<span class="sig-name descname"><span class="pre">get_AF_classifiers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_AF_classifiers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id21" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the historic afforestation classifiers from the database.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A DataFrame containing the baseline standing volume.</p>
+<dd class="field-odd"><p>A DataFrame containing the historic afforestation  classifiers.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>pandas.DataFrame</p>
@@ -567,12 +617,68 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id21">
-<span class="sig-name descname"><span class="pre">get_geo_baseline_standing_volume</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_geo_baseline_standing_volume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id21" title="Link to this definition"></a></dt>
-<dd><p>Retrieves the baseline standing volume from the database.</p>
+<dt class="sig sig-object py" id="id22">
+<span class="sig-name descname"><span class="pre">get_AF_age_classes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_AF_age_classes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id22" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the historic afforestation  age classes from the database.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A DataFrame containing the baseline standing volume.</p>
+<dd class="field-odd"><p>A DataFrame containing the historic afforestation  age classes.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id23">
+<span class="sig-name descname"><span class="pre">get_AF_disturbance_types</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_AF_disturbance_types"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id23" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the historic afforestation disturbance types from the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A DataFrame containing the historic afforestation disturbance types.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id24">
+<span class="sig-name descname"><span class="pre">get_AF_growth_curves</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_AF_growth_curves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id24" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the historic afforestation growth curves from the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A DataFrame containing the historic afforestation growth curves.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id25">
+<span class="sig-name descname"><span class="pre">get_AF_inventory</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_AF_inventory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id25" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the historic afforestation inventory from the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A DataFrame containing the historic afforestation inventory.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id26">
+<span class="sig-name descname"><span class="pre">get_AF_transition</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/database_manager.html#DataManager.get_AF_transition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id26" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the historic afforestation transition from the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A DataFrame containing the historic afforestation transition.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>pandas.DataFrame</p>

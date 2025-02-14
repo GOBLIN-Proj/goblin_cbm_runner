@@ -265,3 +265,27 @@ mapping:
     DISTID5:
       user_dist_type: "Unknown"
       default_dist_type: "Unknown"
+
+transition_dicts:
+  Afforest_Species_to_Yield:
+    Sitka: ["YC4_12", "YC13_16", "YC17_20", "YC20_24", "YC24_30"]
+    SGB: ["YC6"]
+    CBmix: ["YC10"]
+  Transition_Species:
+    NFCBmix_mineral: "CBmix"
+    NFPine_mineral: "Pine"
+    NFPine_peat: "Pine"
+    NFSitka_mineral: "Sitka"
+    NFSitka_peat: "Sitka"
+    NFSGB_mineral: "SGB"
+    NFSGB_peat: "SGB"
+    NFFGB_mineral: "FGB"
+    NFFGB_peat: "FGB"
+    NFOC_mineral: "OC"
+    NFOC_peat: "OC"
+    NFCmix_mineral: "Cmix"
+    NFCmix_peat: "Cmix"
+
+SortType:
+  Sitka: 3
+  SGB: 12

@@ -25,22 +25,26 @@ class DataManager:
         get_NIR_forest_data_ha: Retrieves the NIR forest data in hectares from the database.
         get_cso_species_breakdown: Retrieves the CSO species breakdown data from the database.
         get_afforestation_areas_NIR: Retrieves the afforestation areas in NIR from the database.
-        get_afforestation_areas_KB: Retrieves the afforestation areas in KB from the database.
         get_forest_harvest_NIR: Retrieves the forest harvest data in NIR from the database.
         get_kb_yield_curves: Retrieves the KB yield curves data from the database.
         get_disturbance_types: Retrieves the disturbance types data from the database.
         get_disturbance_times: Retrieves the disturbance times data from the database.
-        get_disturbance_data: Retrieves the disturbance data from the database.
-        get_baseline_classifiers: Retrieves the baseline classifiers from the database.
-        get_baseline_age_classes: Retrieves the baseline age classes from the database.
-        get_baseline_disturbance_events: Retrieves the baseline disturbance events from the database.
-        get_baseline_disturbance_types: Retrieves the baseline disturbance types from the database.
-        get_baseline_growth_curves: Retrieves the baseline growth curves from the database.
-        get_baseline_inventory: Retrieves the baseline inventory from the database.
-        get_baseline_transition: Retrieves the baseline transition from the database.
-        get_baseline_standing_volume: Retrieves the baseline standing volume from the database.
+        get_FM_classifiers: Retrieves the managed forest classifiers from the database.
+        get_FM_age_classes: Retrieves the managed forest age classes from the database.
+        get_FM_disturbance_types: Retrieves the managed forest disturbance types from the database.
+        get_FM_growth_curves: Retrieves the managed forest growth curves from the database.
+        get_FM_inventory: Retrieves the managed forest inventory from the database.
+        get_FM_transition: Retrieves the managed forest transition from the database.
+        get_FM_standing_volume: Retrieves the managed forest standing volume from the database.
         get_geo_baseline_standing_volume: Retrieves the baseline standing volume from the database.
-
+        get_FM_disturbance_events: Retrieves the managed forest disturbances from the database.
+        get_AF_disturbance_events: Retrieves the historic afforestation disturbances from the database.
+        get_AF_classifiers: Retrieves the historic afforestation classifiers from the database.
+        get_AF_age_classes: Retrieves the historic afforestation age classes from the database.
+        get_AF_disturbance_types: Retrieves the historic afforestation disturbance types from the database.
+        get_AF_growth_curves: Retrieves the historic afforestation growth curves from the database.
+        get_AF_inventory: Retrieves the historic afforestation inventory from the database.
+        get_AF_transition: Retrieves the historic afforestation transition from the database.
     """
 
     def __init__(self):
@@ -55,11 +59,12 @@ class DataManager:
             sqlalchemy.engine.Engine: The SQLAlchemy engine object.
         """
         database_path = os.path.abspath(
-            os.path.join(self.database_dir, "cbm_runner_database_0.4.0.db")
+            os.path.join(self.database_dir, "cbm_runner_database_0.4.3.db")
         )
         engine_url = f"sqlite:///{database_path}"
 
         return sqa.create_engine(engine_url)
+
 
     def get_forest_inventory_age_strucuture(self):
         """
@@ -157,17 +162,6 @@ class DataManager:
 
         return dataframe
 
-    def get_afforestation_areas_KB(self):
-        """
-        Retrieves the afforestation areas from the (Firs) KB_Afforestation_Area table in the database.
-
-        Returns:
-            pandas.DataFrame: A DataFrame containing the afforestation areas, with the year as the index.
-        """
-        table = "KB_Afforestation_Area"
-        dataframe = pd.read_sql(
-            "SELECT * FROM '%s'" % (table), self.engine, index_col=["year"]
-        )
 
         return dataframe
 
@@ -228,29 +222,16 @@ class DataManager:
 
         return dataframe
 
-    def get_disturbance_data(self):
+
+
+    def get_FM_classifiers(self):
         """
-        Retrieves the Firs disturbance data from the database.
+        Retrieves the managed forest classifiers from the database.
 
         Returns:
-            pandas.DataFrame: A DataFrame containing the disturbance data.
+            pandas.DataFrame: A DataFrame containing the managed forest classifiers.
         """
-        table = "KB_Disturbance_default"
-        dataframe = pd.read_sql(
-            "SELECT * FROM '%s'" % (table),
-            self.engine,
-        )
-
-        return dataframe
-
-    def get_baseline_classifiers(self):
-        """
-        Retrieves the baseline classifiers from the database.
-
-        Returns:
-            pandas.DataFrame: A DataFrame containing the baseline classifiers.
-        """
-        table = "base_classifiers_2016_to_2050"
+        table = "FM_classifiers_2100"
         dataframe = pd.read_sql(
             "SELECT * FROM '%s'" % (table),
             self.engine,
@@ -258,14 +239,14 @@ class DataManager:
 
         return dataframe
     
-    def get_baseline_age_classes(self):
+    def get_FM_age_classes(self):
         """
-        Retrieves the baseline age classes from the database.
+        Retrieves the managed forest age classes from the database.
 
         Returns:
-            pandas.DataFrame: A DataFrame containing the baseline age classes.
+            pandas.DataFrame: A DataFrame containing the managed forest age classes.
         """
-        table = "base_age_class_2016_to_2050"
+        table = "FM_age_class_2100"
         dataframe = pd.read_sql(
             "SELECT * FROM '%s'" % (table),
             self.engine,
@@ -273,14 +254,15 @@ class DataManager:
 
         return dataframe
     
-    def get_baseline_disturbance_events(self):
+    
+    def get_FM_disturbance_types(self):
         """
-        Retrieves the baseline disturbance events from the database.
+        Retrieves the managed forest disturbance types from the database.
 
         Returns:
-            pandas.DataFrame: A DataFrame containing the baseline disturbance events.
+            pandas.DataFrame: A DataFrame containing the managed forest disturbance types.
         """
-        table = "default_base_disturbance_events_2016_to_2100"
+        table = "FM_disturbance_types_2100"
         dataframe = pd.read_sql(
             "SELECT * FROM '%s'" % (table),
             self.engine,
@@ -288,14 +270,15 @@ class DataManager:
 
         return dataframe
     
-    def get_baseline_disturbance_types(self):
+
+    def get_FM_growth_curves(self):
         """
-        Retrieves the baseline disturbance types from the database.
+        Retrieves the managed forest growth curves from the database.
 
         Returns:
-            pandas.DataFrame: A DataFrame containing the baseline disturbance types.
+            pandas.DataFrame: A DataFrame containing the managed forest growth curves.
         """
-        table = "base_disturbance_types_2016_to_2050"
+        table = "FM_growth_2100"
         dataframe = pd.read_sql(
             "SELECT * FROM '%s'" % (table),
             self.engine,
@@ -303,14 +286,15 @@ class DataManager:
 
         return dataframe
     
-    def get_baseline_growth_curves(self):
+    
+    def get_FM_inventory(self):
         """
-        Retrieves the baseline growth curves from the database.
+        Retrieves the managed forest inventory from the database.
 
         Returns:
-            pandas.DataFrame: A DataFrame containing the baseline growth curves.
+            pandas.DataFrame: A DataFrame containing the managed forest inventory.
         """
-        table = "base_growth_2016_to_2050"
+        table = "FM_inventory_2100"
         dataframe = pd.read_sql(
             "SELECT * FROM '%s'" % (table),
             self.engine,
@@ -318,14 +302,15 @@ class DataManager:
 
         return dataframe
     
-    def get_baseline_inventory(self):
+
+    def get_FM_transition(self):
         """
-        Retrieves the baseline inventory from the database.
+        Retrieves the managed forest transition from the database.
 
         Returns:
-            pandas.DataFrame: A DataFrame containing the baseline inventory.
+            pandas.DataFrame: A DataFrame containing the managed forest transition.
         """
-        table = "base_inventory_2016_to_2050"
+        table = "FM_transition_2100"
         dataframe = pd.read_sql(
             "SELECT * FROM '%s'" % (table),
             self.engine,
@@ -333,29 +318,14 @@ class DataManager:
 
         return dataframe
     
-    def get_baseline_transition(self):
+    def get_FM_standing_volume(self):
         """
-        Retrieves the baseline transition from the database.
+        Retrieves the managed forest standing volume from the database.
 
         Returns:
-            pandas.DataFrame: A DataFrame containing the baseline transition.
+            pandas.DataFrame: A DataFrame containing the managed forest standing volume.
         """
-        table = "base_transition_2016_to_2050"
-        dataframe = pd.read_sql(
-            "SELECT * FROM '%s'" % (table),
-            self.engine,
-        )
-
-        return dataframe
-    
-    def get_baseline_standing_volume(self):
-        """
-        Retrieves the baseline standing volume from the database.
-
-        Returns:
-            pandas.DataFrame: A DataFrame containing the baseline standing volume.
-        """
-        table = "base_standing_volume_2016_to_2050"
+        table = "FM_standing_volume_2100"
         dataframe = pd.read_sql(
             "SELECT * FROM '%s'" % (table),
             self.engine,
@@ -376,3 +346,127 @@ class DataManager:
         )
 
         return dataframe
+
+    def get_FM_disturbance_events(self, intensity):
+        """
+        Retrieves the managed forest disturbances from the database.
+
+        Args:
+            intensity (str): The intensity of the disturbances.
+
+        Returns:
+            pandas.DataFrame: A DataFrame containing the managed forest disturbances.
+        """
+        table = f"FM_disturbances_2100"
+        query = f"SELECT * FROM '{table}' WHERE intensity = '{intensity}'"
+        dataframe = pd.read_sql(query, self.engine).drop(columns=["Intensity"])
+
+        return dataframe
+    
+
+    def get_AF_disturbance_events(self, intensity):
+        """
+        Retrieves the historic afforestation  disturbances from the database.
+
+        Args:
+            intensity (str): The intensity of the disturbances.
+
+        Returns:
+            pandas.DataFrame: A DataFrame containing the historic afforestation disturbances.
+        """
+        table = f"AF_disturbances_2100"
+        query = f"SELECT * FROM '{table}' WHERE intensity = '{intensity}'"
+        dataframe = pd.read_sql(query, self.engine).drop(columns=["Intensity"])
+
+        return dataframe
+    
+    def get_AF_classifiers(self):
+        """
+        Retrieves the historic afforestation classifiers from the database.
+
+        Returns:
+            pandas.DataFrame: A DataFrame containing the historic afforestation  classifiers.
+        """
+        table = "AF_classifier_2100"
+        dataframe = pd.read_sql(
+            "SELECT * FROM '%s'" % (table),
+            self.engine,
+        )
+
+        return dataframe
+    
+    def get_AF_age_classes(self):
+        """
+        Retrieves the historic afforestation  age classes from the database.
+
+        Returns:
+            pandas.DataFrame: A DataFrame containing the historic afforestation  age classes.
+        """
+        table = "AF_age_class_2100"
+        dataframe = pd.read_sql(
+            "SELECT * FROM '%s'" % (table),
+            self.engine,
+        )
+
+        return dataframe
+    
+    def get_AF_disturbance_types(self):
+        """
+        Retrieves the historic afforestation disturbance types from the database.
+
+        Returns:
+            pandas.DataFrame: A DataFrame containing the historic afforestation disturbance types.
+        """
+        table = "AF_disturbance_types_2100"
+        dataframe = pd.read_sql(
+            "SELECT * FROM '%s'" % (table),
+            self.engine,
+        )
+
+        return dataframe
+    
+    def get_AF_growth_curves(self):
+        """
+        Retrieves the historic afforestation growth curves from the database.
+
+        Returns:
+            pandas.DataFrame: A DataFrame containing the historic afforestation growth curves.
+        """
+        table = "AF_growth_2100"
+        dataframe = pd.read_sql(
+            "SELECT * FROM '%s'" % (table),
+            self.engine,
+        )
+
+        return dataframe
+    
+    def get_AF_inventory(self):
+        """
+        Retrieves the historic afforestation inventory from the database.
+
+        Returns:
+            pandas.DataFrame: A DataFrame containing the historic afforestation inventory.
+        """
+        table = "AF_inventory_2100"
+        dataframe = pd.read_sql(
+            "SELECT * FROM '%s'" % (table),
+            self.engine,
+        )
+
+        return dataframe
+    
+    def get_AF_transition(self):
+        """
+        Retrieves the historic afforestation transition from the database.
+
+        Returns:
+            pandas.DataFrame: A DataFrame containing the historic afforestation transition.
+        """
+        table = "AF_transition_2100"
+        dataframe = pd.read_sql(
+            "SELECT * FROM '%s'" % (table),
+            self.engine,
+        )
+
+        return dataframe
+

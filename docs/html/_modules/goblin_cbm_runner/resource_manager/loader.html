@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_cbm_runner.resource_manager.loader &mdash; goblin_cbm_runner 0.4.2 documentation</title>
+  <title>goblin_cbm_runner.resource_manager.loader &mdash; goblin_cbm_runner 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -16,7 +16,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=ff822928"></script>
+        <script src="../../../_static/documentation_options.js?v=1dd76d02"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -95,24 +95,30 @@
 <span class="sd">    Methods:</span>
 <span class="sd">        forest_age_structure: Returns the forest inventory age structure dataframe.</span>
 <span class="sd">        forest_cbm_yields: Returns the forest CBM yields dataframe.</span>
-<span class="sd">        forest_kb_yields: Returns the forest Firs yields dataframe.</span>
+<span class="sd">        forest_kb_yields: Returns the forest KB yields dataframe.</span>
 <span class="sd">        NIR_forest_data_ha: Returns the NIR forest data (hectares) dataframe.</span>
 <span class="sd">        cso_species_breakdown: Returns the CSO species breakdown dataframe.</span>
 <span class="sd">        afforestation_areas_NIR: Returns the afforestation areas (NIR) dataframe.</span>
-<span class="sd">        afforestation_areas_KB: Returns the afforestation areas (Firs) dataframe.</span>
 <span class="sd">        disturbance_time: Returns the disturbance times dataframe.</span>
-<span class="sd">        kb_yield_curves: Returns the Firs yield curves dataframe.</span>
+<span class="sd">        kb_yield_curves: Returns the KB yield curves dataframe.</span>
+<span class="sd">        kb_standing_vol_yield_curves: Returns the KB standing volume yield curves dataframe.</span>
 <span class="sd">        disturbance_type: Returns the disturbance types dataframe.</span>
 <span class="sd">        harvest_areas_NIR: Returns the forest harvest areas (NIR) dataframe.</span>
-<span class="sd">        disturbance_data: Returns the disturbance data dataframe.</span>
-<span class="sd">        base_age_class: Returns the baseline (2016 - 2050) age class dataframe.</span>
-<span class="sd">        base_classifiers: Returns the baseline (2016 - 2050) classifiers dataframe.</span>
-<span class="sd">        base_disturbance_events: Returns the baseline (2016 - 2050) disturbance events dataframe.</span>
-<span class="sd">        base_disturbance_types: Returns the baseline (2016 - 2050) disturbance types dataframe.</span>
-<span class="sd">        base_growth_curves: Returns the baseline (2016 - 2050) growth curves dataframe.</span>
-<span class="sd">        base_inventory: Returns the baseline (2016 - 2050) inventory dataframe.</span>
-<span class="sd">        base_transition: Returns the baseline (2016 - 2050) transitions dataframe.</span>
-<span class="sd">        base_standing_volume: Returns the baseline (2016 - 2050) standing volume dataframe.</span>
+<span class="sd">        FM_age_class: Returns the managed forest age class dataframe.</span>
+<span class="sd">        FM_classifiers: Returns the managed forest classifiers dataframe.</span>
+<span class="sd">        FM_disturbance_types: Returns the managed forest disturbance types dataframe.</span>
+<span class="sd">        FM_growth_curves: Returns the managed forest growth curves dataframe.</span>
+<span class="sd">        FM_inventory: Returns the managed forest inventory dataframe.</span>
+<span class="sd">        FM_transition: Returns the managed forest transitions dataframe.</span>
+<span class="sd">        FM_standing_volume: Returns the managed forest standing volume dataframe.</span>
+<span class="sd">        FM_disturbances_time_series: Returns the managed forest disturbances time series dataframe.</span>
+<span class="sd">        AF_disturbances_time_series: Returns the historic afforestation disturbances time series dataframe.</span>
+<span class="sd">        AF_age_class: Returns the historic afforestation age class dataframe.</span>
+<span class="sd">        AF_classifiers: Returns the historic afforestation classifiers dataframe.</span>
+<span class="sd">        AF_disturbance_types: Returns the historic afforestation disturbance types dataframe.</span>
+<span class="sd">        AF_growth_curves: Returns the historic afforestation growth curves dataframe.</span>
+<span class="sd">        AF_inventory: Returns the historic afforestation inventory dataframe.</span>
+<span class="sd">        AF_transition: Returns the historic afforestation transitions dataframe.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -172,15 +178,6 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframes</span><span class="o">.</span><span class="n">get_afforestation_areas_NIR</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="Loader.afforestation_areas_KB">
-<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/loader/index.html#goblin_cbm_runner.resource_manager.loader.Loader.afforestation_areas_KB">[docs]</a>
-    <span class="k">def</span> <span class="nf">afforestation_areas_KB</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the afforestation areas (KB) dataframe.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframes</span><span class="o">.</span><span class="n">get_afforestation_areas_KB</span><span class="p">()</span></div>
-
-
 <div class="viewcode-block" id="Loader.disturbance_time">
 <a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/loader/index.html#goblin_cbm_runner.resource_manager.loader.Loader.disturbance_time">[docs]</a>
     <span class="k">def</span> <span class="nf">disturbance_time</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -226,86 +223,167 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframes</span><span class="o">.</span><span class="n">get_forest_harvest_NIR</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="Loader.disturbance_data">
-<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/loader/index.html#goblin_cbm_runner.resource_manager.loader.Loader.disturbance_data">[docs]</a>
-    <span class="k">def</span> <span class="nf">disturbance_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Loader.FM_age_class">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/loader/index.html#goblin_cbm_runner.resource_manager.loader.Loader.FM_age_class">[docs]</a>
+    <span class="k">def</span> <span class="nf">FM_age_class</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the disturbance data dataframe.</span>
+<span class="sd">        Returns the managed forest age class dataframe.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframes</span><span class="o">.</span><span class="n">get_disturbance_data</span><span class="p">()</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframes</span><span class="o">.</span><span class="n">get_FM_age_classes</span><span class="p">()</span></div>
 
     
-<div class="viewcode-block" id="Loader.base_age_class">
-<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/loader/index.html#goblin_cbm_runner.resource_manager.loader.Loader.base_age_class">[docs]</a>
-    <span class="k">def</span> <span class="nf">base_age_class</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Loader.FM_classifiers">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/loader/index.html#goblin_cbm_runner.resource_manager.loader.Loader.FM_classifiers">[docs]</a>
+    <span class="k">def</span> <span class="nf">FM_classifiers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the baseline (2016 - 2050) age class dataframe.</span>
+<span class="sd">        Returns the managed forest classifiers dataframe.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframes</span><span class="o">.</span><span class="n">get_baseline_age_classes</span><span class="p">()</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframes</span><span class="o">.</span><span class="n">get_FM_classifiers</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Loader.FM_disturbance_types">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/loader/index.html#goblin_cbm_runner.resource_manager.loader.Loader.FM_disturbance_types">[docs]</a>
+    <span class="k">def</span> <span class="nf">FM_disturbance_types</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the managed forest disturbance types dataframe.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframes</span><span class="o">.</span><span class="n">get_FM_disturbance_types</span><span class="p">()</span></div>
 
     
-<div class="viewcode-block" id="Loader.base_classifiers">
-<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/loader/index.html#goblin_cbm_runner.resource_manager.loader.Loader.base_classifiers">[docs]</a>
-    <span class="k">def</span> <span class="nf">base_classifiers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Loader.FM_growth_curves">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/loader/index.html#goblin_cbm_runner.resource_manager.loader.Loader.FM_growth_curves">[docs]</a>
+    <span class="k">def</span> <span class="nf">FM_growth_curves</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the baseline (2016 - 2050) classifiers dataframe.</span>
+<span class="sd">        Returns the managed forest growth curves dataframe.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframes</span><span class="o">.</span><span class="n">get_baseline_classifiers</span><span class="p">()</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframes</span><span class="o">.</span><span class="n">get_FM_growth_curves</span><span class="p">()</span></div>
 
     
-<div class="viewcode-block" id="Loader.base_disturbance_events">
-<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/loader/index.html#goblin_cbm_runner.resource_manager.loader.Loader.base_disturbance_events">[docs]</a>
-    <span class="k">def</span> <span class="nf">base_disturbance_events</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Loader.FM_inventory">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/loader/index.html#goblin_cbm_runner.resource_manager.loader.Loader.FM_inventory">[docs]</a>
+    <span class="k">def</span> <span class="nf">FM_inventory</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the baseline (2016 - 2050) disturbance events dataframe.</span>
+<span class="sd">        Returns the managed forest inventory dataframe.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframes</span><span class="o">.</span><span class="n">get_baseline_disturbance_events</span><span class="p">()</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframes</span><span class="o">.</span><span class="n">get_FM_inventory</span><span class="p">()</span></div>
 
     
-<div class="viewcode-block" id="Loader.base_disturbance_types">
-<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/loader/index.html#goblin_cbm_runner.resource_manager.loader.Loader.base_disturbance_types">[docs]</a>
-    <span class="k">def</span> <span class="nf">base_disturbance_types</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Loader.FM_transition">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/loader/index.html#goblin_cbm_runner.resource_manager.loader.Loader.FM_transition">[docs]</a>
+    <span class="k">def</span> <span class="nf">FM_transition</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the baseline (2016 - 2050) disturbance types dataframe.</span>
+<span class="sd">        Returns the managed forest transitions dataframe.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframes</span><span class="o">.</span><span class="n">get_baseline_disturbance_types</span><span class="p">()</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframes</span><span class="o">.</span><span class="n">get_FM_transition</span><span class="p">()</span></div>
 
     
-<div class="viewcode-block" id="Loader.base_growth_curves">
-<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/loader/index.html#goblin_cbm_runner.resource_manager.loader.Loader.base_growth_curves">[docs]</a>
-    <span class="k">def</span> <span class="nf">base_growth_curves</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Loader.FM_standing_volume">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/loader/index.html#goblin_cbm_runner.resource_manager.loader.Loader.FM_standing_volume">[docs]</a>
+    <span class="k">def</span> <span class="nf">FM_standing_volume</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the baseline (2016 - 2050) growth curves dataframe.</span>
+<span class="sd">        Returns the managed forest standing volume dataframe.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframes</span><span class="o">.</span><span class="n">get_baseline_growth_curves</span><span class="p">()</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframes</span><span class="o">.</span><span class="n">get_FM_standing_volume</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Loader.FM_disturbances_time_series">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/loader/index.html#goblin_cbm_runner.resource_manager.loader.Loader.FM_disturbances_time_series">[docs]</a>
+    <span class="k">def</span> <span class="nf">FM_disturbances_time_series</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">intensity</span><span class="o">=</span><span class="s2">&quot;high&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the managed forest disturbances time series dataframe.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters:</span>
+<span class="sd">        - intensity (str): The intensity level of disturbances (&quot;low&quot;, &quot;high&quot;).</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">        - pandas.DataFrame: Time series of forest disturbances.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">valid_intensities</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;low&quot;</span><span class="p">,</span> <span class="s2">&quot;high&quot;</span><span class="p">}</span>
+
+        <span class="n">intensity</span> <span class="o">=</span> <span class="n">intensity</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="n">intensity</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_intensities</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid intensity: </span><span class="si">{</span><span class="n">intensity</span><span class="si">}</span><span class="s2">. Choose from </span><span class="si">{</span><span class="n">valid_intensities</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframes</span><span class="o">.</span><span class="n">get_FM_disturbance_events</span><span class="p">(</span><span class="n">intensity</span><span class="p">)</span></div>
+
 
     
-<div class="viewcode-block" id="Loader.base_inventory">
-<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/loader/index.html#goblin_cbm_runner.resource_manager.loader.Loader.base_inventory">[docs]</a>
-    <span class="k">def</span> <span class="nf">base_inventory</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Loader.AF_disturbances_time_series">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/loader/index.html#goblin_cbm_runner.resource_manager.loader.Loader.AF_disturbances_time_series">[docs]</a>
+    <span class="k">def</span> <span class="nf">AF_disturbances_time_series</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">intensity</span><span class="o">=</span><span class="s2">&quot;high&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the baseline (2016 - 2050) inventory dataframe.</span>
+<span class="sd">        Returns the historic afforestation disturbances time series dataframe.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters:</span>
+<span class="sd">        - intensity (str): The intensity level of disturbances (&quot;low&quot;, &quot;high&quot;).</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">        - pandas.DataFrame: Time series of forest disturbances.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframes</span><span class="o">.</span><span class="n">get_baseline_inventory</span><span class="p">()</span></div>
+        <span class="n">valid_intensities</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;low&quot;</span><span class="p">,</span> <span class="s2">&quot;high&quot;</span><span class="p">}</span>
+        <span class="n">intensity</span> <span class="o">=</span> <span class="n">intensity</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="n">intensity</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_intensities</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid intensity: </span><span class="si">{</span><span class="n">intensity</span><span class="si">}</span><span class="s2">. Choose from </span><span class="si">{</span><span class="n">valid_intensities</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframes</span><span class="o">.</span><span class="n">get_AF_disturbance_events</span><span class="p">(</span><span class="n">intensity</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Loader.AF_age_class">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/loader/index.html#goblin_cbm_runner.resource_manager.loader.Loader.AF_age_class">[docs]</a>
+    <span class="k">def</span> <span class="nf">AF_age_class</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the historic afforestation age class dataframe.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframes</span><span class="o">.</span><span class="n">get_AF_age_classes</span><span class="p">()</span></div>
 
     
-<div class="viewcode-block" id="Loader.base_transition">
-<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/loader/index.html#goblin_cbm_runner.resource_manager.loader.Loader.base_transition">[docs]</a>
-    <span class="k">def</span> <span class="nf">base_transition</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Loader.AF_classifiers">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/loader/index.html#goblin_cbm_runner.resource_manager.loader.Loader.AF_classifiers">[docs]</a>
+    <span class="k">def</span> <span class="nf">AF_classifiers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the baseline (2016 - 2050) transitions dataframe.</span>
+<span class="sd">        Returns the historic afforestation classifiers dataframe.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframes</span><span class="o">.</span><span class="n">get_baseline_transition</span><span class="p">()</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframes</span><span class="o">.</span><span class="n">get_AF_classifiers</span><span class="p">()</span></div>
 
     
-<div class="viewcode-block" id="Loader.base_standing_volume">
-<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/loader/index.html#goblin_cbm_runner.resource_manager.loader.Loader.base_standing_volume">[docs]</a>
-    <span class="k">def</span> <span class="nf">base_standing_volume</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Loader.AF_disturbance_types">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/loader/index.html#goblin_cbm_runner.resource_manager.loader.Loader.AF_disturbance_types">[docs]</a>
+    <span class="k">def</span> <span class="nf">AF_disturbance_types</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the baseline (2016 - 2050) standing volume dataframe.</span>
+<span class="sd">        Returns the historic afforestation disturbance types dataframe.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframes</span><span class="o">.</span><span class="n">get_baseline_standing_volume</span><span class="p">()</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframes</span><span class="o">.</span><span class="n">get_AF_disturbance_types</span><span class="p">()</span></div>
+
+    
+<div class="viewcode-block" id="Loader.AF_growth_curves">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/loader/index.html#goblin_cbm_runner.resource_manager.loader.Loader.AF_growth_curves">[docs]</a>
+    <span class="k">def</span> <span class="nf">AF_growth_curves</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the historic afforestation growth curves dataframe.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframes</span><span class="o">.</span><span class="n">get_AF_growth_curves</span><span class="p">()</span></div>
+
+    
+<div class="viewcode-block" id="Loader.AF_inventory">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/loader/index.html#goblin_cbm_runner.resource_manager.loader.Loader.AF_inventory">[docs]</a>
+    <span class="k">def</span> <span class="nf">AF_inventory</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the historic afforestation inventory dataframe.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframes</span><span class="o">.</span><span class="n">get_AF_inventory</span><span class="p">()</span></div>
+
+    
+<div class="viewcode-block" id="Loader.AF_transition">
+<a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/loader/index.html#goblin_cbm_runner.resource_manager.loader.Loader.AF_transition">[docs]</a>
+    <span class="k">def</span> <span class="nf">AF_transition</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the historic afforestation transitions dataframe.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframes</span><span class="o">.</span><span class="n">get_AF_transition</span><span class="p">()</span></div>
 </div>
+
 
 </pre></div>
 

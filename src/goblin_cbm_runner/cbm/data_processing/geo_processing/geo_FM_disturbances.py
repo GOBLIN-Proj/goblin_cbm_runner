@@ -6,11 +6,9 @@ involving afforestation areas at the catchment level, both legacy and scenario-s
 disturbance data to support the simulation of forest dynamics under varying management and disturbance scenarios.
 
 """
-from goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager import GeoDataManager
 from goblin_cbm_runner.resource_manager.loader import Loader
 from goblin_cbm_runner.cbm.data_processing.geo_processing.geo_inventory import Inventory
 from goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils import GeoDisturbUtils
-import pandas as pd
 from goblin_cbm_runner.harvest_manager.harvest import AfforestationTracker
 
 
@@ -29,53 +27,36 @@ class FMDisturbances:
         afforestation_data (DataFrame): Contains data on afforestation activities, including species and areas.
         inventory_class (Inventory): Manages the preparation and structuring of forest inventory data.
         disturbance_timing (DataFrame): Contains information on the timing and type of disturbances.
-        disturbance_dataframe (DataFrame): Central repository of disturbance event data.
         scenario_disturbance_dict (dict): Holds scenario-specific disturbance information.
-        legacy_disturbance_dict (dict): Stores information on disturbances in legacy forests.
-        yield_name_dict (dict): Maps yield classes to their corresponding names for easier reference.
+        FM_disturbance_dict (dict): Stores information on disturbances in forest management scenarios.
+        full_rotation_scenario_years (int): Number of years for a full rotation scenario.
 
     Parameters:
-        config_path (str): Path to the configuration file guiding the simulation setup.
-        calibration_year (int): Reference year from which simulation data is calibrated.
-        forest_end_year (int): Designated end year for the simulation's forest data.
-        afforestation_data (DataFrame): Data detailing afforestation projects, including species and area.
-        scenario_data (DataFrame): Data defining various simulation scenarios.
-
-    Methods:
-
-        fill_baseline_forest():
-            Populates disturbance data for the baseline forest, considering historical disturbances.
-    
+        geo_data_manager (GeoDataManager): Instance responsible for managing geographical data.
     """
     
     def __init__(
         self,
-        config_path,
-        calibration_year,
-        forest_end_year,
-        afforestation_data,
-        scenario_data
+        geo_data_manager,
     ):
-        self.forest_end_year = forest_end_year
-        self.calibration_year = calibration_year
+        self.data_manager_class = geo_data_manager
+        self.forest_end_year = self.data_manager_class.get_forest_end_year()
+        self.calibration_year = self.data_manager_class.get_calibration_year()
+        self.full_rotation_scenario_years = (self.forest_end_year - self.calibration_year) + 1
         
         self.loader_class = Loader()
-        self.data_manager_class = GeoDataManager(
-            calibration_year=calibration_year, config_file=config_path, scenario_data=scenario_data
-        )
 
-        self.utils_class = GeoDisturbUtils(
-            config_path, calibration_year,forest_end_year, scenario_data
-        )
-        self.forest_baseline_year = self.data_manager_class.get_forest_baseline_year()
+        self.utils_class = GeoDisturbUtils(geo_data_manager)
 
-        self.afforestation_data = afforestation_data
+        self.afforestation_data = self.data_manager_class.get_afforestation_data()
 
-        self.inventory_class = Inventory(
-            calibration_year, config_path, scenario_data, afforestation_data
-        )
+        self.inventory_class = Inventory(geo_data_manager)
 
         self.disturbance_timing = self.loader_class.disturbance_time()
+
+        self.scenario_disturbance_dict = self.data_manager_class.get_scenario_disturbance_dict()
+
+        self.FM_disturbance_dict = self.scenario_disturbance_dict[-1]
 
 
     def fill_baseline_forest(self):
@@ -83,45 +64,29 @@ class FMDisturbances:
         Fills the baseline (managed) forest with disturbance data.
 
         Returns:
-            pandas.DataFrame: DataFrame containing disturbance data.
+            pandas.DataFrame: DataFrame containing disturbance data for the baseline (managed) forest.
         """
 
-        disturbance_df = self.utils_class.disturbance_structure()
+        year_start = 1
 
-        legacy_years = self.forest_end_year  - self.forest_baseline_year
+        legacy_inventory_df = self.utils_class.legacy_disturbance_tracker(self.inventory_class,
+                                                                          year_start)
 
-        years = list(
-            range(1, (legacy_years + 1))
-        )
 
-        disturbance_timing = self.disturbance_timing 
+        legacy_inventory_df = self.utils_class._drop_zero_area_rows(legacy_inventory_df)
 
-        data = []
+        dist_tracker = AfforestationTracker(self.data_manager_class,
+                                            self.FM_disturbance_dict,
+                                            legacy_inventory_df, 
+                                            self.full_rotation_scenario_years)
 
-        tracker = AfforestationTracker()
+        FM_disturbance_df = dist_tracker.run_simulation()
 
-        self.utils_class.legacy_disturbance_tracker(self.inventory_class,tracker, years)
-
-        for yr in years:
-            for stand in tracker.disturbed_stands:
-                if stand.year == yr:
-                    
-                    row_data = self.utils_class._generate_row(stand.species, "L", stand.soil, stand.yield_class, stand.dist, yr)
-
-                    context = {"forest_type":"L",
-                                "species":stand.species,
-                                "yield_class":stand.yield_class,
-                                "area":stand.area,
-                                "dist":stand.dist,}
-                    dataframes = {"disturbance_timing":disturbance_timing}
-
-                    self.utils_class._process_scenario_row_data(row_data,context, dataframes)
-
-                    data.append(row_data)
-
-        disturbance_df = pd.DataFrame(data)
-        disturbance_df = self.utils_class._drop_zero_area_rows(disturbance_df)
+        disturbance_df = self.utils_class.format_disturbance_data(FM_disturbance_df, self.disturbance_timing)
 
         return disturbance_df
+
+
+
 
 

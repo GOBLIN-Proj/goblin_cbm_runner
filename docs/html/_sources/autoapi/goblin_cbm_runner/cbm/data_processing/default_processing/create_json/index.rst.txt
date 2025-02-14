@@ -25,13 +25,13 @@ Classes
 
 
 
-.. py:class:: CreateJSON(config_path)
+.. py:class:: CreateJSON(data_manager)
 
 
    This class is responsible for creating the mapping configuration JSON for the CBM AIDB.
 
-   :param config_path: The path to the configuration file.
-   :type config_path: str
+   :param data_manager: An instance of the DataManager class.
+   :type data_manager: DataManager
 
    .. attribute:: loader_class
 
@@ -70,7 +70,7 @@ Classes
 
       Populates the template JSON with data based on the given scenario.
 
-      :param scenario: The scenario for which the mapping is being created.
+      :param scenario: The scenario for which the mapping is being created. If None, the baseline scenario is used.
       :type scenario: str
 
       :returns: The populated template JSON.

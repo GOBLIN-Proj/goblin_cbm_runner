@@ -20,11 +20,12 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 1,
+   "execution_count": null,
    "metadata": {},
    "outputs": [],
    "source": [
     "from goblin_cbm_runner.default_runner.runner import Runner\n",
+    "from goblin_cbm_runner.resource_manager.cbm_runner_data_manager import DataManager\n",
     "import pandas as pd\n",
     "import matplotlib.pyplot as plt\n",
     "import os\n",
@@ -55,7 +56,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 6,
+   "execution_count": null,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -75,6 +76,12 @@
     "\n",
     "# calibration and end point\n",
     "calibration_year = 2020\n",
+    "\n",
+    "# instance of the DataManager class\n",
+    "data_manager = DataManager(calibration_year = calibration_year,\n",
+    "                        config_file_path=config,\n",
+    "                        scenario_data=sc_data,\n",
+    "                        afforest_data=afforest_data)\n",
     "\n",
     "\n",
     "#Make directory to store exported file\n",
@@ -268,12 +275,12 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 10,
+   "execution_count": null,
    "metadata": {},
    "outputs": [],
    "source": [
     "# instance of the Runner class\n",
-    "runner = Runner(config, calibration_year, afforest_data, sc_data)"
+    "runner = Runner(data_manager)"
    ]
   },
   {

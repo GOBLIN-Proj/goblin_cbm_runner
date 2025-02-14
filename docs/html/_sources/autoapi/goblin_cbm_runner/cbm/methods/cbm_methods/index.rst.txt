@@ -128,7 +128,20 @@ Classes
 
       A list of soil organic matter pools.
 
-   .. py:method:: cbm_baseline_forest_stock(cbm_data_class, years, year_range, input_path, database_path)
+   .. py:method:: get_scenario_afforestation_rates(scenario, path)
+
+      Retrieves afforestation rates for a given scenario.
+
+      :param scenario: Scenario identifier.
+      :type scenario: str
+      :param path: Base directory path.
+      :type path: str
+
+      :returns: Afforestation data including species, yield class, soil, and area.
+      :rtype: pd.DataFrame
+
+
+   .. py:method:: cbm_FM_forest_stock(cbm_data_class, years, year_range, input_path, database_path)
 
       Runs a baseline forest simulation using the CBM model.
 
@@ -193,7 +206,7 @@ Classes
       :type cbm_vars: CBMVariables
 
 
-   .. py:method:: baseline_simulate_stock(cbm_data_class, years, year_range, input_path, database_path)
+   .. py:method:: FM_simulate_stock(cbm_data_class, years, year_range, input_path, database_path)
 
       Runs a baseline (managed) forest simulation using the CBM model.
 
@@ -212,7 +225,7 @@ Classes
       :rtype: pandas.DataFrame
 
 
-   .. py:method:: baseline_simulate_stock_raw_output(cbm_data_class, years, year_range, input_path, database_path)
+   .. py:method:: FM_simulate_stock_raw_output(cbm_data_class, years, year_range, input_path, database_path)
 
       Runs a baseline (managed) forest simulation using the CBM model.
 
@@ -307,7 +320,7 @@ Classes
       :rtype: pd.DataFrame
 
 
-   .. py:method:: cbm_baseline_summary_fluxes(forest_data)
+   .. py:method:: cbm_FM_summary_fluxes(forest_data)
 
       Calculate the carbon fluxes for baseline managed forest in the given forest data.
 

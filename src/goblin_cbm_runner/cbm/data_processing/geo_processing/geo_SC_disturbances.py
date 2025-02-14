@@ -7,7 +7,6 @@ disturbance data to support the simulation of forest dynamics under varying mana
 
 """
 import goblin_cbm_runner.resource_manager.parser as parser
-from goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager import GeoDataManager
 from goblin_cbm_runner.resource_manager.loader import Loader
 from goblin_cbm_runner.cbm.data_processing.geo_processing.geo_inventory import Inventory
 from goblin_cbm_runner.cbm.data_processing.geo_processing.geo_disturbance_utils import GeoDisturbUtils
@@ -34,50 +33,40 @@ class SCDisturbances:
         scenario_disturbance_dict (dict): Holds scenario-specific disturbance information.
 
     Parameters:
-        config_path (str): Path to the configuration file guiding the simulation setup.
-        calibration_year (int): Reference year from which simulation data is calibrated.
-        forest_end_year (int): Designated end year for the simulation's forest data.
-        afforestation_data (DataFrame): Data detailing afforestation projects, including species and area.
-        scenario_data (DataFrame): Data defining various simulation scenarios.
-
+        geo_data_manager (GeoDataManager): Manager for geographical data.
+    
     Methods:
-
         scenario_afforestation_area(scenario):
             Calculates the afforestation area for a given scenario.
 
-        fill_scenario_data(scenario):
-            Fills the disturbance data for a given scenario.
+        gen_afforestation_scenario_disturbances(scenario):
+            Generates afforestation scenario disturbances.
 
+        gen_non_afforestation_scenario_disturbances(scenario, afforest_df):
+            Generates non-afforestation scenario disturbances.
+
+        fill_scenario_forest(scenario):
+            Fills the forest data for a given scenario.
     """
     
-    def __init__(
-        self,
-        config_path,
-        calibration_year,
-        forest_end_year,
-        afforestation_data,
-        scenario_data
-    ):
-        self.forest_end_year = forest_end_year
-        self.calibration_year = calibration_year
+    def __init__(self,geo_data_manager,):
+
+        self.data_manager_class = geo_data_manager
+        self.forest_end_year = self.data_manager_class.get_forest_end_year()
+        self.calibration_year = self.data_manager_class.get_calibration_year()
+        self.full_rotation_scenario_years = (self.forest_end_year - self.calibration_year) + 1
         
         self.loader_class = Loader()
-        self.data_manager_class = GeoDataManager(
-            calibration_year=calibration_year, config_file=config_path, scenario_data=scenario_data
-        )
 
-        self.utils_class = GeoDisturbUtils(
-            config_path, calibration_year,forest_end_year, scenario_data
-        )
 
-        self.afforestation_data = afforestation_data
-        self.inventory_class = Inventory(
-            calibration_year, config_path, scenario_data, afforestation_data
-        )
+        self.utils_class = GeoDisturbUtils(geo_data_manager)
+
+        self.afforestation_data = self.data_manager_class.get_afforestation_data()
+        self.inventory_class = Inventory(geo_data_manager)
+        
 
         self.disturbance_timing = self.loader_class.disturbance_time()
         self.scenario_disturbance_dict = self.data_manager_class.get_scenario_disturbance_dict()
-
 
 
     def scenario_afforestation_area(self, scenario):
@@ -85,7 +74,7 @@ class SCDisturbances:
         Calculates the afforestation area for a given scenario.
 
         Parameters:
-            scenario (str): The scenario to calculate afforestation for.
+            scenario (Scenario): The scenario to calculate afforestation for.
 
         Returns:
             dict: A dictionary with species as keys and afforestation areas as values.
@@ -115,88 +104,108 @@ class SCDisturbances:
         return result_dict
 
 
-
-    def fill_scenario_data(self, scenario):
+    def gen_afforestation_scenario_disturbances(self, scenario):
         """
-        Fills the disturbance data for a given scenario.
+        Generates afforestation scenario disturbances.
 
         Args:
-            scenario: The scenario for which to fill the disturbance data.
+            scenario (Scenario): The scenario for which to generate the disturbance data.
 
         Returns:
-            The disturbance data DataFrame after filling with scenario data.
+            DataFrame: The disturbance data after filling with scenario data.
         """
-        
+
         configuration_classifiers = self.data_manager_class.config_data
 
         afforestation_inventory = self.scenario_afforestation_area(scenario)
 
-        disturbance_timing = self.disturbance_timing 
-
         scenario_years = self.forest_end_year - self.calibration_year
-        years = list(
-            range(1, (scenario_years + 1))
-        )
 
         non_forest_dict = self.data_manager_class.get_non_forest_dict()
 
-        disturbances = ["DISTID4", "DISTID1", "DISTID2"]
+        afforestation_disturbance = "DISTID4"
 
-        tracker = AfforestationTracker()
+        species_classifiers = {
+            species: list(self.utils_class._get_scenario_classifier_combinations(species))  # Convert to list
+            for species in parser.get_inventory_species(configuration_classifiers)
+        }
 
         data = []
 
-        for yr in years:
-            for dist in disturbances:
-                if dist == "DISTID4":
-                    for species in parser.get_inventory_species(configuration_classifiers):
-                        combinations = self.utils_class._get_scenario_classifier_combinations()
-
-                        for combination in combinations:
-                            forest_type, soil, yield_class = combination
-
-                            row_data = self.utils_class._generate_row(species, forest_type, soil, yield_class, dist, yr)
-
-                            context = {"forest_type":forest_type, 
-                                        "species":species, 
-                                        "soil":soil, 
-                                        "yield_class":yield_class, 
-                                        "dist":dist, 
-                                        "year":yr,
-                                        "configuration_classifiers":configuration_classifiers,
-                                        "non_forest_dict":non_forest_dict,
-                                        "harvest_proportion": self.scenario_disturbance_dict[scenario][species],
-                                        "age": 0
-                                }
-
-                            dataframes = {"afforestation_inventory":afforestation_inventory}
-
-                            self.utils_class._process_scenario_row_data(row_data,context, dataframes)
-
-                            self.utils_class._process_scenario_harvest_data(tracker, row_data, context)
-
-                            data.append(row_data)
-            tracker.move_to_next_age()
-
-        for yr in years:
-            for stand in tracker.disturbed_stands:
-                if stand.year == yr:
+        for yr in range(1, (scenario_years + 1)):
+            for species, combinations in species_classifiers.items():           
+                for combination in combinations:
+                    forest_type, soil, yield_class = combination
+                    context = {"forest_type":forest_type, 
+                                "species":species, 
+                                "soil":soil, 
+                                "yield_class":yield_class, 
+                                "dist":afforestation_disturbance, 
+                                "year":yr,
+                                "configuration_classifiers":configuration_classifiers,
+                                "non_forest_dict":non_forest_dict,
+                                "harvest_proportion":self.scenario_disturbance_dict[scenario][species],
+                                "age": 0
+                        }
                     
-                    row_data = self.utils_class._generate_row(stand.species, "L", stand.soil, stand.yield_class, stand.dist, yr)
 
-                    context = {"forest_type":"L",
-                                "species":stand.species,
-                                "yield_class":stand.yield_class,
-                                "area":stand.area,
-                                "dist":stand.dist,}
-                    dataframes = {"disturbance_timing":disturbance_timing}
+                    row_data = self.utils_class._generate_row(species, forest_type, soil, yield_class, afforestation_disturbance, yr)
+            
+                    dataframes = {"afforestation_inventory":afforestation_inventory}
 
                     self.utils_class._process_scenario_row_data(row_data,context, dataframes)
 
+                    
                     data.append(row_data)
 
-        scenario_disturbance_df = pd.DataFrame(data)
+        return pd.DataFrame(data)
 
-        scenario_disturbance_df = self.utils_class._drop_zero_area_rows(scenario_disturbance_df)
 
-        return scenario_disturbance_df
+    
+    def gen_non_afforestation_scenario_disturbances(self, scenario, afforest_df):
+        """
+        Generates non-afforestation scenario disturbances.
+
+        Args:
+            scenario (Scenario): The scenario for which to generate the disturbance data.
+            afforest_df (DataFrame): DataFrame containing afforestation disturbances.
+
+        Returns:
+            DataFrame: The disturbance data after filling with non-afforestation scenario data.
+        """
+        full_rotation_scenario_years = (self.forest_end_year - self.calibration_year) + 1
+        disturdance_dict= self.scenario_disturbance_dict[scenario]
+
+        dist_tracker = AfforestationTracker(self.data_manager_class, disturdance_dict, afforest_df, full_rotation_scenario_years)
+
+        scenario_disturbance_df = dist_tracker.run_simulation()
+
+        disturbance_timing = self.loader_class.disturbance_time()
+       
+        disturbance_df = self.utils_class.format_disturbance_data(scenario_disturbance_df, disturbance_timing)
+
+        return disturbance_df
+    
+    
+    def fill_scenario_forest(self, scenario):
+        """
+        Fills the forest data for a given scenario.
+
+        Args:
+            scenario (Scenario): The scenario for which to fill the forest data.
+
+        Returns:
+            DataFrame: The combined DataFrame of afforestation and non-afforestation disturbances.
+        """
+        afforestation_scenario_disturbances = self.gen_afforestation_scenario_disturbances(scenario)
+        
+        non_afforestation_scenario_disturbances = self.gen_non_afforestation_scenario_disturbances(scenario, afforestation_scenario_disturbances)
+            
+        # If both DataFrames are empty, raise an error
+        if afforestation_scenario_disturbances.empty and non_afforestation_scenario_disturbances.empty:
+            raise ValueError("Both afforestation and non-afforestation disturbances DataFrames are unexpectedly empty.")
+        
+        # Concatenate only the non-empty DataFrames
+        dfs_to_concat = [df for df in [afforestation_scenario_disturbances, non_afforestation_scenario_disturbances] if not df.empty]
+        
+        return pd.concat(dfs_to_concat)

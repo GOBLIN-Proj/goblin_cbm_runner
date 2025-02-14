@@ -26,7 +26,7 @@ Classes
 
 
 
-.. py:class:: FMDisturbances(config_path, calibration_year, forest_end_year, afforestation_data, scenario_data)
+.. py:class:: FMDisturbances(geo_data_manager)
 
 
    Manages disturbances within the Carbon Budget Modeling (CBM) framework, specifically tailored for scenarios
@@ -75,53 +75,32 @@ Classes
 
       :type: DataFrame
 
-   .. attribute:: disturbance_dataframe
-
-      Central repository of disturbance event data.
-
-      :type: DataFrame
-
    .. attribute:: scenario_disturbance_dict
 
       Holds scenario-specific disturbance information.
 
       :type: dict
 
-   .. attribute:: legacy_disturbance_dict
+   .. attribute:: FM_disturbance_dict
 
-      Stores information on disturbances in legacy forests.
-
-      :type: dict
-
-   .. attribute:: yield_name_dict
-
-      Maps yield classes to their corresponding names for easier reference.
+      Stores information on disturbances in forest management scenarios.
 
       :type: dict
 
-   :param config_path: Path to the configuration file guiding the simulation setup.
-   :type config_path: str
-   :param calibration_year: Reference year from which simulation data is calibrated.
-   :type calibration_year: int
-   :param forest_end_year: Designated end year for the simulation's forest data.
-   :type forest_end_year: int
-   :param afforestation_data: Data detailing afforestation projects, including species and area.
-   :type afforestation_data: DataFrame
-   :param scenario_data: Data defining various simulation scenarios.
-   :type scenario_data: DataFrame
+   .. attribute:: full_rotation_scenario_years
 
-   .. method:: fill_baseline_forest()
+      Number of years for a full rotation scenario.
 
-      
-      Populates disturbance data for the baseline forest, considering historical disturbances.
-      
-      
+      :type: int
+
+   :param geo_data_manager: Instance responsible for managing geographical data.
+   :type geo_data_manager: GeoDataManager
 
    .. py:method:: fill_baseline_forest()
 
       Fills the baseline (managed) forest with disturbance data.
 
-      :returns: DataFrame containing disturbance data.
+      :returns: DataFrame containing disturbance data for the baseline (managed) forest.
       :rtype: pandas.DataFrame
 
 

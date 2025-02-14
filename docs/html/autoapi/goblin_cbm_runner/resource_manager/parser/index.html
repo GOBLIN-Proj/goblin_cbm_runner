@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_cbm_runner.resource_manager.parser &mdash; goblin_cbm_runner 0.4.2 documentation</title>
+  <title>goblin_cbm_runner.resource_manager.parser &mdash; goblin_cbm_runner 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../_static/documentation_options.js?v=ff822928"></script>
+        <script src="../../../../_static/documentation_options.js?v=1dd76d02"></script>
         <script src="../../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -148,6 +148,9 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#goblin_cbm_runner.resource_manager.parser.get_afforestation_species_distribution" title="goblin_cbm_runner.resource_manager.parser.get_afforestation_species_distribution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_afforestation_species_distribution</span></code></a>(...)</p></td>
 <td><p>Get the afforestation rate species distribution.</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#goblin_cbm_runner.resource_manager.parser.get_forest_management_intensity" title="goblin_cbm_runner.resource_manager.parser.get_forest_management_intensity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_forest_management_intensity</span></code></a>(config_data)</p></td>
+<td><p>Get the forest management intensity.</p></td>
+</tr>
 </tbody>
 </table>
 <dl class="py function">
@@ -271,8 +274,7 @@
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The clearfell baseline value for the specified species type.
-None: Returns None if the species type is not found or if an error occurs.</p>
+<dd class="field-even"><p>The clearfell baseline value for the specified species type.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
@@ -292,8 +294,7 @@ None: Returns None if the species type is not found or if an error occurs.</p>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The clearfell baseline value for the specified species type.
-None: Returns None if the species type is not found or if an error occurs.</p>
+<dd class="field-even"><p>The clearfell scenario value for the specified species type.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
@@ -313,8 +314,7 @@ None: Returns None if the species type is not found or if an error occurs.</p>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The thinning baseline value for the specified species type.
-None: Returns None if the species type is not found or if an error occurs.</p>
+<dd class="field-even"><p>The thinning baseline value for the specified species type.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
@@ -334,8 +334,7 @@ None: Returns None if the species type is not found or if an error occurs.</p>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The thinning baseline value for the specified species type.
-None: Returns None if the species type is not found or if an error occurs.</p>
+<dd class="field-even"><p>The thinning scenario value for the specified species type.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
@@ -390,6 +389,23 @@ None: Returns None if the species type is not found or if an error occurs.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The afforestation rate species distribution value.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="goblin_cbm_runner.resource_manager.parser.get_forest_management_intensity">
+<span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.resource_manager.parser.</span></span><span class="sig-name descname"><span class="pre">get_forest_management_intensity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_cbm_runner/resource_manager/parser.html#get_forest_management_intensity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.resource_manager.parser.get_forest_management_intensity" title="Link to this definition"></a></dt>
+<dd><p>Get the forest management intensity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config_data</strong> (<em>dict</em>) – A dictionary containing configuration data.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The forest management intensity value.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>

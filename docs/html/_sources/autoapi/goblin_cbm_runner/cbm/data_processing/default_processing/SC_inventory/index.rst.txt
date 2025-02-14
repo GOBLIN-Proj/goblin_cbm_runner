@@ -25,7 +25,7 @@ Classes
 
 
 
-.. py:class:: SCInventory(calibration_year, config_path, afforestation_data)
+.. py:class:: SCInventory(data_manager)
 
 
    Manages the inventory data for forest simulation in a CBM (Carbon Budget Modeling) context.
@@ -124,8 +124,8 @@ Classes
 
       :param scenario: The scenario for which the afforestation inventory is calculated.
       :type scenario: str
-      :param inventory_df: The inventory dataframe containing the classifier information.
-      :type inventory_df: pd.DataFrame
+      :param path: The path where the inventory will be saved.
+      :type path: str
 
       :returns: The updated inventory dataframe with afforestation areas calculated.
       :rtype: pd.DataFrame
@@ -135,8 +135,8 @@ Classes
 
       Calculate the areas of afforestation for each yield class and species based on the scenario afforestation areas.
 
-      :param scenario_afforestation_areas: An object containing the species and total area of afforestation for each species.
-      :type scenario_afforestation_areas: ScenarioAfforestationAreas
+      :param scenario: The scenario for which the afforestation areas are calculated.
+      :type scenario: str
 
       :returns: A dictionary containing the areas of afforestation for each yield class and species.
       :rtype: dict

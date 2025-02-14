@@ -135,7 +135,6 @@ def get_runner_clearfell_baseline(classifiers, species_type):
 
     Returns:
         float: The clearfell baseline value for the specified species type.
-        None: Returns None if the species type is not found or if an error occurs.
     """
     try:
         clearfell_list = classifiers["Classifiers"]["baseline"]["harvest"]["clearfell"]
@@ -158,8 +157,7 @@ def get_runner_clearfell_scenario(classifiers, species_type):
         species_type (str): The species type.
 
     Returns:
-        float: The clearfell baseline value for the specified species type.
-        None: Returns None if the species type is not found or if an error occurs.
+        float: The clearfell scenario value for the specified species type.
     """
     try:
         clearfell_list = classifiers["Classifiers"]["scenario"]["harvest"]["clearfell"]
@@ -183,7 +181,6 @@ def get_runner_thinning_baseline(classifiers, species_type):
 
     Returns:
         float: The thinning baseline value for the specified species type.
-        None: Returns None if the species type is not found or if an error occurs.
     """
     try:
         clearfell_list = classifiers["Classifiers"]["baseline"]["harvest"]["thinning"]
@@ -206,8 +203,7 @@ def get_runner_thinning_scenario(classifiers, species_type):
         species_type (str): The species type.
 
     Returns:
-        float: The thinning baseline value for the specified species type.
-        None: Returns None if the species type is not found or if an error occurs.
+        float: The thinning scenario value for the specified species type.
     """
     try:
         clearfell_list = classifiers["Classifiers"]["scenario"]["harvest"]["thinning"]
@@ -267,3 +263,15 @@ def get_afforestation_species_distribution(Dynamic_Afforestation_config, species
     except Exception as e:
         print(f"An error occurred: {e}")
         return None
+
+def get_forest_management_intensity(config_data):
+    """
+    Get the forest management intensity.
+
+    Args:
+        config_data (dict): A dictionary containing configuration data.
+    
+    Returns:
+        float: The forest management intensity value.
+    """
+    return config_data["Forest_management"]["intensity"]

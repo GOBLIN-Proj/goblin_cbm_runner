@@ -24,21 +24,19 @@ Classes
 
 
 
-.. py:class:: Transition(calibration_year, config_path)
+.. py:class:: Transition(geo_data_manager)
 
 
    Represents a transition object that generates transition rules structure based on given scenario.
 
-   :param calibration_year: The calibration year.
-   :type calibration_year: int
-   :param config_path: The path to the configuration file.
-   :type config_path: str
+   :param geo_data_manager: The geo data manager instance.
+   :type geo_data_manager: GeoDataManager
 
    .. attribute:: data_manager_class
 
-      The data manager class instance.
+      The geo data manager instance.
 
-      :type: DataManager
+      :type: GeoDataManager
 
    .. attribute:: baseline_forest_classifiers
 

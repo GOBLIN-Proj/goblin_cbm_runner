@@ -5,6 +5,9 @@ Dynamic_Afforestation:
     - Sitka: 0.7
     - SGB: 0.3
 
+Forest_management:
+  intensity: low
+
 Classifiers:
   baseline:
     harvest:

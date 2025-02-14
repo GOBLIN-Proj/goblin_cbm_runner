@@ -8,7 +8,6 @@ This class is designed to facilitate the execution of Carbon Budget Model (CBM) 
 The module is intended largely for validation of historic afforestation input data, leveraging a suite of data management and simulation tools to prepare, execute, and analyze CBM simulations.
 """
 from goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory import DataFactory
-from goblin_cbm_runner.resource_manager.cbm_runner_data_manager import DataManager
 from goblin_cbm_runner.resource_manager.scenario_data_fetcher import ScenarioDataFetcher
 from goblin_cbm_runner.resource_manager.paths import Paths
 from goblin_cbm_runner.cbm.methods.cbm_methods import CBMSim
@@ -68,27 +67,19 @@ class HistoricAfforRunner:
             
     """
     def __init__(
-        self,
-        config_path,
-        calibration_year,
-        afforest_data,
-        scenario_data,
-        sit_path=None
+        self,data_manager
     ):  
-        self.paths_class = Paths(sit_path, gen_baseline=True)
-        self.paths_class.setup_historic_affor_paths(sit_path)
+        self.data_manager_class = data_manager
+        self.sit_path = self.data_manager_class.get_sit_path()
+        self.paths_class = Paths(self.sit_path, gen_baseline=True)
+        self.paths_class.setup_historic_affor_paths(self.sit_path)
         self.path = self.paths_class.get_generated_input_data_path()
         self.baseline_conf_path = self.paths_class.get_baseline_conf_path()
 
-        self.sc_fetcher = ScenarioDataFetcher(scenario_data)
+        self.sc_fetcher = ScenarioDataFetcher(data_manager)
         self.forest_end_year = self.sc_fetcher.get_afforestation_end_year()
 
-        self.cbm_data_class = DataFactory(
-            config_path, calibration_year, self.forest_end_year, afforest_data, scenario_data
-        )
-
-
-        self.data_manager_class = DataManager(calibration_year, config_path)
+        self.cbm_data_class = DataFactory(data_manager)
 
         self.INDEX = self.sc_fetcher.get_afforest_scenario_index()
 
@@ -124,14 +115,14 @@ class HistoricAfforRunner:
         if self.paths_class.is_path_internal(path):
             self.cbm_data_class.clean_baseline_data_dir(path)
 
-        self.cbm_data_class.make_base_classifiers(path)
+        self.cbm_data_class.make_FM_classifiers(path)
         self.cbm_data_class.make_config_json(None, path)
-        self.cbm_data_class.make_base_age_classes(path)
-        self.cbm_data_class.make_base_yield_curves(path)
-        self.cbm_data_class.make_base_inventory(path)
-        self.cbm_data_class.make_base_disturbance_events(path)
-        self.cbm_data_class.make_base_disturbance_type(path)
-        self.cbm_data_class.make_base_transition_rules(path)
+        self.cbm_data_class.make_FM_age_classes(path)
+        self.cbm_data_class.make_FM_yield_curves(path)
+        self.cbm_data_class.make_FM_inventory(path)
+        self.cbm_data_class.make_FM_disturbance_events(path)
+        self.cbm_data_class.make_FM_disturbance_type(path)
+        self.cbm_data_class.make_FM_transition_rules(path)
 
     def generate_input_data(self):
         """
@@ -258,7 +249,7 @@ class HistoricAfforRunner:
         """
         self._generate_base_input_data()
         forest_data = pd.DataFrame()
-        forest_data = self.SIM_class.baseline_simulate_stock_raw_output(self.cbm_data_class,
+        forest_data = self.SIM_class.FM_simulate_stock_raw_output(self.cbm_data_class,
                                                                 self.baseline_years,
                                                                 self.baseline_year_range,
                                                                 self.baseline_conf_path,
@@ -278,13 +269,13 @@ class HistoricAfforRunner:
         """
         self._generate_base_input_data()
    
-        forest_data = self.SIM_class.baseline_simulate_stock(self.cbm_data_class,
+        forest_data = self.SIM_class.FM_simulate_stock(self.cbm_data_class,
                                                              self.baseline_years,
                                                                 self.baseline_year_range,
                                                                 self.baseline_conf_path,
                                                                 self.defaults_db)
         
-        fluxes_data = self.SIM_class.cbm_baseline_summary_fluxes(forest_data)
+        fluxes_data = self.SIM_class.cbm_FM_summary_fluxes(forest_data)
 
         return fluxes_data
     

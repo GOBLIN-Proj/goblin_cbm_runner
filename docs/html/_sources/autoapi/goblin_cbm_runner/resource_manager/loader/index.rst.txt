@@ -45,7 +45,7 @@ Classes
 
    .. method:: forest_kb_yields
 
-      Returns the forest Firs yields dataframe.
+      Returns the forest KB yields dataframe.
 
    .. method:: NIR_forest_data_ha
 
@@ -59,17 +59,17 @@ Classes
 
       Returns the afforestation areas (NIR) dataframe.
 
-   .. method:: afforestation_areas_KB
-
-      Returns the afforestation areas (Firs) dataframe.
-
    .. method:: disturbance_time
 
       Returns the disturbance times dataframe.
 
    .. method:: kb_yield_curves
 
-      Returns the Firs yield curves dataframe.
+      Returns the KB yield curves dataframe.
+
+   .. method:: kb_standing_vol_yield_curves
+
+      Returns the KB standing volume yield curves dataframe.
 
    .. method:: disturbance_type
 
@@ -79,41 +79,65 @@ Classes
 
       Returns the forest harvest areas (NIR) dataframe.
 
-   .. method:: disturbance_data
+   .. method:: FM_age_class
 
-      Returns the disturbance data dataframe.
+      Returns the managed forest age class dataframe.
 
-   .. method:: base_age_class
+   .. method:: FM_classifiers
 
-      Returns the baseline (2016 - 2050) age class dataframe.
+      Returns the managed forest classifiers dataframe.
 
-   .. method:: base_classifiers
+   .. method:: FM_disturbance_types
 
-      Returns the baseline (2016 - 2050) classifiers dataframe.
+      Returns the managed forest disturbance types dataframe.
 
-   .. method:: base_disturbance_events
+   .. method:: FM_growth_curves
 
-      Returns the baseline (2016 - 2050) disturbance events dataframe.
+      Returns the managed forest growth curves dataframe.
 
-   .. method:: base_disturbance_types
+   .. method:: FM_inventory
 
-      Returns the baseline (2016 - 2050) disturbance types dataframe.
+      Returns the managed forest inventory dataframe.
 
-   .. method:: base_growth_curves
+   .. method:: FM_transition
 
-      Returns the baseline (2016 - 2050) growth curves dataframe.
+      Returns the managed forest transitions dataframe.
 
-   .. method:: base_inventory
+   .. method:: FM_standing_volume
 
-      Returns the baseline (2016 - 2050) inventory dataframe.
+      Returns the managed forest standing volume dataframe.
 
-   .. method:: base_transition
+   .. method:: FM_disturbances_time_series
 
-      Returns the baseline (2016 - 2050) transitions dataframe.
+      Returns the managed forest disturbances time series dataframe.
 
-   .. method:: base_standing_volume
+   .. method:: AF_disturbances_time_series
 
-      Returns the baseline (2016 - 2050) standing volume dataframe.
+      Returns the historic afforestation disturbances time series dataframe.
+
+   .. method:: AF_age_class
+
+      Returns the historic afforestation age class dataframe.
+
+   .. method:: AF_classifiers
+
+      Returns the historic afforestation classifiers dataframe.
+
+   .. method:: AF_disturbance_types
+
+      Returns the historic afforestation disturbance types dataframe.
+
+   .. method:: AF_growth_curves
+
+      Returns the historic afforestation growth curves dataframe.
+
+   .. method:: AF_inventory
+
+      Returns the historic afforestation inventory dataframe.
+
+   .. method:: AF_transition
+
+      Returns the historic afforestation transitions dataframe.
       
 
    .. py:method:: forest_age_structure()
@@ -146,11 +170,6 @@ Classes
       Returns the afforestation areas (NIR) dataframe.
 
 
-   .. py:method:: afforestation_areas_KB()
-
-      Returns the afforestation areas (KB) dataframe.
-
-
    .. py:method:: disturbance_time()
 
       Returns the disturbance times dataframe.
@@ -176,49 +195,91 @@ Classes
       Returns the forest harvest areas (NIR) dataframe.
 
 
-   .. py:method:: disturbance_data()
+   .. py:method:: FM_age_class()
 
-      Returns the disturbance data dataframe.
-
-
-   .. py:method:: base_age_class()
-
-      Returns the baseline (2016 - 2050) age class dataframe.
+      Returns the managed forest age class dataframe.
 
 
-   .. py:method:: base_classifiers()
+   .. py:method:: FM_classifiers()
 
-      Returns the baseline (2016 - 2050) classifiers dataframe.
-
-
-   .. py:method:: base_disturbance_events()
-
-      Returns the baseline (2016 - 2050) disturbance events dataframe.
+      Returns the managed forest classifiers dataframe.
 
 
-   .. py:method:: base_disturbance_types()
+   .. py:method:: FM_disturbance_types()
 
-      Returns the baseline (2016 - 2050) disturbance types dataframe.
-
-
-   .. py:method:: base_growth_curves()
-
-      Returns the baseline (2016 - 2050) growth curves dataframe.
+      Returns the managed forest disturbance types dataframe.
 
 
-   .. py:method:: base_inventory()
+   .. py:method:: FM_growth_curves()
 
-      Returns the baseline (2016 - 2050) inventory dataframe.
-
-
-   .. py:method:: base_transition()
-
-      Returns the baseline (2016 - 2050) transitions dataframe.
+      Returns the managed forest growth curves dataframe.
 
 
-   .. py:method:: base_standing_volume()
+   .. py:method:: FM_inventory()
 
-      Returns the baseline (2016 - 2050) standing volume dataframe.
+      Returns the managed forest inventory dataframe.
+
+
+   .. py:method:: FM_transition()
+
+      Returns the managed forest transitions dataframe.
+
+
+   .. py:method:: FM_standing_volume()
+
+      Returns the managed forest standing volume dataframe.
+
+
+   .. py:method:: FM_disturbances_time_series(intensity='high')
+
+      Returns the managed forest disturbances time series dataframe.
+
+      Parameters:
+      - intensity (str): The intensity level of disturbances ("low", "high").
+
+      Returns:
+      - pandas.DataFrame: Time series of forest disturbances.
+
+
+   .. py:method:: AF_disturbances_time_series(intensity='high')
+
+      Returns the historic afforestation disturbances time series dataframe.
+
+      Parameters:
+      - intensity (str): The intensity level of disturbances ("low", "high").
+
+      Returns:
+      - pandas.DataFrame: Time series of forest disturbances.
+
+
+   .. py:method:: AF_age_class()
+
+      Returns the historic afforestation age class dataframe.
+
+
+   .. py:method:: AF_classifiers()
+
+      Returns the historic afforestation classifiers dataframe.
+
+
+   .. py:method:: AF_disturbance_types()
+
+      Returns the historic afforestation disturbance types dataframe.
+
+
+   .. py:method:: AF_growth_curves()
+
+      Returns the historic afforestation growth curves dataframe.
+
+
+   .. py:method:: AF_inventory()
+
+      Returns the historic afforestation inventory dataframe.
+
+
+   .. py:method:: AF_transition()
+
+      Returns the historic afforestation transitions dataframe.
 
 
 

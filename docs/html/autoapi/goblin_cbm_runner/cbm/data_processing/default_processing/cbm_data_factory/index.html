@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory &mdash; goblin_cbm_runner 0.4.2 documentation</title>
+  <title>goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory &mdash; goblin_cbm_runner 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../../../_static/documentation_options.js?v=ff822928"></script>
+        <script src="../../../../../../_static/documentation_options.js?v=1dd76d02"></script>
         <script src="../../../../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../../_static/js/theme.js"></script>
@@ -124,7 +124,7 @@
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.</span></span><span class="sig-name descname"><span class="pre">DataFactory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibration_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forest_end_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">afforestation_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.</span></span><span class="sig-name descname"><span class="pre">DataFactory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_manager</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory" title="Link to this definition"></a></dt>
 <dd><p>A class that represents a data factory for creating and managing input data for CBM simulations.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.loader_class">
@@ -149,28 +149,23 @@
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">json_creator_class</span> <span class="pre">(CreateJSON</span></span></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.inventory_class">
-<span class="sig-name descname"><span class="pre">inventory_class</span></span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.inventory_class" title="Link to this definition"></a></dt>
-<dd><p>An instance of the Inventory class.</p>
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.json_creator_class">
+<span class="sig-name descname"><span class="pre">json_creator_class</span></span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.json_creator_class" title="Link to this definition"></a></dt>
+<dd><p>An instance of the CreateJSON class.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="../../geo_processing/geo_inventory/index.html#goblin_cbm_runner.cbm.data_processing.geo_processing.geo_inventory.Inventory" title="goblin_cbm_runner.cbm.data_processing.geo_processing.geo_inventory.Inventory">Inventory</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="../create_json/index.html#goblin_cbm_runner.cbm.data_processing.default_processing.create_json.CreateJSON" title="goblin_cbm_runner.cbm.data_processing.default_processing.create_json.CreateJSON">CreateJSON</a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.AF_disturbance_class">
-<span class="sig-name descname"><span class="pre">AF_disturbance_class</span></span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.AF_disturbance_class" title="Link to this definition"></a></dt>
-<dd><p>An instance of the AFDisturbances class.</p>
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.SC_inventory_class">
+<span class="sig-name descname"><span class="pre">SC_inventory_class</span></span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.SC_inventory_class" title="Link to this definition"></a></dt>
+<dd><p>An instance of the SCInventory class.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="../AF_disturbances/index.html#goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances.AFDisturbances" title="goblin_cbm_runner.cbm.data_processing.default_processing.AF_disturbances.AFDisturbances">AFDisturbances</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="../SC_inventory/index.html#goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory.SCInventory" title="goblin_cbm_runner.cbm.data_processing.default_processing.SC_inventory.SCInventory">SCInventory</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -208,16 +203,33 @@
 </dl>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.management_intensity">
+<span class="sig-name descname"><span class="pre">management_intensity</span></span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.management_intensity" title="Link to this definition"></a></dt>
+<dd><p>Data on forest management intensity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.set_input_data_dir">
-<span class="sig-name descname"><span class="pre">set_input_data_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.set_input_data_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.set_input_data_dir" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">set_input_data_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.set_input_data_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.set_input_data_dir" title="Link to this definition"></a></dt>
 <dd><p>Sets the input data directory for a scenario, loads SIT, classifiers, and inventory.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.set_baseline_input_data_dir">
-<span class="sig-name descname"><span class="pre">set_baseline_input_data_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.set_baseline_input_data_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.set_baseline_input_data_dir" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">set_baseline_input_data_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.set_baseline_input_data_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.set_baseline_input_data_dir" title="Link to this definition"></a></dt>
 <dd><p>Sets the baseline input data directory, loads SIT, classifiers, and inventory.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.set_spinup_baseline_input_data_dir">
+<span class="sig-name descname"><span class="pre">set_spinup_baseline_input_data_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.set_spinup_baseline_input_data_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.set_spinup_baseline_input_data_dir" title="Link to this definition"></a></dt>
+<dd><p>Sets the spinup baseline input data directory, loads SIT, classifiers, and inventory.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -288,44 +300,128 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_base_age_classes">
-<span class="sig-name descname"><span class="pre">make_base_age_classes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_base_age_classes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_base_age_classes" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">make_base_age_classes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_base_age_classes" title="Link to this definition"></a></dt>
 <dd><p>Creates the baseline age classes CSV file.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_base_classifiers">
-<span class="sig-name descname"><span class="pre">make_base_classifiers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_base_classifiers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_base_classifiers" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">make_base_classifiers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_base_classifiers" title="Link to this definition"></a></dt>
 <dd><p>Creates the baseline classifiers CSV file.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_base_yield_curves">
-<span class="sig-name descname"><span class="pre">make_base_yield_curves</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_base_yield_curves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_base_yield_curves" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">make_base_yield_curves</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_base_yield_curves" title="Link to this definition"></a></dt>
 <dd><p>Creates the baseline yield curves CSV files.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_base_inventory">
-<span class="sig-name descname"><span class="pre">make_base_inventory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_base_inventory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_base_inventory" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">make_base_inventory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_base_inventory" title="Link to this definition"></a></dt>
 <dd><p>Creates the baseline inventory CSV file.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_base_disturbance_events">
-<span class="sig-name descname"><span class="pre">make_base_disturbance_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_base_disturbance_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_base_disturbance_events" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">make_base_disturbance_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_base_disturbance_events" title="Link to this definition"></a></dt>
 <dd><p>Creates the baseline disturbance events CSV file.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_base_disturbance_type">
-<span class="sig-name descname"><span class="pre">make_base_disturbance_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_base_disturbance_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_base_disturbance_type" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">make_base_disturbance_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_base_disturbance_type" title="Link to this definition"></a></dt>
 <dd><p>Creates the baseline disturbance type CSV file.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_base_transition_rules">
-<span class="sig-name descname"><span class="pre">make_base_transition_rules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_base_transition_rules"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_base_transition_rules" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">make_base_transition_rules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_base_transition_rules" title="Link to this definition"></a></dt>
 <dd><p>Creates the baseline transition rules CSV file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_FM_age_classes">
+<span class="sig-name descname"><span class="pre">make_FM_age_classes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_FM_age_classes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_FM_age_classes" title="Link to this definition"></a></dt>
+<dd><p>Creates age classes CSV file for managed forest.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_FM_classifiers">
+<span class="sig-name descname"><span class="pre">make_FM_classifiers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_FM_classifiers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_FM_classifiers" title="Link to this definition"></a></dt>
+<dd><p>Creates classifiers CSV file for managed forest.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_FM_yield_curves">
+<span class="sig-name descname"><span class="pre">make_FM_yield_curves</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_FM_yield_curves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_FM_yield_curves" title="Link to this definition"></a></dt>
+<dd><p>Creates yield curves CSV file for managed forest.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_FM_inventory">
+<span class="sig-name descname"><span class="pre">make_FM_inventory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_FM_inventory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_FM_inventory" title="Link to this definition"></a></dt>
+<dd><p>Creates inventory CSV file for managed forest.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_FM_disturbance_events">
+<span class="sig-name descname"><span class="pre">make_FM_disturbance_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_FM_disturbance_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_FM_disturbance_events" title="Link to this definition"></a></dt>
+<dd><p>Creates disturbance events CSV file for managed forest.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_FM_disturbance_type">
+<span class="sig-name descname"><span class="pre">make_FM_disturbance_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_FM_disturbance_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_FM_disturbance_type" title="Link to this definition"></a></dt>
+<dd><p>Creates disturbance type CSV file for managed forest.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_FM_transition_rules">
+<span class="sig-name descname"><span class="pre">make_FM_transition_rules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_FM_transition_rules"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_FM_transition_rules" title="Link to this definition"></a></dt>
+<dd><p>Creates transition rules CSV file for managed forest.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_AF_age_classes">
+<span class="sig-name descname"><span class="pre">make_AF_age_classes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_AF_age_classes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_AF_age_classes" title="Link to this definition"></a></dt>
+<dd><p>Creates age classes CSV file for historic afforestation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_AF_classifiers">
+<span class="sig-name descname"><span class="pre">make_AF_classifiers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_AF_classifiers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_AF_classifiers" title="Link to this definition"></a></dt>
+<dd><p>Creates classifiers CSV file for historic afforestation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_AF_yield_curves">
+<span class="sig-name descname"><span class="pre">make_AF_yield_curves</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_AF_yield_curves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_AF_yield_curves" title="Link to this definition"></a></dt>
+<dd><p>Creates yield curves CSV file for historic afforestation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_AF_inventory">
+<span class="sig-name descname"><span class="pre">make_AF_inventory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_AF_inventory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_AF_inventory" title="Link to this definition"></a></dt>
+<dd><p>Creates inventory CSV file for historic afforestation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_AF_disturbance_events">
+<span class="sig-name descname"><span class="pre">make_AF_disturbance_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_AF_disturbance_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_AF_disturbance_events" title="Link to this definition"></a></dt>
+<dd><p>Creates disturbance events CSV file for historic afforestation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_AF_disturbance_type">
+<span class="sig-name descname"><span class="pre">make_AF_disturbance_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_AF_disturbance_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_AF_disturbance_type" title="Link to this definition"></a></dt>
+<dd><p>Creates disturbance type CSV file for historic afforestation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_AF_transition_rules">
+<span class="sig-name descname"><span class="pre">make_AF_transition_rules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_AF_transition_rules"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.make_AF_transition_rules" title="Link to this definition"></a></dt>
+<dd><p>Creates transition rules CSV file for historic afforestation.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -333,9 +429,9 @@
 <span class="sig-name descname"><span class="pre">set_input_data_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.set_input_data_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
 <dd><p>Sets the input data directory for a scenario, initializes the CBM simulation data.</p>
 <dl class="simple">
-<dt>This methods loads the following using the CBM’s Standard Import Tool (SIT):</dt><dd><ul class="simple">
-<li><p>SIT configuration: Settings that govern how the CBM simulation runs</p></li>
-<li><p>Classifiers: Descriptions of forest stands (species, soil type, etc.)</p></li>
+<dt>This method loads the following using the CBM’s Standard Import Tool (SIT):</dt><dd><ul class="simple">
+<li><p>SIT configuration: Settings that govern how the CBM simulation runs.</p></li>
+<li><p>Classifiers: Descriptions of forest stands (species, soil type, etc.).</p></li>
 <li><p>Inventory: Data on the initial forest composition.</p></li>
 </ul>
 </dd>
@@ -345,12 +441,13 @@
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sc</strong> (<em>int</em>) – The scenario number.</p></li>
 <li><p><strong>path</strong> (<em>str</em>) – The path to the input data directory.</p></li>
+<li><p><strong>db_path</strong> (<em>str</em>) – The path to the database.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><dl class="simple">
 <dt>A tuple containing the following:</dt><dd><ul class="simple">
-<li><p>SIT object:  The loaded SIT configuration.</p></li>
+<li><p>SIT object: The loaded SIT configuration.</p></li>
 <li><p>classifiers (DataFrame): Classifiers for the forest stands.</p></li>
 <li><p>inventory (DataFrame): The forest inventory data.</p></li>
 </ul>
@@ -369,9 +466,9 @@
 <span class="sig-name descname"><span class="pre">set_baseline_input_data_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.set_baseline_input_data_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
 <dd><p>Sets the input data directory for the baseline, initializes the CBM simulation data.</p>
 <dl class="simple">
-<dt>This methods loads the following using the CBM’s Standard Import Tool (SIT):</dt><dd><ul class="simple">
-<li><p>SIT configuration: Settings that govern how the CBM simulation runs</p></li>
-<li><p>Classifiers: Descriptions of forest stands (species, soil type, etc.)</p></li>
+<dt>This method loads the following using the CBM’s Standard Import Tool (SIT):</dt><dd><ul class="simple">
+<li><p>SIT configuration: Settings that govern how the CBM simulation runs.</p></li>
+<li><p>Classifiers: Descriptions of forest stands (species, soil type, etc.).</p></li>
 <li><p>Inventory: Data on the initial forest composition.</p></li>
 </ul>
 </dd>
@@ -379,50 +476,14 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>sc</strong> (<em>int</em>) – The scenario number.</p></li>
 <li><p><strong>path</strong> (<em>str</em>) – The path to the input data directory.</p></li>
+<li><p><strong>db_path</strong> (<em>str</em>) – The path to the database.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><dl class="simple">
 <dt>A tuple containing the following:</dt><dd><ul class="simple">
-<li><p>SIT object:  The loaded SIT configuration.</p></li>
-<li><p>classifiers (DataFrame): Classifiers for the forest stands.</p></li>
-<li><p>inventory (DataFrame): The forest inventory data.</p></li>
-</ul>
-</dd>
-</dl>
-</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tuple</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.set_spinup_baseline_input_data_dir">
-<span class="sig-name descname"><span class="pre">set_spinup_baseline_input_data_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.set_spinup_baseline_input_data_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.data_processing.default_processing.cbm_data_factory.DataFactory.set_spinup_baseline_input_data_dir" title="Link to this definition"></a></dt>
-<dd><p>Sets the input data directory for the baseline, initializes the CBM simulation data.</p>
-<dl class="simple">
-<dt>This methods loads the following using the CBM’s Standard Import Tool (SIT):</dt><dd><ul class="simple">
-<li><p>SIT configuration: Settings that govern how the CBM simulation runs</p></li>
-<li><p>Classifiers: Descriptions of forest stands (species, soil type, etc.)</p></li>
-<li><p>Inventory: Data on the initial forest composition.</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>sc</strong> (<em>int</em>) – The scenario number.</p></li>
-<li><p><strong>path</strong> (<em>str</em>) – The path to the input data directory.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>A tuple containing the following:</dt><dd><ul class="simple">
-<li><p>SIT object:  The loaded SIT configuration.</p></li>
+<li><p>SIT object: The loaded SIT configuration.</p></li>
 <li><p>classifiers (DataFrame): Classifiers for the forest stands.</p></li>
 <li><p>inventory (DataFrame): The forest inventory data.</p></li>
 </ul>
@@ -438,8 +499,44 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id2">
-<span class="sig-name descname"><span class="pre">make_data_dirs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenarios</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_data_dirs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
-<dd><p>Creates data directories.</p>
+<span class="sig-name descname"><span class="pre">set_spinup_baseline_input_data_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.set_spinup_baseline_input_data_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
+<dd><p>Sets the input data directory for the spinup baseline, initializes the CBM simulation data.</p>
+<dl class="simple">
+<dt>This method loads the following using the CBM’s Standard Import Tool (SIT):</dt><dd><ul class="simple">
+<li><p>SIT configuration: Settings that govern how the CBM simulation runs.</p></li>
+<li><p>Classifiers: Descriptions of forest stands (species, soil type, etc.).</p></li>
+<li><p>Inventory: Data on the initial forest composition.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – The path to the input data directory.</p></li>
+<li><p><strong>db_path</strong> (<em>str</em>) – The path to the database.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A tuple containing the following:</dt><dd><ul class="simple">
+<li><p>SIT object: The loaded SIT configuration.</p></li>
+<li><p>classifiers (DataFrame): Classifiers for the forest stands.</p></li>
+<li><p>inventory (DataFrame): The forest inventory data.</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">make_data_dirs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenarios</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_data_dirs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
+<dd><p>Creates data directories for specified scenarios.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -451,9 +548,9 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id3">
-<span class="sig-name descname"><span class="pre">clean_data_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.clean_data_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
-<dd><p>Cleans the data directory.</p>
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">clean_data_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.clean_data_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
+<dd><p>Removes existing data from a directory.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – The path to the data directory.</p>
@@ -462,9 +559,9 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id4">
-<span class="sig-name descname"><span class="pre">clean_baseline_data_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.clean_baseline_data_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
-<dd><p>Cleans the baseline data directory.</p>
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">clean_baseline_data_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.clean_baseline_data_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id5" title="Link to this definition"></a></dt>
+<dd><p>Removes existing data from the baseline directory.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – The path to the baseline data directory.</p>
@@ -473,9 +570,9 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id5">
-<span class="sig-name descname"><span class="pre">make_config_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_config_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id5" title="Link to this definition"></a></dt>
-<dd><p>Creates the configuration JSON file.</p>
+<dt class="sig sig-object py" id="id6">
+<span class="sig-name descname"><span class="pre">make_config_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_config_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
+<dd><p>Creates a configuration JSON file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -487,20 +584,23 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id6">
-<span class="sig-name descname"><span class="pre">make_classifiers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_classifiers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
-<dd><p>Generates a dataframe of classifiers and saves it as a CSV file.</p>
-<p>Parameters:
-- scenario (str): The scenario name. If provided, classifiers for the scenario will be generated.
-- path (str): The path where the CSV file will be saved.</p>
-<p>Returns:
-None</p>
+<dt class="sig sig-object py" id="id7">
+<span class="sig-name descname"><span class="pre">make_classifiers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_classifiers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id7" title="Link to this definition"></a></dt>
+<dd><p>Creates a classifiers CSV file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scenario</strong> (<em>str</em>) – The scenario name. If provided, classifiers for the scenario will be generated.</p></li>
+<li><p><strong>path</strong> (<em>str</em>) – The path where the CSV file will be saved.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id7">
-<span class="sig-name descname"><span class="pre">make_age_classes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_age_classes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id7" title="Link to this definition"></a></dt>
-<dd><p>Creates age classes DataFrame and saves it as a CSV file.</p>
+<dt class="sig sig-object py" id="id8">
+<span class="sig-name descname"><span class="pre">make_age_classes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_age_classes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id8" title="Link to this definition"></a></dt>
+<dd><p>Creates an age classes CSV file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -508,16 +608,13 @@ None</p>
 <li><p><strong>path</strong> (<em>str</em>) – The path where the CSV file will be saved.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id8">
-<span class="sig-name descname"><span class="pre">make_yield_curves</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_yield_curves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id8" title="Link to this definition"></a></dt>
-<dd><p>Creates the yield curves CSV file.</p>
+<dt class="sig sig-object py" id="id9">
+<span class="sig-name descname"><span class="pre">make_yield_curves</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_yield_curves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id9" title="Link to this definition"></a></dt>
+<dd><p>Creates a yield curves CSV file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -525,16 +622,13 @@ None</p>
 <li><p><strong>path</strong> (<em>str</em>) – The path to the output directory.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id9">
-<span class="sig-name descname"><span class="pre">make_inventory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_inventory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id9" title="Link to this definition"></a></dt>
-<dd><p>Create an inventory DataFrame based on the given scenario and path.</p>
+<dt class="sig sig-object py" id="id10">
+<span class="sig-name descname"><span class="pre">make_inventory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_inventory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id10" title="Link to this definition"></a></dt>
+<dd><p>Creates an inventory CSV file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -542,22 +636,13 @@ None</p>
 <li><p><strong>path</strong> (<em>str</em>) – The path where the inventory file will be saved.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The created inventory DataFrame.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>pandas.DataFrame</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>None</strong> – </p>
-</dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id10">
-<span class="sig-name descname"><span class="pre">make_disturbance_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_disturbance_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id10" title="Link to this definition"></a></dt>
-<dd><p>Generate disturbance events data and save it as a CSV file.</p>
+<dt class="sig sig-object py" id="id11">
+<span class="sig-name descname"><span class="pre">make_disturbance_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_disturbance_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id11" title="Link to this definition"></a></dt>
+<dd><p>Creates a disturbance events CSV file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -565,138 +650,187 @@ None</p>
 <li><p><strong>path</strong> (<em>str</em>) – The path to save the disturbance events CSV file.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id11">
-<span class="sig-name descname"><span class="pre">make_disturbance_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_disturbance_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id11" title="Link to this definition"></a></dt>
-<dd><p>Creates a disturbance type CSV file based on the given scenario and saves it to the specified path.</p>
-<p>Parameters:
-- scenario (str): The scenario for which the disturbance type CSV file is created. If None, the baseline disturbance types are used.
-- path (str): The path where the disturbance type CSV file is saved.</p>
-<p>Returns:
-None</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="id12">
-<span class="sig-name descname"><span class="pre">make_transition_rules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_transition_rules"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id12" title="Link to this definition"></a></dt>
-<dd><p>Generate transition rules based on the given scenario and save them to a CSV file.</p>
+<span class="sig-name descname"><span class="pre">make_disturbance_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_disturbance_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id12" title="Link to this definition"></a></dt>
+<dd><p>Creates a disturbance type CSV file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>scenario</strong> (<em>str</em><em> or </em><em>None</em>) – The scenario for which the transition rules are generated.
-If None, the transition rules are generated for all scenarios.</p></li>
-<li><p><strong>path</strong> (<em>str</em>) – The path where the CSV file should be saved.</p></li>
+<li><p><strong>scenario</strong> (<em>str</em>) – The scenario for which the disturbance type CSV file is created. If None, the baseline disturbance types are used.</p></li>
+<li><p><strong>path</strong> (<em>str</em>) – The path where the disturbance type CSV file is saved.</p></li>
 </ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id13">
-<span class="sig-name descname"><span class="pre">make_base_age_classes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_base_age_classes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id13" title="Link to this definition"></a></dt>
-<dd><p>Creates age classes DataFrame for managed forest and saves it as a CSV file.</p>
-<p>Data for managed forest is referenced internally.</p>
+<span class="sig-name descname"><span class="pre">make_transition_rules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_transition_rules"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id13" title="Link to this definition"></a></dt>
+<dd><p>Creates a transition rules CSV file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – The path where the CSV file will be saved.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scenario</strong> (<em>str</em><em> or </em><em>None</em>) – The scenario for which the transition rules are generated.</p></li>
+<li><p><strong>path</strong> (<em>str</em>) – The path where the CSV file should be saved.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id14">
-<span class="sig-name descname"><span class="pre">make_base_classifiers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_base_classifiers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id14" title="Link to this definition"></a></dt>
-<dd><p>Generates a dataframe of classifiers for managed forest and saves it as a CSV file.</p>
-<p>Data for managed forest is referenced internally.</p>
-<p>Parameters:
-- path (str): The path where the CSV file will be saved.</p>
-<p>Returns:
-None</p>
+<span class="sig-name descname"><span class="pre">make_FM_age_classes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_FM_age_classes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id14" title="Link to this definition"></a></dt>
+<dd><p>Creates age classes CSV file for managed forest.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – The path where the CSV file will be saved.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id15">
-<span class="sig-name descname"><span class="pre">make_base_yield_curves</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_base_yield_curves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id15" title="Link to this definition"></a></dt>
-<dd><p>Creates the yield and standing volume curves CSV files for managed forest.</p>
-<p>Data for managed forest is referenced internally.</p>
+<span class="sig-name descname"><span class="pre">make_FM_classifiers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_FM_classifiers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id15" title="Link to this definition"></a></dt>
+<dd><p>Creates classifiers CSV file for managed forest.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – The path to the output directory.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – The path where the CSV file will be saved.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id16">
-<span class="sig-name descname"><span class="pre">make_base_inventory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_base_inventory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id16" title="Link to this definition"></a></dt>
-<dd><p>Creates the inventory data for managed forest and saves it as a CSV file.</p>
-<p>Data for managed forest is referenced internally.</p>
+<span class="sig-name descname"><span class="pre">make_FM_yield_curves</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_FM_yield_curves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id16" title="Link to this definition"></a></dt>
+<dd><p>Creates yield curves CSV file for managed forest.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – The path to the output directory.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id17">
-<span class="sig-name descname"><span class="pre">make_base_disturbance_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_base_disturbance_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id17" title="Link to this definition"></a></dt>
-<dd><p>Creates the disturbance events for managed forest and saves it as a CSV file.</p>
-<p>Data for managed forest is referenced internally.</p>
+<span class="sig-name descname"><span class="pre">make_FM_inventory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_FM_inventory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id17" title="Link to this definition"></a></dt>
+<dd><p>Creates inventory CSV file for managed forest.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – The path to the output directory.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id18">
-<span class="sig-name descname"><span class="pre">make_base_disturbance_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_base_disturbance_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id18" title="Link to this definition"></a></dt>
-<dd><p>Creates the disturbance type data for managed forest and saves it as a CSV file.</p>
-<p>Data for managed forest is referenced internally.</p>
+<span class="sig-name descname"><span class="pre">make_FM_disturbance_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_FM_disturbance_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id18" title="Link to this definition"></a></dt>
+<dd><p>Creates disturbance events CSV file for managed forest.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – The path to the output directory.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id19">
-<span class="sig-name descname"><span class="pre">make_base_transition_rules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_base_transition_rules"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id19" title="Link to this definition"></a></dt>
-<dd><p>Creates the transition rules for managed forest and saves it as a CSV file.</p>
-<p>Data for managed forest is referenced internally.</p>
+<span class="sig-name descname"><span class="pre">make_FM_disturbance_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_FM_disturbance_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id19" title="Link to this definition"></a></dt>
+<dd><p>Creates disturbance type CSV file for managed forest.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – The path to the output directory.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id20">
+<span class="sig-name descname"><span class="pre">make_FM_transition_rules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_FM_transition_rules"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id20" title="Link to this definition"></a></dt>
+<dd><p>Creates transition rules CSV file for managed forest.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – The path to the output directory.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id21">
+<span class="sig-name descname"><span class="pre">make_AF_age_classes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_AF_age_classes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id21" title="Link to this definition"></a></dt>
+<dd><p>Creates age classes CSV file for historic afforestation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – The path where the CSV file will be saved.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id22">
+<span class="sig-name descname"><span class="pre">make_AF_classifiers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_AF_classifiers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id22" title="Link to this definition"></a></dt>
+<dd><p>Creates classifiers CSV file for historic afforestation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – The path where the CSV file will be saved.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id23">
+<span class="sig-name descname"><span class="pre">make_AF_yield_curves</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_AF_yield_curves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id23" title="Link to this definition"></a></dt>
+<dd><p>Creates yield curves CSV file for historic afforestation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – The path to the output directory.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id24">
+<span class="sig-name descname"><span class="pre">make_AF_inventory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_AF_inventory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id24" title="Link to this definition"></a></dt>
+<dd><p>Creates inventory CSV file for historic afforestation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – The path to the output directory.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id25">
+<span class="sig-name descname"><span class="pre">make_AF_disturbance_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_AF_disturbance_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id25" title="Link to this definition"></a></dt>
+<dd><p>Creates disturbance events CSV file for historic afforestation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – The path to the output directory.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id26">
+<span class="sig-name descname"><span class="pre">make_AF_disturbance_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_AF_disturbance_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id26" title="Link to this definition"></a></dt>
+<dd><p>Creates disturbance type CSV file for historic afforestation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – The path to the output directory.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id27">
+<span class="sig-name descname"><span class="pre">make_AF_transition_rules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/goblin_cbm_runner/cbm/data_processing/default_processing/cbm_data_factory.html#DataFactory.make_AF_transition_rules"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id27" title="Link to this definition"></a></dt>
+<dd><p>Creates transition rules CSV file for historic afforestation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – The path to the output directory.</p>
 </dd>
 </dl>
 </dd></dl>

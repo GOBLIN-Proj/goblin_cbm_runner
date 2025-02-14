@@ -10,11 +10,10 @@ import itertools
 
 class Transition:
     """
-    Represents a transition object that generates transition rules structure based on given scenario.
+    Represents a transition object that generates transition rules structure based on a given scenario.
 
     Args:
-        calibration_year (int): The calibration year.
-        config_path (str): The path to the configuration file.
+        data_manager (DataManager): An instance of the DataManager class.
 
     Attributes:
         data_manager_class (DataManager): The data manager class instance.
@@ -22,11 +21,10 @@ class Transition:
         scenario_forest_classifiers (dict): The scenario forest classifiers.
 
     Methods:
-        make_transition_rules_structure: Generates the transition rules structure based on the given scenario.
-
+        make_transition_rules_structure(scenario): Generates the transition rules structure based on the given scenario.
     """
-    def __init__(self, calibration_year, config_path):
-        self.data_manager_class = DataManager(calibration_year=calibration_year, config_file=config_path)
+    def __init__(self, data_manager):
+        self.data_manager_class = data_manager
         self.baseline_forest_classifiers = self.data_manager_class.get_classifiers()[
             "Baseline"
         ]
@@ -39,10 +37,10 @@ class Transition:
         Generates a transition rules structure based on the given scenario.
 
         Args:
-            scenario: The scenario to generate the transition rules structure for.
+            scenario (str): The scenario to generate the transition rules structure for.
 
         Returns:
-            The transition rules structure as a pandas DataFrame.
+            pd.DataFrame: The transition rules structure as a pandas DataFrame.
         """
         
         if scenario is not None:

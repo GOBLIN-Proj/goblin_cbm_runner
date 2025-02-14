@@ -3,37 +3,36 @@ Geo Create JSON Module
 ======================
 This module provides functionalities to create the mapping configuration JSON for the CBM AIDB.
 
-This class is utilised for scenario generation for specific catchments.
+This class is utilized for scenario generation for specific catchments.
 """
 
 import copy
 from goblin_cbm_runner.resource_manager.loader import Loader
-from goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager import GeoDataManager
 
 
 class CreateJSON:
     """
     This class is responsible for creating the mapping configuration JSON for the CBM AIDB.
 
-    This class is utilised for scenario generation for specific catchments. 
+    This class is utilized for scenario generation for specific catchments. 
 
     Args:
-        config_path (str): The path to the configuration file.
+        geo_data_manager (GeoDataManager): An instance of the GeoDataManager class.
 
     Attributes:
         loader_class (Loader): An instance of the Loader class.
-        data_manager_class (DataManager): An instance of the DataManager class.
+        data_manager_class (GeoDataManager): An instance of the GeoDataManager class.
         template (dict): The template JSON structure for the mapping configuration.
         standing_vol_template (dict): The template JSON structure for the standing volume configuration.
 
     Methods:
-        populate_template: Populates the template JSON with data based on the given scenario.
-        populate_spinup_template: Populates the template JSON with data based on managed forests.
+        populate_template(scenario): Populates the template JSON with data based on the given scenario.
+        populate_spinup_template(): Populates the template JSON with data based on existing forest in the catchment.
     """
 
-    def __init__(self, config_path):
+    def __init__(self, geo_data_manager):
         self.loader_class = Loader()
-        self.data_manager_class = GeoDataManager(config_file=config_path)
+        self.data_manager_class = geo_data_manager
 
         self.template = {
             "import_config": {
@@ -141,43 +140,43 @@ class CreateJSON:
 
 
     def populate_spinup_template(self):
-            """
-            Populates the template JSON with data based existing forest in the catchment.
+        """
+        Populates the template JSON with data based on existing forest in the catchment.
 
-            Returns:
-                dict: The populated template JSON.
-            """
-            template = copy.deepcopy(self.standing_vol_template)
+        Returns:
+            dict: The populated template JSON.
+        """
+        template = copy.deepcopy(self.standing_vol_template)
 
 
-            config = self.data_manager_class.get_classifiers()["Baseline"]
-            disturbance = self.data_manager_class.get_disturbances_config()["Baseline"]
+        config = self.data_manager_class.get_classifiers()["Baseline"]
+        disturbance = self.data_manager_class.get_disturbances_config()["Baseline"]
 
-            mapping = self.data_manager_class.get_mapping()
+        mapping = self.data_manager_class.get_mapping()
 
-            template["mapping_config"]["spatial_units"]["admin_boundary"] = mapping[
-                "boundary"
-            ]
-            template["mapping_config"]["spatial_units"]["eco_boundary"] = mapping[
-                "boundary"
-            ]
+        template["mapping_config"]["spatial_units"]["admin_boundary"] = mapping[
+            "boundary"
+        ]
+        template["mapping_config"]["spatial_units"]["eco_boundary"] = mapping[
+            "boundary"
+        ]
 
-            for key in config[
-                "Species"
-            ].keys(): 
-                try:
-                    template["mapping_config"]["species"]["species_mapping"].append(
-                        mapping["species"][key]
-                    )
-                except KeyError:
-                    continue
+        for key in config[
+            "Species"
+        ].keys(): 
+            try:
+                template["mapping_config"]["species"]["species_mapping"].append(
+                    mapping["species"][key]
+                )
+            except KeyError:
+                continue
 
-            for key in disturbance:
-                try:
-                    template["mapping_config"]["disturbance_types"].append(
-                        mapping["disturbance_types"][key]
-                    )
-                except KeyError:
-                    continue
+        for key in disturbance:
+            try:
+                template["mapping_config"]["disturbance_types"].append(
+                    mapping["disturbance_types"][key]
+                )
+            except KeyError:
+                continue
 
-            return template
+        return template

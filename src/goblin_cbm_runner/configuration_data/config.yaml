@@ -17,6 +17,9 @@ non_forest_dict:
   CBmix:
     mineral: "NFCBmix_mineral"
     peat: "NFCBmix_peat"
+  Cmix:
+    mineral: "NFCmix_mineral"
+    peat: "NFCmix_peat"
 
 
 non_forest_soils:
@@ -27,6 +30,7 @@ non_forest_soils:
     - "NFFGB_mineral"
     - "NFOC_mineral"
     - "NFCBmix_mineral"
+    - "NFCmix_mineral"
   peat:
     - "NFSitka_peat"
     - "NFPine_peat"
@@ -34,6 +38,7 @@ non_forest_soils:
     - "NFFGB_peat"
     - "NFOC_peat"
     - "NFCBmix_peat"
+    - "NFCmix_peat"
 
 forest_type_keys:
   afforestation: "A"
@@ -50,11 +55,6 @@ soils_dict:
 
 classifiers:
   Baseline:
-    Climate unit:
-      35: "CLU35"
-      45: "CLU45"
-      55: "CLU55"
-      65: "CLU65"
     Forest management types:
       A: "Mngm A"
       B: "Mngm B"
@@ -67,6 +67,7 @@ classifiers:
       SGB: "Slow Growing Unspecified broadleaved species - Genus type"
       FGB: "Fast Growing Unspecified broadleaved species - Genus type"
       CBmix: "Mixed Unspecified broadleaved species - Genus type"
+      Cmix: "Unspecified softwood species"
       OC: "Other Spruce"
     Yield classes:
       YC6: "Yield class 6"
@@ -84,6 +85,7 @@ classifiers:
       SGB: "Slow Growing Unspecified broadleaved species - Genus type"
       FGB: "Fast Growing Unspecified broadleaved species - Genus type"
       CBmix: "Mixed Unspecified broadleaved species - Genus type"
+      Cmix: "Unspecified softwood species"
       OC: "Other Spruce"
       NFPine_mineral: "NonForestPineMineral"
       NFSitka_mineral: "NonForestSitkaMineral"
@@ -91,12 +93,14 @@ classifiers:
       NFFGB_mineral: "NonForestFGBMineral"
       NFCBmix_mineral: "NonForestCBmixMineral"
       NFOC_mineral: "NonForestOCMineral"
+      NFCmix_mineral: "NonForestCmixMineral"
       NFPine_peat: "NonForestPinePeat"
       NFSitka_peat: "NonForestSitkaPeat"
       NFSGB_peat: "NonForestSGBPeat"
       NFFGB_peat: "NonForestFGBPeat"
       NFCBmix_peat: "NonForestCBmixPeat"
       NFOC_peat: "NonForestOCPeat"
+      NFCmix_peat: "NonForestCmixPeat"
     Forest type:
       A: "Afforestation"
       L: "Legacy"
@@ -112,6 +116,29 @@ classifiers:
       YC17_20: "Yield class 17 to 20"
       YC20_24: "Yield class 20 to 24"
       YC24_30: "Yield class 24 to 30"
+
+transition_dicts:
+  Afforest_Species_to_Yield:
+    Sitka: ["YC4_12", "YC13_16", "YC17_20", "YC20_24", "YC24_30"]
+    SGB: ["YC6"]
+  Transition_Species:
+    NFCBmix_mineral: "CBmix"
+    NFPine_mineral: "Pine"
+    NFPine_peat: "Pine"
+    NFSitka_mineral: "Sitka"
+    NFSitka_peat: "Sitka"
+    NFSGB_mineral: "SGB"
+    NFSGB_peat: "SGB"
+    NFFGB_mineral: "FGB"
+    NFFGB_peat: "FGB"
+    NFOC_mineral: "OC"
+    NFOC_peat: "OC"
+    NFCmix_mineral: "Cmix"
+    NFCmix_peat: "Cmix"
+    
+SortType:
+  Sitka: 3
+  SGB: 12
 
 disturbances:
   Baseline:
@@ -146,6 +173,8 @@ yield_name_dict:
     YC10: "OC"
   CBmix:
     YC10: "CBmix"
+  Cmix:
+    YC10: "Cmix"
 
 
 species_name_dict:
@@ -221,6 +250,8 @@ yield_baseline_dict:
   OC:
     YC10: 1
   CBmix:
+    YC10: 1
+  Cmix:
     YC10: 1
 
 disturbance_cols:
@@ -325,6 +356,9 @@ mapping:
     OC:
       user_species: "Other Spruce"
       default_species: "Other spruce"
+    Cmix:
+      user_species: "Unspecified softwood species"
+      default_species: "Unspecified softwood species"
     NFPine_mineral:
       user_species: "NonForestPineMineral"
       default_species: "Unknown (Ireland)"
@@ -343,6 +377,9 @@ mapping:
     NFOC_mineral:
       user_species: "NonForestOCMineral"
       default_species: "Unknown (Ireland)"
+    NFCmix_mineral:
+      user_species: "NonForestCmixMineral"
+      default_species: "Unknown (Ireland)"
     NFPine_peat:
       user_species: "NonForestPinePeat"
       default_species: "Unknown (Ireland)"
@@ -360,6 +397,9 @@ mapping:
       default_species: "Unknown (Ireland)"
     NFOC_peat:
       user_species: "NonForestOCPeat"
+      default_species: "Unknown (Ireland)"
+    NFCmix_peat:
+      user_species: "NonForestCmixPeat"
       default_species: "Unknown (Ireland)"
   boundary: "Ireland"
   
@@ -382,3 +422,4 @@ mapping:
     DISTID6:
       user_dist_type: "Deforestation"
       default_dist_type: "Deforestation"
+

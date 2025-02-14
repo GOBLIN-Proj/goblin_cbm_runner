@@ -15,7 +15,7 @@ class CreateJSON:
     This class is responsible for creating the mapping configuration JSON for the CBM AIDB.
 
     Args:
-        config_path (str): The path to the configuration file.
+        data_manager (DataManager): An instance of the DataManager class.
 
     Attributes:
         loader_class (Loader): An instance of the Loader class.
@@ -28,9 +28,9 @@ class CreateJSON:
         populate_spinup_template: Populates the template JSON with data based on managed forests.
     """
 
-    def __init__(self, config_path):
+    def __init__(self, data_manager):
         self.loader_class = Loader()
-        self.data_manager_class = DataManager(config_file=config_path)
+        self.data_manager_class = data_manager
 
         self.template = {
             "import_config": {
@@ -93,7 +93,7 @@ class CreateJSON:
         Populates the template JSON with data based on the given scenario.
 
         Args:
-            scenario (str): The scenario for which the mapping is being created.
+            scenario (str): The scenario for which the mapping is being created. If None, the baseline scenario is used.
 
         Returns:
             dict: The populated template JSON.

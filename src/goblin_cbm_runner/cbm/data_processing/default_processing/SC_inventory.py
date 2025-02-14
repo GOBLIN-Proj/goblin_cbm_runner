@@ -33,10 +33,16 @@ class SCInventory:
         scenario_inventory: Calculate the afforestation inventory based on the given scenario and inventory dataframe.
         scenario_afforesation_dict: Calculate the areas of afforestation for each yield class and species based on the scenario afforestation areas.
     """
-    def __init__(self, calibration_year, config_path, afforestation_data):
+    def __init__(self, data_manager):
+        """
+        Initializes the SCInventory class with the provided data manager.
+
+        Parameters:
+            data_manager (DataManager): Instance of DataManager for managing configuration and data retrieval.
+        """
         self.loader_class = Loader()
-        self.data_manager_class = DataManager(calibration_year=calibration_year, config_file=config_path)
-        self.afforestation_data = afforestation_data
+        self.data_manager_class = data_manager
+        self.afforestation_data = self.data_manager_class.get_afforest_data()
         self.age_df = self.loader_class.forest_age_structure()
         self.baseline_forest_classifiers = self.data_manager_class.get_classifiers()[
             "Baseline"
@@ -153,7 +159,7 @@ class SCInventory:
 
         Parameters:
             scenario (str): The scenario for which the afforestation inventory is calculated.
-            inventory_df (pd.DataFrame): The inventory dataframe containing the classifier information.
+            path (str): The path where the inventory will be saved.
 
         Returns:
             pd.DataFrame: The updated inventory dataframe with afforestation areas calculated.
@@ -197,8 +203,8 @@ class SCInventory:
         """
         Calculate the areas of afforestation for each yield class and species based on the scenario afforestation areas.
 
-        Args:
-            scenario_afforestation_areas (ScenarioAfforestationAreas): An object containing the species and total area of afforestation for each species.
+        Parameters:
+            scenario (str): The scenario for which the afforestation areas are calculated.
 
         Returns:
             dict: A dictionary containing the areas of afforestation for each yield class and species.

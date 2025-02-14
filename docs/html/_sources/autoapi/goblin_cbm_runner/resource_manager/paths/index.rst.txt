@@ -7,7 +7,7 @@
 
    Paths module
    =============
-   This module contains the Paths class, which is used to set up the necessary directory paths for CBM simulation input data for cbm_runner and geo_cbm_runner.
+   This module contains the Paths class, which sets up the necessary directory paths for CBM simulation input data.
 
 
 
@@ -27,7 +27,7 @@ Classes
 .. py:class:: Paths(sit_path, gen_baseline)
 
 
-   This class is responsible for setting up the necessary directory paths for CBM simulation input data for cbm_runner and geo_cbm_runner.
+   Sets up the necessary directory paths for CBM simulation input data.
 
    .. attribute:: external_path
 
@@ -37,119 +37,24 @@ Classes
 
    .. attribute:: gen_baseline
 
-      A boolean indicating whether to generate baseline input data.
+      Indicates whether to generate baseline input data.
 
       :type: bool
-
-   .. method:: setup_runner_paths(sit_path)
-
-      
-      Sets up the necessary directory paths for CBM simulation input data for cbm_runner.
-      
-
-   .. method:: setup_geo_runner_paths(sit_path)
-
-      
-      Sets up the necessary directory paths for CBM simulation input data for geo_cbm_runner.
-      
-
-   .. method:: setup_historic_affor_paths(sit_path)
-
-      
-      Sets up the necessary directory paths for CBM simulation input data for historic_affor.
-      
-
-   .. method:: make_external_dirs(path)
-
-      
-      Creates directories for external use.
-      
-
-   .. method:: get_generated_input_data_path()
-
-      
-      Returns the generated input data path.
-      
-
-   .. method:: get_baseline_conf_path()
-
-      
-      Returns the baseline configuration path.
-      
-
-   .. method:: get_internal_runner_generated_input_data_path()
-
-      
-      Returns the internal generated input data path.
-      
-
-   .. method:: get_internal_runner_baseline_conf_path()
-
-      
-      Returns the internal baseline configuration path.
-      
-
-   .. method:: get_internal_geo_runner_generated_input_data_path()
-
-      
-      Returns the internal generated input data path for geo_cbm_runner.
-      
-
-   .. method:: get_internal_geo_runner_baseline_conf_path()
-
-      
-      Returns the internal baseline configuration path for geo_cbm_runner.
-      
-
-   .. method:: get_internal_historic_affor_generated_input_data_path()
-
-      
-      Returns the internal generated input data path for historic_affor.
-      
-
-   .. method:: get_internal_historic_affor_baseline_conf_path()
-
-      
-      Returns the internal baseline configuration path for historic_affor.
-      
-
-   .. method:: is_path_internal(path)
-
-      
-      Determines whether the provided path is one of the internally generated paths.
-      
-
-   .. method:: get_aidb_path()
-
-      
-      Returns the path to the AIDB directory.
-      
-
-   .. method:: retry_operation(function, max_attempts=5, wait_time=60)
-
-      
-      Retry a function multiple times if it fails.
-      
-      
 
    .. py:method:: setup_runner_paths(sit_path)
 
       Sets up the necessary directory paths for CBM simulation input data for cbm_runner.
+
       :param sit_path: The specific site path provided by the user; None if not provided.
       :type sit_path: str
-
-      :returns: None
 
 
    .. py:method:: setup_geo_runner_paths(sit_path)
 
       Sets up the necessary directory paths for CBM simulation input data for geo_cbm_runner.
 
-
       :param sit_path: The specific site path provided by the user; None if not provided.
       :type sit_path: str
-
-      :returns: None
 
 
    .. py:method:: setup_historic_affor_paths(sit_path)
@@ -159,8 +64,6 @@ Classes
       :param sit_path: The specific site path provided by the user; None if not provided.
       :type sit_path: str
 
-      :returns: None
-
 
    .. py:method:: make_external_dirs(path)
 
@@ -168,8 +71,6 @@ Classes
 
       :param path: The directory path.
       :type path: str
-
-      :returns: None
 
 
    .. py:method:: get_generated_input_data_path()

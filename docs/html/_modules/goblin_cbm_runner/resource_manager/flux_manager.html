@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_cbm_runner.resource_manager.flux_manager &mdash; goblin_cbm_runner 0.4.2 documentation</title>
+  <title>goblin_cbm_runner.resource_manager.flux_manager &mdash; goblin_cbm_runner 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -16,7 +16,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=ff822928"></script>
+        <script src="../../../_static/documentation_options.js?v=1dd76d02"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -163,15 +163,16 @@
 <span class="sd">        Combines scaled and filtered carbon flux data.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            object:  An object holding flux data, area, and state information.</span>
+<span class="sd">            flux (pandas.DataFrame): DataFrame containing carbon flux data.</span>
+<span class="sd">            state (pandas.DataFrame): DataFrame containing state information.</span>
+<span class="sd">            parameters (pandas.DataFrame): DataFrame containing parameter information.</span>
+<span class="sd">            area (pandas.DataFrame): DataFrame containing area information.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            pandas.DataFrame: DataFrame with augmented flux data ready for CBM use.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">flux</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_identifier</span><span class="p">(</span><span class="n">flux</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
 
-        <span class="c1">#scaled_data = self.scale_flux_data(flux, area)</span>
-        
         <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_flux_data</span><span class="p">(</span><span class="n">flux</span><span class="p">)</span>
        
         <span class="k">return</span> <span class="n">output</span></div>
@@ -185,7 +186,9 @@
 <span class="sd">        Adds land class and disturbance type columns to an existing flux DataFrame.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            object: An object holding flux data, land class, and disturbance type information.</span>
+<span class="sd">            flux (pandas.DataFrame): DataFrame containing carbon flux data.</span>
+<span class="sd">            state (pandas.DataFrame): DataFrame containing state information.</span>
+<span class="sd">            parameters (pandas.DataFrame): DataFrame containing parameter information.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            pandas.DataFrame: Flux DataFrame with &#39;land_class&#39; and &#39;disturbance_type&#39; columns added.   </span>
@@ -205,7 +208,10 @@
 <span class="sd">        Creates a DataFrame of carbon fluxes related to disturbances. </span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            object: An object holding flux data, area, and state information.</span>
+<span class="sd">            flux (pandas.DataFrame): DataFrame containing carbon flux data.</span>
+<span class="sd">            state (pandas.DataFrame): DataFrame containing state information.</span>
+<span class="sd">            parameters (pandas.DataFrame): DataFrame containing parameter information.</span>
+<span class="sd">            area (pandas.DataFrame): DataFrame containing area information.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            pandas.DataFrame: A DataFrame containing calculated disturbance fluxes.</span>
@@ -271,7 +277,7 @@
 <span class="sd">        Calculates the total litter production based on relevant litter flux columns.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            object: An object holding flux data and other relevant state information.</span>
+<span class="sd">            flux (pandas.DataFrame): DataFrame containing carbon flux data.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">             pandas.Series: A Series representing the total litter production.</span>
@@ -288,7 +294,7 @@
 <span class="sd">        Calculates the gross growth for aboveground biomass.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            object: An object holding flux data and other relevant state information.</span>
+<span class="sd">            flux (pandas.DataFrame): DataFrame containing carbon flux data.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            pandas.Series: A Series representing the calculated aboveground gross growth.</span>
@@ -306,7 +312,7 @@
 <span class="sd">        Calculates the gross growth for belowground biomass.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            object: An object holding flux data and other relevant state information.</span>
+<span class="sd">            flux (pandas.DataFrame): DataFrame containing carbon flux data.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            pandas.Series: A Series representing the calculated belowground gross growth.</span>
@@ -323,7 +329,9 @@
 <span class="sd">        Creates a DataFrame of annual process fluxes in the CBM.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            object: An object holding flux data, area, and state information.</span>
+<span class="sd">            flux (pandas.DataFrame): DataFrame containing carbon flux data.</span>
+<span class="sd">            state (pandas.DataFrame): DataFrame containing state information.</span>
+<span class="sd">            parameters (pandas.DataFrame): DataFrame containing parameter information.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            pandas.DataFrame:  DataFrame with calculated annual process fluxes.        </span>
@@ -373,7 +381,10 @@
 <span class="sd">        Combines disturbance fluxes and annual process fluxes into a single DataFrame.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            object: An object holding flux data, area, and state information.</span>
+<span class="sd">            flux (pandas.DataFrame): DataFrame containing carbon flux data.</span>
+<span class="sd">            state (pandas.DataFrame): DataFrame containing state information.</span>
+<span class="sd">            parameters (pandas.DataFrame): DataFrame containing parameter information.</span>
+<span class="sd">            area (pandas.DataFrame): DataFrame containing area information.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">             pandas.DataFrame: DataFrame with concatenated disturbance and process fluxes.</span>
@@ -388,6 +399,15 @@
 <div class="viewcode-block" id="FluxManager.flux_filter_and_aggregate">
 <a class="viewcode-back" href="../../../autoapi/goblin_cbm_runner/resource_manager/flux_manager/index.html#goblin_cbm_runner.resource_manager.flux_manager.FluxManager.flux_filter_and_aggregate">[docs]</a>
     <span class="k">def</span> <span class="nf">flux_filter_and_aggregate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Filters and aggregates flux data based on specific conditions.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            df (pandas.DataFrame): DataFrame containing flux data.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame: Aggregated DataFrame with filtered flux data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">filtered_df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;LandClassID&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">7</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;LandClassID&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)]</span>
 
         <span class="n">filtered_df_copy</span> <span class="o">=</span> <span class="n">filtered_df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -405,8 +425,6 @@
         
         <span class="n">filtered_df_copy</span><span class="p">[</span><span class="s1">&#39;Delta_Ecos&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">filtered_df_copy</span><span class="p">[</span><span class="s1">&#39;DeltaBio&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">filtered_df_copy</span><span class="p">[</span><span class="s1">&#39;DeltaDOM&#39;</span><span class="p">]</span>
         <span class="n">filtered_df_copy</span><span class="p">[</span><span class="s1">&#39;Harvest&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">filtered_df_copy</span><span class="p">[</span><span class="s1">&#39;SoftProduction&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">filtered_df_copy</span><span class="p">[</span><span class="s1">&#39;HardProduction&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">filtered_df_copy</span><span class="p">[</span><span class="s1">&#39;DOMProduction&#39;</span><span class="p">]</span>
-        
-
         
         <span class="c1"># Group by &#39;TimeStep&#39; and calculate sums</span>
         <span class="n">result</span> <span class="o">=</span> <span class="n">filtered_df_copy</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;TimeStep&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>

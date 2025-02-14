@@ -15,8 +15,6 @@ Dependencies:
 """
 
 from catchment_data_api.catchment_data_api import CatchmentDataAPI
-import pandas as pd 
-
 
 class CatchmentForest:
     """

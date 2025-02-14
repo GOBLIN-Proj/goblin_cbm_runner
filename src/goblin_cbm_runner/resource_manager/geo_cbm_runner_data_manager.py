@@ -2,8 +2,8 @@
 Geo Data Manager
 ================
 
-This module contains the GeoDataManager class, which is used to manage data for the CBM Runner. 
-This class provides methods to access and manipulate data relevant to the CBM Runner, including configurations, disturbance data, and scenario information.
+This module contains the GeoDataManager class, which manages data for the CBM Runner. 
+It provides methods to access and manipulate data, including configurations, disturbance data, and scenario information.
 """
 import yaml
 import goblin_cbm_runner.resource_manager.parser as parser
@@ -16,46 +16,53 @@ class GeoDataManager:
     """
     Manages data for CBM Runner.
 
-    This class provides methods to access and manipulate data relevant to the CBM Runner, 
-    including configurations, disturbance data, and scenario information.
+    Provides methods to access and manipulate data, including configurations, disturbance data, and scenario information.
 
     Attributes:
         config_data (dict): Configuration data from a YAML file.
         forest_baseline_year (int): The baseline (calibration) year for forest data.
-        afforestation_baseline (int): The baseline year for afforestation.
         cbm_default_config (dict): The default CBM configuration.
         non_forest_dict (dict): Non-forest dictionary for afforestation types.
-        non_forest_soils (dict): Non-forest soils types, split between mineral and peat.
-        forest_type_keys (dict): Forest type keys from CBM default configuration (Legacy and Afforestation classifiers).
-        soils_dict (dict): Soils dictionary from CBM default configuration, afforestation pre types (for initial SOC).
+        non_forest_soils (dict): Non-forest soils types.
+        forest_type_keys (dict): Forest type keys from CBM default configuration.
+        soils_dict (dict): Soils dictionary from CBM default configuration.
         classifiers (dict): Classifiers from CBM default configuration.
-        disturbances_config (dict): Disturbances configuration for scenario and baseline from CBM default configuration.
-        yield_name_dict (dict): Species yield name dictionary relating species to growth curves from CBM default configuration.
+        disturbances_config (dict): Disturbances configuration from CBM default configuration.
+        yield_name_dict (dict): Species yield name dictionary from CBM default configuration.
         species_name_dict (dict): Species name dictionary from CBM default configuration.
         afforestation_yield_name_dict (dict): Afforestation yield name dictionary from CBM default configuration.
-        yield_baseline_dict (dict): Yield baseline dictionary relating the proprotional split, nationally, of yields by species from CBM default configuration.
+        yield_baseline_dict (dict): Yield baseline dictionary from CBM default configuration.
         disturbance_cols (dict): Disturbance columns from CBM default configuration.
         static_disturbance_cols (dict): Static disturbance columns from CBM default configuration.
         transition_cols (dict): Transition columns from CBM default configuration.
         mapping (dict): AIDB mapping from CBM default configuration.
-        scenario_data (DataFrame): Scenario data.
+        scenario_data (pd.DataFrame): Scenario data.
         scenario_disturbance_dict (dict): Scenario disturbance dictionary.
 
     Parameters:
         calibration_year (int, optional): The year used for calibration. Defaults to None.
-        config_file (str, optional): Path to the configuration file. Defaults to None.
-        scenario_data (DataFrame, optional): Dataframe containing scenario data. Defaults to None.
+        config_file_path (str, optional): Path to the configuration file. Defaults to None.
+        scenario_data (pd.DataFrame, optional): Dataframe containing scenario data. Defaults to None.
+        afforest_data (pd.DataFrame, optional): Dataframe containing afforestation data. Defaults to None.
+        sit_path (str, optional): Path to the SIT file. Defaults to None.
     """
 
-    def __init__(self, calibration_year=None, config_file=None, scenario_data=None):
+    def __init__(self, calibration_year, 
+                 config_file_path, 
+                 scenario_data, 
+                 afforest_data, 
+                 sit_path = None):
 
+        self.sit_path = sit_path
         self.CBMpools = Pools()
-        self.config_data = self.get_config_data(config_file) if config_file else None
+        self.config_file_path = config_file_path
+        self.config_data = self.get_config_data(self.config_file_path) if self.config_file_path else None
 
         self.forest_baseline_year = (
             (int(calibration_year)) if calibration_year is not None else None
         )
 
+        self.forest_end_year = 2100
 
         self.cbm_default_config = self.get_config_data(os.path.join(get_local_dir(), "geo_config.yaml"))
     
@@ -73,8 +80,10 @@ class GeoDataManager:
         self.static_disturbance_cols = self.cbm_default_config.get("static_disturbance_cols", {})
         self.transition_cols = self.cbm_default_config.get("transition_cols", {})
         self.mapping = self.cbm_default_config.get("mapping", {})
+        self.transition_dicts = self.cbm_default_config.get("transition_dicts", {})
+        self.sort_dict = self.cbm_default_config.get("SortType", {})
 
-
+        self.afforestation_data = afforest_data
 
         self.scenario_data = (
             scenario_data if scenario_data is not None else pd.DataFrame()
@@ -86,7 +95,26 @@ class GeoDataManager:
             else None
         )
 
+
+    def get_config_file_path(self):
+        """
+        Get the path to the configuration file.
+
+        Returns:
+            str: The path to the configuration file.
+        """
+        return self.config_file_path
+
+    def get_sit_path(self):
+        """
+        Get the path to the SIT file.
+
+        Returns:
+            str: The path to the SIT file.
+        """
+        return self.sit_path
     
+
     def get_config_data(self, config_file):
         """
         Load and return the configuration data from the specified file.
@@ -105,7 +133,7 @@ class GeoDataManager:
 
     def get_non_forest_dict(self):
         """
-        Retrieves the non-forest dictionary.
+        Get the non-forest dictionary.
 
         Returns:
             dict: The non-forest dictionary.
@@ -115,7 +143,7 @@ class GeoDataManager:
 
     def get_non_forest_soils(self):
         """
-        Retrieves the non-forest soils dictionary.
+        Get the non-forest soils dictionary.
 
         Returns:
             dict: The non-forest soils dictionary.
@@ -124,16 +152,16 @@ class GeoDataManager:
     
     def get_forest_type_keys(self):
         """
-        Retrieves the forest type dictionary.
+        Get the forest type keys.
 
         Returns:
-            dict: The forest type dictionary.
+            dict: The forest type keys.
         """
         return self.forest_type_keys
     
     def get_soils_dict(self):
         """
-        Retrieves the soils dictionary.
+        Get the soils dictionary.
 
         Returns:
             dict: The soils dictionary.
@@ -142,7 +170,7 @@ class GeoDataManager:
     
     def get_classifiers(self):
         """
-        Retrieves the classifiers dictionary.
+        Get the classifiers dictionary.
 
         Returns:
             dict: The classifiers dictionary.
@@ -151,52 +179,52 @@ class GeoDataManager:
     
     def get_disturbances_config(self):
         """
-        Retrieves the disturbance ID dictionary for scenarios and baseline.
+        Get the disturbances configuration.
 
         Returns:
-            dict: The disturbance ID dictionary.
+            dict: The disturbances configuration.
         """
         return self.disturbances_config
     
     def get_yield_name_dict(self):
         """
-        Retrieves the disturbance ID dictionary for scenarios and baseline.
+        Get the species yield name dictionary.
 
         Returns:
-            dict: The disturbance ID dictionary.
+            dict: The species yield name dictionary.
         """  
         return self.yield_name_dict
     
     def get_species_name_dict(self):
         """
-        Get the dictionary mapping species IDs to their names.
+        Get the species name dictionary.
         
         Returns:
-            dict: A dictionary where the keys are species growth curve IDs and the values are species names.
+            dict: The species name dictionary.
         """
         return self.species_name_dict
     
     def get_afforestation_yield_name_dict(self):
         """
-        Returns the dictionary containing the names of afforestation yield classes.
+        Get the afforestation yield name dictionary.
         
         Returns:
-            dict: A dictionary containing the names of afforestation yield classes.
+            dict: The afforestation yield name dictionary.
         """
         return self.afforestation_yield_name_dict
     
     def get_yield_baseline_dict(self):
         """
-        Returns the yield baseline dictionary.
+        Get the yield baseline dictionary.
 
         Returns:
-            dict: The yield baseline dictionary where keys are yield classes and values are the proportions of that yield class nationally.
+            dict: The yield baseline dictionary.
         """
         return self.yield_baseline_dict
     
     def get_disturbance_cols(self):
         """
-        Returns the disturbance columns used in the disturbance dataframe generator.
+        Get the disturbance columns.
 
         Returns:
             list: A list of disturbance columns.
@@ -205,7 +233,7 @@ class GeoDataManager:
     
     def get_static_disturbance_cols(self):
         """
-        Returns the static disturbance columns used in the disturbance dataframe generator.
+        Get the static disturbance columns.
 
         Returns:
             list: A list of static disturbance columns.
@@ -214,7 +242,7 @@ class GeoDataManager:
     
     def get_transition_cols(self):
         """
-        Returns the transition columns used in the transition dataframe generator.
+        Get the transition columns.
 
         Returns:
             list: A list of transition columns.
@@ -223,47 +251,39 @@ class GeoDataManager:
     
     def get_mapping(self):
         """
-        Returns the mapping used by the data manager to mapping parameters to the CBM AIDB.
+        Get the AIDB mapping.
 
         Returns:
-            dict: The mapping used by the data manager.
+            dict: The AIDB mapping.
         """
         return self.mapping
-    
-    def get_forest_baseline_year(self):
-        """
-        Get the forest baseline year, which is equal to the calibration year.
 
-        Returns:
-            int: The forest baseline year.
-        """
-        return self.forest_baseline_year
-    
     
     def get_scenario_data(self):
         """
-        Returns the goblin scenario data, used to retrieve the harvest and thinning proportions for scenarios.
+        Get the scenario data.
         
         Returns:
-            dict: The scenario data.
+            pd.DataFrame: The scenario data.
         """
         return self.scenario_data
 
     def get_scenario_disturbance_dict(self):
         """
-        Returns the scenario and baseline disturbance ID dictionary.
+        Get the scenario disturbance dictionary.
 
         Returns:
-            dict: The scenario and baseline disturbance ID dictionary.
+            dict: The scenario disturbance dictionary.
         """
         return self.scenario_disturbance_dict
+
 
     def gen_scenario_disturbance_dict(self, scenario_data):
         """
         Generate a dictionary of disturbance data for each scenario.
 
         Args:
-            scenario_data (DataFrame): The input scenario data.
+            scenario_data (pd.DataFrame): The input scenario data.
 
         Returns:
             dict: A dictionary containing disturbance data for each scenario.
@@ -298,12 +318,13 @@ class GeoDataManager:
         scenario_disturbance_dict = self.get_baseline_disturbance_dict(
             scenario_disturbance_dict
         )
+
         return scenario_disturbance_dict
     
 
     def get_baseline_disturbance_dict(self, scenario_dist):
         """
-        Get the baseline disturbance dictionary. This is added to the scenario disturbance dictionary.
+        Get the baseline disturbance dictionary and add it to the scenario disturbance dictionary.
 
         Args:
             scenario_dist (dict): The scenario disturbance dictionary.
@@ -319,60 +340,99 @@ class GeoDataManager:
         scenario_dist[-1] = {}
         scenario_dist[-1]["Sitka"] = {}
         scenario_dist[-1]["SGB"] = {}
+        scenario_dist[-1]["CBmix"] = {}
         scenario_dist[-1]["Sitka"]["DISTID1"] = clearfell_conifer
+        scenario_dist[-1]["CBmix"]["DISTID1"] = clearfell_conifer
         scenario_dist[-1]["SGB"]["DISTID1"] = clearfell_broadleaf
         scenario_dist[-1]["Sitka"]["DISTID2"] = conifer_thinning
+        scenario_dist[-1]["CBmix"]["DISTID2"] = conifer_thinning
         scenario_dist[-1]["SGB"]["DISTID2"] = broadleaf_thinning
 
         return scenario_dist
-    
-    def get_legacy_disturbance_dict(self):
-        """
-        Get the legacy disturbance dictionary.
 
-        Returns:
-            dict: The legacy disturbance dictionary containing clearfell and thinning data.
-        """
-        conifer_clearfell = parser.get_runner_clearfell_baseline(self.config_data, "conifer")
-        broadleaf_clearfell = parser.get_runner_clearfell_baseline(self.config_data, "broadleaf")
-        conifer_thinning = parser.get_runner_thinning_baseline(self.config_data, "conifer")
-        broadleaf_thinning = parser.get_runner_thinning_baseline(self.config_data, "broadleaf")
-
-        legacy_dist = {}
-        legacy_dist["conifer"] = {}
-        legacy_dist["broadleaf"] = {}
-
-        legacy_dist["conifer"]["DISTID1"] = conifer_clearfell
-        legacy_dist["conifer"]["DISTID2"] = conifer_thinning
-
-        legacy_dist["broadleaf"]["DISTID1"] = broadleaf_clearfell
-        legacy_dist["broadleaf"]["DISTID2"] = broadleaf_thinning
-
-        return legacy_dist
-    
     
     def get_baseline_years(self, forestry_end_year):
         """
-        Get the baseline years.
+        Get the number of baseline years.
+
+        Args:
+            forestry_end_year (int): The end year for forestry.
 
         Returns:
             int: The number of years in the baseline.
         """
-        forest_baseline_year = self.get_forest_baseline_year()
-
+        forest_baseline_year = self.get_calibration_year()
         years = forestry_end_year - forest_baseline_year
-
         return years
     
     def get_baseline_years_range(self, forestry_end_year):
         """
-        Get the baseline years range.
+        Get the range of baseline years.
+
+        Args:
+            forestry_end_year (int): The end year for forestry.
 
         Returns:
             list: The range of years in the baseline.
         """
-        forest_baseline_year = self.get_forest_baseline_year()
-
+        forest_baseline_year = self.get_calibration_year()
         years_range = list(range(forest_baseline_year, forestry_end_year + 1))
-
         return years_range
+    
+    def get_forest_end_year(self):
+        """
+        Get the forest end year.
+
+        Returns:
+            int: The forest end year.
+        """
+        return self.forest_end_year
+    
+    def get_transition_dict_species(self):
+        """
+        Get the transition dictionaries for species.
+
+        Returns:
+            dict: The transition dictionaries for species.
+        """
+        return self.transition_dicts.get("Transition_Species", {})
+    
+
+    def get_transition_dict_species_to_yield(self):
+        """
+        Get the transition dictionaries for species to yield.
+
+        Returns:
+            dict: The transition dictionaries for species to yield.
+        """
+        return self.transition_dicts.get("Afforest_Species_to_Yield", {})
+    
+
+    def get_afforestation_data(self):
+        """
+        Get the afforestation data.
+
+        Returns:
+            pd.DataFrame: The afforestation data.
+        """
+        return self.afforestation_data
+    
+    def get_calibration_year(self):
+        """
+        Get the calibration year.
+
+        NOTE: Replaces get_forest_baseline_year().
+
+        Returns:
+            int: The calibration year.
+        """
+        return self.forest_baseline_year
+
+    def get_sort_dict(self):
+        """
+        Get the sort dictionary.
+
+        Returns:
+            dict: The sort dictionary.
+        """
+        return self.sort_dict

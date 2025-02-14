@@ -4,22 +4,18 @@ Geo Transition Module
 This module provides functionalities to generate transition rules structure based on given scenario.
 
 """
-
-from goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager import GeoDataManager
 import pandas as pd
 import itertools
-
 
 class Transition:
     """
     Represents a transition object that generates transition rules structure based on given scenario.
 
     Args:
-        calibration_year (int): The calibration year.
-        config_path (str): The path to the configuration file.
+        geo_data_manager (GeoDataManager): The geo data manager instance.
 
     Attributes:
-        data_manager_class (DataManager): The data manager class instance.
+        data_manager_class (GeoDataManager): The geo data manager instance.
         baseline_forest_classifiers (dict): The baseline forest classifiers.
         scenario_forest_classifiers (dict): The scenario forest classifiers.
 
@@ -27,8 +23,8 @@ class Transition:
         make_transition_rules_structure: Generates the transition rules structure based on the given scenario.
 
     """
-    def __init__(self, calibration_year, config_path):
-        self.data_manager_class = GeoDataManager(calibration_year=calibration_year, config_file=config_path)
+    def __init__(self, geo_data_manager):
+        self.data_manager_class = geo_data_manager
         self.baseline_forest_classifiers = self.data_manager_class.get_classifiers()[
             "Baseline"
         ]
