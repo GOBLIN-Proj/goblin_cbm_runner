@@ -3,7 +3,9 @@ import os
 from tempfile import TemporaryDirectory
 import pandas as pd
 from goblin_cbm_runner.default_runner.runner import Runner
+from goblin_cbm_runner.resource_manager.cbm_runner_data_manager import DataManager
 from goblin_cbm_runner.geo_cbm_runner.geo_runner import GeoRunner
+from goblin_cbm_runner.resource_manager.geo_cbm_runner_data_manager import GeoDataManager
 
 class TestGenerateData(unittest.TestCase):
 
@@ -27,8 +29,14 @@ class TestGenerateData(unittest.TestCase):
             # calibration and end point
             calibration_year = 2020
 
+                # instance of the DataManager class
+            data_manager = DataManager(calibration_year = calibration_year,
+                            config_file_path=config,
+                            scenario_data=sc_data,
+                            afforest_data=afforest_data)
+
             # instance of the Runner class
-            runner = Runner(config, calibration_year, afforest_data, sc_data)
+            runner = Runner(data_manager)
 
             # path to results
             expected_file_name = "c_aggregate.csv"
@@ -70,8 +78,15 @@ class TestGenerateData(unittest.TestCase):
             # calibration and end point
             calibration_year = 2020
 
+            data_manager = GeoDataManager(
+                calibration_year = calibration_year, 
+                config_file_path = config, 
+                scenario_data = sc_data, 
+                afforest_data = afforest_data
+            )
+
             # instance of the Runner class
-            runner = GeoRunner(config, calibration_year, afforest_data, sc_data)
+            runner = GeoRunner(data_manager)
 
             # path to results
             expected_file_name = "c_aggregate.csv"
