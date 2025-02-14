@@ -200,5 +200,12 @@ class SCDisturbances:
         afforestation_scenario_disturbances = self.gen_afforestation_scenario_disturbances(scenario)
         
         non_afforestation_scenario_disturbances = self.gen_non_afforestation_scenario_disturbances(scenario, afforestation_scenario_disturbances)
+            
+        # If both DataFrames are empty, raise an error
+        if afforestation_scenario_disturbances.empty and non_afforestation_scenario_disturbances.empty:
+            raise ValueError("Both afforestation and non-afforestation disturbances DataFrames are unexpectedly empty.")
         
-        return pd.concat([afforestation_scenario_disturbances, non_afforestation_scenario_disturbances])
+        # Concatenate only the non-empty DataFrames
+        dfs_to_concat = [df for df in [afforestation_scenario_disturbances, non_afforestation_scenario_disturbances] if not df.empty]
+        
+        return pd.concat(dfs_to_concat)
