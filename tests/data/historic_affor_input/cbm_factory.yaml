@@ -6,7 +6,7 @@ Dynamic_Afforestation:
     - SGB: 0.3
 
 Forest_management:
-  intensity: low
+  intensity: high
 
   
 Classifiers:
