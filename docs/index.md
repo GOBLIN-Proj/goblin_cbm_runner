@@ -6,8 +6,8 @@
 :hidden:
 
 INSTALLATION.md
+examples/index
 CONTRIBUTING.md
 autoapi/index
-example.ipynb
 ```
 

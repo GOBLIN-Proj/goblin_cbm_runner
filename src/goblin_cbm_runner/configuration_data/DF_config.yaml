@@ -1,0 +1,66 @@
+# DF_config.yaml - Dynamic Forest (NAI Continuation) Configuration
+# =================================================================
+# Purpose: Default parameters for NAI-based dynamic continuation
+# Used by: DynamicScenarioGenerator via DFDataManager
+#
+# These defaults are overridden by any values passed in the
+# dynamic_config dict at DynamicScenarioGenerator construction.
+
+# Dynamic continuation timeline
+# dynamic_years: Number of years to simulate beyond the standard
+# pipeline's end year (e.g., 30 years beyond 2070 = 2100)
+simulation:
+  dynamic_years: 30
+
+  # spinup_warmup_steps: growth-only (no-harvest) steps advanced before the first
+  # recorded dynamic timestep. Only used by the standard-sim (user-CSV) pipeline,
+  # where the AF backward-decomposition spinup over-inflates the Litter/Deadwood
+  # pools; a few forward steps let them settle so the series does not start with
+  # spurious negative flux. The FM/AF 2070 continuation ignores this (its handoff
+  # state is already forward-simulated). Standard-sim default is 3; set here to
+  # override for both pipelines.
+  # spinup_warmup_steps: 3
+
+# Harvest parameters
+# harvest_ratio: Target proportion of NAI to harvest each year.
+#   0.75 = harvest 75% of annual growth (sustainable)
+#   1.0  = harvest exactly what grows (break-even)
+#   >1.0 = overharvest (testing unsustainable scenarios)
+harvest:
+  harvest_ratio: 0.75
+
+  # How total harvest volume is split between disturbance types.
+  # Keys are disturbance type IDs, values are proportions (must sum to 1.0).
+  # DISTID1 = Clearfell, DISTID2 = Thinning
+  clearfell_thinning_split:
+    DISTID1: 0.8
+    DISTID2: 0.2
+
+# Scheduled (non-harvest) disturbances
+# List of fire, wind, or other events applied at specific years.
+# Each entry requires: year, disturbance_type, area
+# Optional filters: species_filter (list), age_min, age_max
+#
+# Example:
+#   scheduled_disturbances:
+#     - year: 2075
+#       disturbance_type: DISTID3
+#       area: 500
+#     - year: 2080
+#       disturbance_type: DISTID3
+#       area: 200
+#       species_filter: ["Spruce17-20-nothin", "Spruce21-24-nothin"]
+#       age_min: 10
+#       age_max: 50
+scheduled_disturbances: []
+
+# Classifier column name
+# libcbm names the first classifier column by its classifier name
+# (defined in classifiers.csv). Both FM and AF use "Species".
+species_column: "Species"
+
+# Notes:
+# - Dynamic continuation picks up from where the standard pipeline ends
+# - FM and AF are extended independently, then combined as baseline
+# - SC is layered on top of the extended baseline (unchanged)
+# - NAI history and sustainability metrics are archived for diagnostics

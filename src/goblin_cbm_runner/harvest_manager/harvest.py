@@ -3,7 +3,7 @@ Harvest Manager Module
 =======================
 This module provides functionalities to manage afforestation and forest disturbance events.
 """
-from goblin_cbm_runner.resource_manager.loader import Loader
+from goblin_cbm_runner.resource_manager import Loader
 import pandas as pd
 
 
@@ -153,14 +153,14 @@ class AfforestationTracker:
         for dist_type in self.disturbances:
 
             # Merge stands with precomputed `disturbance_timing_expanded`**
-            disturbance_cols = ["Classifier1", 
-                                "Classifier4", 
-                                "disturbance_id", 
-                                "sw_age_min", 
-                                "sw_age_max", 
-                                "hw_age_min", 
-                                "hw_age_max", 
-                                "min years since dist"
+            disturbance_cols = ["Classifier1",
+                                "Classifier4",
+                                "disturbance_id",
+                                "sw_age_min",
+                                "sw_age_max",
+                                "hw_age_min",
+                                "hw_age_max",
+                                "min_years_since_dist"
                                 ]
             
 
@@ -174,14 +174,14 @@ class AfforestationTracker:
             eligible_stands = merged_df[
                 ((merged_df["StandAge"] >= merged_df["sw_age_min"]) & (merged_df["StandAge"] <= merged_df["sw_age_max"])) &
                 (
-                    ((merged_df["min years since dist"] == -1) & (merged_df["StandAge"] >= merged_df["sw_age_max"]))  # ✅ Clearfell only if mature
-                    | (merged_df["LastDist"].isna())  
-                    | ((year - merged_df["LastDist"]) >= merged_df["min years since dist"])  
+                    ((merged_df["min_years_since_dist"] == -1) & (merged_df["StandAge"] >= merged_df["sw_age_max"]))  # Clearfell only if mature
+                    | (merged_df["LastDist"].isna())
+                    | ((year - merged_df["LastDist"]) >= merged_df["min_years_since_dist"])
                 )
             ].copy()
 
             if eligible_stands.empty:
-                print(f"No eligible stands found for {dist_type} in Year {year}")
+                # No eligible stands at this age - this is normal for young forests
                 continue
 
             # Step 3: Apply disturbances using vectorized operations**
@@ -219,7 +219,7 @@ class AfforestationTracker:
                 self.disturbance_df = pd.concat([self.disturbance_df, agg_disturbance_df], ignore_index=True)
 
             # Step 8: Drop merged disturbance columns to prevent `_x`, `_y` issues
-            self.stands_df.drop(columns=["disturbance_id", "sw_age_min", "sw_age_max", "hw_age_min", "hw_age_max", "min years since dist"], errors="ignore", inplace=True)
+            self.stands_df.drop(columns=["disturbance_id", "sw_age_min", "sw_age_max", "hw_age_min", "hw_age_max", "min_years_since_dist"], errors="ignore", inplace=True)
 
         # Step 9: Aggregate Similar Stands Instead of Removing Small Stands
         aggregation_columns = ["Year", "Classifier1", "Classifier2", "Classifier3", "Classifier4", "StandAge"]

@@ -5,9 +5,9 @@ This module is responsible for orchestrating the execution of Carbon Budget Mode
 including baseline and afforestation projects. 
 
 """
-from goblin_cbm_runner.resource_manager.paths import Paths
+from goblin_cbm_runner.resource_manager import Paths
 from goblin_cbm_runner.cbm.methods.cbm_methods import CBMSim
-from goblin_cbm_runner.resource_manager.cbm_pools import Pools
+from goblin_cbm_runner.resource_manager import Pools
 
 
 import pandas as pd

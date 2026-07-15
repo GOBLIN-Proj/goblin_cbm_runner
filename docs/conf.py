@@ -7,9 +7,9 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'goblin_cbm_runner'
-copyright = '2023, Colm Duffy'
+copyright = '2023-2026, Colm Duffy'
 author = 'Colm Duffy'
-release = '0.5.0'
+release = '0.6.0'
 
 
 # -- General configuration ---------------------------------------------------
@@ -25,7 +25,13 @@ extensions = [
 ]
 
 templates_path = ['_templates']
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+exclude_patterns = ['_build', 'html', 'Thumbs.db', '.DS_Store']
+
+# The example notebooks drive full CBM simulations that require the bundled
+# databases and take minutes to run. Render them as authored (do not execute at
+# build time) so the docs build is fast and deterministic. To regenerate live
+# outputs, run the matching scripts in ``tests/examples/`` and set this to "auto".
+nb_execution_mode = "off"
 
 
 # -- Options for HTML output -------------------------------------------------

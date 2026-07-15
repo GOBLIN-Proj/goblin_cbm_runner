@@ -1,0 +1,69 @@
+classifier_id,name,description
+1,_CLASSIFIER,Species
+1,Spruce13-16,IE_Spruce13-16
+1,Spruce17-20-nothin,IE_Spruce17-20-nothin
+1,Spruce17-20-thin,IE_Spruce17-20-thin
+1,Spruce21-24-nothin,IE_Spruce21-24-nothin
+1,Spruce21-24-thin,IE_Spruce21-24-thin
+1,Spruce25-32-nothin,IE_Spruce25-32-nothin
+1,Spruce25-32-thin,IE_Spruce25-32-thin
+1,Spruce4-12,IE_Spruce4-12
+1,Pine13-30,IE_Pine13-30
+1,Pine4-12,IE_Pine4-12
+1,SGB,IE_SGB
+1,SNFGB-mineral,IE_SNFGB-mineral
+1,SNFGB-peat,IE_SNFGB-peat
+1,Cbmix-Bl,IE_Cbmix-Bl
+1,Cbmix-Conifer,IE_Cbmix-Conifer
+1,Cmix,IE_Cmix
+1,FGB,IE_FGB
+1,OC,IE_OC
+1,NF_Spruce13-16,NF_Spruce13-16
+1,NF_Spruce17-20-nothin,NF_Spruce17-20-nothin
+1,NF_Spruce17-20-thin,NF_Spruce17-20-thin
+1,NF_Spruce21-24-nothin,NF_Spruce21-24-nothin
+1,NF_Spruce21-24-thin,NF_Spruce21-24-thin
+1,NF_Spruce25-32-nothin,NF_Spruce25-32-nothin
+1,NF_Spruce25-32-thin,NF_Spruce25-32-thin
+1,NF_Spruce4-12,NF_Spruce4-12
+1,NF_Pine13-30,NF_Pine13-30
+1,NF_Pine4-12,NF_Pine4-12
+1,NF_SGB,NF_SGB
+1,NF_SNFGB-mineral,NF_SNFGB-mineral
+1,NF_SNFGB-peat,NF_SNFGB-peat
+1,NF_Cbmix-Bl,NF_Cbmix-Bl
+1,NF_Cbmix-Conifer,NF_Cbmix-Conifer
+1,NF_Cmix,NF_Cmix
+1,NF_FGB,NF_FGB
+1,NF_OC,NF_OC
+1,NF_Spruce13-16-peat,NF_Spruce13-16-peat
+1,NF_Spruce17-20-nothin-peat,NF_Spruce17-20-nothin-peat
+1,NF_Spruce17-20-thin-peat,NF_Spruce17-20-thin-peat
+1,NF_Spruce21-24-nothin-peat,NF_Spruce21-24-nothin-peat
+1,NF_Spruce21-24-thin-peat,NF_Spruce21-24-thin-peat
+1,NF_Spruce25-32-nothin-peat,NF_Spruce25-32-nothin-peat
+1,NF_Spruce25-32-thin-peat,NF_Spruce25-32-thin-peat
+1,NF_Spruce4-12-peat,NF_Spruce4-12-peat
+1,NF_Pine13-30-peat,NF_Pine13-30-peat
+1,NF_Pine4-12-peat,NF_Pine4-12-peat
+1,NF_SGB-peat,NF_SGB-peat
+1,NF_Cbmix-Bl-peat,NF_Cbmix-Bl-peat
+1,NF_Cbmix-Conifer-peat,NF_Cbmix-Conifer-peat
+1,NF_Cmix-peat,NF_Cmix-peat
+1,NF_FGB-peat,NF_FGB-peat
+1,NF_OC-peat,NF_OC-peat
+2,_CLASSIFIER,Forest type
+2,A,Afforestation
+2,L,Legacy
+3,_CLASSIFIER,Soil classes
+3,mineral,Mineral
+3,peat,Peat
+4,_CLASSIFIER,Yield classes
+4,YC6,Yield class 6
+4,YC10,Yield class 10
+4,YC13_30,Yield class 13 to 30
+4,YC4_12,Yield class 4 to 12
+4,YC13_16,Yield class 13 to 16
+4,YC17_20,Yield class 17 to 20
+4,YC21_24,Yield class 21 to 24
+4,YC25_32,Yield class 25 to 32

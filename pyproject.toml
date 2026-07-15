@@ -1,10 +1,17 @@
 [tool.poetry]
 name = "goblin_cbm_runner"
-version = "0.5.0"
+version = "0.6.0"
 description = "An interface between the CBM CFS3, libcbm_py, model and the GOBLIN model."
 authors = ["Colm Duffy"]
 license = "MIT"
 readme = "README.md"
+# Ship the bundled databases and template/config data files in the wheel.
+# These are binary/data files under the package; list them explicitly so they
+# are included regardless of git tracking state.
+include = [
+    { path = "src/goblin_cbm_runner/database/cbm_runner_database_0.6.2.db", format = ["sdist", "wheel"] },
+    { path = "src/goblin_cbm_runner/database/ireland_cbm_defaults_v6.1.db", format = ["sdist", "wheel"] },
+]
 
 [tool.poetry.dependencies]
 python = "^3.9"

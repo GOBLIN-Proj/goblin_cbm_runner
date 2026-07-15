@@ -1,0 +1,27 @@
+classifier_id,name,description
+1,_CLASSIFIER,Species
+1,Spruce13-16,IE_Spruce13-16
+1,Spruce17-20-nothin,IE_Spruce17-20-nothin
+1,Spruce21-24-nothin,IE_Spruce21-24-nothin
+1,Spruce25-32-nothin,IE_Spruce25-32-nothin
+1,Spruce4-12,IE_Spruce4-12
+1,SGB,IE_SGB
+1,NF_Spruce13-16,NF_Spruce13-16
+1,NF_Spruce17-20-nothin,NF_Spruce17-20-nothin
+1,NF_Spruce21-24-nothin,NF_Spruce21-24-nothin
+1,NF_Spruce25-32-nothin,NF_Spruce25-32-nothin
+1,NF_Spruce4-12,NF_Spruce4-12
+1,NF_SGB,NF_SGB
+2,_CLASSIFIER,Forest type
+2,A,Afforestation
+2,L,Legacy
+3,_CLASSIFIER,Soil classes
+3,mineral,Mineral
+3,peat,Peat
+4,_CLASSIFIER,Yield classes
+4,YC6,Yield class 6
+4,YC13_16,Yield class 13-16
+4,YC17_20,Yield class 17-20
+4,YC21_24,Yield class 20-24
+4,YC25_32,Yield class 25-32
+4,YC4_12,Yield class 4-12
