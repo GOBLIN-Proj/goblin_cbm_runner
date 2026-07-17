@@ -23,6 +23,24 @@ libcbm  = "2.6.6"
 catchment_data_api = "^0.1.0"
 
 
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.29"
+# Docs toolchain. sphinx-autoapi <3 calls astroid's removed ``node.doc`` and so
+# breaks against astroid >=3; astroid <3 in turn cannot parse the PEP 695 syntax
+# used by our Python 3.12 dependencies. AutoAPI >=3 is the only combination that
+# works on 3.12, and it needs Sphinx >=6.2, which in turn needs myst-nb >=1.
+#
+# astroid is pinned <4 deliberately: astroid 4 made ``manager`` a required
+# argument to ``AstroidBuilder()``, which AutoAPI <3.8 calls with no arguments.
+# AutoAPI swallows the resulting TypeError as "Unable to read file" and emits an
+# empty API reference while still exiting 0. The ``python = "^3.9"`` floor below
+# caps AutoAPI at 3.5, so keep this pin until that floor is raised to >=3.10.
+astroid = ">=3.0,<4.0"
+sphinx-autoapi = ">=3.0"
+sphinx = ">=7.0,<9.0"
+myst-nb = ">=1.0"
+sphinx-rtd-theme = ">=2.0"
+
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"

@@ -1,16 +1,15 @@
-:py:mod:`goblin_cbm_runner.cbm.data_processing`
-===============================================
+goblin_cbm_runner.cbm.data_processing
+=====================================
 
 .. py:module:: goblin_cbm_runner.cbm.data_processing
 
 
-Subpackages
------------
-.. toctree::
-   :titlesonly:
-   :maxdepth: 3
+Submodules
+----------
 
-   default_processing/index.rst
-   geo_processing/index.rst
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/goblin_cbm_runner/cbm/data_processing/default_processing/index
 
 

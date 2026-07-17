@@ -1,21 +1,19 @@
-:py:mod:`goblin_cbm_runner.database`
-====================================
+goblin_cbm_runner.database
+==========================
 
 .. py:module:: goblin_cbm_runner.database
 
 
-Package Contents
-----------------
-
-
 Functions
-~~~~~~~~~
+---------
 
 .. autoapisummary::
 
    goblin_cbm_runner.database.get_local_dir
 
 
+Package Contents
+----------------
 
 .. py:function:: get_local_dir()
 

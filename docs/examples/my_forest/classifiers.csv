@@ -1,0 +1,9 @@
+classifier_id,name,description
+1,_CLASSIFIER,Species
+1,Spruce13-16,IE_Spruce13-16
+2,_CLASSIFIER,Land_type
+2,L,Existing/afforested land
+3,_CLASSIFIER,Soil
+3,mineral,Mineral soil
+4,_CLASSIFIER,YieldClass
+4,YC13_16,Yield class 13 to 16

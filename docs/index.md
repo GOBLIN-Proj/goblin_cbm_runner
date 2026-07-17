@@ -8,6 +8,6 @@
 INSTALLATION.md
 examples/index
 CONTRIBUTING.md
-autoapi/index
+autoapi/index.md
 ```
 

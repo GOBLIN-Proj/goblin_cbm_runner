@@ -1,5 +1,5 @@
-:py:mod:`goblin_cbm_runner.harvest_manager.harvest`
-===================================================
+goblin_cbm_runner.harvest_manager.harvest
+=========================================
 
 .. py:module:: goblin_cbm_runner.harvest_manager.harvest
 
@@ -11,20 +11,61 @@
 
 
 
-Module Contents
----------------
-
 Classes
-~~~~~~~
+-------
 
 .. autoapisummary::
 
    goblin_cbm_runner.harvest_manager.harvest.AfforestationTracker
 
 
-
+Module Contents
+---------------
 
 .. py:class:: AfforestationTracker(data_manager, disturdance_dict, forest_df, years)
+
+   .. py:attribute:: forest_df
+
+
+   .. py:attribute:: years
+
+
+   .. py:attribute:: scenario_forest_classifiers
+
+
+   .. py:attribute:: species_dict
+
+
+   .. py:attribute:: species_to_yield_dict
+
+
+   .. py:attribute:: data_manager_class
+
+
+   .. py:attribute:: yield_name_dict
+
+
+   .. py:attribute:: disturbance_dict
+
+
+   .. py:attribute:: loader_class
+
+
+   .. py:attribute:: disturbance_timing
+      :value: None
+
+
+
+   .. py:attribute:: disturbance_timing_expanded
+
+
+   .. py:attribute:: disturbance_df
+
+
+   .. py:attribute:: disturbances
+
+
+   .. py:attribute:: stands_df
 
 
    .. py:method:: initialize_stands()
@@ -35,12 +76,14 @@ Classes
       - DataFrame: Initialized stands dataframe.
 
 
+
    .. py:method:: extract_disturbance_types()
 
       Extracts unique disturbance types from the disturbance_dict.
 
       Returns:
       - List: Unique disturbance types.
+
 
 
    .. py:method:: expand_disturbance_timing()
@@ -51,12 +94,14 @@ Classes
       - DataFrame: Expanded disturbance timing dataframe.
 
 
+
    .. py:method:: age_stands(current_year)
 
       Ages all stands by one year.
 
       Parameters:
       - current_year: The current year of the simulation.
+
 
 
    .. py:method:: apply_disturbance(year)
@@ -67,12 +112,14 @@ Classes
       - year: The current year of the simulation.
 
 
+
    .. py:method:: run_simulation()
 
       Runs the simulation for all years and returns the disturbance dataframe.
 
       Returns:
       - DataFrame: Disturbance dataframe after running the simulation.
+
 
 
    .. py:method:: get_stands()
