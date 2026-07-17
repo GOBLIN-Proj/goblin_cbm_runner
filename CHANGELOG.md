@@ -130,6 +130,22 @@
 - **DISTID7 harvest accounting**: DISTID7 (deforestation) exempted from `land_class == 0`
   filter in `HarvestSummaryBuilder` so deforestation harvest is correctly captured in
   HarvestC and NAI formula.
+- **CI workflow** (`.github/workflows/main.yml`): the `Run tests` step ran
+  `python -m unittest output_test.py` from `tests/`, which could no longer pass — the file
+  was deleted in this release and `.gitignore` now excludes `tests/` from the repository
+  entirely, so the step's `cd ./tests/` failed on a clean checkout. Replaced with a smoke
+  test that imports the four public generators and asserts both bundled databases resolve
+  in the installed package. Bumped `actions/checkout` and `actions/setup-python` to v4, and
+  removed the unused Poetry bootstrap and the `PAT_TOKEN` git-auth step (the lock file
+  contains no git-sourced dependencies).
+
+#### Packaging
+- **Bundled databases pinned into the wheel**: `pyproject.toml` gained an explicit `include`
+  block for `cbm_runner_database_0.6.2.db` and `ireland_cbm_defaults_v6.1.db` so both ship
+  regardless of git tracking state. The CI smoke test asserts their presence after install.
+- **Docs dev-group added**: `sphinx`, `sphinx-autoapi`, `myst-nb`, `sphinx-rtd-theme`, and a
+  deliberate `astroid >=3.0,<4.0` pin (see the comment in `pyproject.toml`). Runtime
+  dependencies are unchanged from 0.5.0.
 
 ### Fixed
 - **DynamicStandardSim negative early-year flux**: the AF backward-decomposition spinup
@@ -151,6 +167,11 @@
   `resource_manager.cbm_runner_data_manager.DataManager` as a public entry point): replaced by
   the scenario generators (`NationalScenarioGenerator`, `DynamicScenarioGenerator`,
   `StandardSimGenerator`, `DynamicStandardSimGenerator`).
+- **Legacy unittest suite untracked**: `.gitignore` now excludes `tests/` wholesale, where
+  0.5.0 tracked the test modules and ignored only generated result artefacts under
+  `tests/data/`. The 0.5.0 suite targeted the removed `Runner` / geo entry points and no
+  longer applied. `tests/` remains on disk locally (`examples/`, `archive/`) but is not part
+  of the repository, so CI runs no simulation tests — see the CI note under *Changed*.
 
 ### Notes
 - **AIDB**: Irish CBM defaults now in `ireland_cbm_defaults_v6.1.db`. Both database filenames are
