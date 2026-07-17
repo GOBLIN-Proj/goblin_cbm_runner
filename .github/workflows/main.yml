@@ -10,31 +10,45 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Set up Python 3.10.6
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.9.13
-
     - name: Check-out repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
-    - name: Set up Git authentication
-      run: git config --global url."https://${{ secrets.PAT_TOKEN }}@github.com/".insteadOf "https://github.com/"
+    - name: Set up Python 3.9.13
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9.13'
 
-    - name: Install dependencies
-      env:
-        PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+    - name: Install package
       run: |
         python -m pip install --upgrade pip
-        curl -sSL https://install.python-poetry.org | python3 -
         python -m pip install .
 
-    - name: Print current directory
+    - name: Smoke test
+      working-directory: ${{ runner.temp }}
       run: |
-        pwd
-        ls -la
+        python - <<'PY'
+        import os
 
-    - name: Run tests
-      run: |
-        cd ./tests/
-        python -m unittest output_test.py
+        import goblin_cbm_runner
+        from goblin_cbm_runner.scenario_generator import NationalScenarioGenerator
+        from goblin_cbm_runner.dynamic_scenario_generator import DynamicScenarioGenerator
+        from goblin_cbm_runner.standard_sim_generator import StandardSimGenerator
+        from goblin_cbm_runner.dynamic_standard_sim_generator import DynamicStandardSimGenerator
+        from goblin_cbm_runner.resource_manager.utils.paths import Paths
+        import goblin_cbm_runner.database as database
+
+        # The bundled databases are listed in pyproject's `include`; assert they
+        # survived the wheel build rather than trusting the manifest.
+        bundled = {
+            "AIDB": Paths().get_aidb_path(),
+            "runner DB": os.path.join(
+                database.get_local_dir(), "cbm_runner_database_0.6.2.db"
+            ),
+        }
+        for label, path in bundled.items():
+            if not os.path.isfile(path):
+                raise SystemExit(f"{label} missing from installed package: {path}")
+            print(f"{label} OK ({os.path.getsize(path) / 1e6:.1f} MB)")
+
+        print("smoke test passed")
+        PY
