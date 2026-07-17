@@ -1,25 +1,23 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="../../../../../">
 <head>
-  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_cbm_runner.cbm.methods.cbm_methods &mdash; goblin_cbm_runner 0.5.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../../../../../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-      <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css?v=eafc0fe6" />
+  <title>goblin_cbm_runner.cbm.methods.cbm_methods &mdash; goblin_cbm_runner 0.6.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css?v=fd3f3429" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../../../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../../../../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../../_static/documentation_options.js?v=1dd76d02"></script>
-        <script src="../../../../../_static/doctools.js?v=888ff710"></script>
-        <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../../_static/documentation_options.js?v=8fa8b3e9"></script>
+      <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" />
@@ -48,27 +46,33 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../../../INSTALLATION.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../examples/index.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../../../index.html">API Reference</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="../../../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner</span></code></a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="../../../index.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l4 current"><a class="reference internal" href="../../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.cbm</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../cbm_validation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.cbm_validation</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../configuration_data/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.configuration_data</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../database/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.database</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../default_runner/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.default_runner</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../geo_cbm_runner/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.geo_cbm_runner</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../harvest_manager/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.harvest_manager</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../historic_affor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.historic_affor</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../resource_manager/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.resource_manager</span></code></a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../../index.html">goblin_cbm_runner</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../../../index.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../../archive/index.html">goblin_cbm_runner.archive</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../../index.html">goblin_cbm_runner.cbm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../cbm_validation/index.html">goblin_cbm_runner.cbm_validation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../configuration_data/index.html">goblin_cbm_runner.configuration_data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../database/index.html">goblin_cbm_runner.database</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../dynamic_scenario_generator/index.html">goblin_cbm_runner.dynamic_scenario_generator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../dynamic_standard_sim_generator/index.html">goblin_cbm_runner.dynamic_standard_sim_generator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../harvest_manager/index.html">goblin_cbm_runner.harvest_manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../harvest_summary/index.html">goblin_cbm_runner.harvest_summary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../nai/index.html">goblin_cbm_runner.nai</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../resource_manager/index.html">goblin_cbm_runner.resource_manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../runners/index.html">goblin_cbm_runner.runners</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../scenario_generator/index.html">goblin_cbm_runner.scenario_generator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../standard_sim_generator/index.html">goblin_cbm_runner.standard_sim_generator</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../index.html#functions">Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../index.html#package-contents">Package Contents</a></li>
 </ul>
 </li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../example.html">Example Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../example.html#plot-fluxes-for-baseline">Plot Fluxes for Baseline</a></li>
 </ul>
 
         </div>
@@ -86,10 +90,10 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../../../index.html">API Reference</a></li>
-          <li class="breadcrumb-item"><a href="../../../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner</span></code></a></li>
-          <li class="breadcrumb-item"><a href="../../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.cbm</span></code></a></li>
-          <li class="breadcrumb-item"><a href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.cbm.methods</span></code></a></li>
-      <li class="breadcrumb-item active"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.cbm.methods.cbm_methods</span></code></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">goblin_cbm_runner</a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">goblin_cbm_runner.cbm</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">goblin_cbm_runner.cbm.methods</a></li>
+      <li class="breadcrumb-item active">goblin_cbm_runner.cbm.methods.cbm_methods</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../../../../_sources/autoapi/goblin_cbm_runner/cbm/methods/cbm_methods/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -100,14 +104,30 @@
            <div itemprop="articleBody">
              
   <section id="module-goblin_cbm_runner.cbm.methods.cbm_methods">
-<span id="goblin-cbm-runner-cbm-methods-cbm-methods"></span><h1><a class="reference internal" href="#module-goblin_cbm_runner.cbm.methods.cbm_methods" title="goblin_cbm_runner.cbm.methods.cbm_methods"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_cbm_runner.cbm.methods.cbm_methods</span></code></a><a class="headerlink" href="#module-goblin_cbm_runner.cbm.methods.cbm_methods" title="Link to this heading"></a></h1>
-<section id="cbm-methods">
+<span id="goblin-cbm-runner-cbm-methods-cbm-methods"></span><h1>goblin_cbm_runner.cbm.methods.cbm_methods<a class="headerlink" href="#module-goblin_cbm_runner.cbm.methods.cbm_methods" title="Link to this heading"></a></h1>
 <p>This module contains methods for running the Carbon Budget Model (CBM) and generating carbon stocks and fluxes for different scenarios.</p>
-</section>
-<section id="module-contents">
-<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<p>v0.6.0 Active Methods:
+- AF: AF_simulate_stock, AF_simulate_flux, AF_comprehensive_simulation, cbm_aggregate_scenario_stock, cbm_comprehensive_simulation, cbm_basic_validation, run_cbm_standard_flux
+- FM: FM_simulate_stock, FM_comprehensive_simulation, cbm_FM_basic_validation
+- Shared: cbm_scenario_fluxes, spinup, step</p>
+<p>Comprehensive Methods:
+- AF_comprehensive_simulation: AF with manual spinup+step, validation tables, and state capture
+- cbm_comprehensive_simulation: AF simulation (black box) returning aggregated results + validation tables
+- FM_comprehensive_simulation: FM simulation returning aggregated results + validation tables</p>
+<p>State-Capturing Methods (for DynamicRunner continuation):
+- AF_simulate_stock: AF with manual spinup+step (stores _last_cbm_vars)
+- AF_comprehensive_simulation: AF with manual spinup+step + validation tables (stores _last_cbm_vars)
+- FM_simulate_stock: FM with manual spinup+step (stores _last_cbm_vars)
+- FM_comprehensive_simulation: FM with manual spinup+step + validation tables (stores _last_cbm_vars)</p>
+<p>These comprehensive methods run simulation once and capture all outputs, avoiding the need
+to run separate validation passes. Validation tables map to Kevin Black’s CBM-CFS3 tables:
+- pools → tblPoolIndicator
+- flux → tblFluxIndicators
+- state → tblDisturbanceIndicators
+- classifiers → tblUserDefdClasses</p>
+<p>Legacy methods are commented out at the bottom of this file.</p>
 <section id="classes">
-<h3>Classes<a class="headerlink" href="#classes" title="Link to this heading"></a></h3>
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim" title="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CBMSim</span></code></a></p></td>
@@ -115,91 +135,31 @@
 </tr>
 </tbody>
 </table>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_cbm_runner.cbm.methods.cbm_methods.</span></span><span class="sig-name descname"><span class="pre">CBMSim</span></span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim" title="Link to this definition"></a></dt>
 <dd><p>A class for running the Carbon Budget Model (CBM) and generating carbon stocks and fluxes for different scenarios.</p>
-<p>This class provides functionalities to run the CBM model and generate carbon stocks and fluxes for different scenarios.
-The CBM model is a widely used model for estimating carbon stocks and fluxes in forest ecosystems.
-The model uses input data and parameters to simulate the carbon dynamics in forest ecosystems over time.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_baseline_forest_stock">
-<span class="sig-name descname"><span class="pre">cbm_baseline_forest_stock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cbm_data_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">years</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year_range</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_baseline_forest_stock" title="Link to this definition"></a></dt>
-<dd><p>Runs a baseline forest simulation using the CBM model.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_aggregate_scenario_stock">
-<span class="sig-name descname"><span class="pre">cbm_aggregate_scenario_stock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cbm_data_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">years</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year_range</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.cbm_aggregate_scenario_stock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_aggregate_scenario_stock" title="Link to this definition"></a></dt>
-<dd><p>Generate carbon stocks for the CBM scenario data.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.libcbm_scenario_fluxes">
-<span class="sig-name descname"><span class="pre">libcbm_scenario_fluxes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cbm_data_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">years</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year_range</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.libcbm_scenario_fluxes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.libcbm_scenario_fluxes" title="Link to this definition"></a></dt>
-<dd><p>Generate carbon Fluxes using the Libcbm method for the CBM scenario data.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_scenario_fluxes">
-<span class="sig-name descname"><span class="pre">cbm_scenario_fluxes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">forest_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.cbm_scenario_fluxes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_scenario_fluxes" title="Link to this definition"></a></dt>
-<dd><p>Calculate the carbon fluxes for each scenario in the given forest data.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.spinup">
-<span class="sig-name descname"><span class="pre">spinup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">classifiers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inventory</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.spinup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.spinup" title="Link to this definition"></a></dt>
-<dd><p>Spin up the CBM model.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.step">
-<span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_step</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cbm_vars</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.step" title="Link to this definition"></a></dt>
-<dd><p>Step the CBM model forward one timestep.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.baseline_simulate_stock">
-<span class="sig-name descname"><span class="pre">baseline_simulate_stock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cbm_data_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">years</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year_range</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.baseline_simulate_stock" title="Link to this definition"></a></dt>
-<dd><p>Runs a baseline (managed) forest simulation using the CBM model.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.baseline_simulate_stock_raw_output">
-<span class="sig-name descname"><span class="pre">baseline_simulate_stock_raw_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cbm_data_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">years</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year_range</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.baseline_simulate_stock_raw_output" title="Link to this definition"></a></dt>
-<dd><p>Runs a baseline (managed) forest simulation using the CBM model.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_basic_validation">
-<span class="sig-name descname"><span class="pre">cbm_basic_validation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">years</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.cbm_basic_validation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_basic_validation" title="Link to this definition"></a></dt>
-<dd><p>Generate validation data for the CBM model for a set of specified inputs.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_disturbance_area_validation">
-<span class="sig-name descname"><span class="pre">cbm_disturbance_area_validation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">years</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.cbm_disturbance_area_validation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_disturbance_area_validation" title="Link to this definition"></a></dt>
-<dd><p>Generate validation data for area and disturbances from the CBM model for a set of specified inputs.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.scenario_cbm_disturbance_area_validation">
-<span class="sig-name descname"><span class="pre">scenario_cbm_disturbance_area_validation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">years</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.scenario_cbm_disturbance_area_validation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.scenario_cbm_disturbance_area_validation" title="Link to this definition"></a></dt>
-<dd><p>Generate validation data for area and disturbances for the CBM model for a set of specified inputs for scenarios.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_baseline_disturbance_area_validation">
-<span class="sig-name descname"><span class="pre">cbm_baseline_disturbance_area_validation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">years</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.cbm_baseline_disturbance_area_validation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_baseline_disturbance_area_validation" title="Link to this definition"></a></dt>
-<dd><p>Generate validation data for area and disturbances for the CBM model for a set of specified inputs for baseline.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.forest_raw_fluxes">
-<span class="sig-name descname"><span class="pre">forest_raw_fluxes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">forest_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.forest_raw_fluxes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.forest_raw_fluxes" title="Link to this definition"></a></dt>
-<dd><p>Generate raw fluxes for the given forest data.</p>
-</dd></dl>
-
+<dl>
+<dt>v0.6.0 Active Methods:</dt><dd><p>Lightweight (aggregated results only):
+- AF_simulate_stock: AF with manual spinup+step (captures state for DynamicRunner)
+- cbm_aggregate_scenario_stock: AF baseline stock simulation (black box, no state capture)
+- FM_simulate_stock: FM baseline with spinup (captures state for DynamicRunner)</p>
+<p>Comprehensive (aggregated + validation tables):
+- AF_comprehensive_simulation: AF with manual spinup+step + validation tables (captures state)
+- cbm_comprehensive_simulation: AF with all validation tables (black box, no state capture)
+- FM_comprehensive_simulation: FM with all validation tables (captures state)</p>
+<p>Utilities:
+- cbm_scenario_fluxes: Calculate fluxes from stock data
+- cbm_basic_validation: AF validation (legacy, use comprehensive instead)
+- cbm_FM_basic_validation: FM validation (legacy, use comprehensive instead)
+- run_cbm_standard_flux: AF standard flux
+- spinup: Spinup for existing forest
+- step: Step simulation forward</p>
+</dd>
+</dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.pools">
 <span class="sig-name descname"><span class="pre">pools</span></span><a class="headerlink" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.pools" title="Link to this definition"></a></dt>
@@ -242,78 +202,65 @@ The model uses input data and parameters to simulate the carbon dynamics in fore
 <dd><p>A list of soil organic matter pools.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.get_scenario_afforestation_rates">
-<span class="sig-name descname"><span class="pre">get_scenario_afforestation_rates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.get_scenario_afforestation_rates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.get_scenario_afforestation_rates" title="Link to this definition"></a></dt>
-<dd><p>Retrieves afforestation rates for a given scenario.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>scenario</strong> (<em>str</em>) – Scenario identifier.</p></li>
-<li><p><strong>path</strong> (<em>str</em>) – Base directory path.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Afforestation data including species, yield class, soil, and area.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>pd.DataFrame</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_FM_forest_stock">
-<span class="sig-name descname"><span class="pre">cbm_FM_forest_stock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cbm_data_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">years</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year_range</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.cbm_FM_forest_stock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_FM_forest_stock" title="Link to this definition"></a></dt>
-<dd><p>Runs a baseline forest simulation using the CBM model.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>DataFrame containing the calculated managed forest stocks.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>pandas.DataFrame</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
+<dl class="py attribute">
 <dt class="sig sig-object py" id="id0">
-<span class="sig-name descname"><span class="pre">cbm_aggregate_scenario_stock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cbm_data_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">years</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year_range</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.cbm_aggregate_scenario_stock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
-<dd><p>Generate carbon stocks for the CBM (Carbon Budget Model) scenario data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>sc</strong> (<em>str</em>) – The scenario name.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>DataFrame containing the calculated stocks.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>pandas.DataFrame</p>
-</dd>
-</dl>
-</dd></dl>
+<span class="sig-name descname"><span class="pre">pools</span></span><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
-<dl class="py method">
+<dl class="py attribute">
 <dt class="sig sig-object py" id="id1">
-<span class="sig-name descname"><span class="pre">libcbm_scenario_fluxes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cbm_data_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">years</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year_range</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.libcbm_scenario_fluxes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
-<dd><p>Generate carbon Fluxes using the Libcbm method for the CBM (Carbon Budget Model) scenario data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>sc</strong> (<em>str</em>) – The scenario name.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>DataFrame containing the calculated fluxes.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>pandas.DataFrame</p>
-</dd>
-</dl>
+<span class="sig-name descname"><span class="pre">Flux_class</span></span><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">AGB</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['SoftwoodMerch',</span> <span class="pre">'SoftwoodFoliage',</span> <span class="pre">'SoftwoodOther',</span> <span class="pre">'HardwoodMerch',</span> <span class="pre">'HardwoodFoliage',...</span></em><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">BGB</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['SoftwoodCoarseRoots',</span> <span class="pre">'SoftwoodFineRoots',</span> <span class="pre">'HardwoodCoarseRoots',</span> <span class="pre">'HardwoodFineRoots']</span></em><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">deadwood</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['BelowGroundFastSoil',</span> <span class="pre">'MediumSoil',</span> <span class="pre">'SoftwoodStemSnag',</span> <span class="pre">'SoftwoodBranchSnag',...</span></em><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">litter</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['AboveGroundVeryFastSoil',</span> <span class="pre">'AboveGroundFastSoil',</span> <span class="pre">'AboveGroundSlowSoil']</span></em><a class="headerlink" href="#id5" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id6">
+<span class="sig-name descname"><span class="pre">soil</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['BelowGroundVeryFastSoil',</span> <span class="pre">'BelowGroundSlowSoil']</span></em><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.get_final_cbm_vars">
+<span class="sig-name descname"><span class="pre">get_final_cbm_vars</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.get_final_cbm_vars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.get_final_cbm_vars" title="Link to this definition"></a></dt>
+<dd><p>Return the final CBMVariables from the last FM or AF simulation, or None.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id2">
-<span class="sig-name descname"><span class="pre">cbm_scenario_fluxes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">forest_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.cbm_scenario_fluxes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.get_last_sit">
+<span class="sig-name descname"><span class="pre">get_last_sit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.get_last_sit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.get_last_sit" title="Link to this definition"></a></dt>
+<dd><p>Return the last SIT used in the FM and AF step loop, or None.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_scenario_fluxes">
+<span class="sig-name descname"><span class="pre">cbm_scenario_fluxes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">forest_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.cbm_scenario_fluxes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_scenario_fluxes" title="Link to this definition"></a></dt>
 <dd><p>Calculate the carbon fluxes for each scenario in the given forest data.</p>
+<p>DECIDED 2026-06-17 — do not re-litigate without re-reading this note first:
+the calibration year (timestep 0) is NOT emitted as a row here. There is
+nothing before it to diff against, and no disturbance ever fires before
+timestep 1, so it would only ever be an all-zero placeholder. The flux
+series starts at calibration_year + 1 (timestep 1, the first real change).
+This matches Kevin Black’s own CFS3 reporting shape (he never reports a
+timestep-0 baseline either) — his first reported row should be matched
+against <em>our</em> first row directly, no shifting required.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>forest_data</strong> (<em>pd.DataFrame</em>) – DataFrame containing forest data.</p>
@@ -328,8 +275,8 @@ The model uses input data and parameters to simulate the carbon dynamics in fore
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id3">
-<span class="sig-name descname"><span class="pre">spinup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">libcbm.input.sit.sit.SIT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">classifiers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">libcbm.storage.dataframe.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inventory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">libcbm.storage.dataframe.DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">libcbm.model.cbm.cbm_variables.CBMVariables</span></span></span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.spinup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.spinup">
+<span class="sig-name descname"><span class="pre">spinup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">libcbm.input.sit.sit.SIT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">classifiers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">libcbm.storage.dataframe.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inventory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">libcbm.storage.dataframe.DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">libcbm.model.cbm.cbm_variables.CBMVariables</span></span></span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.spinup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.spinup" title="Link to this definition"></a></dt>
 <dd><p>Spin up the CBM model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -343,8 +290,8 @@ The model uses input data and parameters to simulate the carbon dynamics in fore
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id4">
-<span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">libcbm.input.sit.sit.SIT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cbm_vars</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">libcbm.model.cbm.cbm_variables.CBMVariables</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">libcbm.model.cbm.cbm_variables.CBMVariables</span></span></span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.step">
+<span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">libcbm.input.sit.sit.SIT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cbm_vars</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">libcbm.model.cbm.cbm_variables.CBMVariables</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">libcbm.model.cbm.cbm_variables.CBMVariables</span></span></span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.step" title="Link to this definition"></a></dt>
 <dd><p>Step the CBM model forward one timestep.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -358,21 +305,26 @@ The model uses input data and parameters to simulate the carbon dynamics in fore
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.FM_simulate_stock">
-<span class="sig-name descname"><span class="pre">FM_simulate_stock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cbm_data_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">years</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year_range</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.FM_simulate_stock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.FM_simulate_stock" title="Link to this definition"></a></dt>
-<dd><p>Runs a baseline (managed) forest simulation using the CBM model.</p>
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.AF_simulate_stock">
+<span class="sig-name descname"><span class="pre">AF_simulate_stock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SIT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">years</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year_range</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.AF_simulate_stock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.AF_simulate_stock" title="Link to this definition"></a></dt>
+<dd><p>Runs a baseline AF (Afforestation) simulation using the CBM model.</p>
+<p>Unlike FM_simulate_stock, AF uses a SINGLE SIT for both spinup and stepping.
+AF has no separate spinup config (no standing volume). The spinup still runs
+to establish initial soil pools from the afforestation_pre_type (bare land),
+but it uses the same SIT as the step loop.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cbm_data_class</strong> (<em>CBMData</em>) – The CBM data class object.</p></li>
+<li><p><strong>scenario</strong> (<em>int</em>) – The scenario identifier (typically -1 for AF baseline).</p></li>
+<li><p><strong>SIT</strong> – Callable that takes (path, db_path) and returns (sit, classifiers, inventory).</p></li>
 <li><p><strong>years</strong> (<em>int</em>) – The number of years to simulate.</p></li>
 <li><p><strong>year_range</strong> (<em>list</em>) – The range of years to simulate.</p></li>
-<li><p><strong>input_path</strong> (<em>str</em>) – The path to the input data.</p></li>
-<li><p><strong>database_path</strong> (<em>str</em>) – The path to the database.</p></li>
+<li><p><strong>input_path</strong> – Callable that returns the path to the input data.</p></li>
+<li><p><strong>database_path</strong> – Callable that returns the path to the database.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>DataFrame containing the calculated managed forest stocks.</p>
+<dd class="field-even"><p>DataFrame containing the calculated AF carbon stocks.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>pandas.DataFrame</p>
@@ -381,21 +333,32 @@ The model uses input data and parameters to simulate the carbon dynamics in fore
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.FM_simulate_stock_raw_output">
-<span class="sig-name descname"><span class="pre">FM_simulate_stock_raw_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cbm_data_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">years</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year_range</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.FM_simulate_stock_raw_output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.FM_simulate_stock_raw_output" title="Link to this definition"></a></dt>
-<dd><p>Runs a baseline (managed) forest simulation using the CBM model.</p>
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.AF_simulate_flux">
+<span class="sig-name descname"><span class="pre">AF_simulate_flux</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SIT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">years</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year_range</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.AF_simulate_flux"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.AF_simulate_flux" title="Link to this definition"></a></dt>
+<dd><p>Runs AF simulation and returns flux-table-based flux aggregated by FluxManager.</p>
+<p>Unlike AF_simulate_stock (pool-delta), this method uses the libcbm flux table
+— actual atmospheric exchanges recorded per stand per timestep — filtered to
+forest-classified stands (LandClassID 0 or 7). This matches Kevin Black’s
+forest-only decomposition reporting and is immune to pool-reclassification
+artefacts that occur when <a href="#id7"><span class="problematic" id="id8">NF_</span></a> stands transition to forest via DISTID4.</p>
+<p>Does NOT replace AF_simulate_stock. Use alongside it for validation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cbm_data_class</strong> (<em>CBMData</em>) – The CBM data class object.</p></li>
+<li><p><strong>scenario</strong> (<em>int</em>) – The scenario identifier (typically -1 for AF baseline).</p></li>
+<li><p><strong>SIT</strong> – Callable that takes (path, db_path) and returns (sit, classifiers, inventory).</p></li>
 <li><p><strong>years</strong> (<em>int</em>) – The number of years to simulate.</p></li>
-<li><p><strong>year_range</strong> (<em>list</em>) – The range of years to simulate.</p></li>
-<li><p><strong>input_path</strong> (<em>str</em>) – The path to the input data.</p></li>
-<li><p><strong>database_path</strong> (<em>str</em>) – The path to the database.</p></li>
+<li><p><strong>year_range</strong> (<em>list</em>) – The range of years (e.g. 1990–2070).</p></li>
+<li><p><strong>input_path</strong> – Callable that returns the path to the input data.</p></li>
+<li><p><strong>database_path</strong> – Callable that returns the path to the database.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>DataFrame containing the calculated managed forest stocks.</p>
+<dd class="field-even"><p><dl class="simple">
+<dt>Flux DataFrame with columns TimeStep, DeltaBio, DeltaDOM,</dt><dd><p>Delta_Ecos, Harvest, Year, Scenario — filtered to LandClassID 0/7.</p>
+</dd>
+</dl>
+</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>pandas.DataFrame</p>
@@ -404,15 +367,321 @@ The model uses input data and parameters to simulate the carbon dynamics in fore
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id5">
-<span class="sig-name descname"><span class="pre">cbm_basic_validation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">years</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.cbm_basic_validation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id5" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.AF_raw_cbm_flux">
+<span class="sig-name descname"><span class="pre">AF_raw_cbm_flux</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SIT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">years</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year_range</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">by_species</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.AF_raw_cbm_flux"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.AF_raw_cbm_flux" title="Link to this definition"></a></dt>
+<dd><p>Run AF simulation and return raw CBM engine flux columns per year.</p>
+<p>Unlike AF_simulate_stock (pool-delta / stock-delta method), this uses
+cbm_output.flux.to_pandas() directly — the CBM engine’s own per-stand,
+per-timestep atmospheric exchange records. Does NOT use FluxManager.</p>
+<p>Returns two rows per calendar year by default: one for all stands (stands=”all”)
+and one for forest-only stands (stands=”forest_only”, i.e. Species not starting
+with “<a href="#id9"><span class="problematic" id="id10">NF_</span></a>”). Pass by_species=True to also get per-species rows (stands=species name).</p>
+<dl>
+<dt>Flux columns:</dt><dd><p>Year, Scenario, stands,
+AGB               — DeltaBiomass_AG (net AG biomass change)
+BGB               — DeltaBiomass_BG (net BG biomass change)
+Fine_root_litter  — TurnoverFineLitterInput: TOTAL fine root litter (pre-split),</p>
+<blockquote>
+<div><p>= fine_root_biomass × 0.641 × temp_adj. libcbm internally routes
+(1 − fine_ag_split) = 0.5 of this to BGVF and 0.5 to AGVF.</p>
+</div></blockquote>
+<p>Coarse_root_litter— TurnoverCoarseLitterInput → BelowGroundFastSoil
+AG_turnover       — TurnoverMerch+Fol+OthLitterInput (AG → DOM)
+BGSlow_decay      — DecaySlowBGToAir (positive, magnitude of BGSlow → atmosphere)
+BGVF_decay        — DecayVFastBGToAir (positive, magnitude of BGVF → atmosphere)
+BGFast_decay      — DecayFastBGToAir
+AGSlow_decay      — DecaySlowAGToAir
+Snag_decay        — sum of 4 StemSnag/BranchSnag decay columns
+Harvest           — DisturbanceSoft+Hard+DOMProduction
+BioAtm            — DisturbanceBioCO2+CH4+CO
+DOMAtm            — DisturbanceDOMCO2+CH4+CO
+Soil_BGVF         — Fine_root_litter × 0.5 − BGVF_decay  (net BGVF stock change;</p>
+<blockquote>
+<div><p>×0.5 = fraction routed to BGVF by fine_ag_split=0.5 in AIDB)</p>
+</div></blockquote>
+<dl class="simple">
+<dt>Soil_BGSlow       — BGSlow_stock[t] − BGSlow_stock[t−1]  (pool-delta; includes slow</dt><dd><p>mixing from AGSlow → BGSlow at 0.006/yr which has no flux column)</p>
+</dd>
+</dl>
+<p>Soil              — Soil_BGVF + Soil_BGSlow  (matches run_flux_scenarios pool-delta)
+Total_Eco         — biomass net + BG litter + AG turnover − all decay − harvest − atm losses</p>
+</dd>
+<dt>Pool stock columns (from pools table, same year as flux):</dt><dd><p>FineRoot_stock    — SoftwoodFineRoots + HardwoodFineRoots (tC, standing fine root biomass)
+CoarseRoot_stock  — SoftwoodCoarseRoots + HardwoodCoarseRoots
+BGVF_stock        — BelowGroundVeryFastSoil (tC)
+BGSlow_stock      — BelowGroundSlowSoil (tC)</p>
+</dd>
+</dl>
+<p>NOTES:
+- TurnoverFineLitterInput is TOTAL fine root litter production (pre-split). libcbm</p>
+<blockquote>
+<div><p>applies fine_ag_split=0.5 internally: 50% → AGVF (litter layer), 50% → BGVF (soil).
+Soil_BGVF multiplies Fine_root_litter by 0.5 to use only the BGVF portion.
+Fine root biomass = Fine_root_litter / 0.641 — or read FineRoot_stock directly.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>Slow mixing (AboveGroundSlowSoil → BelowGroundSlowSoil at 0.006/yr) is an internal
+DOM transfer with no named flux column. Soil_BGSlow uses pool-delta (BGSlow_stock[t]
+− BGSlow_stock[t−1]) to capture both BGSlow decay and slow mixing in one step. This
+makes Soil consistent with run_flux_scenarios (pool-delta method).</p></li>
+<li><p>Decay columns (BGSlow_decay, BGVF_decay, etc.) are stored as POSITIVE values (magnitude
+of outflow to atmosphere). Soil_BGVF = Fine_root_litter − BGVF_decay (both positive).</p></li>
+<li><p><a href="#id11"><span class="problematic" id="id12">NF_</span></a> stands contribute zero Fine_root_litter and zero BGVF flux (confirmed: no trees,
+no root litter production). Use stands=”forest_only” or by_species=True to see this.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scenario</strong> (<em>int</em>) – Scenario identifier (typically -1 for AF baseline).</p></li>
+<li><p><strong>SIT</strong> – Callable returning (sit, classifiers, inventory).</p></li>
+<li><p><strong>years</strong> (<em>int</em>) – Number of years to simulate.</p></li>
+<li><p><strong>year_range</strong> (<em>list</em>) – Calendar years corresponding to timesteps 1..years.</p></li>
+<li><p><strong>input_path</strong> – Callable returning path to SIT CSV directory.</p></li>
+<li><p><strong>database_path</strong> – Callable returning path to AIDB.</p></li>
+<li><p><strong>by_species</strong> (<em>bool</em>) – If True, append per-species rows (stands=species name) for
+forest-only stands. Useful for cross-checking Kevin’s per-species data.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Rows per year. Default: 2 rows/year (all + forest_only).</dt><dd><p>With by_species=True: additional rows per (year, species).</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.AF_annual_raw_flux">
+<span class="sig-name descname"><span class="pre">AF_annual_raw_flux</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SIT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">years</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year_range</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_nf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.AF_annual_raw_flux"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.AF_annual_raw_flux" title="Link to this definition"></a></dt>
+<dd><p>Run AF simulation and return raw CBM engine flux columns per year.</p>
+<p>Unlike AF_raw_cbm_flux, which renames columns and computes derived Soil
+and Total_Eco metrics, this method returns the CBM engine’s own column
+names summed per timestep with no post-processing. Use it to inspect
+exactly what libcbm is reporting, or to verify that post-processing
+in AF_raw_cbm_flux is correct.</p>
+<dl>
+<dt>Output columns (all values in tC/yr):</dt><dd><p>Year, Scenario, stands         — row identifiers
+stand_count                    — unique stands aggregated in this row
+DeltaBiomass_AG                — net aboveground biomass change
+DeltaBiomass_BG                — net belowground biomass change
+TurnoverFineLitterInput        — TOTAL fine root litter entering soil pools</p>
+<blockquote>
+<div><p>(pre fine_ag_split). libcbm routes 50% to
+BelowGroundVeryFastSoil (BGVF) and 50% to
+AboveGroundVeryFastSoil (AGVF) internally,
+so only half of this value enters BGVF.
+Derivation: fine_root_biomass × 0.641 × temp_adj.</p>
+</div></blockquote>
+<p>TurnoverCoarseLitterInput      — coarse root litter → BelowGroundFastSoil
+TurnoverMerchLitterInput       — merchantable biomass turnover → StemSnag (natural mortality)
+TurnoverFolLitterInput         — foliage turnover → AboveGroundVeryFastSoil
+TurnoverOthLitterInput         — other biomass turnover → BranchSnag/AGFast
+DisturbanceMerchLitterInput    — merchantable residue entering DOM from a harvest event.</p>
+<blockquote>
+<div><p>Same source pools as TurnoverMerchLitterInput
+(SoftwoodMerch + HardwoodMerch), but sink pools are
+disturbance-matrix-dependent: for matrix 16 (clearfell)
+the residue fraction routes to MediumSoil; the harvested
+fraction is captured in DisturbanceSoftProduction.</p>
+</div></blockquote>
+<p>DisturbanceFolLitterInput      — foliage residue entering litter pools from a harvest event
+DisturbanceOthLitterInput      — other wood residue entering litter/DW from a harvest event</p>
+<blockquote>
+<div><p>(sink pools differ from TurnoverOthLitterInput; proportions
+are disturbance-matrix-dependent)</p>
+</div></blockquote>
+<p>DisturbanceCoarseLitterInput   — coarse root residue entering soil from a harvest event
+DisturbanceFineLitterInput     — fine root residue entering soil from a harvest event
+NOTE: CBM-CFS3 records a single combined “MerchLitterInput” column covering carbon from</p>
+<blockquote>
+<div><p>Merch biomass entering DOM pools from all processes. libcbm splits the same flows
+into TurnoverMerchLitterInput (natural mortality → StemSnags always) and
+DisturbanceMerchLitterInput (harvest event → matrix-defined sink pools). The
+flux_indicator_sink table in the AIDB lists all possible sink pools across all
+disturbance matrices; actual routing in any given simulation is determined by
+which disturbance matrix is applied to the stand.</p>
+</div></blockquote>
+<p>DecayVFastBGToAir              — BelowGroundVeryFastSoil decay to atmosphere (positive)
+DecayFastBGToAir               — BelowGroundFastSoil decay to atmosphere (positive)
+DecaySlowBGToAir               — BelowGroundSlowSoil decay to atmosphere (positive).</p>
+<blockquote>
+<div><p>Does NOT include the AboveGroundSlow → BGSlow slow-
+mixing transfer (0.006/yr), which has no flux column
+in libcbm. Use pool-delta for net BGSlow change.</p>
+</div></blockquote>
+<p>DecayVFastAGToAir              — AboveGroundVeryFastSoil (litter layer) decay to atm
+DecayFastAGToAir               — AboveGroundFastSoil decay to atmosphere
+DecaySlowAGToAir               — AboveGroundSlowSoil decay to atmosphere
+DecayMediumToAir               — Medium pool decay to atmosphere
+DecaySWStemSnagToAir           — softwood stem snag decay to atmosphere
+DecaySWBranchSnagToAir         — softwood branch snag decay to atmosphere
+DecayHWStemSnagToAir           — hardwood stem snag decay to atmosphere
+DecayHWBranchSnagToAir         — hardwood branch snag decay to atmosphere
+DisturbanceSoftProduction      — softwood merchantable carbon removed by harvest
+DisturbanceHardProduction      — hardwood merchantable carbon removed by harvest
+DisturbanceDOMProduction       — DOM/snag carbon removed (e.g. by DISTID7)
+DisturbanceBioCO2Emission      — CO2 from biomass disturbed/combusted
+DisturbanceBioCH4Emission      — CH4 from biomass disturbed/combusted
+DisturbanceBioCOEmission       — CO from biomass disturbed/combusted
+DisturbanceDOMCO2Emission      — CO2 from DOM disturbed/combusted
+DisturbanceDOMCH4Emission      — CH4 from DOM disturbed/combusted
+DisturbanceDOMCOEmission       — CO from DOM disturbed/combusted</p>
+</dd>
+</dl>
+<p>All decay columns are POSITIVE (magnitude of outflow to atmosphere).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scenario</strong> (<em>int</em>) – Scenario identifier (typically -1 for AF baseline).</p></li>
+<li><p><strong>SIT</strong> – Callable returning (sit, classifiers, inventory).</p></li>
+<li><p><strong>years</strong> (<em>int</em>) – Number of years to simulate.</p></li>
+<li><p><strong>year_range</strong> (<em>list</em>) – Calendar years corresponding to timesteps 1..years.</p></li>
+<li><p><strong>input_path</strong> – Callable returning path to SIT CSV directory.</p></li>
+<li><p><strong>database_path</strong> – Callable returning path to AIDB.</p></li>
+<li><p><strong>filter_nf</strong> (<em>bool</em><em> or </em><em>None</em>) – None  — return both “all” and “forest_only” rows per year (default)
+True  — forest_only only (Species not starting with “<a href="#id13"><span class="problematic" id="id14">NF_</span></a>”)
+False — all-stands only (<a href="#id15"><span class="problematic" id="id16">NF_</span></a> stands included)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Rows per year.</dt><dd><p>filter_nf=None  → 2 rows/year (stands=”all” and “forest_only”)
+filter_nf=True  → 1 row/year (stands=”forest_only”)
+filter_nf=False → 1 row/year (stands=”all”)</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.AF_comprehensive_simulation">
+<span class="sig-name descname"><span class="pre">AF_comprehensive_simulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SIT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">years</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year_range</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.AF_comprehensive_simulation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.AF_comprehensive_simulation" title="Link to this definition"></a></dt>
+<dd><p>Run AF simulation with manual spinup+step and capture all outputs in a single pass.</p>
+<p>Like AF_simulate_stock, AF uses a SINGLE SIT for both spinup and stepping.
+Like FM_comprehensive_simulation, this captures validation tables alongside
+aggregated results. Also stores _last_cbm_vars and _last_sit for
+DynamicRunner continuation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scenario</strong> (<em>int</em>) – The scenario identifier (typically -1 for AF baseline).</p></li>
+<li><p><strong>SIT</strong> – Callable that takes (path, db_path) and returns (sit, classifiers, inventory).</p></li>
+<li><p><strong>years</strong> (<em>int</em>) – The number of years to simulate.</p></li>
+<li><p><strong>year_range</strong> (<em>list</em>) – The range of years to simulate.</p></li>
+<li><p><strong>input_path</strong> – Callable that returns the path to the input data.</p></li>
+<li><p><strong>database_path</strong> – Callable that returns the path to the database.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl>
+<dt>{</dt><dd><p>‘aggregated’: DataFrame with aggregated carbon stocks (same as AF_simulate_stock),
+‘validation’: {</p>
+<blockquote>
+<div><p>’pools’: DataFrame,      # tblPoolIndicator equivalent
+‘flux’: DataFrame,       # tblFluxIndicators equivalent
+‘state’: DataFrame,      # tblDisturbanceIndicators equivalent
+‘area’: DataFrame,       # Area tracking
+‘parameters’: DataFrame, # Disturbance parameters
+‘classifiers’: DataFrame, # tblUserDefdClasses equivalent</p>
+</div></blockquote>
+<p>}</p>
+</dd>
+</dl>
+<p>}</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_aggregate_scenario_stock">
+<span class="sig-name descname"><span class="pre">cbm_aggregate_scenario_stock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SIT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">years</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year_range</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.cbm_aggregate_scenario_stock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_aggregate_scenario_stock" title="Link to this definition"></a></dt>
+<dd><p>Generate carbon stocks for the CBM (Carbon Budget Model) scenario data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sc</strong> (<em>str</em>) – The scenario name.</p></li>
+<li><p><strong>SIT</strong> – Callable that takes (path, db_path) and returns (sit, classifiers, inventory).</p></li>
+<li><p><strong>years</strong> (<em>int</em>) – Number of years to simulate.</p></li>
+<li><p><strong>year_range</strong> – Range of years for output.</p></li>
+<li><p><strong>input_path</strong> – Callable that returns the input path.</p></li>
+<li><p><strong>database_path</strong> – Callable that returns the database path.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame containing the calculated stocks.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_comprehensive_simulation">
+<span class="sig-name descname"><span class="pre">cbm_comprehensive_simulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SIT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">years</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year_range</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.cbm_comprehensive_simulation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_comprehensive_simulation" title="Link to this definition"></a></dt>
+<dd><p>Run simulation and capture all outputs in a single pass.</p>
+<p>This method combines the functionality of cbm_aggregate_scenario_stock (for results)
+and cbm_basic_validation (for detailed tables) into a single simulation run.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sc</strong> (<em>int</em>) – The scenario number (-1 for AF baseline, 0+ for scenarios).</p></li>
+<li><p><strong>SIT</strong> – Callable that takes (path, db_path) and returns (sit, classifiers, inventory).</p></li>
+<li><p><strong>years</strong> (<em>int</em>) – Number of years to simulate.</p></li>
+<li><p><strong>year_range</strong> – Range of years for output.</p></li>
+<li><p><strong>input_path</strong> – Callable that returns the input path.</p></li>
+<li><p><strong>database_path</strong> – Callable that returns the database path.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl>
+<dt>{</dt><dd><p>‘aggregated’: DataFrame with aggregated carbon stocks (same as cbm_aggregate_scenario_stock),
+‘validation’: {</p>
+<blockquote>
+<div><p>’pools’: DataFrame,      # tblPoolIndicator equivalent
+‘flux’: DataFrame,       # tblFluxIndicators equivalent
+‘state’: DataFrame,      # tblDisturbanceIndicators equivalent
+‘area’: DataFrame,       # Area tracking
+‘parameters’: DataFrame, # Disturbance parameters
+‘classifiers’: DataFrame, # tblUserDefdClasses equivalent</p>
+</div></blockquote>
+<p>}</p>
+</dd>
+</dl>
+<p>}</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_basic_validation">
+<span class="sig-name descname"><span class="pre">cbm_basic_validation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">years</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SIT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.cbm_basic_validation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_basic_validation" title="Link to this definition"></a></dt>
 <dd><p>Generate validation data for the CBM model for a set of specified inputs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>years</strong> (<em>int</em>) – The number of years to simulate.</p></li>
-<li><p><strong>input_path</strong> (<em>str</em>) – The path to the SIT input data.</p></li>
-<li><p><strong>database_path</strong> (<em>str</em>) – The path to the database.</p></li>
+<li><p><strong>SIT</strong> – Callable that takes (path, db_path) and returns (sit, classifiers, inventory).</p></li>
+<li><p><strong>input_path</strong> – Callable that returns the path to the SIT input data.</p></li>
+<li><p><strong>database_path</strong> – Callable that returns the path to the database.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -425,19 +694,20 @@ The model uses input data and parameters to simulate the carbon dynamics in fore
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id6">
-<span class="sig-name descname"><span class="pre">cbm_disturbance_area_validation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">years</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.cbm_disturbance_area_validation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
-<dd><p>Generate validation data for area and disturbances from the CBM model for a set of specified inputs.</p>
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.run_cbm_standard_flux">
+<span class="sig-name descname"><span class="pre">run_cbm_standard_flux</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">years</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SIT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.run_cbm_standard_flux"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.run_cbm_standard_flux" title="Link to this definition"></a></dt>
+<dd><p>Runs the CBM standard flux.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>years</strong> (<em>int</em>) – The number of years to simulate.</p></li>
-<li><p><strong>input_path</strong> (<em>str</em>) – The path to the SIT input data.</p></li>
-<li><p><strong>database_path</strong> (<em>str</em>) – The path to the database.</p></li>
+<li><p><strong>SIT</strong> – Callable that takes (path, db_path) and returns (sit, classifiers, inventory).</p></li>
+<li><p><strong>input_path</strong> – Callable that returns the path to the input data.</p></li>
+<li><p><strong>database_path</strong> – Callable that returns the path to the database.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A dictionary containing the generated validation data.</p>
+<dd class="field-even"><p>A dictionary containing flux results.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dict</p>
@@ -446,39 +716,19 @@ The model uses input data and parameters to simulate the carbon dynamics in fore
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id7">
-<span class="sig-name descname"><span class="pre">scenario_cbm_disturbance_area_validation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">years</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.scenario_cbm_disturbance_area_validation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id7" title="Link to this definition"></a></dt>
-<dd><p>Generate validation data for area and disturbances for the CBM model for a set of specified inputs
-scenarios.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>years</strong> (<em>int</em>) – The number of years to simulate.</p></li>
-<li><p><strong>input_path</strong> (<em>str</em>) – The path to the SIT input data.</p></li>
-<li><p><strong>database_path</strong> (<em>str</em>) – The path to the database.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A dictionary containing the generated validation data.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id8">
-<span class="sig-name descname"><span class="pre">cbm_baseline_disturbance_area_validation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">years</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.cbm_baseline_disturbance_area_validation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id8" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.FM_simulate_stock">
+<span class="sig-name descname"><span class="pre">FM_simulate_stock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SIT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spinup_SIT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">years</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year_range</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.FM_simulate_stock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.FM_simulate_stock" title="Link to this definition"></a></dt>
 <dd><p>Runs a baseline (managed) forest simulation using the CBM model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cbm_data_class</strong> (<em>CBMData</em>) – The CBM data class object.</p></li>
+<li><p><strong>scenario</strong> (<em>int</em>) – The scenario identifier (typically -1 for FM baseline).</p></li>
+<li><p><strong>SIT</strong> – Callable that takes (path, db_path) and returns (sit, classifiers, inventory).</p></li>
+<li><p><strong>spinup_SIT</strong> – Callable for spinup that takes (path, db_path) and returns (sit, classifiers, inventory).</p></li>
 <li><p><strong>years</strong> (<em>int</em>) – The number of years to simulate.</p></li>
 <li><p><strong>year_range</strong> (<em>list</em>) – The range of years to simulate.</p></li>
-<li><p><strong>input_path</strong> (<em>str</em>) – The path to the input data.</p></li>
-<li><p><strong>database_path</strong> (<em>str</em>) – The path to the database.</p></li>
+<li><p><strong>input_path</strong> – Callable that returns the path to the input data.</p></li>
+<li><p><strong>database_path</strong> – Callable that returns the path to the database.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -491,67 +741,62 @@ scenarios.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id9">
-<span class="sig-name descname"><span class="pre">forest_raw_fluxes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">forest_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.forest_raw_fluxes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id9" title="Link to this definition"></a></dt>
-<dd><p>Calculate the carbon fluxes in the given forest data. The categories are not aggregated.</p>
+<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.FM_comprehensive_simulation">
+<span class="sig-name descname"><span class="pre">FM_comprehensive_simulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SIT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spinup_SIT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">years</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year_range</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.FM_comprehensive_simulation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.FM_comprehensive_simulation" title="Link to this definition"></a></dt>
+<dd><p>Run FM simulation and capture all outputs in a single pass.</p>
+<p>This method combines the functionality of FM_simulate_stock (for results)
+and cbm_FM_basic_validation (for detailed tables) into a single simulation run.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>forest_data</strong> (<em>pd.DataFrame</em>) – DataFrame containing forest data.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scenario</strong> (<em>int</em>) – The scenario identifier (typically -1 for FM baseline).</p></li>
+<li><p><strong>SIT</strong> – Callable that takes (path, db_path) and returns (sit, classifiers, inventory).</p></li>
+<li><p><strong>spinup_SIT</strong> – Callable for spinup that takes (path, db_path) and returns (sit, classifiers, inventory).</p></li>
+<li><p><strong>years</strong> (<em>int</em>) – The number of years to simulate.</p></li>
+<li><p><strong>year_range</strong> (<em>list</em>) – The range of years to simulate.</p></li>
+<li><p><strong>input_path</strong> – Callable that returns the path to the input data.</p></li>
+<li><p><strong>database_path</strong> – Callable that returns the path to the database.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>DataFrame containing the calculated fluxes.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>pd.DataFrame</p>
+<dd class="field-even"><p><dl>
+<dt>{</dt><dd><p>‘aggregated’: DataFrame with aggregated carbon stocks (same as FM_simulate_stock),
+‘validation’: {</p>
+<blockquote>
+<div><p>’pools’: DataFrame,      # tblPoolIndicator equivalent
+‘flux’: DataFrame,       # tblFluxIndicators equivalent
+‘state’: DataFrame,      # tblDisturbanceIndicators equivalent
+‘area’: DataFrame,       # Area tracking
+‘parameters’: DataFrame, # Disturbance parameters
+‘classifiers’: DataFrame, # tblUserDefdClasses equivalent</p>
+</div></blockquote>
+<p>}</p>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_FM_summary_fluxes">
-<span class="sig-name descname"><span class="pre">cbm_FM_summary_fluxes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">forest_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.cbm_FM_summary_fluxes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_FM_summary_fluxes" title="Link to this definition"></a></dt>
-<dd><p>Calculate the carbon fluxes for baseline managed forest in the given forest data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>forest_data</strong> (<em>pd.DataFrame</em>) – DataFrame containing forest data.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>DataFrame containing the calculated fluxes.</p>
+<p>}</p>
+</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>pd.DataFrame</p>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_FM_basic_validation">
-<span class="sig-name descname"><span class="pre">cbm_FM_basic_validation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">years</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.cbm_FM_basic_validation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_FM_basic_validation" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">cbm_FM_basic_validation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">years</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SIT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.cbm_FM_basic_validation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim.cbm_FM_basic_validation" title="Link to this definition"></a></dt>
 <dd><p>Runs the CBM Managed Forest validation for the specified years.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A dictionary containing the validation dataframes</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>dict</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id10">
-<span class="sig-name descname"><span class="pre">cbm_basic_validation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">years</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/goblin_cbm_runner/cbm/methods/cbm_methods.html#CBMSim.cbm_basic_validation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id10" title="Link to this definition"></a></dt>
-<dd><p>Generate validation data for the CBM model for a set of specified inputs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>years</strong> (<em>int</em>) – The number of years to simulate.</p></li>
-<li><p><strong>input_path</strong> (<em>str</em>) – The path to the SIT input data.</p></li>
-<li><p><strong>database_path</strong> (<em>str</em>) – The path to the database.</p></li>
+<li><p><strong>SIT</strong> – Callable that takes (path, db_path) and returns (sit, classifiers, inventory).</p></li>
+<li><p><strong>input_path</strong> – Callable that returns the path to the input data.</p></li>
+<li><p><strong>database_path</strong> – Callable that returns the path to the database.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A dictionary containing the generated validation data.</p>
+<dd class="field-even"><p>A dictionary containing the validation dataframes</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dict</p>
@@ -561,7 +806,6 @@ scenarios.</p>
 
 </dd></dl>
 
-</section>
 </section>
 </section>
 
@@ -576,7 +820,7 @@ scenarios.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Colm Duffy.</p>
+    <p>&#169; Copyright 2023-2026, Colm Duffy.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

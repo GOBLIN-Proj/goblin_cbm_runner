@@ -1,5 +1,5 @@
-:py:mod:`goblin_cbm_runner.cbm_validation.validation_runner`
-============================================================
+goblin_cbm_runner.cbm_validation.validation_runner
+==================================================
 
 .. py:module:: goblin_cbm_runner.cbm_validation.validation_runner
 
@@ -12,21 +12,18 @@
 
 
 
-Module Contents
----------------
-
 Classes
-~~~~~~~
+-------
 
 .. autoapisummary::
 
    goblin_cbm_runner.cbm_validation.validation_runner.ValRunner
 
 
-
+Module Contents
+---------------
 
 .. py:class:: ValRunner(start_year, end_year, sit_path, results_path)
-
 
    The Runner class orchestrates the execution of Carbon Budget Model (CBM) simulations
    for various scenarios, including baseline and afforestation projects. It utilizes
@@ -175,12 +172,38 @@ Classes
 
    .. note:: An external path can be specified to generate the validation data.
 
+
+   .. py:attribute:: paths_class
+
+
+   .. py:attribute:: defaults_db
+
+
+   .. py:attribute:: path
+
+
+   .. py:attribute:: SIM_class
+
+
+   .. py:attribute:: start
+
+
+   .. py:attribute:: end
+
+
+   .. py:attribute:: years
+
+
+   .. py:attribute:: year_range
+
+
    .. py:method:: run_validation()
 
       Runs the CBM validation for the specified years.
 
       :returns: A dictionary containing the validation dataframes
       :rtype: dict
+
 
 
    .. py:method:: run_FM_validation()
@@ -191,12 +214,14 @@ Classes
       :rtype: dict
 
 
+
    .. py:method:: run_disturbance_area_validation()
 
       Runs the CBM validation for the specified years.
 
       :returns: A dictionary containing the validation dataframes
       :rtype: dict
+
 
 
    .. py:method:: run_scenario_disturbance_area_validation()
@@ -207,6 +232,7 @@ Classes
       :rtype: dict
 
 
+
    .. py:method:: run_baseline_disturbance_area_validation()
 
       Runs the CBM validation for the specified years.
@@ -215,12 +241,14 @@ Classes
       :rtype: dict
 
 
+
    .. py:method:: run_flux_validation_raw(forest_data)
 
       Runs the CBM validation for the specified years.
 
       :returns: A dictionary containing the validation dataframes
       :rtype: dict
+
 
 
    .. py:method:: run_flux_validation_agg(forest_data)

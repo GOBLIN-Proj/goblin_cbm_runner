@@ -1,0 +1,297 @@
+{
+    "import_config": {
+        "classifiers": {
+            "type": "csv",
+            "params": {
+                "path": "classifiers.csv"
+            }
+        },
+        "disturbance_types": {
+            "type": "csv",
+            "params": {
+                "path": "disturbance_types.csv"
+            }
+        },
+        "age_classes": {
+            "type": "csv",
+            "params": {
+                "path": "age_classes.csv"
+            }
+        },
+        "inventory": {
+            "type": "csv",
+            "params": {
+                "path": "inventory.csv"
+            }
+        },
+        "yield": {
+            "type": "csv",
+            "params": {
+                "path": "growth.csv"
+            }
+        },
+        "events": {
+            "type": "csv",
+            "params": {
+                "path": "disturbance_events.csv"
+            }
+        },
+        "transitions": {
+            "type": "csv",
+            "params": {
+                "path": "transitions.csv"
+            }
+        }
+    },
+    "mapping_config": {
+        "nonforest": null,
+        "species": {
+            "species_classifier": "Species",
+            "species_mapping": [
+                {
+                    "user_species": "IE_Pine4-12",
+                    "default_species": "IE_Pine4-12"
+                },
+                {
+                    "user_species": "IE_Pine13-30",
+                    "default_species": "IE_Pine13-30"
+                },
+                {
+                    "user_species": "IE_Spruce4-12",
+                    "default_species": "IE_Spruce4-12"
+                },
+                {
+                    "user_species": "IE_Spruce13-16",
+                    "default_species": "IE_Spruce13-16"
+                },
+                {
+                    "user_species": "IE_Spruce17-20-thin",
+                    "default_species": "IE_Spruce17-20-thin"
+                },
+                {
+                    "user_species": "IE_Spruce21-24-thin",
+                    "default_species": "IE_Spruce21-24-thin"
+                },
+                {
+                    "user_species": "IE_Spruce25-32-thin",
+                    "default_species": "IE_Spruce25-32-thin"
+                },
+                {
+                    "user_species": "IE_Spruce17-20-nothin",
+                    "default_species": "IE_Spruce17-20-nothin"
+                },
+                {
+                    "user_species": "IE_Spruce21-24-nothin",
+                    "default_species": "IE_Spruce21-24-nothin"
+                },
+                {
+                    "user_species": "IE_Spruce25-32-nothin",
+                    "default_species": "IE_Spruce25-32-nothin"
+                },
+                {
+                    "user_species": "IE_SGB",
+                    "default_species": "IE_SGB"
+                },
+                {
+                    "user_species": "IE_FGB",
+                    "default_species": "IE_FGB"
+                },
+                {
+                    "user_species": "IE_OC",
+                    "default_species": "IE_OC"
+                },
+                {
+                    "user_species": "IE_Cbmix-Bl",
+                    "default_species": "IE_Cbmix-Bl"
+                },
+                {
+                    "user_species": "IE_Cbmix-Conifer",
+                    "default_species": "IE_Cbmix-Conifer"
+                },
+                {
+                    "user_species": "IE_Cmix",
+                    "default_species": "IE_Cmix"
+                },
+                {
+                    "user_species": "IE_SNFGB-peat",
+                    "default_species": "IE_SNFGB-peat"
+                },
+                {
+                    "user_species": "IE_SNFGB-mineral",
+                    "default_species": "IE_SNFGB-mineral"
+                },
+                {
+                    "user_species": "NF_Pine4-12",
+                    "default_species": "Weighted_mineral (Ireland)"
+                },
+                {
+                    "user_species": "NF_Pine13-30",
+                    "default_species": "Weighted_mineral (Ireland)"
+                },
+                {
+                    "user_species": "NF_Spruce4-12",
+                    "default_species": "Weighted_mineral (Ireland)"
+                },
+                {
+                    "user_species": "NF_Spruce13-16",
+                    "default_species": "Weighted_mineral (Ireland)"
+                },
+                {
+                    "user_species": "NF_Spruce17-20-thin",
+                    "default_species": "Weighted_mineral (Ireland)"
+                },
+                {
+                    "user_species": "NF_Spruce21-24-thin",
+                    "default_species": "Weighted_mineral (Ireland)"
+                },
+                {
+                    "user_species": "NF_Spruce25-32-thin",
+                    "default_species": "Weighted_mineral (Ireland)"
+                },
+                {
+                    "user_species": "NF_Spruce17-20-nothin",
+                    "default_species": "Weighted_mineral (Ireland)"
+                },
+                {
+                    "user_species": "NF_Spruce21-24-nothin",
+                    "default_species": "Weighted_mineral (Ireland)"
+                },
+                {
+                    "user_species": "NF_Spruce25-32-nothin",
+                    "default_species": "Weighted_mineral (Ireland)"
+                },
+                {
+                    "user_species": "NF_SGB",
+                    "default_species": "Weighted_mineral (Ireland)"
+                },
+                {
+                    "user_species": "NF_SNFGB-peat",
+                    "default_species": "Peat (Ireland)"
+                },
+                {
+                    "user_species": "NF_Cbmix-Bl-peat",
+                    "default_species": "Peat (Ireland)"
+                },
+                {
+                    "user_species": "NF_Cbmix-Conifer-peat",
+                    "default_species": "Peat (Ireland)"
+                },
+                {
+                    "user_species": "NF_Cmix-peat",
+                    "default_species": "Peat (Ireland)"
+                },
+                {
+                    "user_species": "NF_FGB-peat",
+                    "default_species": "Peat (Ireland)"
+                },
+                {
+                    "user_species": "NF_OC-peat",
+                    "default_species": "Peat (Ireland)"
+                },
+                {
+                    "user_species": "NF_Pine4-12-peat",
+                    "default_species": "Peat (Ireland)"
+                },
+                {
+                    "user_species": "NF_Pine13-30-peat",
+                    "default_species": "Peat (Ireland)"
+                },
+                {
+                    "user_species": "NF_SGB-peat",
+                    "default_species": "Peat (Ireland)"
+                },
+                {
+                    "user_species": "NF_Spruce4-12-peat",
+                    "default_species": "Peat (Ireland)"
+                },
+                {
+                    "user_species": "NF_Spruce13-16-peat",
+                    "default_species": "Peat (Ireland)"
+                },
+                {
+                    "user_species": "NF_Spruce17-20-thin-peat",
+                    "default_species": "Peat (Ireland)"
+                },
+                {
+                    "user_species": "NF_Spruce17-20-nothin-peat",
+                    "default_species": "Peat (Ireland)"
+                },
+                {
+                    "user_species": "NF_Spruce21-24-thin-peat",
+                    "default_species": "Peat (Ireland)"
+                },
+                {
+                    "user_species": "NF_Spruce21-24-nothin-peat",
+                    "default_species": "Peat (Ireland)"
+                },
+                {
+                    "user_species": "NF_Spruce25-32-thin-peat",
+                    "default_species": "Peat (Ireland)"
+                },
+                {
+                    "user_species": "NF_Spruce25-32-nothin-peat",
+                    "default_species": "Peat (Ireland)"
+                },
+                {
+                    "user_species": "NF_SNFGB-mineral",
+                    "default_species": "Weighted_mineral (Ireland)"
+                },
+                {
+                    "user_species": "NF_Cbmix-Bl",
+                    "default_species": "Weighted_mineral (Ireland)"
+                },
+                {
+                    "user_species": "NF_Cbmix-Conifer",
+                    "default_species": "Weighted_mineral (Ireland)"
+                },
+                {
+                    "user_species": "NF_Cmix",
+                    "default_species": "Weighted_mineral (Ireland)"
+                },
+                {
+                    "user_species": "NF_FGB",
+                    "default_species": "Weighted_mineral (Ireland)"
+                },
+                {
+                    "user_species": "NF_OC",
+                    "default_species": "Weighted_mineral (Ireland)"
+                }
+            ]
+        },
+        "spatial_units": {
+            "mapping_mode": "SingleDefaultSpatialUnit",
+            "admin_boundary": "Ireland",
+            "eco_boundary": "Ireland"
+        },
+        "disturbance_types": [
+            {
+                "user_dist_type": "Clearcut",
+                "default_dist_type": "Clearcut harvesting with salvage"
+            },
+            {
+                "user_dist_type": "Thinning",
+                "default_dist_type": "20% commercial thinning"
+            },
+            {
+                "user_dist_type": "Fire",
+                "default_dist_type": "Wildfire"
+            },
+            {
+                "user_dist_type": "Afforestation",
+                "default_dist_type": "Afforestation"
+            },
+            {
+                "user_dist_type": "Unknown",
+                "default_dist_type": "Unknown"
+            },
+            {
+                "user_dist_type": "No thin to thin transition",
+                "default_dist_type": "Unknown"
+            },
+            {
+                "user_dist_type": "Deforestation \u2014 Agriculture \u2014 Salvage, uprooting and decay",
+                "default_dist_type": "Deforestation \u2014 Agriculture \u2014 Salvage, uprooting and decay"
+            }
+        ]
+    }
+}

@@ -1,0 +1,13 @@
+# Docs build requirements (used by .readthedocs.yml).
+# Keep these constraints in sync with the dev group in pyproject.toml.
+#
+# astroid <4 is deliberate: astroid 4 made ``manager`` a required argument to
+# ``AstroidBuilder()``, which sphinx-autoapi <3.8 calls with no arguments.
+# AutoAPI swallows the resulting TypeError as "Unable to read file" and then
+# emits an *empty* API reference while still exiting 0 — a green build with no
+# API docs. Pinning astroid keeps any resolvable AutoAPI 3.x working.
+astroid>=3.0,<4.0
+sphinx>=7.0,<9.0
+sphinx-autoapi>=3.0
+myst-nb>=1.0
+sphinx-rtd-theme>=2.0

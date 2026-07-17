@@ -1,0 +1,221 @@
+# SC_config.yaml - Scenario Forest Configuration
+# =========================================================
+
+# Spatial configuration
+spatial_unit:
+  admin_boundary: "Ireland"
+  eco_boundary: "Ireland"
+
+# Simulation timeline
+# FM baseline starts from 2016 (existing forest) and runs to 2070
+# Unlike AF, FM requires spinup using standing volume data
+simulation:
+  baseline_year: 2020
+  end_year: 2070
+
+cbm_mapping:
+  species:
+    # Forest species (existing managed forest)
+    Pine4-12:
+      user_species: "IE_Pine4-12"
+      default_species: "IE_Pine4-12"
+    Pine13-30:
+      user_species: "IE_Pine13-30"
+      default_species: "IE_Pine13-30"
+    Spruce4-12:
+      user_species: "IE_Spruce4-12"
+      default_species: "IE_Spruce4-12"
+    Spruce13-16:
+      user_species: "IE_Spruce13-16"
+      default_species: "IE_Spruce13-16"
+    Spruce17-20-thin:
+      user_species: "IE_Spruce17-20-thin"
+      default_species: "IE_Spruce17-20-thin"
+    Spruce21-24-thin:
+      user_species: "IE_Spruce21-24-thin"
+      default_species: "IE_Spruce21-24-thin"
+    Spruce25-32-thin:
+      user_species: "IE_Spruce25-32-thin"
+      default_species: "IE_Spruce25-32-thin"
+    Spruce17-20-nothin:
+      user_species: "IE_Spruce17-20-nothin"
+      default_species: "IE_Spruce17-20-nothin"
+    Spruce21-24-nothin:
+      user_species: "IE_Spruce21-24-nothin"
+      default_species: "IE_Spruce21-24-nothin"
+    Spruce25-32-nothin:
+      user_species: "IE_Spruce25-32-nothin"
+      default_species: "IE_Spruce25-32-nothin"
+    SGB:
+      user_species: "IE_SGB"
+      default_species: "IE_SGB"
+    FGB:
+      user_species: "IE_FGB"
+      default_species: "IE_FGB"
+    OC:
+      user_species: "IE_OC"
+      default_species: "IE_OC"
+    Cbmix-Bl:
+      user_species: "IE_Cbmix-Bl"
+      default_species: "IE_Cbmix-Bl"
+    Cbmix-Conifer:
+      user_species: "IE_Cbmix-Conifer"
+      default_species: "IE_Cbmix-Conifer"
+    Cmix:
+      user_species: "IE_Cmix"
+      default_species: "IE_Cmix"
+    SNFGB-peat:
+      user_species: "IE_SNFGB-peat"
+      default_species: "IE_SNFGB-peat"
+    SNFGB-mineral:
+      user_species: "IE_SNFGB-mineral"
+      default_species: "IE_SNFGB-mineral"
+    # Non-forest (NF_*) species - represent bare land pre-afforestation
+    # These map to afforestation_pre_type in the AIDB
+    NF_Spruce13-16:
+      user_species: "NF_Spruce13-16"
+      default_species: "Weighted_mineral (Ireland)"
+    NF_Spruce17-20-nothin:
+      user_species: "NF_Spruce17-20-nothin"
+      default_species: "Weighted_mineral (Ireland)"
+    NF_Spruce21-24-nothin:
+      user_species: "NF_Spruce21-24-nothin"
+      default_species: "Weighted_mineral (Ireland)"
+    NF_Spruce25-32-nothin:
+      user_species: "NF_Spruce25-32-nothin"
+      default_species: "Weighted_mineral (Ireland)"
+    NF_Spruce4-12:
+      user_species: "NF_Spruce4-12"
+      default_species: "Weighted_mineral (Ireland)"
+    NF_SGB:
+      user_species: "NF_SGB"
+      default_species: "Weighted_mineral (Ireland)"
+
+  boundary: "Ireland"
+
+  disturbance_types:
+    DISTID1:
+      user_dist_type: "Clearcut"
+      default_dist_type: "Clearcut harvesting with salvage"
+    DISTID2:
+      user_dist_type: "Thinning"
+      default_dist_type: "20% commercial thinning"
+    DISTID3:
+      user_dist_type: "Fire"
+      default_dist_type: "Wildfire"
+    DISTID4:
+      user_dist_type: "Afforestation"
+      default_dist_type: "Afforestation"
+    DISTID5:
+      user_dist_type: "Unknown"
+      default_dist_type: "Unknown"
+    DISTID6:
+      user_dist_type: "No thin to thin transition"
+      default_dist_type: "Unknown"
+    DISTID7:
+      user_dist_type: "Deforestation — Agriculture — Salvage, uprooting and decay"
+      default_dist_type: "Deforestation — Agriculture — Salvage, uprooting and decay"
+
+  Scenario:
+    Species:
+      Spruce13-16: "IE_Spruce13-16"
+      Spruce17-20-nothin: "IE_Spruce17-20-nothin"
+      Spruce21-24-nothin: "IE_Spruce21-24-nothin"
+      Spruce25-32-nothin: "IE_Spruce25-32-nothin"
+      Spruce4-12: "IE_Spruce4-12"
+      SGB: "IE_SGB"
+    Forest type:
+      A: "Afforestation"
+      L: "Legacy"
+    Soil classes:
+      mineral: "Mineral"
+      peat: "Peat"
+    Yield classes:
+      YC6: "Yield class 6"
+      YC13_16: "Yield class 13-16"
+      YC17_20: "Yield class 17-20"
+      YC21_24: "Yield class 20-24"
+      YC25_32: "Yield class 25-32"
+      YC4_12: "Yield class 4-12"
+
+
+disturbance_cols:
+  - "Classifier1"
+  - "Classifier2"
+  - "Classifier3"
+  - "Classifier4"
+  - "UsingID"
+  - "sw_age_min"
+  - "sw_age_max"
+  - "hw_age_min"
+  - "hw_age_max"
+  - "MinYearsSinceDist"
+  - "MaxYearsSinceDist"
+  - "LastDistTypeID"
+  - "MinTotBiomassC"
+  - "MaxTotBiomassC"
+  - "MinSWMerchBiomassC"
+  - "MaxSWMerchBiomassC"
+  - "MinHWMerchBiomassC"
+  - "MaxHWMerchBiomassC"
+  - "MinTotalStemSnagC"
+  - "MaxTotalStemSnagC"
+  - "MinSWStemSnagC"
+  - "MaxSWStemSnagC"
+  - "MinHWStemSnagC"
+  - "MaxHWStemSnagC"
+  - "MinTotalStemSnagMerchC"
+  - "MaxTotalStemSnagMerchC"
+  - "MinSWMerchStemSnagC"
+  - "MaxSWMerchStemSnagC"
+  - "MinHWMerchStemSnagC"
+  - "MaxHWMerchStemSnagC"
+  - "Efficiency"
+  - "SortType"
+  - "MeasureType"
+  - "Amount"
+  - "DistTypeID"
+  - "Year"
+
+static_disturbance_cols:
+  - "MaxYearsSinceDist"
+  - "LastDistTypeID"
+  - "MinTotBiomassC"
+  - "MaxTotBiomassC"
+  - "MinSWMerchBiomassC"
+  - "MaxSWMerchBiomassC"
+  - "MinHWMerchBiomassC"
+  - "MaxHWMerchBiomassC"
+  - "MinTotalStemSnagC"
+  - "MaxTotalStemSnagC"
+  - "MinSWStemSnagC"
+  - "MaxSWStemSnagC"
+  - "MinHWStemSnagC"
+  - "MaxHWStemSnagC"
+  - "MinTotalStemSnagMerchC"
+  - "MaxTotalStemSnagMerchC"
+  - "MinSWMerchStemSnagC"
+  - "MaxSWMerchStemSnagC"
+  - "MinHWMerchStemSnagC"
+  - "MaxHWMerchStemSnagC"
+
+transition_cols:
+  before_cols:
+    - "Classifier1"
+    - "Classifier2"
+    - "Classifier3"
+    - "Classifier4"
+    - "UsingID"
+    - "SWStart"
+    - "SWEnd"
+    - "HWDStart"
+    - "HWEnd"
+    - "DistType"
+  after_cols:
+    - "Classifier1"
+    - "Classifier2"
+    - "Classifier3"
+    - "Classifier4"
+    - "RegenDelay"
+    - "ResetAge"
+    - "Percent"

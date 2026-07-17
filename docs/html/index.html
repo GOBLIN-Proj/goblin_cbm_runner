@@ -1,25 +1,23 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🌲 GOBLIN_CBM_runner, a CBM CFS3 interface for the GOBLIN model &mdash; goblin_cbm_runner 0.5.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=eafc0fe6" />
+  <title>🌲 GOBLIN_CBM_runner, a CBM CFS3 interface for the GOBLIN model &mdash; goblin_cbm_runner 0.6.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="_static/jquery.js?v=5d32c60e"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=1dd76d02"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
-        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8fa8b3e9"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -47,10 +45,9 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="INSTALLATION.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="autoapi/index.html">API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="example.html">Example Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="example.html#plot-fluxes-for-baseline">Plot Fluxes for Baseline</a></li>
 </ul>
 
         </div>
@@ -95,59 +92,91 @@
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>goblin_cbm_runner
 </pre></div>
 </div>
+<blockquote>
+<div><p><strong>v0.6.0 note:</strong> From v0.6.0 the package targets <strong>GOBLIN_lite only</strong> — GeoGoblin / geo-runner
+support was removed (fork the <code class="docutils literal notranslate"><span class="pre">0.5.0</span></code> line if you need it). The old <code class="docutils literal notranslate"><span class="pre">Runner</span></code> / <code class="docutils literal notranslate"><span class="pre">DataManager</span></code>
+entry point has been replaced by the scenario generators below. Output is <strong>archive-only</strong>:
+call <code class="docutils literal notranslate"><span class="pre">export_archive()</span></code> to write a self-describing SQLite <code class="docutils literal notranslate"><span class="pre">.db</span></code>; no CSVs are written automatically.</p>
+</div></blockquote>
 </section>
 <section id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
-<p>The Runner class takes the total afforestation area and divides it evenly across years (calibration year - target year).</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">goblin_cbm_runner.default_runner.runner</span> <span class="kn">import</span> <span class="n">Runner</span>
-<span class="kn">from</span> <span class="nn">goblin_cbm_runner.resource_manager.cbm_runner_data_manager</span> <span class="kn">import</span> <span class="n">DataManager</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">os</span>
+<p>There are four entry points. All accept a scenario DataFrame and produce an annual carbon-flux
+DataFrame plus a SQLite archive.</p>
+<section id="national-pipeline-nationalscenariogenerator">
+<h3>National pipeline — <code class="docutils literal notranslate"><span class="pre">NationalScenarioGenerator</span></code><a class="headerlink" href="#national-pipeline-nationalscenariogenerator" title="Link to this heading"></a></h3>
+<p>The standard national simulation (Forest Management + Afforestation + Scenarios) using the
+bundled Irish database, to 2070.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">goblin_cbm_runner.scenario_generator</span><span class="w"> </span><span class="kn">import</span> <span class="n">NationalScenarioGenerator</span>
 
+<span class="n">nsg</span> <span class="o">=</span> <span class="n">NationalScenarioGenerator</span><span class="p">(</span>
+    <span class="n">scenario_data</span><span class="o">=</span><span class="n">scenario_df</span><span class="p">,</span>          <span class="c1"># pandas DataFrame of scenarios</span>
+    <span class="n">afforestation_data</span><span class="o">=</span><span class="n">afforest_df</span><span class="p">,</span>     <span class="c1"># pandas DataFrame of afforestation areas</span>
+    <span class="n">config</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;afforest_delay&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;annual_rate_pre_delay&quot;</span><span class="p">:</span> <span class="mi">1200</span><span class="p">},</span>
+    <span class="n">comprehensive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>                <span class="c1"># True to also capture pools/flux/state validation tables</span>
+<span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="c1"># path to data</span>
-    <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;./data/runner_input&quot;</span>
-    <span class="n">results_path</span> <span class="o">=</span> <span class="s2">&quot;./data/runner_results&quot;</span>
-
-    <span class="c1"># afforestation data for each scenario</span>
-    <span class="n">afforest_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;cbm_afforestation.csv&quot;</span><span class="p">),</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span>
-    <span class="p">)</span>
-
-    <span class="c1"># basic configuration file</span>
-    <span class="n">config</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;cbm_factory.yaml&quot;</span><span class="p">)</span>
-
-    <span class="c1"># scenario_data</span>
-    <span class="n">sc_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;scenario_dataframe.csv&quot;</span><span class="p">))</span>
-
-    <span class="c1"># calibration and end point</span>
-    <span class="n">calibration_year</span> <span class="o">=</span> <span class="mi">2020</span>
-
-    <span class="c1"># instance of the DataManager class</span>
-    <span class="n">data_manager</span> <span class="o">=</span> <span class="n">DataManager</span><span class="p">(</span><span class="n">calibration_year</span> <span class="o">=</span> <span class="n">calibration_year</span><span class="p">,</span>
-                            <span class="n">config_file_path</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
-                            <span class="n">scenario_data</span><span class="o">=</span><span class="n">sc_data</span><span class="p">,</span>
-                            <span class="n">afforest_data</span><span class="o">=</span><span class="n">afforest_data</span><span class="p">)</span>
-    
-    <span class="c1"># instance of the Runner class</span>
-    <span class="n">runner</span> <span class="o">=</span> <span class="n">Runner</span><span class="p">(</span><span class="n">data_manager</span><span class="p">)</span>
-
-    <span class="c1"># afforeation data</span>
-    <span class="n">runner</span><span class="o">.</span><span class="n">get_afforestation_dataframe</span><span class="p">()</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">results_path</span><span class="p">,</span> <span class="s2">&quot;c_afforestation.csv&quot;</span><span class="p">))</span>
-
-    <span class="c1"># generation of aggregated results</span>
-    <span class="n">runner</span><span class="o">.</span><span class="n">run_aggregate_scenarios</span><span class="p">()</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">results_path</span><span class="p">,</span> <span class="s2">&quot;c_aggregate.csv&quot;</span><span class="p">))</span>
-
-    <span class="c1"># generation of annual flux results</span>
-    <span class="n">runner</span><span class="o">.</span><span class="n">run_flux_scenarios</span><span class="p">()</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">results_path</span><span class="p">,</span> <span class="s2">&quot;c_flux.csv&quot;</span><span class="p">))</span>
-
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="n">main</span><span class="p">()</span>
-
+<span class="n">results</span> <span class="o">=</span> <span class="n">nsg</span><span class="o">.</span><span class="n">run_flux_simulation</span><span class="p">()</span>     <span class="c1"># annual flux DataFrame (all scenarios + baseline)</span>
+<span class="n">nsg</span><span class="o">.</span><span class="n">export_archive</span><span class="p">(</span><span class="s2">&quot;./simulation_archive.db&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
+</section>
+<section id="dynamic-pipeline-dynamicscenariogenerator">
+<h3>Dynamic pipeline — <code class="docutils literal notranslate"><span class="pre">DynamicScenarioGenerator</span></code><a class="headerlink" href="#dynamic-pipeline-dynamicscenariogenerator" title="Link to this heading"></a></h3>
+<p>Extends FM and AF beyond 2070 with <strong>NAI-based (Net Annual Increment) harvest</strong>, and extends the
+scenario end year to match.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">goblin_cbm_runner.dynamic_scenario_generator</span><span class="w"> </span><span class="kn">import</span> <span class="n">DynamicScenarioGenerator</span>
+
+<span class="n">dsg</span> <span class="o">=</span> <span class="n">DynamicScenarioGenerator</span><span class="p">(</span>
+    <span class="n">scenario_data</span><span class="o">=</span><span class="n">scenario_df</span><span class="p">,</span>
+    <span class="n">afforestation_data</span><span class="o">=</span><span class="n">afforest_df</span><span class="p">,</span>
+    <span class="n">config</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;afforest_delay&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;annual_rate_pre_delay&quot;</span><span class="p">:</span> <span class="mi">1200</span><span class="p">},</span>
+    <span class="n">dynamic_config</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;harvest_ratio&quot;</span><span class="p">:</span> <span class="mf">0.75</span><span class="p">,</span> <span class="s2">&quot;dynamic_years&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">},</span>  <span class="c1"># optional; 0.75 recommended</span>
+<span class="p">)</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">dsg</span><span class="o">.</span><span class="n">run_flux_simulation</span><span class="p">()</span>            <span class="c1"># extended FM + AF + SC</span>
+<span class="n">baseline</span> <span class="o">=</span> <span class="n">dsg</span><span class="o">.</span><span class="n">run_baseline_flux_simulation</span><span class="p">()</span>  <span class="c1"># extended FM + AF only</span>
+<span class="n">dsg</span><span class="o">.</span><span class="n">export_archive</span><span class="p">(</span><span class="s2">&quot;./dynamic_archive.db&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="standard-pipeline-user-csvs-standardsimgenerator">
+<h3>Standard pipeline (user CSVs) — <code class="docutils literal notranslate"><span class="pre">StandardSimGenerator</span></code><a class="headerlink" href="#standard-pipeline-user-csvs-standardsimgenerator" title="Link to this heading"></a></h3>
+<p>Run a simulation from your <strong>own inventory CSV files</strong> with an explicit disturbance schedule — no
+internal database of stands required (the bundled AIDB is still used for CBM parameters).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">goblin_cbm_runner.standard_sim_generator</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardSimGenerator</span>
+
+<span class="c1"># Copy and edit the template CSVs first:</span>
+<span class="n">StandardSimGenerator</span><span class="o">.</span><span class="n">get_template</span><span class="p">(</span><span class="s2">&quot;./my_forest/&quot;</span><span class="p">)</span>
+
+<span class="n">gen</span> <span class="o">=</span> <span class="n">StandardSimGenerator</span><span class="p">(</span>
+    <span class="n">csv_directory</span><span class="o">=</span><span class="s2">&quot;./my_forest/&quot;</span><span class="p">,</span>
+    <span class="n">config</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;baseline_year&quot;</span><span class="p">:</span> <span class="mi">2020</span><span class="p">,</span> <span class="s2">&quot;end_year&quot;</span><span class="p">:</span> <span class="mi">2050</span><span class="p">},</span>
+    <span class="n">scenario</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">gen</span><span class="o">.</span><span class="n">run_flux_simulation</span><span class="p">()</span>
+<span class="n">gen</span><span class="o">.</span><span class="n">export_archive</span><span class="p">(</span><span class="s2">&quot;./standard_archive.db&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="dynamic-standard-pipeline-user-csvs-nai-dynamicstandardsimgenerator">
+<h3>Dynamic standard pipeline (user CSVs + NAI) — <code class="docutils literal notranslate"><span class="pre">DynamicStandardSimGenerator</span></code><a class="headerlink" href="#dynamic-standard-pipeline-user-csvs-nai-dynamicstandardsimgenerator" title="Link to this heading"></a></h3>
+<p>Your own inventory CSVs with <strong>NAI-based dynamic harvest</strong>. Omit <code class="docutils literal notranslate"><span class="pre">end_year</span></code> for “NAI from day 1”,
+or set it for a static warm-up period before the dynamic phase.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">goblin_cbm_runner.dynamic_standard_sim_generator</span><span class="w"> </span><span class="kn">import</span> <span class="n">DynamicStandardSimGenerator</span>
+
+<span class="n">gen</span> <span class="o">=</span> <span class="n">DynamicStandardSimGenerator</span><span class="p">(</span>
+    <span class="n">csv_directory</span><span class="o">=</span><span class="s2">&quot;./my_forest/&quot;</span><span class="p">,</span>
+    <span class="n">config</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;baseline_year&quot;</span><span class="p">:</span> <span class="mi">2020</span><span class="p">},</span>                              <span class="c1"># omit end_year → years=0</span>
+    <span class="n">dynamic_config</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;harvest_ratio&quot;</span><span class="p">:</span> <span class="mf">0.75</span><span class="p">,</span> <span class="s2">&quot;dynamic_years&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">},</span>
+<span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">gen</span><span class="o">.</span><span class="n">run_flux_simulation</span><span class="p">()</span>
+<span class="n">gen</span><span class="o">.</span><span class="n">export_archive</span><span class="p">(</span><span class="s2">&quot;./dynamic_standard_archive.db&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Runnable versions of all four live in <a class="reference internal" href="#tests/examples/"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">tests/examples/</span></code></span></a>
+(<code class="docutils literal notranslate"><span class="pre">nsg_example.py</span></code>, <code class="docutils literal notranslate"><span class="pre">dsg_example.py</span></code>, <code class="docutils literal notranslate"><span class="pre">standard_sim_example.py</span></code>, <code class="docutils literal notranslate"><span class="pre">dynamic_standard_sim_example.py</span></code>).</p>
+</section>
 </section>
 <section id="cbm-disturbance-sort-types-note">
 <h2>CBM Disturbance Sort Types Note<a class="headerlink" href="#cbm-disturbance-sort-types-note" title="Link to this heading"></a></h2>
@@ -247,7 +276,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Colm Duffy.</p>
+    <p>&#169; Copyright 2023-2026, Colm Duffy.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

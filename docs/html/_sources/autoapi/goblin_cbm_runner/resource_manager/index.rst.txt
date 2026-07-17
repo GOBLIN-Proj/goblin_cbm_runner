@@ -1,23 +1,2119 @@
-:py:mod:`goblin_cbm_runner.resource_manager`
-============================================
+goblin_cbm_runner.resource_manager
+==================================
 
 .. py:module:: goblin_cbm_runner.resource_manager
+
+.. autoapi-nested-parse::
+
+   Resource Manager Module
+   =======================
+   Provides data loading, management, and utilities for CBM Runner.
+
+   Submodules:
+   - loaders: Database table access (Loader, AFLoader, FMLoader, SCLoader)
+   - managers: Configuration and data managers
+   - utils: Path management, parsing, scenario data fetching
+
+   For convenience, commonly used classes are exported at the top level.
+
 
 
 Submodules
 ----------
+
 .. toctree::
-   :titlesonly:
    :maxdepth: 1
 
-   cbm_pools/index.rst
-   cbm_runner_data_manager/index.rst
-   database_manager/index.rst
-   flux_manager/index.rst
-   geo_cbm_runner_data_manager/index.rst
-   loader/index.rst
-   parser/index.rst
-   paths/index.rst
-   scenario_data_fetcher/index.rst
+   /autoapi/goblin_cbm_runner/resource_manager/loaders/index
+   /autoapi/goblin_cbm_runner/resource_manager/managers/index
+   /autoapi/goblin_cbm_runner/resource_manager/utils/index
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   goblin_cbm_runner.resource_manager.Loader
+   goblin_cbm_runner.resource_manager.LoaderBase
+   goblin_cbm_runner.resource_manager.AFLoader
+   goblin_cbm_runner.resource_manager.FMLoader
+   goblin_cbm_runner.resource_manager.SCLoader
+   goblin_cbm_runner.resource_manager.DataManager
+   goblin_cbm_runner.resource_manager.DataManagerBase
+   goblin_cbm_runner.resource_manager.AFDataManager
+   goblin_cbm_runner.resource_manager.FMDataManager
+   goblin_cbm_runner.resource_manager.SCDataManager
+   goblin_cbm_runner.resource_manager.DFDataManager
+   goblin_cbm_runner.resource_manager.Pools
+   goblin_cbm_runner.resource_manager.FluxManager
+   goblin_cbm_runner.resource_manager.Paths
+
+
+Package Contents
+----------------
+
+.. py:class:: Loader(db_path=None)
+
+   Bases: :py:obj:`goblin_cbm_runner.resource_manager.loaders.base.LoaderBase`
+
+
+   Main loader facade combining AF, FM, and SC loaders.
+
+   Provides three ways to access data:
+   1. Direct methods (backward compatible): loader.AF_inventory()
+   2. Component loaders: loader.af.get_inventory()
+   3. Shared data methods: loader.forest_age_structure()
+
+   .. attribute:: af
+
+      Afforestation baseline loader
+
+      :type: AFLoader
+
+   .. attribute:: fm
+
+      Forest management baseline loader
+
+      :type: FMLoader
+
+   .. attribute:: sc
+
+      Scenario loader
+
+      :type: SCLoader
+
+
+   .. py:attribute:: af
+
+
+   .. py:attribute:: fm
+
+
+   .. py:attribute:: sc
+
+
+   .. py:method:: forest_age_structure()
+
+      Returns the forest inventory age structure dataframe.
+
+
+
+   .. py:method:: forest_cbm_yields()
+
+      Returns the forest CBM yields dataframe.
+
+
+
+   .. py:method:: forest_kb_yields()
+
+      Returns the forest KB yields dataframe.
+
+
+
+   .. py:method:: NIR_forest_data_ha()
+
+      Returns the NIR forest data (hectares) dataframe.
+
+
+
+   .. py:method:: cso_species_breakdown()
+
+      Returns the CSO species breakdown dataframe.
+
+
+
+   .. py:method:: afforestation_areas_NIR()
+
+      Returns the afforestation areas (NIR) dataframe.
+
+
+
+   .. py:method:: disturbance_time()
+
+      Returns the disturbance times dataframe.
+
+
+
+   .. py:method:: kb_yield_curves()
+
+      Returns the KB yield curves dataframe.
+
+
+
+   .. py:method:: kb_standing_vol_yield_curves()
+
+      Returns the KB standing volume yield curves dataframe.
+
+
+
+   .. py:method:: disturbance_type()
+
+      Returns the disturbance types dataframe.
+
+
+
+   .. py:method:: harvest_areas_NIR()
+
+      Returns the forest harvest areas (NIR) dataframe.
+
+
+
+   .. py:method:: AF_inventory()
+
+      Returns the AF inventory dataframe.
+
+
+
+   .. py:method:: AF_classifiers()
+
+      Returns the AF classifiers dataframe.
+
+
+
+   .. py:method:: AF_age_class()
+
+      Returns the AF age classes dataframe.
+
+
+
+   .. py:method:: AF_disturbance_types()
+
+      Returns the AF disturbance types dataframe.
+
+
+
+   .. py:method:: AF_growth_curves()
+
+      Returns the AF growth curves dataframe.
+
+
+
+   .. py:method:: AF_disturbances_time_series()
+
+      Returns the AF disturbance events dataframe.
+
+
+
+   .. py:method:: AF_transition()
+
+      Returns the AF transitions dataframe.
+
+
+
+   .. py:method:: FM_inventory()
+
+      Returns the FM inventory dataframe.
+
+
+
+   .. py:method:: FM_classifiers()
+
+      Returns the FM classifiers dataframe.
+
+
+
+   .. py:method:: FM_age_class()
+
+      Returns the FM age classes dataframe.
+
+
+
+   .. py:method:: FM_disturbance_types()
+
+      Returns the FM disturbance types dataframe.
+
+
+
+   .. py:method:: FM_growth_curves()
+
+      Returns the FM growth curves dataframe.
+
+
+
+   .. py:method:: FM_disturbances_time_series()
+
+      Returns the FM disturbance events dataframe.
+
+
+
+   .. py:method:: FM_transition()
+
+      Returns the FM transitions dataframe.
+
+
+
+   .. py:method:: FM_standing_volume()
+
+      Returns the FM standing volume dataframe.
+
+
+
+   .. py:method:: FM_historic_disturbances()
+
+      Returns the FM historic disturbances dataframe.
+
+
+
+   .. py:method:: FM_historic_transition()
+
+      Returns the FM historic transitions dataframe.
+
+
+
+   .. py:method:: SC_inventory_template()
+
+      Returns the SC inventory template dataframe.
+
+
+
+   .. py:method:: SC_species_mapping()
+
+      Returns the SC species mapping dataframe.
+
+
+
+   .. py:method:: SC_species_mapping_dict()
+
+      Returns the SC species mapping as a dictionary.
+
+
+
+   .. py:method:: SC_classifiers()
+
+      Returns the SC classifiers dataframe.
+
+
+
+   .. py:method:: SC_age_classes()
+
+      Returns the SC age classes dataframe.
+
+
+
+   .. py:method:: SC_disturbance_types()
+
+      Returns the SC disturbance types dataframe.
+
+
+
+   .. py:method:: SC_growth_curves()
+
+      Returns the SC growth curves dataframe.
+
+
+
+   .. py:method:: SC_transitions()
+
+      Returns the SC transitions dataframe.
+
+
+
+.. py:class:: LoaderBase(db_path=None)
+
+   Base class for CBM Runner loaders.
+
+   Provides shared functionality for database access.
+   Component-specific loaders (AFLoader, FMLoader, SCLoader) inherit from this.
+
+   .. attribute:: database_dir
+
+      Directory containing the database file.
+
+      :type: str
+
+   .. attribute:: engine
+
+      SQLAlchemy engine for database access.
+
+      :type: sqlalchemy.engine.Engine
+
+
+   .. py:attribute:: database_dir
+
+
+   .. py:attribute:: engine
+
+
+.. py:class:: AFLoader(db_path=None)
+
+   Bases: :py:obj:`goblin_cbm_runner.resource_manager.loaders.base.LoaderBase`
+
+
+   Loader for Afforestation (AF) baseline data.
+
+   Reads from database tables:
+   - AF_inventory_2100
+   - AF_classifier_2100
+   - AF_age_classes_2100
+   - AF_disturbance_types_2100
+   - AF_growth_2100
+   - AF_disturbance_2100
+   - AF_transitions_2100
+
+
+   .. py:method:: get_inventory() -> pandas.DataFrame
+
+      Returns the AF inventory dataframe.
+
+
+
+   .. py:method:: get_classifiers() -> pandas.DataFrame
+
+      Returns the AF classifiers dataframe.
+
+
+
+   .. py:method:: get_age_classes() -> pandas.DataFrame
+
+      Returns the AF age classes dataframe.
+
+
+
+   .. py:method:: get_disturbance_types() -> pandas.DataFrame
+
+      Returns the AF disturbance types dataframe.
+
+
+
+   .. py:method:: get_growth_curves() -> pandas.DataFrame
+
+      Returns the AF growth curves dataframe.
+
+
+
+   .. py:method:: get_disturbance_events() -> pandas.DataFrame
+
+      Returns the AF disturbance events dataframe.
+
+
+
+   .. py:method:: get_transitions() -> pandas.DataFrame
+
+      Returns the AF transitions dataframe.
+
+
+
+.. py:class:: FMLoader(db_path=None)
+
+   Bases: :py:obj:`goblin_cbm_runner.resource_manager.loaders.base.LoaderBase`
+
+
+   Loader for Forest Management (FM) baseline data.
+
+   Reads from database tables:
+   - FM_inventory_2100
+   - FM_classifiers_2100
+   - FM_age_class_2100
+   - FM_disturbance_types_2100
+   - FM_growth_2100
+   - FM_disturbances_2100
+   - FM_transition_2100
+   - FM_standing_volume_2100
+   - FM_HISTORIC_disturbances_2100
+   - FM_HISTORIC_transition_2100
+
+
+   .. py:method:: get_inventory() -> pandas.DataFrame
+
+      Returns the FM inventory dataframe.
+
+
+
+   .. py:method:: get_classifiers() -> pandas.DataFrame
+
+      Returns the FM classifiers dataframe.
+
+
+
+   .. py:method:: get_age_classes() -> pandas.DataFrame
+
+      Returns the FM age classes dataframe.
+
+
+
+   .. py:method:: get_disturbance_types() -> pandas.DataFrame
+
+      Returns the FM disturbance types dataframe.
+
+
+
+   .. py:method:: get_growth_curves() -> pandas.DataFrame
+
+      Returns the FM growth curves dataframe.
+
+
+
+   .. py:method:: get_disturbance_events() -> pandas.DataFrame
+
+      Returns the FM disturbance events dataframe.
+
+
+
+   .. py:method:: get_transitions() -> pandas.DataFrame
+
+      Returns the FM transitions dataframe.
+
+
+
+   .. py:method:: get_standing_volume() -> pandas.DataFrame
+
+      Returns the FM standing volume dataframe (for spinup).
+
+
+
+   .. py:method:: get_historic_disturbances() -> pandas.DataFrame
+
+      Returns the FM historic disturbances dataframe (for spinup).
+
+
+
+   .. py:method:: get_historic_transitions() -> pandas.DataFrame
+
+      Returns the FM historic transitions dataframe (for spinup).
+
+
+
+.. py:class:: SCLoader(db_path=None)
+
+   Bases: :py:obj:`goblin_cbm_runner.resource_manager.loaders.base.LoaderBase`
+
+
+   Loader for Scenario (SC) data.
+
+   Reads from database tables:
+   - SC_inventory_2100 (template with Area=0)
+   - SC_species_mapping (upstream → internal translation)
+   - SC_classifiers_2100
+   - SC_age_classes_2100
+   - SC_disturbance_types_2100
+   - SC_growth_2100
+
+
+   .. py:method:: get_inventory_template() -> pandas.DataFrame
+
+      Returns the SC inventory template dataframe.
+
+      This is a pre-populated template with all valid combinations
+      and Area=0. Used as starting point for scenario inventory generation.
+
+
+
+   .. py:method:: get_species_mapping() -> pandas.DataFrame
+
+      Returns the SC species mapping dataframe.
+
+      Maps upstream GOBLIN_lite format (species, yield_class) to
+      internal classifier names (e.g., Sitka + YC20_24 → NF_Spruce21-24).
+
+
+
+   .. py:method:: get_species_mapping_dict() -> dict
+
+      Returns species mapping as a lookup dictionary.
+
+      :returns: {(input_species, input_yield_class): internal_classifier1}
+      :rtype: dict
+
+
+
+   .. py:method:: get_classifiers() -> pandas.DataFrame
+
+      Returns the SC classifiers dataframe.
+
+
+
+   .. py:method:: get_age_classes() -> pandas.DataFrame
+
+      Returns the SC age classes dataframe.
+
+
+
+   .. py:method:: get_disturbance_types() -> pandas.DataFrame
+
+      Returns the SC disturbance types dataframe.
+
+
+
+   .. py:method:: get_growth_curves() -> pandas.DataFrame
+
+      Returns the SC growth curves dataframe.
+
+
+
+   .. py:method:: get_transitions() -> pandas.DataFrame
+
+      Returns the SC transitions dataframe.
+
+
+
+   .. py:method:: get_disturbance_events_template() -> pandas.DataFrame
+
+      Returns the SC disturbance events template dataframe.
+
+      This may be a template that gets populated based on scenario parameters.
+
+
+
+.. py:class:: DataManager
+
+   A class that manages the database for the CBM Runner application.
+
+   .. attribute:: database_dir
+
+      The directory where the database is located.
+
+      :type: str
+
+   .. attribute:: engine
+
+      The SQLAlchemy engine used to connect to the database.
+
+      :type: sqlalchemy.engine.Engine
+
+   .. method:: data_engine_creater
+
+      Creates and returns the SQLAlchemy engine for connecting to the database.
+
+   .. method:: get_forest_inventory_age_strucuture
+
+      Retrieves the forest inventory age structure data from the database.
+
+   .. method:: get_forest_cbm_yields
+
+      Retrieves the forest CBM yields data from the database.
+
+   .. method:: get_forest_kb_yields
+
+      Retrieves the forest KB yields data from the database.
+
+   .. method:: get_NIR_forest_data_ha
+
+      Retrieves the NIR forest data in hectares from the database.
+
+   .. method:: get_cso_species_breakdown
+
+      Retrieves the CSO species breakdown data from the database.
+
+   .. method:: get_afforestation_areas_NIR
+
+      Retrieves the afforestation areas in NIR from the database.
+
+   .. method:: get_forest_harvest_NIR
+
+      Retrieves the forest harvest data in NIR from the database.
+
+   .. method:: get_kb_yield_curves
+
+      Retrieves the KB yield curves data from the database.
+
+   .. method:: get_disturbance_types
+
+      Retrieves the disturbance types data from the database.
+
+   .. method:: get_disturbance_times
+
+      Retrieves the disturbance times data from the database.
+
+   .. method:: get_FM_classifiers
+
+      Retrieves the managed forest classifiers from the database.
+
+   .. method:: get_FM_age_classes
+
+      Retrieves the managed forest age classes from the database.
+
+   .. method:: get_FM_disturbance_types
+
+      Retrieves the managed forest disturbance types from the database.
+
+   .. method:: get_FM_growth_curves
+
+      Retrieves the managed forest growth curves from the database.
+
+   .. method:: get_FM_inventory
+
+      Retrieves the managed forest inventory from the database.
+
+   .. method:: get_FM_transition
+
+      Retrieves the managed forest transition from the database.
+
+   .. method:: get_FM_historic_transition
+
+      Retrieves the managed forest historic transition from the database.
+
+   .. method:: get_FM_historic_disturbances
+
+      Retrieves the managed forest historic disturbances from the database.
+
+   .. method:: get_FM_standing_volume
+
+      Retrieves the managed forest standing volume from the database.
+
+   .. method:: get_geo_baseline_standing_volume
+
+      Retrieves the baseline standing volume from the database.
+
+   .. method:: get_FM_disturbance_events
+
+      Retrieves the managed forest disturbances from the database.
+
+   .. method:: get_AF_disturbance_events
+
+      Retrieves the historic afforestation disturbances from the database.
+
+   .. method:: get_AF_classifiers
+
+      Retrieves the historic afforestation classifiers from the database.
+
+   .. method:: get_AF_age_classes
+
+      Retrieves the historic afforestation age classes from the database.
+
+   .. method:: get_AF_disturbance_types
+
+      Retrieves the historic afforestation disturbance types from the database.
+
+   .. method:: get_AF_growth_curves
+
+      Retrieves the historic afforestation growth curves from the database.
+
+   .. method:: get_AF_inventory
+
+      Retrieves the historic afforestation inventory from the database.
+
+   .. method:: get_AF_transition
+
+      Retrieves the historic afforestation transition from the database.
+      
+
+
+   .. py:attribute:: database_dir
+
+
+   .. py:attribute:: engine
+
+
+   .. py:method:: data_engine_creater()
+
+      Creates and returns a SQLAlchemy engine for the CBM Runner database.
+
+      :returns: The SQLAlchemy engine object.
+      :rtype: sqlalchemy.engine.Engine
+
+
+
+   .. py:method:: get_forest_inventory_age_strucuture()
+
+      Retrieves the age structure of the national forest inventory from the database.
+
+      :returns: A DataFrame containing the age structure data.
+      :rtype: pandas.DataFrame
+
+
+
+   .. py:method:: get_forest_cbm_yields()
+
+      Retrieves forest CBM yields from the database.
+
+      :returns: A DataFrame containing the forest CBM yields.
+      :rtype: pandas.DataFrame
+
+
+
+   .. py:method:: get_forest_kb_yields()
+
+      Retrieves the forest Firs yield parameters from the database.
+
+      :returns: A DataFrame containing the yield parameters.
+      :rtype: pandas.DataFrame
+
+
+
+   .. py:method:: get_NIR_forest_data_ha()
+
+      Retrieves NIR (National Inventory Report) forest data in hectares from the database.
+
+      :returns: The NIR forest data in hectares.
+      :rtype: pandas.DataFrame
+
+
+
+   .. py:method:: get_cso_species_breakdown()
+
+      Retrieves the CSO species breakdown data from the database.
+
+      :returns: The CSO species breakdown data.
+      :rtype: pandas.DataFrame
+
+
+
+   .. py:method:: get_afforestation_areas_NIR()
+
+      Retrieves afforestation areas data from the (National Inventory Report)'afforestation_NIR' table in the database.
+
+      :returns: The afforestation areas data with the year as the index.
+      :rtype: pandas.DataFrame
+
+
+
+   .. py:method:: get_forest_harvest_NIR()
+
+      Retrieves the forest harvest National Invetory Report data from the database.
+
+      :returns: The forest harvest NIR data.
+      :rtype: pandas.DataFrame
+
+
+
+   .. py:method:: get_kb_yield_curves()
+
+      Retrieve the Firs yield curves from the database.
+
+      :returns: A DataFrame containing the Firs yield curves data.
+      :rtype: pandas.DataFrame
+
+
+
+   .. py:method:: get_disturbance_types()
+
+      Retrieves all disturbance types from the 'Disturbances' table in the database.
+
+      :returns: A DataFrame containing all disturbance types.
+      :rtype: pandas.DataFrame
+
+
+
+   .. py:method:: get_disturbance_times()
+
+      Retrieves disturbance timing data from the database.
+
+      :returns: A DataFrame containing disturbance timing data.
+      :rtype: pandas.DataFrame
+
+
+
+   .. py:method:: get_FM_classifiers()
+
+      Retrieves the managed forest classifiers from the database.
+
+      :returns: A DataFrame containing the managed forest classifiers.
+      :rtype: pandas.DataFrame
+
+
+
+   .. py:method:: get_FM_age_classes()
+
+      Retrieves the managed forest age classes from the database.
+
+      :returns: A DataFrame containing the managed forest age classes.
+      :rtype: pandas.DataFrame
+
+
+
+   .. py:method:: get_FM_disturbance_types()
+
+      Retrieves the managed forest disturbance types from the database.
+
+      :returns: A DataFrame containing the managed forest disturbance types.
+      :rtype: pandas.DataFrame
+
+
+
+   .. py:method:: get_FM_growth_curves()
+
+      Retrieves the managed forest growth curves from the database.
+
+      :returns: A DataFrame containing the managed forest growth curves.
+      :rtype: pandas.DataFrame
+
+
+
+   .. py:method:: get_FM_inventory()
+
+      Retrieves the managed forest inventory from the database.
+
+      :returns: A DataFrame containing the managed forest inventory.
+      :rtype: pandas.DataFrame
+
+
+
+   .. py:method:: get_FM_transition()
+
+      Retrieves the managed forest transition from the database.
+
+      :returns: A DataFrame containing the managed forest transition.
+      :rtype: pandas.DataFrame
+
+
+
+   .. py:method:: get_FM_historic_transition()
+
+      Retrieves the managed forest historic transition from the database.
+
+      :returns: A DataFrame containing the managed forest historic transition.
+      :rtype: pandas.DataFrame
+
+
+
+   .. py:method:: get_FM_historic_disturbances()
+
+      Retrieves the managed forest historic disturbances from the database.
+
+      :returns: A DataFrame containing the managed forest historic disturbances.
+      :rtype: pandas.DataFrame
+
+
+
+   .. py:method:: get_FM_standing_volume()
+
+      Retrieves the managed forest standing volume from the database.
+
+      :returns: A DataFrame containing the managed forest standing volume.
+      :rtype: pandas.DataFrame
+
+
+
+   .. py:method:: get_geo_baseline_standing_volume()
+
+      Retrieves the baseline standing volume from the database.
+
+      :returns: A DataFrame containing the baseline standing volume.
+      :rtype: pandas.DataFrame
+
+
+
+   .. py:method:: get_FM_disturbance_events()
+
+      Retrieves the managed forest disturbances from the database.
+
+      :returns: A DataFrame containing the managed forest disturbances.
+      :rtype: pandas.DataFrame
+
+
+
+   .. py:method:: get_AF_disturbance_events()
+
+      Retrieves the historic afforestation disturbances from the database.
+
+      :returns: A DataFrame containing the historic afforestation disturbances.
+      :rtype: pandas.DataFrame
+
+
+
+   .. py:method:: get_AF_classifiers()
+
+      Retrieves the historic afforestation classifiers from the database.
+
+      :returns: A DataFrame containing the historic afforestation  classifiers.
+      :rtype: pandas.DataFrame
+
+
+
+   .. py:method:: get_AF_age_classes()
+
+      Retrieves the historic afforestation  age classes from the database.
+
+      :returns: A DataFrame containing the historic afforestation  age classes.
+      :rtype: pandas.DataFrame
+
+
+
+   .. py:method:: get_AF_disturbance_types()
+
+      Retrieves the historic afforestation disturbance types from the database.
+
+      :returns: A DataFrame containing the historic afforestation disturbance types.
+      :rtype: pandas.DataFrame
+
+
+
+   .. py:method:: get_AF_growth_curves()
+
+      Retrieves the historic afforestation growth curves from the database.
+
+      :returns: A DataFrame containing the historic afforestation growth curves.
+      :rtype: pandas.DataFrame
+
+
+
+   .. py:method:: get_AF_inventory()
+
+      Retrieves the historic afforestation inventory from the database.
+
+      :returns: A DataFrame containing the historic afforestation inventory.
+      :rtype: pandas.DataFrame
+
+
+
+   .. py:method:: get_AF_transition()
+
+      Retrieves the historic afforestation transition from the database.
+
+      :returns: A DataFrame containing the historic afforestation transition.
+      :rtype: pandas.DataFrame
+
+
+
+.. py:class:: DataManagerBase
+
+   Base class for CBM Runner Data Managers.
+
+   Provides common functionality for loading configuration files.
+
+
+   .. py:method:: get_config_data(config_file)
+
+      Load and return configuration data from a YAML file.
+
+      :param config_file: Path to the configuration file.
+      :type config_file: str
+
+      :returns: Configuration data loaded from the file.
+      :rtype: dict
+
+
+
+.. py:class:: AFDataManager(sit_path=None)
+
+   Bases: :py:obj:`DataManagerBase`
+
+
+   Data Manager for Afforestation (AF) Baseline Runner.
+
+   Loads AF_config.yaml for species mappings to CBM defaults.
+   AF data comes from database tables (AF_inventory_2100, etc.).
+
+
+   .. py:attribute:: sit_path
+      :value: None
+
+
+
+   .. py:attribute:: cbm_default_config
+
+
+   .. py:attribute:: species_mapping
+
+
+   .. py:attribute:: mapping
+
+
+   .. py:method:: get_default_config()
+
+      Get the default configuration data.
+
+
+
+   .. py:method:: get_sit_path()
+
+      Get the path to the SIT file.
+
+
+
+   .. py:method:: get_species_mapping()
+
+      Get the species mapping dictionary.
+
+
+
+   .. py:method:: get_cbm_mapping()
+
+      Get the CBM mapping dictionary.
+
+
+
+   .. py:method:: get_afforestation_baseline_year()
+
+      Get the afforestation baseline year (1990).
+
+
+
+   .. py:method:: get_forest_end_year()
+
+      Get the forest end year.
+
+
+
+.. py:class:: FMDataManager(sit_path=None)
+
+   Bases: :py:obj:`DataManagerBase`
+
+
+   Data Manager for Forest Management (FM) Baseline Runner.
+
+   Unlike AF, FM manages existing forest from 2016 and requires spinup
+   using standing volume data.
+
+
+   .. py:attribute:: sit_path
+      :value: None
+
+
+
+   .. py:attribute:: cbm_default_config
+
+
+   .. py:attribute:: species_mapping
+
+
+   .. py:attribute:: mapping
+
+
+   .. py:method:: get_default_config()
+
+      Get the default configuration data.
+
+
+
+   .. py:method:: get_sit_path()
+
+      Get the path to the SIT file.
+
+
+
+   .. py:method:: get_species_mapping()
+
+      Get the species mapping dictionary.
+
+
+
+   .. py:method:: get_cbm_mapping()
+
+      Get the CBM mapping dictionary.
+
+
+
+   .. py:method:: get_disturbance_mapping()
+
+      Get the disturbance mapping dictionary.
+
+
+
+   .. py:method:: get_forest_baseline_year()
+
+      Get the forest baseline year (2016).
+
+
+
+   .. py:method:: get_forest_end_year()
+
+      Get the forest end year.
+
+
+
+.. py:class:: SCDataManager(scenario_data, afforest_data, config=None, sit_path=None)
+
+   Bases: :py:obj:`DataManagerBase`
+
+
+   Data Manager for Scenario (SC) Runner.
+
+   SC uses a hybrid approach:
+   - Database tables for structure (classifiers, transitions, growth curves)
+   - User-provided DataFrames for scenario data
+   - Simple config dict for delay/rate parameters
+
+   User-provided inputs:
+   - scenario_data: Scenario parameters (harvest proportions, etc.)
+   - afforest_data: Afforestation areas per scenario
+   - config: Dict with afforest_delay and annual_rate_pre_delay
+
+
+   .. py:attribute:: scenario_data
+
+
+   .. py:attribute:: afforest_data
+
+
+   .. py:attribute:: config
+
+
+   .. py:attribute:: sit_path
+      :value: None
+
+
+
+   .. py:attribute:: cbm_default_config
+
+
+   .. py:attribute:: sc_loader
+
+
+   .. py:attribute:: mapping
+
+
+   .. py:method:: get_afforest_data()
+
+      Get the afforestation data DataFrame.
+
+
+
+   .. py:method:: get_scenario_data()
+
+      Get the scenario data DataFrame.
+
+
+
+   .. py:method:: get_sit_path()
+
+      Get the path to SIT files.
+
+
+
+   .. py:method:: get_afforest_delay()
+
+      Get afforestation delay in years.
+
+
+
+   .. py:method:: get_annual_rate_pre_delay()
+
+      Get annual afforestation rate during delay period (ha/year).
+
+
+
+   .. py:method:: get_forest_baseline_year()
+
+      Get the forest baseline year.
+
+
+
+   .. py:method:: get_forest_end_year()
+
+      Get the forest end year.
+
+
+
+   .. py:method:: get_column_index(column_name)
+
+      Retrieves the index of a specified column in the scenario data.
+
+      :param column_name: The name of the column.
+      :type column_name: str
+
+      :returns: The index of the column, or None if not found.
+      :rtype: int
+
+
+
+   .. py:method:: get_scenario_list()
+
+      Retrieves a list of all scenarios.
+
+      :returns: A list of scenario identifiers.
+      :rtype: list
+
+
+
+   .. py:method:: get_afforestation_end_year()
+
+      Retrieves the end year for afforestation activities.
+
+      If 'Afforest Year' column is not present in scenario_data,
+      falls back to forest_end_year with a warning.
+
+      If Afforest Year exceeds forest_end_year, caps it with a warning.
+
+      :returns: The afforestation end year.
+      :rtype: int
+
+
+
+   .. py:method:: get_classifiers()
+
+      Get classifiers in format expected by AfforestationTracker.
+
+      :returns: {"Scenario": classifiers_dict}
+      :rtype: dict
+
+
+
+   .. py:method:: get_transition_dict_species()
+
+      Get NF_* to forested species transition mapping.
+
+      Used by AfforestationTracker to convert afforestation species
+      to their post-transition (forested) names.
+
+      :returns: {NF_species: forested_species}
+                e.g., {"NF_Spruce17-20-nothin": "Spruce17-20-nothin"}
+      :rtype: dict
+
+
+
+   .. py:method:: get_transition_dict_species_to_yield()
+
+      Get mapping from forested species to their yield classes.
+
+      :returns: {forested_species: [yield_classes]}
+                e.g., {"Spruce17-20-nothin": ["YC_17_20"]}
+      :rtype: dict
+
+
+
+   .. py:method:: get_yield_name_dict()
+
+      Get mapping from (species, yield_class) to Disturbance_timing cohort.
+
+      For SC, this is an identity mapping because the forested species name
+      IS the cohort name in Disturbance_timing.
+
+      :returns: {species: {yield_class: cohort}}
+                e.g., {"Spruce17-20-nothin": {"YC_17_20": "Spruce17-20-nothin"}}
+      :rtype: dict
+
+
+
+   .. py:method:: get_cbm_mapping()
+
+      Get the CBM mapping dictionary (species and disturbance mappings).
+
+
+
+   .. py:method:: get_species_mapping()
+
+      Get the species mapping dictionary.
+
+
+
+   .. py:method:: get_disturbance_mapping()
+
+      Get the disturbance mapping dictionary.
+
+
+
+   .. py:method:: get_scenario_classifiers()
+
+      Get the classifiers dictionary.
+
+      :returns: Classifiers for scenario forests
+      :rtype: dict
+
+
+
+   .. py:method:: get_disturbance_cols()
+
+      Get the disturbance columns list.
+
+
+
+   .. py:method:: get_static_disturbance_cols()
+
+      Get the static disturbance columns list.
+
+
+
+   .. py:method:: get_transition_cols()
+
+      Get the transition columns dictionary.
+
+      :returns: {"before_cols": [...], "after_cols": [...]}
+      :rtype: dict
+
+
+
+.. py:class:: DFDataManager(config=None)
+
+   Bases: :py:obj:`DataManagerBase`
+
+
+   Data Manager for Dynamic Forest (NAI Continuation) Runner.
+
+   Loads DF_config.yaml for default parameters, then merges with
+   user-provided config dict (user values override defaults).
+
+   Unlike AF/FM/SC, DF has no species mappings or database tables.
+   It manages the parameters that control NAI-based harvest scheduling
+   and dynamic continuation beyond the standard pipeline's end year.
+
+
+   .. py:attribute:: user_config
+
+
+   .. py:attribute:: cbm_default_config
+
+
+   .. py:method:: get_dynamic_years()
+
+      Get the number of years to simulate beyond the standard end year.
+
+      :returns: Dynamic continuation years (default: 30)
+      :rtype: int
+
+
+
+   .. py:method:: get_spinup_warmup_steps(default=0)
+
+      Get the number of growth-only warm-up steps applied before the first
+      recorded dynamic timestep.
+
+      Used to settle the AF backward-decomposition spinup's over-inflated
+      Litter/Deadwood pools before output is recorded (avoids spurious
+      negative flux at the start of the series). The standard-sim pipeline
+      passes a small default (3); the FM/AF 2070 continuation leaves it at 0.
+
+      :param default: Fallback when neither the user config nor
+                      DF_config.yaml specifies a value.
+      :type default: int
+
+      :returns: Number of warm-up steps.
+      :rtype: int
+
+
+
+   .. py:method:: get_harvest_ratio()
+
+      Get the target proportion of NAI to harvest each year.
+
+      :returns: Harvest ratio (default: 0.75)
+      :rtype: float
+
+
+
+   .. py:method:: get_clearfell_thinning_split()
+
+      Get the clearfell/thinning split proportions.
+
+      :returns:
+
+                Mapping of disturbance type to proportion
+                      (default: {'DISTID1': 0.8, 'DISTID2': 0.2})
+      :rtype: dict
+
+
+
+   .. py:method:: get_scheduled_disturbances()
+
+      Get the list of scheduled (non-harvest) disturbances.
+
+      :returns:
+
+                List of dicts with year, disturbance_type, area, and
+                      optional species_filter, age_min, age_max
+      :rtype: list
+
+
+
+   .. py:method:: get_species_column()
+
+      Get the classifier column name used for species.
+
+      :returns: Species column name (default: 'Species')
+      :rtype: str
+
+
+
+   .. py:method:: get_cbm_vars_dump_dir()
+
+      Get the directory for dumping CBMVariables each timestep.
+
+      :returns: Path to dump directory, or None if not set
+      :rtype: str or None
+
+
+
+.. py:class:: Pools
+
+   Class representing the pools in a CBM model.
+
+   This class encapsulates various types of pools relevant in the context of Carbon Budget Modeling (CBM),
+   such as biomass pools, deadwood, litter, and soil organic matter. It also manages annual process fluxes.
+
+   .. method:: get_above_ground_biomass_pools()
+
+      Retrieves above ground biomass pools.
+
+   .. method:: get_below_ground_biomass_pools()
+
+      Retrieves below ground biomass pools.
+
+   .. method:: get_deadwood_pools()
+
+      Retrieves deadwood pools.
+
+   .. method:: get_litter_pools()
+
+      Retrieves litter pools.
+
+   .. method:: get_soil_organic_matter_pools()
+
+      Retrieves soil organic matter pools.
+
+   .. method:: get_annual_process_fluxes()
+
+      Retrieves annual process fluxes.
+
+   .. method:: get_disturbance_flux_columns()
+
+      Retrieves disturbance flux columns.
+
+   .. method:: get_total_litter()
+
+      Retrieves total litter.
+
+   .. method:: get_gross_growth_AG()
+
+      Retrieves gross growth above ground.
+
+   .. method:: get_gross_growth_BG()
+
+      Retrieves gross growth below ground.
+
+   .. method:: get_annual_process_columns()
+
+      Retrieves annual process columns.
+      
+
+   .. attribute:: above_ground_biomass_pools
+
+      List of above ground biomass pools.
+
+      :type: list
+
+   .. attribute:: below_ground_biomass_pools
+
+      List of below ground biomass pools.
+
+      :type: list
+
+   .. attribute:: deadwood
+
+      List of deadwood pools.
+
+      :type: list
+
+   .. attribute:: litter
+
+      List of litter pools.
+
+      :type: list
+
+   .. attribute:: soil_organic_matter
+
+      List of soil organic matter pools.
+
+      :type: list
+
+   .. attribute:: annual_process_fluxes
+
+      List of annual process fluxes.
+
+      :type: list
+
+   .. attribute:: disturbance_fluxes
+
+      List of disturbance fluxes.
+
+      :type: list
+
+   .. attribute:: total_litter
+
+      List of total litter.
+
+      :type: list
+
+   .. attribute:: gross_growth_AG
+
+      List of gross growth above ground.
+
+      :type: list
+
+   .. attribute:: gross_growth_BG
+
+      List of gross growth below ground.
+
+      :type: list
+
+   .. attribute:: annual_process_columns
+
+      List of annual process columns.
+
+      :type: list
+
+
+   .. py:attribute:: above_ground_biomass_pools
+      :value: ['SoftwoodMerch', 'SoftwoodFoliage', 'SoftwoodOther', 'HardwoodMerch', 'HardwoodFoliage',...
+
+
+
+   .. py:attribute:: below_ground_biomass_pools
+      :value: ['SoftwoodCoarseRoots', 'SoftwoodFineRoots', 'HardwoodCoarseRoots', 'HardwoodFineRoots']
+
+
+
+   .. py:attribute:: deadwood
+      :value: ['BelowGroundFastSoil', 'MediumSoil', 'SoftwoodStemSnag', 'SoftwoodBranchSnag',...
+
+
+
+   .. py:attribute:: litter
+      :value: ['AboveGroundVeryFastSoil', 'AboveGroundFastSoil', 'AboveGroundSlowSoil']
+
+
+
+   .. py:attribute:: soil_organic_matter
+      :value: ['BelowGroundVeryFastSoil', 'BelowGroundSlowSoil']
+
+
+
+   .. py:attribute:: annual_process_fluxes
+      :value: ['DecayDOMCO2Emission', 'DeltaBiomass_AG', 'DeltaBiomass_BG', 'TurnoverMerchLitterInput',...
+
+
+
+   .. py:attribute:: disturbance_fluxes
+      :value: ['TimeStep', 'LandClassID', 'CO2Production', 'CH4Production', 'COProduction', 'BioCO2Emission',...
+
+
+
+   .. py:attribute:: total_litter
+      :value: ['TurnoverMerchLitterInput', 'TurnoverFolLitterInput', 'TurnoverOthLitterInput',...
+
+
+
+   .. py:attribute:: gross_growth_AG
+      :value: ['TurnoverMerchLitterInput', 'TurnoverFolLitterInput', 'TurnoverOthLitterInput']
+
+
+
+   .. py:attribute:: gross_growth_BG
+      :value: ['TurnoverCoarseLitterInput', 'TurnoverFineLitterInput']
+
+
+
+   .. py:attribute:: annual_process_columns
+      :value: ['TimeStep', 'LandClassID', 'CO2Production', 'CH4Production', 'COProduction', 'BioCO2Emission',...
+
+
+
+   .. py:method:: get_above_ground_biomass_pools()
+
+      Returns the above ground biomass pools.
+
+      :returns: List of above ground biomass pools.
+      :rtype: list
+
+
+
+   .. py:method:: get_below_ground_biomass_pools()
+
+      Returns the below ground biomass pools.
+
+      :returns: List of below ground biomass pools.
+      :rtype: list
+
+
+
+   .. py:method:: get_deadwood_pools()
+
+      Returns the deadwood pools.
+
+      :returns: List of deadwood pools.
+      :rtype: list
+
+
+
+   .. py:method:: get_litter_pools()
+
+      Returns the litter pools.
+
+      :returns: List of litter pools.
+      :rtype: list
+
+
+
+   .. py:method:: get_soil_organic_matter_pools()
+
+      Returns the soil organic matter pools.
+
+      :returns: List of soil organic matter pools.
+      :rtype: list
+
+
+
+   .. py:method:: get_annual_process_fluxes()
+
+      Returns the annual process fluxes.
+
+      :returns: List of annual process fluxes.
+      :rtype: list
+
+
+
+   .. py:method:: get_disturbance_flux_columns()
+
+      Returns the disturbance fluxes.
+
+      :returns: List of disturbance fluxes.
+      :rtype: list
+
+
+
+   .. py:method:: get_total_litter()
+
+      Returns the total litter.
+
+      :returns: List of total litter.
+      :rtype: list
+
+
+
+   .. py:method:: get_gross_growth_AG()
+
+      Returns the gross growth above ground.
+
+      :returns: List of gross growth above ground.
+      :rtype: list
+
+
+
+   .. py:method:: get_gross_growth_BG()
+
+      Returns the gross growth below ground.
+
+      :returns: List of gross growth below ground.
+      :rtype: list
+
+
+
+   .. py:method:: get_annual_process_columns()
+
+      Returns the annual process columns.
+
+      :returns: List of annual process columns.
+      :rtype: list
+
+
+
+.. py:class:: FluxManager
+
+   Manages the preparation and transformation of carbon flux data for use in a Carbon Budget Model.
+
+   Responsibilities:
+       * **Initialization:** Establishes a link to a `Pools` object (from CBMpools module) to access carbon pool definitions.
+       * **Scaling:** Scales flux data based on a given area (`scale_flux_data`).
+       * **Filtering:** Removes rows in flux data where all flux values are zero (`filter_flux_data`).
+       * **Result Generation:** Combines scaled and filtered flux data with area and disturbance information (`flux_results_dataframes`).
+       * **Flux Creation:** Generates disturbance, total litter, gross growth, and process fluxes for a CBM model (`create_disturbance_fluxes`, `create_total_litter`, `create_gross_growthAG`, `create_gross_growthBG`, `create_process_fluxes`).
+
+
+   .. py:attribute:: CBMpools
+
+
+   .. py:method:: scale_flux_data(flux_data, area)
+
+      Scales relevant carbon flux columns in a DataFrame based on a provided area.
+
+      :param flux_data: DataFrame containing unscaled carbon flux data.
+      :type flux_data: pandas.DataFrame
+      :param area: The area value to be used as a scaling factor.
+      :type area: float or numeric column
+
+      :returns: A DataFrame with updated flux values scaled by the area.
+      :rtype: pandas.DataFrame
+
+
+
+   .. py:method:: filter_flux_data(flux_data)
+
+      Removes rows from a flux DataFrame where all valid flux values are zero.
+
+      Filtering eliminates time steps where no carbon movement is happening.
+
+      :param flux_data: DataFrame containing carbon flux data.
+      :type flux_data: pandas.DataFrame
+
+      :returns: Filtered DataFrame with only rows containing non-zero flux values.
+      :rtype: pandas.DataFrame
+
+
+
+   .. py:method:: flux_results_dataframes(flux, state, parameters, area)
+
+      Combines scaled and filtered carbon flux data.
+
+      :param flux: DataFrame containing carbon flux data.
+      :type flux: pandas.DataFrame
+      :param state: DataFrame containing state information.
+      :type state: pandas.DataFrame
+      :param parameters: DataFrame containing parameter information.
+      :type parameters: pandas.DataFrame
+      :param area: DataFrame containing area information.
+      :type area: pandas.DataFrame
+
+      :returns: DataFrame with augmented flux data ready for CBM use.
+      :rtype: pandas.DataFrame
+
+
+
+   .. py:method:: create_disturbance_fluxes(flux, state, parameters, area)
+
+      Creates a DataFrame of carbon fluxes related to disturbances.
+
+      .. warning::
+          This method has not been validated against known reference outputs.
+          Ecosystem flux integrity checks (Delta_Ecos ratio via flux_filter_and_aggregate)
+          show values in the range 0.7–1.36 instead of the expected 1.0. Use
+          AFRunner.run_cbm_flux_scenarios() for validated flux calculations.
+
+      :param flux: DataFrame containing carbon flux data.
+      :type flux: pandas.DataFrame
+      :param state: DataFrame containing state information.
+      :type state: pandas.DataFrame
+      :param parameters: DataFrame containing parameter information.
+      :type parameters: pandas.DataFrame
+      :param area: DataFrame containing area information.
+      :type area: pandas.DataFrame
+
+      :returns: A DataFrame containing calculated disturbance fluxes.
+      :rtype: pandas.DataFrame
+
+
+
+   .. py:method:: create_total_litter(flux)
+
+      Calculates the total litter production based on relevant litter flux columns.
+
+      :param flux: DataFrame containing carbon flux data.
+      :type flux: pandas.DataFrame
+
+      :returns: A Series representing the total litter production.
+      :rtype: pandas.Series
+
+
+
+   .. py:method:: create_gross_growthAG(flux)
+
+      Calculates the gross growth for aboveground biomass.
+
+      :param flux: DataFrame containing carbon flux data.
+      :type flux: pandas.DataFrame
+
+      :returns: A Series representing the calculated aboveground gross growth.
+      :rtype: pandas.Series
+
+
+
+   .. py:method:: create_gross_growthBG(flux)
+
+      Calculates the gross growth for belowground biomass.
+
+      :param flux: DataFrame containing carbon flux data.
+      :type flux: pandas.DataFrame
+
+      :returns: A Series representing the calculated belowground gross growth.
+      :rtype: pandas.Series
+
+
+
+   .. py:method:: create_process_fluxes(flux, state, parameters)
+
+      Creates a DataFrame of annual process fluxes in the CBM.
+
+      .. warning::
+          This method has not been validated against known reference outputs.
+          Ecosystem flux integrity checks (Delta_Ecos ratio via flux_filter_and_aggregate)
+          show values in the range 0.7–1.36 instead of the expected 1.0. Use
+          AFRunner.run_cbm_flux_scenarios() for validated flux calculations.
+
+      :param flux: DataFrame containing carbon flux data.
+      :type flux: pandas.DataFrame
+      :param state: DataFrame containing state information.
+      :type state: pandas.DataFrame
+      :param parameters: DataFrame containing parameter information.
+      :type parameters: pandas.DataFrame
+
+      :returns: DataFrame with calculated annual process fluxes.
+      :rtype: pandas.DataFrame
+
+
+
+   .. py:method:: concatenated_fluxes_data(flux, state, parameters, area)
+
+      Combines disturbance fluxes and annual process fluxes into a single DataFrame.
+
+      .. warning::
+          This method has not been validated against known reference outputs.
+          The resulting Delta_Ecos ratio (computed by flux_filter_and_aggregate) falls
+          in the range 0.7–1.36 instead of the expected 1.0. Use
+          AFRunner.run_cbm_flux_scenarios() for validated flux calculations.
+
+      :param flux: DataFrame containing carbon flux data.
+      :type flux: pandas.DataFrame
+      :param state: DataFrame containing state information.
+      :type state: pandas.DataFrame
+      :param parameters: DataFrame containing parameter information.
+      :type parameters: pandas.DataFrame
+      :param area: DataFrame containing area information.
+      :type area: pandas.DataFrame
+
+      :returns: DataFrame with concatenated disturbance and process fluxes.
+      :rtype: pandas.DataFrame
+
+
+
+   .. py:method:: flux_filter_and_aggregate(df)
+
+      Filters and aggregates flux data based on specific conditions.
+
+      .. warning::
+          This method has not been validated against known reference outputs.
+          The resulting Delta_Ecos ratio falls in the range 0.7–1.36 instead of
+          the expected 1.0. Use AFRunner.run_cbm_flux_scenarios() for validated
+          flux calculations.
+
+      :param df: DataFrame containing flux data.
+      :type df: pandas.DataFrame
+
+      :returns: Aggregated DataFrame with filtered flux data.
+      :rtype: pandas.DataFrame
+
+
+
+   .. py:method:: aggregate_cbm_flux(df, group_cols)
+      :staticmethod:
+
+
+      Aggregate raw CBM flux table into renamed summary columns.
+
+      Groups a classifier-joined flux DataFrame (from cbm_output.flux) by
+      ``group_cols`` and sums the CBM flux columns into descriptive names.
+      Intermediate columns (AG litter components, snag components, harvest
+      components, disturbance emission components) are preserved for use by
+      ``derive_flux_metrics`` and dropped there.
+
+      Litter inputs are split into process (``Turnover*``) and disturbance
+      (``Dist_*``) components.  ``derive_flux_metrics`` combines them as
+      ``Turnover* + Disturbance*`` to match Kevin Black's CBM-CFS3
+      ``MerchLitterInput / OthLitterInput / CoarseLitterInput / ...`` columns,
+      which aggregate both sources.  The disturbance terms are substantial
+      from the first clearcut rotation onward and must not be omitted.
+
+      :param df: Classifier-joined flux table with CBM column names.
+      :type df: pandas.DataFrame
+      :param group_cols: Columns to group by (e.g. ["timestep"] or
+                         ["timestep", "Species"]).
+      :type group_cols: list[str]
+
+      :returns: Aggregated flux with renamed columns plus an
+                ``identifier``-based ``stand_count`` column.
+      :rtype: pandas.DataFrame
+
+
+
+   .. py:method:: aggregate_cbm_pools(df, group_cols)
+      :staticmethod:
+
+
+      Aggregate raw CBM pool table into root and soil stock columns.
+
+      Groups a classifier-joined pool DataFrame (from cbm_output.pools) by
+      ``group_cols`` and sums the relevant pool columns.
+
+      :param df: Classifier-joined pool table with CBM column names.
+      :type df: pandas.DataFrame
+      :param group_cols: Columns to group by (e.g. ["timestep"] or
+                         ["timestep", "Species"]).
+      :type group_cols: list[str]
+
+      :returns: Aggregated pool stocks: FineRoot_stock_sw/hw,
+                CoarseRoot_stock_sw/hw, BGVF_stock, BGSlow_stock.
+      :rtype: pandas.DataFrame
+
+
+
+   .. py:method:: derive_flux_metrics(agg, pool_agg, join_cols)
+      :staticmethod:
+
+
+      Derive summary flux metrics from aggregated flux and pool columns.
+
+      Computes combined columns (AG_turnover, Snag_decay, Harvest, BioAtm,
+      DOMAtm, Deadwood, Litter, Total_Eco), soil pool estimates (Soil_BGVF,
+      Soil_BGSlow, Soil), and merged root stock columns, then drops the
+      intermediate columns used to build them.
+
+      Deadwood and Litter use Kevin Black's CBM-CFS3 flux-indicator formulas
+      (Kurz et al. 2009, Table 2).  Litter inputs are combined as
+      Turnover* + Disturbance* to match Kevin's ``MerchLitterInput`` etc.
+      which aggregate both sources.  Pool groupings follow Table 2:
+        Deadwood = StemSnags + BranchSnags + MediumSoil + BelowGroundFastSoil
+        Litter   = AboveGroundVeryFast + AboveGroundFast + AboveGroundSlow
+        Soil     = BelowGroundVeryFast + BelowGroundSlow
+
+      Deadwood formula (KB / Kurz 2009 Table 2):
+          DW_Inflow  = MerchLitter + OthLitter × 0.25 + CoarseLitter × 0.5
+          DW_Outflow = Snag_decay + DOMProduction + Medium_decay + BGFast_decay
+          Deadwood   = DW_Inflow − DW_Outflow
+
+      Litter formula (KB / Kurz 2009 Table 2):
+          LT_Inflow  = FolLitter + OthLitter × 0.75 + CoarseLitter × 0.5
+                       + FineLitter × 0.5
+          LT_Outflow = AGVFast_decay + AGFast_decay + AGSlow_decay
+          Litter     = LT_Inflow − LT_Outflow
+
+      Soil_BGVF uses the corrected formula:
+          Fine_root_litter × 0.5 − BGVF_decay
+      where 0.5 is (1 − fine_ag_split) from the AIDB. TurnoverFineLitterInput
+      is the pre-split total; only 50% enters BGVF.
+
+      Soil_BGSlow is set to ``−BGSlow_decay`` as a placeholder. This omits the
+      slow-mixing transfer (AboveGroundSlowSoil → BGSlow at 0.006/yr) which
+      has no named flux column in libcbm. Callers that need an accurate
+      Soil_BGSlow must override it with the BGSlow pool-delta after calling
+      this method. See ``AF_raw_cbm_flux`` for the canonical implementation.
+
+      :param agg: Output of ``aggregate_cbm_flux``.
+      :type agg: pandas.DataFrame
+      :param pool_agg: Output of ``aggregate_cbm_pools`` for
+                       the same timestep range (timestep >= 1).
+      :type pool_agg: pandas.DataFrame
+      :param join_cols: Columns used to merge ``agg`` and ``pool_agg``
+                        (must match ``group_cols`` used in both aggregation calls).
+      :type join_cols: list[str]
+
+      :returns: ``agg`` with derived columns added and intermediate
+                columns removed.
+      :rtype: pandas.DataFrame
+
+
+
+.. py:class:: Paths(sit_path=None, gen_baseline=False)
+
+   Manages directory paths for CBM simulation input data.
+
+   All input data is stored under: <package_dir>/data/<runner>_input/
+   - AF_input: Afforestation baseline inputs
+   - FM_input: Forest Management baseline inputs
+   - SC_input: Scenario inputs
+
+
+   .. py:attribute:: external_path
+      :value: None
+
+
+
+   .. py:attribute:: gen_baseline
+      :value: False
+
+
+
+   .. py:method:: make_base_data_dir()
+
+      Create the base data directory.
+
+
+
+   .. py:method:: get_aidb_path()
+
+      Get path to the AIDB (Archive Index Database).
+
+      :returns: Path to ireland_cbm_defaults_v6.1.db
+      :rtype: str
+
+
+
+   .. py:method:: make_AF_input_data_dir()
+
+      Create AF input data directory.
+
+
+
+   .. py:method:: clean_AF_input_data_dir()
+
+      Remove all files from AF input data directory.
+
+
+
+   .. py:method:: get_AF_input_data_dir()
+
+      Get AF input data directory path.
+
+
+
+   .. py:method:: set_AF_SIT_data_dir(path, db_path)
+
+      Load SIT configuration and initialize inventory for AF.
+
+      :param path: Path to input data directory containing sit_config.json
+      :param db_path: Path to AIDB database
+
+      :returns: (sit, classifiers, inventory)
+      :rtype: tuple
+
+
+
+   .. py:method:: make_FM_input_data_dir()
+
+      Create FM input data directory.
+
+
+
+   .. py:method:: clean_FM_input_data_dir()
+
+      Remove all files from FM input data directory.
+
+
+
+   .. py:method:: get_FM_input_data_dir()
+
+      Get FM input data directory path.
+
+
+
+   .. py:method:: set_FM_SIT_data_dir(path, db_path)
+
+      Load SIT configuration and initialize inventory for FM.
+
+      :param path: Path to input data directory containing sit_config.json
+      :param db_path: Path to AIDB database
+
+      :returns: (sit, classifiers, inventory)
+      :rtype: tuple
+
+
+
+   .. py:method:: set_FM_spinup_SIT_data_dir(path, db_path)
+
+      Load spinup SIT configuration for FM (uses standing volume).
+
+      :param path: Path to input data directory containing spinup_config.json
+      :param db_path: Path to AIDB database
+
+      :returns: (sit, classifiers, inventory)
+      :rtype: tuple
+
+
+
+   .. py:method:: make_SC_input_data_dir()
+
+      Create SC input data directory.
+
+
+
+   .. py:method:: clean_SC_input_data_dir()
+
+      Remove all files from SC input data directory.
+
+
+
+   .. py:method:: get_SC_input_data_dir()
+
+      Get SC input data directory path.
+
+
+
+   .. py:method:: set_SC_SIT_data_dir(path, db_path)
+
+      Load SIT configuration and initialize inventory for SC.
+
+      :param path: Path to input data directory containing sit_config.json
+      :param db_path: Path to AIDB database
+
+      :returns: (sit, classifiers, inventory)
+      :rtype: tuple
+
 
 

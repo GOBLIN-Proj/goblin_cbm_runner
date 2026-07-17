@@ -1,5 +1,5 @@
-:py:mod:`goblin_cbm_runner.cbm.data_processing.default_processing.create_json`
-==============================================================================
+goblin_cbm_runner.cbm.data_processing.default_processing.create_json
+====================================================================
 
 .. py:module:: goblin_cbm_runner.cbm.data_processing.default_processing.create_json
 
@@ -12,20 +12,43 @@
 
 
 
-Module Contents
----------------
-
 Classes
-~~~~~~~
+-------
 
 .. autoapisummary::
 
    goblin_cbm_runner.cbm.data_processing.default_processing.create_json.CreateJSON
+   goblin_cbm_runner.cbm.data_processing.default_processing.create_json.AFCreateJSON
+   goblin_cbm_runner.cbm.data_processing.default_processing.create_json.FMCreateJSON
+   goblin_cbm_runner.cbm.data_processing.default_processing.create_json.SCCreateJSON
+
+
+Module Contents
+---------------
+
+.. py:class:: CreateJSON
+
+   Bases: :py:obj:`abc.ABC`
+
+
+   Abstract base class for creating JSON configuration files for CBM AIDB.
+
+   This class provides the structure for generating JSON files based on different scenarios
+   or managed forest data. Concrete implementations must provide methods to populate templates
+   with the necessary data.
+
+
+   .. py:method:: populate_template() -> Dict
+      :abstractmethod:
+
+
+      Populates the template JSON with data based on the given scenario.
 
 
 
+.. py:class:: AFCreateJSON(data_manager)
 
-.. py:class:: CreateJSON(data_manager)
+   Bases: :py:obj:`CreateJSON`
 
 
    This class is responsible for creating the mapping configuration JSON for the CBM AIDB.
@@ -51,6 +74,60 @@ Classes
 
       :type: dict
 
+   .. method:: populate_template
+
+      Populates the template JSON with data based on the given scenario.
+      
+
+
+   .. py:attribute:: data_manager_class
+
+
+   .. py:attribute:: template
+
+
+   .. py:method:: populate_template()
+
+      Populates the template JSON with data based on the given scenario.
+
+      :param scenario: The scenario for which the mapping is being created. If None, the baseline scenario is used.
+      :type scenario: str
+
+      :returns: The populated template JSON.
+      :rtype: dict
+
+
+
+.. py:class:: FMCreateJSON(data_manager)
+
+   Bases: :py:obj:`CreateJSON`
+
+
+   This class is responsible for creating the mapping configuration JSON for FM baseline.
+
+   Works with FMDataManager to create JSON configs for forest management simulation.
+
+   :param data_manager: An instance of the FMDataManager class.
+   :type data_manager: FMDataManager
+
+   .. attribute:: loader_class
+
+      An instance of the Loader class.
+
+      :type: Loader
+
+   .. attribute:: data_manager_class
+
+      An instance of the FMDataManager class.
+
+      :type: FMDataManager
+
+   .. attribute:: template
+
+      The template JSON structure for the mapping configuration.
+
+      :type: dict
+
    .. attribute:: standing_vol_template
 
       The template JSON structure for the standing volume configuration.
@@ -66,20 +143,90 @@ Classes
       Populates the template JSON with data based on managed forests.
       
 
-   .. py:method:: populate_template(scenario)
 
-      Populates the template JSON with data based on the given scenario.
+   .. py:attribute:: loader_class
 
-      :param scenario: The scenario for which the mapping is being created. If None, the baseline scenario is used.
-      :type scenario: str
+
+   .. py:attribute:: data_manager_class
+
+
+   .. py:attribute:: template
+
+
+   .. py:attribute:: standing_vol_template
+
+
+   .. py:method:: populate_template(scenario=None)
+
+      Populates the template JSON with data based on the FM config.
+
+      For v0.6.0 FMDataManager, this uses the database-first approach:
+      species and disturbance mappings come from FM_config.yaml.
+
+      :param scenario: Ignored for FM baseline (always None). Kept for interface compatibility.
 
       :returns: The populated template JSON.
       :rtype: dict
 
 
+
    .. py:method:: populate_spinup_template()
 
-      Populates the template JSON with data based on managed forests.
+      Populates the spinup template JSON for FM baseline.
+
+      Uses standing volume data for spinup initialization.
+
+      :returns: The populated template JSON for spinup.
+      :rtype: dict
+
+
+
+.. py:class:: SCCreateJSON(data_manager)
+
+   Bases: :py:obj:`CreateJSON`
+
+
+   This class is responsible for creating the mapping configuration JSON for the CBM AIDB.
+
+   :param data_manager: An instance of the DataManager class.
+   :type data_manager: DataManager
+
+   .. attribute:: loader_class
+
+      An instance of the Loader class.
+
+      :type: Loader
+
+   .. attribute:: data_manager_class
+
+      An instance of the DataManager class.
+
+      :type: DataManager
+
+   .. attribute:: template
+
+      The template JSON structure for the mapping configuration.
+
+      :type: dict
+
+   .. method:: populate_template
+
+      Populates the template JSON with data based on the given scenario.
+      
+
+
+   .. py:attribute:: data_manager_class
+
+
+   .. py:attribute:: template
+
+
+   .. py:method:: populate_template()
+
+      Populates the template JSON with data based on the given scenario.
+
+      :param scenario: The scenario for which the mapping is being created. If None, the baseline scenario is used.
+      :type scenario: str
 
       :returns: The populated template JSON.
       :rtype: dict

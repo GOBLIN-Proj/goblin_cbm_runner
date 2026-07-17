@@ -1,0 +1,13 @@
+Classifier1,Classifier2,Classifier3,Classifier4,UsingID,SWStart,SWEnd,HWStart,HWEnd,Dist_Type_ID,Classifier1,Classifier2,Classifier3,Classifier4,RegenDelay,ResetAge,Percent
+NF_Spruce13-16,A,mineral,YC13_16,FALSE,0,210,0,210,DISTID4,Spruce13-16,L,mineral,YC13_16,0,1,100
+NF_Spruce17-20-nothin,A,mineral,YC17_20,FALSE,0,210,0,210,DISTID4,Spruce17-20-nothin,L,mineral,YC17_20,0,1,100
+NF_Spruce21-24-nothin,A,mineral,YC21_24,FALSE,0,210,0,210,DISTID4,Spruce21-24-nothin,L,mineral,YC21_24,0,1,100
+NF_Spruce25-32-nothin,A,mineral,YC25_32,FALSE,0,210,0,210,DISTID4,Spruce25-32-nothin,L,mineral,YC25_32,0,1,100
+NF_Spruce4-12,A,mineral,YC4_12,FALSE,0,210,0,210,DISTID4,Spruce4-12,L,mineral,YC4_12,0,1,100
+NF_SGB,A,mineral,YC6,FALSE,0,210,0,210,DISTID4,SGB,L,mineral,YC6,0,1,100
+NF_Spruce13-16,A,peat,YC13_16,FALSE,0,210,0,210,DISTID4,Spruce13-16,L,peat,YC13_16,0,1,100
+NF_Spruce17-20-nothin,A,peat,YC17_20,FALSE,0,210,0,210,DISTID4,Spruce17-20-nothin,L,peat,YC17_20,0,1,100
+NF_Spruce21-24-nothin,A,peat,YC21_24,FALSE,0,210,0,210,DISTID4,Spruce21-24-nothin,L,peat,YC21_24,0,1,100
+NF_Spruce25-32-nothin,A,peat,YC25_32,FALSE,0,210,0,210,DISTID4,Spruce25-32-nothin,L,peat,YC25_32,0,1,100
+NF_Spruce4-12,A,peat,YC4_12,FALSE,0,210,0,210,DISTID4,Spruce4-12,L,peat,YC4_12,0,1,100
+NF_SGB,A,peat,YC6,FALSE,0,210,0,210,DISTID4,SGB,L,peat,YC6,0,1,100

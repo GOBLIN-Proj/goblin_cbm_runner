@@ -1,23 +1,47 @@
-:py:mod:`goblin_cbm_runner`
-===========================
+goblin_cbm_runner
+=================
 
 .. py:module:: goblin_cbm_runner
 
 
-Subpackages
------------
-.. toctree::
-   :titlesonly:
-   :maxdepth: 3
+Submodules
+----------
 
-   cbm/index.rst
-   cbm_validation/index.rst
-   configuration_data/index.rst
-   database/index.rst
-   default_runner/index.rst
-   geo_cbm_runner/index.rst
-   harvest_manager/index.rst
-   historic_affor/index.rst
-   resource_manager/index.rst
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/goblin_cbm_runner/archive/index
+   /autoapi/goblin_cbm_runner/cbm/index
+   /autoapi/goblin_cbm_runner/cbm_validation/index
+   /autoapi/goblin_cbm_runner/configuration_data/index
+   /autoapi/goblin_cbm_runner/database/index
+   /autoapi/goblin_cbm_runner/dynamic_scenario_generator/index
+   /autoapi/goblin_cbm_runner/dynamic_standard_sim_generator/index
+   /autoapi/goblin_cbm_runner/harvest_manager/index
+   /autoapi/goblin_cbm_runner/harvest_summary/index
+   /autoapi/goblin_cbm_runner/nai/index
+   /autoapi/goblin_cbm_runner/resource_manager/index
+   /autoapi/goblin_cbm_runner/runners/index
+   /autoapi/goblin_cbm_runner/scenario_generator/index
+   /autoapi/goblin_cbm_runner/standard_sim_generator/index
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   goblin_cbm_runner.get_local_dir
+
+
+Package Contents
+----------------
+
+.. py:function:: get_local_dir()
+
+   Gets the directory containing this script
+
+   :returns: full path to the the script's directory
+   :rtype: str
 
 

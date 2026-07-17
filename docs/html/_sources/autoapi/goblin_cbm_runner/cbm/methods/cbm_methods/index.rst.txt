@@ -1,5 +1,5 @@
-:py:mod:`goblin_cbm_runner.cbm.methods.cbm_methods`
-===================================================
+goblin_cbm_runner.cbm.methods.cbm_methods
+=========================================
 
 .. py:module:: goblin_cbm_runner.cbm.methods.cbm_methods
 
@@ -10,95 +10,66 @@
    ============
    This module contains methods for running the Carbon Budget Model (CBM) and generating carbon stocks and fluxes for different scenarios.
 
+   v0.6.0 Active Methods:
+   - AF: AF_simulate_stock, AF_simulate_flux, AF_comprehensive_simulation, cbm_aggregate_scenario_stock, cbm_comprehensive_simulation, cbm_basic_validation, run_cbm_standard_flux
+   - FM: FM_simulate_stock, FM_comprehensive_simulation, cbm_FM_basic_validation
+   - Shared: cbm_scenario_fluxes, spinup, step
+
+   Comprehensive Methods:
+   - AF_comprehensive_simulation: AF with manual spinup+step, validation tables, and state capture
+   - cbm_comprehensive_simulation: AF simulation (black box) returning aggregated results + validation tables
+   - FM_comprehensive_simulation: FM simulation returning aggregated results + validation tables
+
+   State-Capturing Methods (for DynamicRunner continuation):
+   - AF_simulate_stock: AF with manual spinup+step (stores _last_cbm_vars)
+   - AF_comprehensive_simulation: AF with manual spinup+step + validation tables (stores _last_cbm_vars)
+   - FM_simulate_stock: FM with manual spinup+step (stores _last_cbm_vars)
+   - FM_comprehensive_simulation: FM with manual spinup+step + validation tables (stores _last_cbm_vars)
+
+   These comprehensive methods run simulation once and capture all outputs, avoiding the need
+   to run separate validation passes. Validation tables map to Kevin Black's CBM-CFS3 tables:
+   - pools → tblPoolIndicator
+   - flux → tblFluxIndicators
+   - state → tblDisturbanceIndicators
+   - classifiers → tblUserDefdClasses
+
+   Legacy methods are commented out at the bottom of this file.
 
 
-Module Contents
----------------
 
 Classes
-~~~~~~~
+-------
 
 .. autoapisummary::
 
    goblin_cbm_runner.cbm.methods.cbm_methods.CBMSim
 
 
-
+Module Contents
+---------------
 
 .. py:class:: CBMSim
 
-
    A class for running the Carbon Budget Model (CBM) and generating carbon stocks and fluxes for different scenarios.
 
-   This class provides functionalities to run the CBM model and generate carbon stocks and fluxes for different scenarios.
-   The CBM model is a widely used model for estimating carbon stocks and fluxes in forest ecosystems.
-   The model uses input data and parameters to simulate the carbon dynamics in forest ecosystems over time.
+   v0.6.0 Active Methods:
+       Lightweight (aggregated results only):
+       - AF_simulate_stock: AF with manual spinup+step (captures state for DynamicRunner)
+       - cbm_aggregate_scenario_stock: AF baseline stock simulation (black box, no state capture)
+       - FM_simulate_stock: FM baseline with spinup (captures state for DynamicRunner)
 
-   .. method:: cbm_baseline_forest_stock(cbm_data_class, years, year_range, input_path, database_path)
+       Comprehensive (aggregated + validation tables):
+       - AF_comprehensive_simulation: AF with manual spinup+step + validation tables (captures state)
+       - cbm_comprehensive_simulation: AF with all validation tables (black box, no state capture)
+       - FM_comprehensive_simulation: FM with all validation tables (captures state)
 
-      
-      Runs a baseline forest simulation using the CBM model.
-
-   .. method:: cbm_aggregate_scenario_stock(sc, cbm_data_class, years, year_range, input_path, database_path)
-
-      
-      Generate carbon stocks for the CBM scenario data.
-
-   .. method:: libcbm_scenario_fluxes(sc, cbm_data_class, years, year_range, input_path, database_path)
-
-      
-      Generate carbon Fluxes using the Libcbm method for the CBM scenario data.
-
-   .. method:: cbm_scenario_fluxes(forest_data)
-
-      
-      Calculate the carbon fluxes for each scenario in the given forest data.
-
-   .. method:: spinup(sit, classifiers, inventory)
-
-      
-      Spin up the CBM model.
-
-   .. method:: step(time_step, sit, cbm_vars)
-
-      
-      Step the CBM model forward one timestep.
-
-   .. method:: baseline_simulate_stock(cbm_data_class, years, year_range, input_path, database_path)
-
-      
-      Runs a baseline (managed) forest simulation using the CBM model.
-
-   .. method:: baseline_simulate_stock_raw_output(cbm_data_class, years, year_range, input_path, database_path)
-
-      
-      Runs a baseline (managed) forest simulation using the CBM model.
-
-   .. method:: cbm_basic_validation(years, input_path, database_path)
-
-      
-      Generate validation data for the CBM model for a set of specified inputs.
-
-   .. method:: cbm_disturbance_area_validation(years, input_path, database_path)
-
-      
-      Generate validation data for area and disturbances from the CBM model for a set of specified inputs.
-
-   .. method:: scenario_cbm_disturbance_area_validation(years, input_path, database_path)
-
-      
-      Generate validation data for area and disturbances for the CBM model for a set of specified inputs for scenarios.
-
-   .. method:: cbm_baseline_disturbance_area_validation(years, input_path, database_path)
-
-      
-      Generate validation data for area and disturbances for the CBM model for a set of specified inputs for baseline.
-
-   .. method:: forest_raw_fluxes(forest_data)
-
-      
-      Generate raw fluxes for the given forest data.
-      
+       Utilities:
+       - cbm_scenario_fluxes: Calculate fluxes from stock data
+       - cbm_basic_validation: AF validation (legacy, use comprehensive instead)
+       - cbm_FM_basic_validation: FM validation (legacy, use comprehensive instead)
+       - run_cbm_standard_flux: AF standard flux
+       - spinup: Spinup for existing forest
+       - step: Step simulation forward
 
    .. attribute:: pools
 
@@ -128,58 +99,69 @@ Classes
 
       A list of soil organic matter pools.
 
-   .. py:method:: get_scenario_afforestation_rates(scenario, path)
 
-      Retrieves afforestation rates for a given scenario.
-
-      :param scenario: Scenario identifier.
-      :type scenario: str
-      :param path: Base directory path.
-      :type path: str
-
-      :returns: Afforestation data including species, yield class, soil, and area.
-      :rtype: pd.DataFrame
+   .. py:attribute:: pools
 
 
-   .. py:method:: cbm_FM_forest_stock(cbm_data_class, years, year_range, input_path, database_path)
-
-      Runs a baseline forest simulation using the CBM model.
-
-      :returns: DataFrame containing the calculated managed forest stocks.
-      :rtype: pandas.DataFrame
+   .. py:attribute:: Flux_class
 
 
-   .. py:method:: cbm_aggregate_scenario_stock(sc, cbm_data_class, years, year_range, input_path, database_path)
-
-      Generate carbon stocks for the CBM (Carbon Budget Model) scenario data.
-
-      :param sc: The scenario name.
-      :type sc: str
-
-      :returns: DataFrame containing the calculated stocks.
-      :rtype: pandas.DataFrame
+   .. py:attribute:: AGB
+      :value: ['SoftwoodMerch', 'SoftwoodFoliage', 'SoftwoodOther', 'HardwoodMerch', 'HardwoodFoliage',...
 
 
-   .. py:method:: libcbm_scenario_fluxes(sc, cbm_data_class, years, year_range, input_path, database_path)
 
-      Generate carbon Fluxes using the Libcbm method for the CBM (Carbon Budget Model) scenario data.
+   .. py:attribute:: BGB
+      :value: ['SoftwoodCoarseRoots', 'SoftwoodFineRoots', 'HardwoodCoarseRoots', 'HardwoodFineRoots']
 
-      :param sc: The scenario name.
-      :type sc: str
 
-      :returns: DataFrame containing the calculated fluxes.
-      :rtype: pandas.DataFrame
+
+   .. py:attribute:: deadwood
+      :value: ['BelowGroundFastSoil', 'MediumSoil', 'SoftwoodStemSnag', 'SoftwoodBranchSnag',...
+
+
+
+   .. py:attribute:: litter
+      :value: ['AboveGroundVeryFastSoil', 'AboveGroundFastSoil', 'AboveGroundSlowSoil']
+
+
+
+   .. py:attribute:: soil
+      :value: ['BelowGroundVeryFastSoil', 'BelowGroundSlowSoil']
+
+
+
+   .. py:method:: get_final_cbm_vars()
+
+      Return the final CBMVariables from the last FM or AF simulation, or None.
+
+
+
+   .. py:method:: get_last_sit()
+
+      Return the last SIT used in the FM and AF step loop, or None.
+
 
 
    .. py:method:: cbm_scenario_fluxes(forest_data)
 
       Calculate the carbon fluxes for each scenario in the given forest data.
 
+      DECIDED 2026-06-17 — do not re-litigate without re-reading this note first:
+      the calibration year (timestep 0) is NOT emitted as a row here. There is
+      nothing before it to diff against, and no disturbance ever fires before
+      timestep 1, so it would only ever be an all-zero placeholder. The flux
+      series starts at calibration_year + 1 (timestep 1, the first real change).
+      This matches Kevin Black's own CFS3 reporting shape (he never reports a
+      timestep-0 baseline either) — his first reported row should be matched
+      against *our* first row directly, no shifting required.
+
       :param forest_data: DataFrame containing forest data.
       :type forest_data: pd.DataFrame
 
       :returns: DataFrame containing the calculated fluxes.
       :rtype: pd.DataFrame
+
 
 
    .. py:method:: spinup(sit: libcbm.input.sit.sit.SIT, classifiers: libcbm.storage.dataframe.DataFrame, inventory: libcbm.storage.dataframe.DataFrame) -> libcbm.model.cbm.cbm_variables.CBMVariables
@@ -194,6 +176,7 @@ Classes
       :type inventory: DataFrame
 
 
+
    .. py:method:: step(time_step: int, sit: libcbm.input.sit.sit.SIT, cbm_vars: libcbm.model.cbm.cbm_variables.CBMVariables) -> libcbm.model.cbm.cbm_variables.CBMVariables
 
       Step the CBM model forward one timestep.
@@ -206,151 +189,415 @@ Classes
       :type cbm_vars: CBMVariables
 
 
-   .. py:method:: FM_simulate_stock(cbm_data_class, years, year_range, input_path, database_path)
 
-      Runs a baseline (managed) forest simulation using the CBM model.
+   .. py:method:: AF_simulate_stock(scenario, SIT, years, year_range, input_path, database_path)
 
-      :param cbm_data_class: The CBM data class object.
-      :type cbm_data_class: CBMData
+      Runs a baseline AF (Afforestation) simulation using the CBM model.
+
+      Unlike FM_simulate_stock, AF uses a SINGLE SIT for both spinup and stepping.
+      AF has no separate spinup config (no standing volume). The spinup still runs
+      to establish initial soil pools from the afforestation_pre_type (bare land),
+      but it uses the same SIT as the step loop.
+
+      :param scenario: The scenario identifier (typically -1 for AF baseline).
+      :type scenario: int
+      :param SIT: Callable that takes (path, db_path) and returns (sit, classifiers, inventory).
       :param years: The number of years to simulate.
       :type years: int
       :param year_range: The range of years to simulate.
       :type year_range: list
-      :param input_path: The path to the input data.
-      :type input_path: str
-      :param database_path: The path to the database.
-      :type database_path: str
+      :param input_path: Callable that returns the path to the input data.
+      :param database_path: Callable that returns the path to the database.
 
-      :returns: DataFrame containing the calculated managed forest stocks.
+      :returns: DataFrame containing the calculated AF carbon stocks.
       :rtype: pandas.DataFrame
 
 
-   .. py:method:: FM_simulate_stock_raw_output(cbm_data_class, years, year_range, input_path, database_path)
 
-      Runs a baseline (managed) forest simulation using the CBM model.
+   .. py:method:: AF_simulate_flux(scenario, SIT, years, year_range, input_path, database_path)
 
-      :param cbm_data_class: The CBM data class object.
-      :type cbm_data_class: CBMData
+      Runs AF simulation and returns flux-table-based flux aggregated by FluxManager.
+
+      Unlike AF_simulate_stock (pool-delta), this method uses the libcbm flux table
+      — actual atmospheric exchanges recorded per stand per timestep — filtered to
+      forest-classified stands (LandClassID 0 or 7). This matches Kevin Black's
+      forest-only decomposition reporting and is immune to pool-reclassification
+      artefacts that occur when NF_ stands transition to forest via DISTID4.
+
+      Does NOT replace AF_simulate_stock. Use alongside it for validation.
+
+      :param scenario: The scenario identifier (typically -1 for AF baseline).
+      :type scenario: int
+      :param SIT: Callable that takes (path, db_path) and returns (sit, classifiers, inventory).
+      :param years: The number of years to simulate.
+      :type years: int
+      :param year_range: The range of years (e.g. 1990–2070).
+      :type year_range: list
+      :param input_path: Callable that returns the path to the input data.
+      :param database_path: Callable that returns the path to the database.
+
+      :returns:
+
+                Flux DataFrame with columns TimeStep, DeltaBio, DeltaDOM,
+                    Delta_Ecos, Harvest, Year, Scenario — filtered to LandClassID 0/7.
+      :rtype: pandas.DataFrame
+
+
+
+   .. py:method:: AF_raw_cbm_flux(scenario, SIT, years, year_range, input_path, database_path, by_species=False)
+
+      Run AF simulation and return raw CBM engine flux columns per year.
+
+      Unlike AF_simulate_stock (pool-delta / stock-delta method), this uses
+      cbm_output.flux.to_pandas() directly — the CBM engine's own per-stand,
+      per-timestep atmospheric exchange records. Does NOT use FluxManager.
+
+      Returns two rows per calendar year by default: one for all stands (stands="all")
+      and one for forest-only stands (stands="forest_only", i.e. Species not starting
+      with "NF_"). Pass by_species=True to also get per-species rows (stands=species name).
+
+      Flux columns:
+        Year, Scenario, stands,
+        AGB               — DeltaBiomass_AG (net AG biomass change)
+        BGB               — DeltaBiomass_BG (net BG biomass change)
+        Fine_root_litter  — TurnoverFineLitterInput: TOTAL fine root litter (pre-split),
+                            = fine_root_biomass × 0.641 × temp_adj. libcbm internally routes
+                            (1 − fine_ag_split) = 0.5 of this to BGVF and 0.5 to AGVF.
+        Coarse_root_litter— TurnoverCoarseLitterInput → BelowGroundFastSoil
+        AG_turnover       — TurnoverMerch+Fol+OthLitterInput (AG → DOM)
+        BGSlow_decay      — DecaySlowBGToAir (positive, magnitude of BGSlow → atmosphere)
+        BGVF_decay        — DecayVFastBGToAir (positive, magnitude of BGVF → atmosphere)
+        BGFast_decay      — DecayFastBGToAir
+        AGSlow_decay      — DecaySlowAGToAir
+        Snag_decay        — sum of 4 StemSnag/BranchSnag decay columns
+        Harvest           — DisturbanceSoft+Hard+DOMProduction
+        BioAtm            — DisturbanceBioCO2+CH4+CO
+        DOMAtm            — DisturbanceDOMCO2+CH4+CO
+        Soil_BGVF         — Fine_root_litter × 0.5 − BGVF_decay  (net BGVF stock change;
+                            ×0.5 = fraction routed to BGVF by fine_ag_split=0.5 in AIDB)
+        Soil_BGSlow       — BGSlow_stock[t] − BGSlow_stock[t−1]  (pool-delta; includes slow
+                            mixing from AGSlow → BGSlow at 0.006/yr which has no flux column)
+        Soil              — Soil_BGVF + Soil_BGSlow  (matches run_flux_scenarios pool-delta)
+        Total_Eco         — biomass net + BG litter + AG turnover − all decay − harvest − atm losses
+
+      Pool stock columns (from pools table, same year as flux):
+        FineRoot_stock    — SoftwoodFineRoots + HardwoodFineRoots (tC, standing fine root biomass)
+        CoarseRoot_stock  — SoftwoodCoarseRoots + HardwoodCoarseRoots
+        BGVF_stock        — BelowGroundVeryFastSoil (tC)
+        BGSlow_stock      — BelowGroundSlowSoil (tC)
+
+      NOTES:
+      - TurnoverFineLitterInput is TOTAL fine root litter production (pre-split). libcbm
+        applies fine_ag_split=0.5 internally: 50% → AGVF (litter layer), 50% → BGVF (soil).
+        Soil_BGVF multiplies Fine_root_litter by 0.5 to use only the BGVF portion.
+        Fine root biomass = Fine_root_litter / 0.641 — or read FineRoot_stock directly.
+      - Slow mixing (AboveGroundSlowSoil → BelowGroundSlowSoil at 0.006/yr) is an internal
+        DOM transfer with no named flux column. Soil_BGSlow uses pool-delta (BGSlow_stock[t]
+        − BGSlow_stock[t−1]) to capture both BGSlow decay and slow mixing in one step. This
+        makes Soil consistent with run_flux_scenarios (pool-delta method).
+      - Decay columns (BGSlow_decay, BGVF_decay, etc.) are stored as POSITIVE values (magnitude
+        of outflow to atmosphere). Soil_BGVF = Fine_root_litter − BGVF_decay (both positive).
+      - NF_ stands contribute zero Fine_root_litter and zero BGVF flux (confirmed: no trees,
+        no root litter production). Use stands="forest_only" or by_species=True to see this.
+
+      :param scenario: Scenario identifier (typically -1 for AF baseline).
+      :type scenario: int
+      :param SIT: Callable returning (sit, classifiers, inventory).
+      :param years: Number of years to simulate.
+      :type years: int
+      :param year_range: Calendar years corresponding to timesteps 1..years.
+      :type year_range: list
+      :param input_path: Callable returning path to SIT CSV directory.
+      :param database_path: Callable returning path to AIDB.
+      :param by_species: If True, append per-species rows (stands=species name) for
+                         forest-only stands. Useful for cross-checking Kevin's per-species data.
+      :type by_species: bool
+
+      :returns:
+
+                Rows per year. Default: 2 rows/year (all + forest_only).
+                              With by_species=True: additional rows per (year, species).
+      :rtype: pd.DataFrame
+
+
+
+   .. py:method:: AF_annual_raw_flux(scenario, SIT, years, year_range, input_path, database_path, filter_nf=None)
+
+      Run AF simulation and return raw CBM engine flux columns per year.
+
+      Unlike AF_raw_cbm_flux, which renames columns and computes derived Soil
+      and Total_Eco metrics, this method returns the CBM engine's own column
+      names summed per timestep with no post-processing. Use it to inspect
+      exactly what libcbm is reporting, or to verify that post-processing
+      in AF_raw_cbm_flux is correct.
+
+      Output columns (all values in tC/yr):
+        Year, Scenario, stands         — row identifiers
+        stand_count                    — unique stands aggregated in this row
+        DeltaBiomass_AG                — net aboveground biomass change
+        DeltaBiomass_BG                — net belowground biomass change
+        TurnoverFineLitterInput        — TOTAL fine root litter entering soil pools
+                                         (pre fine_ag_split). libcbm routes 50% to
+                                         BelowGroundVeryFastSoil (BGVF) and 50% to
+                                         AboveGroundVeryFastSoil (AGVF) internally,
+                                         so only half of this value enters BGVF.
+                                         Derivation: fine_root_biomass × 0.641 × temp_adj.
+        TurnoverCoarseLitterInput      — coarse root litter → BelowGroundFastSoil
+        TurnoverMerchLitterInput       — merchantable biomass turnover → StemSnag (natural mortality)
+        TurnoverFolLitterInput         — foliage turnover → AboveGroundVeryFastSoil
+        TurnoverOthLitterInput         — other biomass turnover → BranchSnag/AGFast
+        DisturbanceMerchLitterInput    — merchantable residue entering DOM from a harvest event.
+                                         Same source pools as TurnoverMerchLitterInput
+                                         (SoftwoodMerch + HardwoodMerch), but sink pools are
+                                         disturbance-matrix-dependent: for matrix 16 (clearfell)
+                                         the residue fraction routes to MediumSoil; the harvested
+                                         fraction is captured in DisturbanceSoftProduction.
+        DisturbanceFolLitterInput      — foliage residue entering litter pools from a harvest event
+        DisturbanceOthLitterInput      — other wood residue entering litter/DW from a harvest event
+                                         (sink pools differ from TurnoverOthLitterInput; proportions
+                                         are disturbance-matrix-dependent)
+        DisturbanceCoarseLitterInput   — coarse root residue entering soil from a harvest event
+        DisturbanceFineLitterInput     — fine root residue entering soil from a harvest event
+        NOTE: CBM-CFS3 records a single combined "MerchLitterInput" column covering carbon from
+              Merch biomass entering DOM pools from all processes. libcbm splits the same flows
+              into TurnoverMerchLitterInput (natural mortality → StemSnags always) and
+              DisturbanceMerchLitterInput (harvest event → matrix-defined sink pools). The
+              flux_indicator_sink table in the AIDB lists all possible sink pools across all
+              disturbance matrices; actual routing in any given simulation is determined by
+              which disturbance matrix is applied to the stand.
+        DecayVFastBGToAir              — BelowGroundVeryFastSoil decay to atmosphere (positive)
+        DecayFastBGToAir               — BelowGroundFastSoil decay to atmosphere (positive)
+        DecaySlowBGToAir               — BelowGroundSlowSoil decay to atmosphere (positive).
+                                         Does NOT include the AboveGroundSlow → BGSlow slow-
+                                         mixing transfer (0.006/yr), which has no flux column
+                                         in libcbm. Use pool-delta for net BGSlow change.
+        DecayVFastAGToAir              — AboveGroundVeryFastSoil (litter layer) decay to atm
+        DecayFastAGToAir               — AboveGroundFastSoil decay to atmosphere
+        DecaySlowAGToAir               — AboveGroundSlowSoil decay to atmosphere
+        DecayMediumToAir               — Medium pool decay to atmosphere
+        DecaySWStemSnagToAir           — softwood stem snag decay to atmosphere
+        DecaySWBranchSnagToAir         — softwood branch snag decay to atmosphere
+        DecayHWStemSnagToAir           — hardwood stem snag decay to atmosphere
+        DecayHWBranchSnagToAir         — hardwood branch snag decay to atmosphere
+        DisturbanceSoftProduction      — softwood merchantable carbon removed by harvest
+        DisturbanceHardProduction      — hardwood merchantable carbon removed by harvest
+        DisturbanceDOMProduction       — DOM/snag carbon removed (e.g. by DISTID7)
+        DisturbanceBioCO2Emission      — CO2 from biomass disturbed/combusted
+        DisturbanceBioCH4Emission      — CH4 from biomass disturbed/combusted
+        DisturbanceBioCOEmission       — CO from biomass disturbed/combusted
+        DisturbanceDOMCO2Emission      — CO2 from DOM disturbed/combusted
+        DisturbanceDOMCH4Emission      — CH4 from DOM disturbed/combusted
+        DisturbanceDOMCOEmission       — CO from DOM disturbed/combusted
+
+      All decay columns are POSITIVE (magnitude of outflow to atmosphere).
+
+      :param scenario: Scenario identifier (typically -1 for AF baseline).
+      :type scenario: int
+      :param SIT: Callable returning (sit, classifiers, inventory).
+      :param years: Number of years to simulate.
+      :type years: int
+      :param year_range: Calendar years corresponding to timesteps 1..years.
+      :type year_range: list
+      :param input_path: Callable returning path to SIT CSV directory.
+      :param database_path: Callable returning path to AIDB.
+      :param filter_nf: None  — return both "all" and "forest_only" rows per year (default)
+                        True  — forest_only only (Species not starting with "NF_")
+                        False — all-stands only (NF_ stands included)
+      :type filter_nf: bool or None
+
+      :returns:
+
+                Rows per year.
+                    filter_nf=None  → 2 rows/year (stands="all" and "forest_only")
+                    filter_nf=True  → 1 row/year (stands="forest_only")
+                    filter_nf=False → 1 row/year (stands="all")
+      :rtype: pd.DataFrame
+
+
+
+   .. py:method:: AF_comprehensive_simulation(scenario, SIT, years, year_range, input_path, database_path)
+
+      Run AF simulation with manual spinup+step and capture all outputs in a single pass.
+
+      Like AF_simulate_stock, AF uses a SINGLE SIT for both spinup and stepping.
+      Like FM_comprehensive_simulation, this captures validation tables alongside
+      aggregated results. Also stores _last_cbm_vars and _last_sit for
+      DynamicRunner continuation.
+
+      :param scenario: The scenario identifier (typically -1 for AF baseline).
+      :type scenario: int
+      :param SIT: Callable that takes (path, db_path) and returns (sit, classifiers, inventory).
       :param years: The number of years to simulate.
       :type years: int
       :param year_range: The range of years to simulate.
       :type year_range: list
-      :param input_path: The path to the input data.
-      :type input_path: str
-      :param database_path: The path to the database.
-      :type database_path: str
+      :param input_path: Callable that returns the path to the input data.
+      :param database_path: Callable that returns the path to the database.
 
-      :returns: DataFrame containing the calculated managed forest stocks.
+      :returns:
+
+                {
+                    'aggregated': DataFrame with aggregated carbon stocks (same as AF_simulate_stock),
+                    'validation': {
+                        'pools': DataFrame,      # tblPoolIndicator equivalent
+                        'flux': DataFrame,       # tblFluxIndicators equivalent
+                        'state': DataFrame,      # tblDisturbanceIndicators equivalent
+                        'area': DataFrame,       # Area tracking
+                        'parameters': DataFrame, # Disturbance parameters
+                        'classifiers': DataFrame, # tblUserDefdClasses equivalent
+                    }
+                }
+      :rtype: dict
+
+
+
+   .. py:method:: cbm_aggregate_scenario_stock(sc, SIT, years, year_range, input_path, database_path)
+
+      Generate carbon stocks for the CBM (Carbon Budget Model) scenario data.
+
+      :param sc: The scenario name.
+      :type sc: str
+      :param SIT: Callable that takes (path, db_path) and returns (sit, classifiers, inventory).
+      :param years: Number of years to simulate.
+      :type years: int
+      :param year_range: Range of years for output.
+      :param input_path: Callable that returns the input path.
+      :param database_path: Callable that returns the database path.
+
+      :returns: DataFrame containing the calculated stocks.
       :rtype: pandas.DataFrame
 
 
-   .. py:method:: cbm_basic_validation(years, input_path, database_path)
+
+   .. py:method:: cbm_comprehensive_simulation(sc, SIT, years, year_range, input_path, database_path)
+
+      Run simulation and capture all outputs in a single pass.
+
+      This method combines the functionality of cbm_aggregate_scenario_stock (for results)
+      and cbm_basic_validation (for detailed tables) into a single simulation run.
+
+      :param sc: The scenario number (-1 for AF baseline, 0+ for scenarios).
+      :type sc: int
+      :param SIT: Callable that takes (path, db_path) and returns (sit, classifiers, inventory).
+      :param years: Number of years to simulate.
+      :type years: int
+      :param year_range: Range of years for output.
+      :param input_path: Callable that returns the input path.
+      :param database_path: Callable that returns the database path.
+
+      :returns:
+
+                {
+                    'aggregated': DataFrame with aggregated carbon stocks (same as cbm_aggregate_scenario_stock),
+                    'validation': {
+                        'pools': DataFrame,      # tblPoolIndicator equivalent
+                        'flux': DataFrame,       # tblFluxIndicators equivalent
+                        'state': DataFrame,      # tblDisturbanceIndicators equivalent
+                        'area': DataFrame,       # Area tracking
+                        'parameters': DataFrame, # Disturbance parameters
+                        'classifiers': DataFrame, # tblUserDefdClasses equivalent
+                    }
+                }
+      :rtype: dict
+
+
+
+   .. py:method:: cbm_basic_validation(years, SIT, input_path, database_path)
 
       Generate validation data for the CBM model for a set of specified inputs.
 
       :param years: The number of years to simulate.
       :type years: int
-      :param input_path: The path to the SIT input data.
-      :type input_path: str
-      :param database_path: The path to the database.
-      :type database_path: str
+      :param SIT: Callable that takes (path, db_path) and returns (sit, classifiers, inventory).
+      :param input_path: Callable that returns the path to the SIT input data.
+      :param database_path: Callable that returns the path to the database.
 
       :returns: A dictionary containing the generated validation data.
       :rtype: dict
 
 
-   .. py:method:: cbm_disturbance_area_validation(years, input_path, database_path)
 
-      Generate validation data for area and disturbances from the CBM model for a set of specified inputs.
+   .. py:method:: run_cbm_standard_flux(years, SIT, input_path, database_path)
+
+      Runs the CBM standard flux.
 
       :param years: The number of years to simulate.
       :type years: int
-      :param input_path: The path to the SIT input data.
-      :type input_path: str
-      :param database_path: The path to the database.
-      :type database_path: str
+      :param SIT: Callable that takes (path, db_path) and returns (sit, classifiers, inventory).
+      :param input_path: Callable that returns the path to the input data.
+      :param database_path: Callable that returns the path to the database.
 
-      :returns: A dictionary containing the generated validation data.
+      :returns: A dictionary containing flux results.
       :rtype: dict
 
 
-   .. py:method:: scenario_cbm_disturbance_area_validation(years, input_path, database_path)
 
-      Generate validation data for area and disturbances for the CBM model for a set of specified inputs
-      scenarios.
-
-      :param years: The number of years to simulate.
-      :type years: int
-      :param input_path: The path to the SIT input data.
-      :type input_path: str
-      :param database_path: The path to the database.
-      :type database_path: str
-
-      :returns: A dictionary containing the generated validation data.
-      :rtype: dict
-
-
-   .. py:method:: cbm_baseline_disturbance_area_validation(years, input_path, database_path)
+   .. py:method:: FM_simulate_stock(scenario, SIT, spinup_SIT, years, year_range, input_path, database_path)
 
       Runs a baseline (managed) forest simulation using the CBM model.
 
-      :param cbm_data_class: The CBM data class object.
-      :type cbm_data_class: CBMData
+      :param scenario: The scenario identifier (typically -1 for FM baseline).
+      :type scenario: int
+      :param SIT: Callable that takes (path, db_path) and returns (sit, classifiers, inventory).
+      :param spinup_SIT: Callable for spinup that takes (path, db_path) and returns (sit, classifiers, inventory).
       :param years: The number of years to simulate.
       :type years: int
       :param year_range: The range of years to simulate.
       :type year_range: list
-      :param input_path: The path to the input data.
-      :type input_path: str
-      :param database_path: The path to the database.
-      :type database_path: str
+      :param input_path: Callable that returns the path to the input data.
+      :param database_path: Callable that returns the path to the database.
 
       :returns: DataFrame containing the calculated managed forest stocks.
       :rtype: pandas.DataFrame
 
 
-   .. py:method:: forest_raw_fluxes(forest_data)
 
-      Calculate the carbon fluxes in the given forest data. The categories are not aggregated.
+   .. py:method:: FM_comprehensive_simulation(scenario, SIT, spinup_SIT, years, year_range, input_path, database_path)
 
-      :param forest_data: DataFrame containing forest data.
-      :type forest_data: pd.DataFrame
+      Run FM simulation and capture all outputs in a single pass.
 
-      :returns: DataFrame containing the calculated fluxes.
-      :rtype: pd.DataFrame
+      This method combines the functionality of FM_simulate_stock (for results)
+      and cbm_FM_basic_validation (for detailed tables) into a single simulation run.
+
+      :param scenario: The scenario identifier (typically -1 for FM baseline).
+      :type scenario: int
+      :param SIT: Callable that takes (path, db_path) and returns (sit, classifiers, inventory).
+      :param spinup_SIT: Callable for spinup that takes (path, db_path) and returns (sit, classifiers, inventory).
+      :param years: The number of years to simulate.
+      :type years: int
+      :param year_range: The range of years to simulate.
+      :type year_range: list
+      :param input_path: Callable that returns the path to the input data.
+      :param database_path: Callable that returns the path to the database.
+
+      :returns:
+
+                {
+                    'aggregated': DataFrame with aggregated carbon stocks (same as FM_simulate_stock),
+                    'validation': {
+                        'pools': DataFrame,      # tblPoolIndicator equivalent
+                        'flux': DataFrame,       # tblFluxIndicators equivalent
+                        'state': DataFrame,      # tblDisturbanceIndicators equivalent
+                        'area': DataFrame,       # Area tracking
+                        'parameters': DataFrame, # Disturbance parameters
+                        'classifiers': DataFrame, # tblUserDefdClasses equivalent
+                    }
+                }
+      :rtype: dict
 
 
-   .. py:method:: cbm_FM_summary_fluxes(forest_data)
 
-      Calculate the carbon fluxes for baseline managed forest in the given forest data.
-
-      :param forest_data: DataFrame containing forest data.
-      :type forest_data: pd.DataFrame
-
-      :returns: DataFrame containing the calculated fluxes.
-      :rtype: pd.DataFrame
-
-
-   .. py:method:: cbm_FM_basic_validation(years, input_path, database_path)
+   .. py:method:: cbm_FM_basic_validation(years, SIT, input_path, database_path)
 
       Runs the CBM Managed Forest validation for the specified years.
 
-      :returns: A dictionary containing the validation dataframes
-      :rtype: dict
-
-
-   .. py:method:: cbm_basic_validation(years, input_path, database_path)
-
-      Generate validation data for the CBM model for a set of specified inputs.
-
       :param years: The number of years to simulate.
       :type years: int
-      :param input_path: The path to the SIT input data.
-      :type input_path: str
-      :param database_path: The path to the database.
-      :type database_path: str
+      :param SIT: Callable that takes (path, db_path) and returns (sit, classifiers, inventory).
+      :param input_path: Callable that returns the path to the input data.
+      :param database_path: Callable that returns the path to the database.
 
-      :returns: A dictionary containing the generated validation data.
+      :returns: A dictionary containing the validation dataframes
       :rtype: dict
 
 

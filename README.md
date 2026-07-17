@@ -26,59 +26,94 @@ Install from PyPI
 pip install goblin_cbm_runner
 ```
 
+> **v0.6.0 note:** From v0.6.0 the package targets **GOBLIN_lite only** — GeoGoblin / geo-runner
+> support was removed (fork the `0.5.0` line if you need it). The old `Runner` / `DataManager`
+> entry point has been replaced by the scenario generators below. Output is **archive-only**:
+> call `export_archive()` to write a self-describing SQLite `.db`; no CSVs are written automatically.
+
 ## Usage
 
-The Runner class takes the total afforestation area and divides it evenly across years (calibration year - target year). 
+There are four entry points. All accept a scenario DataFrame and produce an annual carbon-flux
+DataFrame plus a SQLite archive.
+
+### National pipeline — `NationalScenarioGenerator`
+
+The standard national simulation (Forest Management + Afforestation + Scenarios) using the
+bundled Irish database, to 2070.
 
 ```python
-from goblin_cbm_runner.default_runner.runner import Runner
-from goblin_cbm_runner.resource_manager.cbm_runner_data_manager import DataManager
-import pandas as pd
-import os
+from goblin_cbm_runner.scenario_generator import NationalScenarioGenerator
 
+nsg = NationalScenarioGenerator(
+    scenario_data=scenario_df,          # pandas DataFrame of scenarios
+    afforestation_data=afforest_df,     # pandas DataFrame of afforestation areas
+    config={"afforest_delay": 5, "annual_rate_pre_delay": 1200},
+    comprehensive=False,                # True to also capture pools/flux/state validation tables
+)
 
-def main():
-    # path to data
-    path = "./data/runner_input"
-    results_path = "./data/runner_results"
-
-    # afforestation data for each scenario
-    afforest_data = pd.read_csv(
-        os.path.join(path, "cbm_afforestation.csv"), index_col=0
-    )
-
-    # basic configuration file
-    config = os.path.join(path, "cbm_factory.yaml")
-
-    # scenario_data
-    sc_data = pd.read_csv(os.path.join(path, "scenario_dataframe.csv"))
-
-    # calibration and end point
-    calibration_year = 2020
-
-    # instance of the DataManager class
-    data_manager = DataManager(calibration_year = calibration_year,
-                            config_file_path=config,
-                            scenario_data=sc_data,
-                            afforest_data=afforest_data)
-    
-    # instance of the Runner class
-    runner = Runner(data_manager)
-
-    # afforeation data
-    runner.get_afforestation_dataframe().to_csv(os.path.join(results_path, "c_afforestation.csv"))
-
-    # generation of aggregated results
-    runner.run_aggregate_scenarios().to_csv(os.path.join(results_path, "c_aggregate.csv"))
-
-    # generation of annual flux results
-    runner.run_flux_scenarios().to_csv(os.path.join(results_path, "c_flux.csv"))
-
-
-if __name__ == "__main__":
-    main()
-
+results = nsg.run_flux_simulation()     # annual flux DataFrame (all scenarios + baseline)
+nsg.export_archive("./simulation_archive.db")
 ```
+
+### Dynamic pipeline — `DynamicScenarioGenerator`
+
+Extends FM and AF beyond 2070 with **NAI-based (Net Annual Increment) harvest**, and extends the
+scenario end year to match.
+
+```python
+from goblin_cbm_runner.dynamic_scenario_generator import DynamicScenarioGenerator
+
+dsg = DynamicScenarioGenerator(
+    scenario_data=scenario_df,
+    afforestation_data=afforest_df,
+    config={"afforest_delay": 5, "annual_rate_pre_delay": 1200},
+    dynamic_config={"harvest_ratio": 0.75, "dynamic_years": 50},  # optional; 0.75 recommended
+)
+
+results = dsg.run_flux_simulation()            # extended FM + AF + SC
+baseline = dsg.run_baseline_flux_simulation()  # extended FM + AF only
+dsg.export_archive("./dynamic_archive.db")
+```
+
+### Standard pipeline (user CSVs) — `StandardSimGenerator`
+
+Run a simulation from your **own inventory CSV files** with an explicit disturbance schedule — no
+internal database of stands required (the bundled AIDB is still used for CBM parameters).
+
+```python
+from goblin_cbm_runner.standard_sim_generator import StandardSimGenerator
+
+# Copy and edit the template CSVs first:
+StandardSimGenerator.get_template("./my_forest/")
+
+gen = StandardSimGenerator(
+    csv_directory="./my_forest/",
+    config={"baseline_year": 2020, "end_year": 2050},
+    scenario=0,
+)
+results = gen.run_flux_simulation()
+gen.export_archive("./standard_archive.db")
+```
+
+### Dynamic standard pipeline (user CSVs + NAI) — `DynamicStandardSimGenerator`
+
+Your own inventory CSVs with **NAI-based dynamic harvest**. Omit `end_year` for "NAI from day 1",
+or set it for a static warm-up period before the dynamic phase.
+
+```python
+from goblin_cbm_runner.dynamic_standard_sim_generator import DynamicStandardSimGenerator
+
+gen = DynamicStandardSimGenerator(
+    csv_directory="./my_forest/",
+    config={"baseline_year": 2020},                              # omit end_year → years=0
+    dynamic_config={"harvest_ratio": 0.75, "dynamic_years": 30},
+)
+results = gen.run_flux_simulation()
+gen.export_archive("./dynamic_standard_archive.db")
+```
+
+Runnable versions of all four live in [`tests/examples/`](tests/examples/)
+(`nsg_example.py`, `dsg_example.py`, `standard_sim_example.py`, `dynamic_standard_sim_example.py`).
 
 ## CBM Disturbance Sort Types Note
 

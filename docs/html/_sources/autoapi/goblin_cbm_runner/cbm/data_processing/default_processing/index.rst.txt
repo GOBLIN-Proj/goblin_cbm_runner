@@ -1,21 +1,19 @@
-:py:mod:`goblin_cbm_runner.cbm.data_processing.default_processing`
-==================================================================
+goblin_cbm_runner.cbm.data_processing.default_processing
+========================================================
 
 .. py:module:: goblin_cbm_runner.cbm.data_processing.default_processing
 
 
 Submodules
 ----------
+
 .. toctree::
-   :titlesonly:
    :maxdepth: 1
 
-   SC_disturbances/index.rst
-   SC_inventory/index.rst
-   cbm_data_factory/index.rst
-   create_json/index.rst
-   disturnance_utils/index.rst
-   transition/index.rst
-   yield_curves/index.rst
+   /autoapi/goblin_cbm_runner/cbm/data_processing/default_processing/af/index
+   /autoapi/goblin_cbm_runner/cbm/data_processing/default_processing/base/index
+   /autoapi/goblin_cbm_runner/cbm/data_processing/default_processing/create_json/index
+   /autoapi/goblin_cbm_runner/cbm/data_processing/default_processing/fm/index
+   /autoapi/goblin_cbm_runner/cbm/data_processing/default_processing/sc/index
 
 

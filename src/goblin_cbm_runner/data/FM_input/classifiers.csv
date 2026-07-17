@@ -1,0 +1,35 @@
+classifier_id,name,description
+1,_CLASSIFIER,Species
+1,SNFGB-mineral,IE_SNFGB-mineral
+1,Cbmix-Bl,IE_Cbmix-Bl
+1,FGB,IE_FGB
+1,Spruce25-32-thin,IE_Spruce25-32-thin
+1,Cbmix-Conifer,IE_Cbmix-Conifer
+1,Spruce4-12,IE_Spruce4-12
+1,Cmix,IE_Cmix
+1,OC,IE_OC
+1,SGB,IE_SGB
+1,SNFGB-peat,IE_SNFGB-peat
+1,Spruce13-16,IE_Spruce13-16
+1,Spruce17-20-nothin,IE_Spruce17-20-nothin
+1,Spruce17-20-thin,IE_Spruce17-20-thin
+1,Spruce21-24-nothin,IE_Spruce21-24-nothin
+1,Spruce21-24-thin,IE_Spruce21-24-thin
+1,Spruce25-32-nothin,IE_Spruce25-32-nothin
+1,Pine13-30,IE_Pine13-30
+1,Pine4-12,IE_Pine4-12
+2,_CLASSIFIER,Yield classes
+2,YC6,Yield class 6
+2,YC10,Yield class 10
+2,YC13_30,Yield class 13 to 30
+2,YC4_12,Yield class 4 to 12
+2,YC13_16,Yield class 13 to 16
+2,YC17_20,Yield class 17 to 20
+2,YC21_24,Yield class 21 to 24
+2,YC25_32,Yield class 25 to 32
+3,_CLASSIFIER,Soil classes
+3,mineral,Mineral
+3,peat,Peat
+4,_CLASSIFIER,Ownership
+4,private,Private ownership
+4,coillte,Semi-state
