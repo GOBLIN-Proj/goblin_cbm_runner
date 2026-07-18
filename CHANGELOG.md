@@ -1,3 +1,23 @@
+## [0.6.1] - 2026-07-18
+
+### Fixed
+
+- **Duplicated baseline in the `DynamicScenarioGenerator` archive.** The `results` table
+  stored the Scenario -1 baseline (`FM`, `AF`, and `combined_af_fm` rows) twice — every
+  year duplicated with identical values — when both `run_flux_simulation()` and
+  `run_baseline_flux_simulation()` were called on the same instance (the documented
+  pattern). `run_flux_simulation()` already runs the baseline internally, so the second
+  call re-ran the full FM+AF NAI simulation and re-appended it. The baseline is now
+  memoized per instance: it is computed and archived at most once, and any later call to
+  `run_baseline_flux_simulation()` returns the cached result with no re-run and no
+  duplicate rows. Scenario (`SC` / `combined_sc_af_fm`) results were never affected.
+
+### Changed
+
+- Documentation (README/CLAUDE/user guide and the `DynamicScenarioGenerator` docstring)
+  now presents `run_flux_simulation()` and `run_baseline_flux_simulation()` as
+  alternatives rather than sequential steps: the full run already includes the baseline.
+
 ## [0.6.0] - 2026-07-15
 
 ### Added
