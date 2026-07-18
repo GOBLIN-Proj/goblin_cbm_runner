@@ -18,9 +18,15 @@ Architecture:
       inherits:  _run_sc_flux_simulation(), _combine_results_by_year(),
                  archive infrastructure
 
-Entry Points:
-    run_flux_simulation()          — Full pipeline: extended FM + AF + SC
-    run_baseline_flux_simulation() — Extended FM + AF baseline only (no SC)
+Entry Points (use one, not both — they are alternatives):
+    run_flux_simulation()          — Full pipeline: extended FM + AF + SC.
+                                     The returned result already INCLUDES the
+                                     Scenario -1 (FM + AF) baseline.
+    run_baseline_flux_simulation() — Extended FM + AF baseline only (no SC).
+                                     Use this INSTEAD when you only need the baseline.
+                                     The baseline is memoized, so calling it after
+                                     run_flux_simulation() just returns the cached
+                                     result (no re-run, no duplicate archive rows). (no SC)
 
 Usage:
     from goblin_cbm_runner.dynamic_scenario_generator import DynamicScenarioGenerator
@@ -125,6 +131,9 @@ class DynamicScenarioGenerator(NationalScenarioGenerator):
         self._fm_dynamic_result = None
         self._af_dynamic_result = None
 
+        # Memoized FM+AF baseline (computed and archived at most once per instance)
+        self._baseline_cache = None
+
 
     def run_flux_simulation(self) -> pd.DataFrame:
         """
@@ -188,7 +197,17 @@ class DynamicScenarioGenerator(NationalScenarioGenerator):
             pd.DataFrame: Combined FM + AF baseline with extended timeline.
                 - Scenario -1 only
                 - Year range covers standard + dynamic continuation period
+
+        The baseline is computed and archived at most once per instance. Because
+        ``run_flux_simulation()`` calls this method internally, a later direct call
+        returns the cached result without re-running the simulation or re-appending
+        duplicate rows to the archive.
         """
+        # Return the memoized baseline if already computed (avoids a second full
+        # FM+AF simulation and duplicate archive rows).
+        if self._baseline_cache is not None:
+            return self._baseline_cache.copy()
+
         # Run extended FM and AF
         fm_extended = self._run_fm_flux_simulation()
         af_extended = self._run_af_flux_simulation()
@@ -204,6 +223,7 @@ class DynamicScenarioGenerator(NationalScenarioGenerator):
             results=baseline
         )
 
+        self._baseline_cache = baseline
         return baseline
 
     # ------------------------------------------------------------------

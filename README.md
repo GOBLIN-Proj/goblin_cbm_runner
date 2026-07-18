@@ -70,8 +70,9 @@ dsg = DynamicScenarioGenerator(
     dynamic_config={"harvest_ratio": 0.75, "dynamic_years": 50},  # optional; 0.75 recommended
 )
 
-results = dsg.run_flux_simulation()            # extended FM + AF + SC
-baseline = dsg.run_baseline_flux_simulation()  # extended FM + AF only
+# Use ONE of the two entry points (alternatives, not sequential steps):
+results = dsg.run_flux_simulation()            # extended FM + AF + SC (already includes the -1 baseline)
+# baseline = dsg.run_baseline_flux_simulation()  # extended FM + AF only — use INSTEAD for baseline-only
 dsg.export_archive("./dynamic_archive.db")
 ```
 

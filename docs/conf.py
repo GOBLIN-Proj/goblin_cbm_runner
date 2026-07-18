@@ -9,7 +9,7 @@
 project = 'goblin_cbm_runner'
 copyright = '2023-2026, Colm Duffy'
 author = 'Colm Duffy'
-release = '0.6.0'
+release = '0.6.1'
 
 # .md and .ipynb are registered by myst_nb (which claims ".md" under its own
 # parser name); .rst is built in. Do not map ".md" to "markdown" here — that
